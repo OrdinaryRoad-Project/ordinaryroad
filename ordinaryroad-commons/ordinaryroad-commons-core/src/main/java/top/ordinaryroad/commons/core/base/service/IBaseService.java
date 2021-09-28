@@ -1,10 +1,12 @@
 package top.ordinaryroad.commons.core.base.service;
 
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.lang.Nullable;
 import top.ordinaryroad.commons.core.base.model.BaseDO;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 通用增删改查Service
@@ -27,11 +29,18 @@ public interface IBaseService<DO extends BaseDO> {
     /**
      * 删除
      *
-     * @param id 主键
+     * @param key 主键
      * @return 是否成功
      */
-    @NotNull
-    Boolean delete(@NotNull Long id);
+    @NotNull <KEY> Boolean delete(@NotNull KEY key);
+
+    /**
+     * 批量删除
+     *
+     * @param list 主键列表，可以是Long或者String
+     * @return 是否成功
+     */
+    @NotNull <T> Boolean batchDelete(@NotNull List<T> list);
 
     /**
      * 更新
@@ -45,19 +54,20 @@ public interface IBaseService<DO extends BaseDO> {
     /**
      * 根据主键找到数据
      *
-     * @param id 主键
+     * @param key 主键
      * @return 实体
      */
     @Nullable
-    DO find(@NotNull Long id);
+    <KEY> DO find(@NotNull KEY key);
 
     /**
      * 分页找到所有数据
      *
-     * @param offset 偏移量，从0开始
-     * @param size   多少条数据，默认为10
+     * @param exampleDo 查询参数
+     * @param offset    偏移量，从0开始
+     * @param size      多少条数据，默认为10
      * @return 分页的所有数据
      */
-    Page<DO> findAll(@NotNull Integer offset, @NotNull Integer size);
+    Page<DO> findAll(@NotNull Example<DO> exampleDo, @NotNull Integer offset, @NotNull Integer size);
 
 }

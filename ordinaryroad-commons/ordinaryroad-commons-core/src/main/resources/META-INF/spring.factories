@@ -1,0 +1,8 @@
+# Commons Core
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  top.ordinaryroad.commons.core.advice.GlobeControllerExceptionHandlerAdvice,\
+  top.ordinaryroad.commons.core.web.HttpErrorController,\
+  top.ordinaryroad.commons.core.filter.FilterConfig,\
+  top.ordinaryroad.commons.core.utils.SpringUtils
+
+  

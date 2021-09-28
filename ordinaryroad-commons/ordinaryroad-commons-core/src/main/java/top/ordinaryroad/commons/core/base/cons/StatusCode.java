@@ -11,8 +11,10 @@ public enum StatusCode implements IStatusCode {
     /* 成功 */
     SUCCESS(200, "成功"),
 
-    /* 默认错误 */
-    COMMON_FAIL(999, "失败"),
+    /* 默认异常 */
+    COMMON_EXCEPTION(900, "系统异常"),
+    /* 默认失败 */
+    COMMON_FAIL(901, "操作失败"),
 
     /* 参数错误：1000～1999 */
     PARAM_NOT_VALID(1001, "参数无效"),
@@ -30,6 +32,8 @@ public enum StatusCode implements IStatusCode {
     USER_ACCOUNT_NOT_EXIST(2007, "账号不存在"),
     USER_ACCOUNT_ALREADY_EXIST(2008, "账号已存在"),
     USER_ACCOUNT_USE_BY_OTHERS(2009, "账号下线"),
+    USERNAME_ALREADY_EXIST(2010, "用户名已存在"),
+    EMAIL_ALREADY_EXIST(2011, "邮箱已存在"),
 
     /* 接口异常：3001～3999 */
     NO_PERMISSION(3001, "没有权限"),
@@ -37,6 +41,9 @@ public enum StatusCode implements IStatusCode {
     /* 业务错误：4001～4999 */
     DATA_NOT_EXIST(4001, "数据不存在"),
     DATA_ALREADY_EXIST(4002, "数据已存在"),
+    CODE_NOT_EXIST(4003, "验证码失效"),
+    CODE_WRONG(4004, "验证码错误"),
+    UUID_ALREADY_EXIST(4005, "UUID已存在"),
     ;
 
     /**

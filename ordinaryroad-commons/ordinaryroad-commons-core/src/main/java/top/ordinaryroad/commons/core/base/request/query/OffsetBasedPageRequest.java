@@ -1,5 +1,6 @@
 package top.ordinaryroad.commons.core.base.request.query;
 
+import com.fasterxml.jackson.annotation.JsonIncludeProperties;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -9,9 +10,7 @@ import java.util.Objects;
 /**
  * Created by Ergin
  **/
-public class OffsetBasedPageRequest extends BasePageQueryRequest {
-
-    private static final long serialVersionUID = -25822477129613575L;
+public class OffsetBasedPageRequest implements Pageable {
 
     private final int limit;
     private final int offset;
@@ -142,6 +141,18 @@ public class OffsetBasedPageRequest extends BasePageQueryRequest {
      */
     public static OffsetBasedPageRequest of(int offset, int limit, Sort sort) {
         return new OffsetBasedPageRequest(offset, limit, sort);
+    }
+
+    /**
+     * Creates a new {@link OffsetBasedPageRequest} with sort parameters applied.
+     * 默认Id增序
+     *
+     * @param offset 从第几个开始
+     * @param limit  多少条数据
+     * @since 2.0
+     */
+    public static OffsetBasedPageRequest of(int offset, int limit) {
+        return new OffsetBasedPageRequest(offset, limit);
     }
 
 }

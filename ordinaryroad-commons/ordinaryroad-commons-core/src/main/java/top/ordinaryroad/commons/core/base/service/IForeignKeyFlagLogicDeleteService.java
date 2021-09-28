@@ -15,7 +15,7 @@ import javax.validation.constraints.NotNull;
  * @author qq1962247851
  * @date 2020/6/16 22:51
  */
-public interface IForeignKeyFlagDeleteFlagService<DO extends BaseDO, F> extends IBaseDeleteFlagService<DO> {
+public interface IForeignKeyFlagLogicDeleteService<DO extends BaseDO, F> extends IBaseLogicDeleteService<DO> {
 
     /**
      * 根据关联的外键分页查询所有deleted=false的数据

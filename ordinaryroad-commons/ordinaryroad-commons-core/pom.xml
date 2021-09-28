@@ -12,10 +12,10 @@
     <artifactId>ordinaryroad-commons-core</artifactId>
     <description>通用-核心模块</description>
 
-    <!--    <properties>-->
-    <!--        <maven.compiler.source>8</maven.compiler.source>-->
-    <!--        <maven.compiler.target>8</maven.compiler.target>-->
-    <!--    </properties>-->
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
     <dependencies>
 
@@ -113,6 +113,18 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- Spring Data Commons-->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
+
+        <!-- 会跟网关产生冲突，用于捕获404异常 -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
         </dependency>
 
     </dependencies>

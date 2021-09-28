@@ -1,5 +1,6 @@
 package top.ordinaryroad.commons.core.base.result;
 
+import com.alibaba.fastjson.JSON;
 import top.ordinaryroad.commons.core.base.cons.StatusCode;
 
 /**
@@ -116,6 +117,41 @@ public class Result<T> implements IBaseResult<T> {
 
     public static Result<?> fail(StatusCode statusCode) {
         return new Result<>(false, statusCode);
+    }
+
+    public static Result<?> fail(int code, String msg) {
+        Result<Object> result = new Result<>();
+        result.setSuccess(false);
+        result.setCode(code);
+        result.setMsg(msg);
+        return result;
+    }
+
+    public static Result<?> fail(int code, String msg, String details) {
+        Result<Object> result = new Result<>();
+        result.setSuccess(false);
+        result.setCode(code);
+        result.setMsg(msg);
+        result.setDetails(details);
+        return result;
+    }
+
+    public static Result<?> fail(StatusCode statusCode, String details) {
+        Result<Object> result = new Result<>();
+        result.setSuccess(false);
+        result.setCode(statusCode.getCode());
+        result.setMsg(statusCode.getMessage());
+        result.setDetails(details);
+        return result;
+    }
+
+    public static Result<?> fail(String msg) {
+        return fail(StatusCode.COMMON_FAIL.getCode(), msg);
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 
 }

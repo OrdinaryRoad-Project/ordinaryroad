@@ -16,7 +16,7 @@ import java.util.List;
  * @author qq1962247851
  * @date 2020/6/16 22:51
  */
-public interface IMultipleForeignKeyDeleteFlagService<DO extends BaseDO, F> extends IBaseDeleteFlagService<DO> {
+public interface IMultipleForeignKeyLogicDeleteService<DO extends BaseDO, F> extends IBaseLogicDeleteService<DO> {
 
     /**
      * 根据fromForeignKey分页查询所有isDeleted=false的数据
