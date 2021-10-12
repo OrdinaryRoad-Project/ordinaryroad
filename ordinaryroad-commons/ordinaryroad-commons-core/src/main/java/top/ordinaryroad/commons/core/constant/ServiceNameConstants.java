@@ -14,5 +14,5 @@ public class ServiceNameConstants {
     /**
      * 系统模块的serviceid
      */
-    public static final String SYSTEM_SERVICE = "ordinaryroad-module-system";
+    public static final String SYSTEM_SERVICE = "ordinaryroad-system";
 }
