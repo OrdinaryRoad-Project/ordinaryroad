@@ -12,23 +12,42 @@
     <artifactId>ordinaryroad-commons-security</artifactId>
     <description>通用-安全模块</description>
 
-<!--    <properties>-->
-<!--        <maven.compiler.source>8</maven.compiler.source>-->
-<!--        <maven.compiler.target>8</maven.compiler.target>-->
-<!--    </properties>-->
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
     <dependencies>
+
         <!--OrdinaryRoad Api System-->
         <dependency>
             <groupId>top.ordinaryroad</groupId>
             <artifactId>ordinaryroad-api-system</artifactId>
         </dependency>
 
+        <!-- OrdinaryRoad Commons Redis -->
+        <dependency>
+            <groupId>top.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-commons-redis</artifactId>
+        </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.cloud</groupId>-->
+        <!--            <artifactId>spring-cloud-starter-security</artifactId>-->
+        <!--            <version>2.2.5.RELEASE</version>-->
+        <!--        </dependency>-->
+
         <!--Spring Boot Starter Security-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
+
+        <!--        <dependency>-->
+        <!--            <groupId>org.springframework.session</groupId>-->
+        <!--            <artifactId>spring-session-data-redis</artifactId>-->
+        <!--        </dependency>-->
+
     </dependencies>
 
 </project>
