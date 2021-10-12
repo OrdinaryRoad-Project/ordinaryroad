@@ -12,18 +12,24 @@
     <artifactId>ordinaryroad-commons-log</artifactId>
     <description>通用-日志记录模块</description>
 
-<!--    <properties>-->
-<!--        <maven.compiler.source>8</maven.compiler.source>-->
-<!--        <maven.compiler.target>8</maven.compiler.target>-->
-<!--    </properties>-->
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
 
     <dependencies>
 
-        <!-- OrdinaryRoad Commons Security -->
+        <!--OrdinaryRoad Api System-->
         <dependency>
             <groupId>top.ordinaryroad</groupId>
-            <artifactId>ordinaryroad-commons-security</artifactId>
+            <artifactId>ordinaryroad-api-system</artifactId>
         </dependency>
+
+        <!--        &lt;!&ndash; OrdinaryRoad Commons Security &ndash;&gt;-->
+        <!--        <dependency>-->
+        <!--            <groupId>top.ordinaryroad</groupId>-->
+        <!--            <artifactId>ordinaryroad-commons-security</artifactId>-->
+        <!--        </dependency>-->
 
     </dependencies>
 
