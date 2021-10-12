@@ -1,4 +1,4 @@
-package top.ordinaryroad.commons.core.base.controller;
+package top.ordinaryroad.commons.core.base.api;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
@@ -13,18 +13,27 @@ import top.ordinaryroad.commons.core.base.result.Result;
 import javax.validation.Valid;
 
 /**
- * 逻辑删除，增删改查控制器
+ * 增删改查控制器
  *
  * @param <DTO> DTO
  * @author qq1962247851
  * @date 2020/6/16 23:05
  */
-public interface IBaseLogicDeleteApi<
+public interface IBaseApi<
         DTO extends BaseDTO,
         SR extends BaseSaveRequest,
         DR extends BaseDeleteRequest,
-        QR extends BaseQueryRequest>
-        extends IBaseApi<DTO, SR, DR, QR> {
+        QR extends BaseQueryRequest> {
+
+    /**
+     * 新增
+     *
+     * @param saveRequest BaseSaveRequest
+     * @return result
+     */
+    @ApiOperation("新增")
+    @PostMapping("insert")
+    Result<?> insert(@RequestBody @Valid SR saveRequest);
 
     /**
      * 删除
@@ -32,29 +41,38 @@ public interface IBaseLogicDeleteApi<
      * @param deleteRequest BaseDeleteRequest
      * @return result
      */
-    @ApiOperation("恢复")
-    @PostMapping("restore")
-    Result<?> restore(@RequestBody @Valid DR deleteRequest);
-
+    @ApiOperation("删除")
+    @PostMapping("delete")
+    Result<?> delete(@RequestBody @Valid DR deleteRequest);
 
     /**
-     * 根据主键找到未被删除的数据
+     * 更新
+     *
+     * @param saveRequest BaseSaveRequest
+     * @return result
+     */
+    @ApiOperation("更新")
+    @PostMapping("update")
+    Result<?> update(@RequestBody @Valid SR saveRequest);
+
+    /**
+     * 根据主键找到数据
      *
      * @param queryRequest BaseQueryRequest
      * @return result
      */
-    @ApiOperation("根据主键找到未被删除的数据")
-    @PostMapping("query")
-    Result<?> query(@RequestBody QR queryRequest);
+    @ApiOperation("根据主键找到数据")
+    @PostMapping("find")
+    Result<?> find(@RequestBody QR queryRequest);
 
     /**
-     * 分页找到所有未被删除的数据
+     * 分页找到所有数据
      *
      * @param queryRequest BaseQueryRequest
      * @return result
      */
-    @ApiOperation("分页找到所有未被删除的数据")
-    @PostMapping("list")
-    Result<Page<DTO>> list(@RequestBody QR queryRequest);
+    @ApiOperation("分页找到所有数据")
+    @PostMapping("findAll")
+    Result<Page<DTO>> findAll(@RequestBody QR queryRequest);
 
 }

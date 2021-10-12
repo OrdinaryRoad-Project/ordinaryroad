@@ -42,7 +42,7 @@ public class BaseDO implements IBase {
      */
     @GenericGenerator(name = "uuidGenerator", strategy = "uuid")
     @GeneratedValue(generator = "uuidGenerator")
-    @Column(unique = true, updatable = false, nullable = false)
+    @Column(unique = true, updatable = false, nullable = false, length = 32)
     private String uuid;
 
     /**

@@ -34,11 +34,11 @@ public class GlobeControllerExceptionHandlerAdvice {
     /**
      * exception 处理
      *
-     * @param ex
-     * @return
+     * @param ex Exception
+     * @return Result
      */
     private Result<?> excepHandler(HttpServletResponse response, Exception ex) {
-        String rootErrorMessage = ExceptionUtil.getRootErrorMessage(ex);
+        String rootErrorMessage = StringUtils.substringWithDots(ExceptionUtil.getRootErrorMessage(ex));
         /*
         String rootErrorMessage = ExceptionUtil.getRootErrorMessage(ex);
         String exceptionMessage = ExceptionUtil.getExceptionMessage(ex);
@@ -61,7 +61,7 @@ public class GlobeControllerExceptionHandlerAdvice {
             if (StringUtils.isNotBlank(bizExMessage)) {
                 return Result.fail(code, bizExMessage, StringUtils.substringWithDots(ExceptionUtil.getExceptionMessage(ex)));
             } else {
-                return Result.fail(code, rootErrorMessage);
+                return Result.fail(code, ExceptionUtil.getRootErrorMessage(ex));
             }
         } else if (ex instanceof BindException) {
             // hibernate 校验

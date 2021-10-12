@@ -10,6 +10,8 @@ import com.alibaba.fastjson.JSON;
  */
 public class BaseDTO implements IBaseDTO {
 
+    private static final long serialVersionUID = 1127342762307994571L;
+
     @Override
     public String toString() {
         return JSON.toJSONString(this);

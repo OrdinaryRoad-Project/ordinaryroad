@@ -44,6 +44,9 @@ public enum StatusCode implements IStatusCode {
     CODE_NOT_EXIST(4003, "验证码失效"),
     CODE_WRONG(4004, "验证码错误"),
     UUID_ALREADY_EXIST(4005, "UUID已存在"),
+    NAME_ALREADY_EXIST(4006, "名称已存在"),
+    CODE_ALREADY_EXIST(4007, "code已存在"),
+    URL_ALREADY_EXIST(4008, "请求路径url已存在"),
     ;
 
     /**

@@ -103,7 +103,7 @@ public class Result<T> implements IBaseResult<T> {
         this.success = success;
     }
 
-    public static Result<?> success() {
+    public static <T> Result<T> success() {
         return new Result<>(true);
     }
 
@@ -111,24 +111,24 @@ public class Result<T> implements IBaseResult<T> {
         return new Result<>(true, data);
     }
 
-    public static Result<?> fail() {
+    public static <T> Result<T> fail() {
         return new Result<>(false);
     }
 
-    public static Result<?> fail(StatusCode statusCode) {
+    public static <T> Result<T> fail(StatusCode statusCode) {
         return new Result<>(false, statusCode);
     }
 
-    public static Result<?> fail(int code, String msg) {
-        Result<Object> result = new Result<>();
+    public static <T> Result<T> fail(int code, String msg) {
+        Result<T> result = new Result<>();
         result.setSuccess(false);
         result.setCode(code);
         result.setMsg(msg);
         return result;
     }
 
-    public static Result<?> fail(int code, String msg, String details) {
-        Result<Object> result = new Result<>();
+    public static <T> Result<T> fail(int code, String msg, String details) {
+        Result<T> result = new Result<>();
         result.setSuccess(false);
         result.setCode(code);
         result.setMsg(msg);
@@ -136,8 +136,8 @@ public class Result<T> implements IBaseResult<T> {
         return result;
     }
 
-    public static Result<?> fail(StatusCode statusCode, String details) {
-        Result<Object> result = new Result<>();
+    public static <T> Result<T> fail(StatusCode statusCode, String details) {
+        Result<T> result = new Result<>();
         result.setSuccess(false);
         result.setCode(statusCode.getCode());
         result.setMsg(statusCode.getMessage());
@@ -145,7 +145,7 @@ public class Result<T> implements IBaseResult<T> {
         return result;
     }
 
-    public static Result<?> fail(String msg) {
+    public static <T> Result<T> fail(String msg) {
         return fail(StatusCode.COMMON_FAIL.getCode(), msg);
     }
 

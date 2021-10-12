@@ -4,6 +4,7 @@ import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.lang.Nullable;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.regex.Matcher;
@@ -67,7 +68,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      */
     public static List<Method> getSetterMethods(Object obj) {
         // setter方法列表
-        List<Method> setterMethods = new ArrayList<Method>();
+        List<Method> setterMethods = new ArrayList<>();
 
         // 获取所有方法
         Method[] methods = obj.getClass().getMethods();
@@ -92,7 +93,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      */
     public static List<Method> getGetterMethods(Object obj) {
         // getter方法列表
-        List<Method> getterMethods = new ArrayList<Method>();
+        List<Method> getterMethods = new ArrayList<>();
         // 获取所有方法
         Method[] methods = obj.getClass().getMethods();
         // 查找getter方法
@@ -127,7 +128,7 @@ public class BeanUtils extends org.springframework.beans.BeanUtils {
      * @return 目标对象
      */
     @Nullable
-    public static <T> T transfer(Object src, Class<T> targetClass) {
+    public static <T> T transfer(@Nullable Object src, @NotNull Class<T> targetClass) {
         if (Objects.isNull(src)) {
             return null;
         }

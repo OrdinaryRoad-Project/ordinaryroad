@@ -1,4 +1,4 @@
-package top.ordinaryroad.commons.core.base.controller;
+package top.ordinaryroad.commons.core.base.api;
 
 import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -13,19 +13,19 @@ import top.ordinaryroad.commons.core.base.result.Result;
 import javax.validation.Valid;
 
 /**
- * 增删改查控制器，带逻辑批量删除
+ * 增删改查控制器，带批量删除
  *
  * @param <DTO> DTO
  * @author qq1962247851
  * @date 2020/6/16 23:05
  */
-public interface IBaseLogicBatchDeleteApi<
+public interface IBaseBatchDeleteApi<
         DTO extends BaseDTO,
         SR extends BaseSaveRequest,
         DR extends BaseDeleteRequest,
         BDR extends BaseBatchDeleteRequest,
         QR extends BaseQueryRequest>
-        extends IBaseLogicDeleteApi<DTO, SR, DR, QR> {
+        extends IBaseApi<DTO, SR, DR, QR> {
 
     /**
      * 批量删除
@@ -35,6 +35,6 @@ public interface IBaseLogicBatchDeleteApi<
      */
     @ApiOperation("批量删除")
     @PostMapping("batchDelete")
-    Result<?> batchDelete(@RequestBody @Valid BDR baseBatchDeleteRequest);
+    Result<DTO> batchDelete(@RequestBody @Valid BDR baseBatchDeleteRequest);
 
 }
