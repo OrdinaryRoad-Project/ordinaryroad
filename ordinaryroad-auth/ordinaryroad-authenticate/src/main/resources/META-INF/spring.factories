@@ -1,0 +1,18 @@
+# Auth Authenticate
+#  top.ordinaryroad.auth.authenticate.config.WebSecurityConfig,\
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  top.ordinaryroad.auth.authenticate.service.SysUserDetailsServiceImpl,\
+  top.ordinaryroad.auth.authenticate.config.CustomAuthenticationProvider,\
+  top.ordinaryroad.auth.authenticate.handler.CustomizeAbstractSecurityInterceptor,\
+  top.ordinaryroad.auth.authenticate.handler.CustomizeAccessDecisionManager,\
+  top.ordinaryroad.auth.authenticate.handler.CustomizeAccessDeniedHandler,\
+  top.ordinaryroad.auth.authenticate.handler.CustomizeAuthenticationEntryPoint,\
+  top.ordinaryroad.auth.authenticate.handler.login.CustomizeAuthenticationFailureHandler,\
+  top.ordinaryroad.auth.authenticate.handler.login.CustomizeAuthenticationSuccessHandler,\
+  top.ordinaryroad.auth.authenticate.handler.CustomizeFilterInvocationSecurityMetadataSource,\
+  top.ordinaryroad.auth.authenticate.handler.CustomizeInvalidSessionStrategy,\
+  top.ordinaryroad.auth.authenticate.handler.CustomizeLogoutSuccessHandler,\
+  top.ordinaryroad.auth.authenticate.handler.CustomizeSessionInformationExpiredStrategy,\
+  top.ordinaryroad.auth.authenticate.config.WebSecurityConfig
+
+  

@@ -3,25 +3,33 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>ordinaryroad</artifactId>
+        <artifactId>ordinaryroad-auth</artifactId>
         <groupId>top.ordinaryroad</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ordinaryroad-auth</artifactId>
-    <packaging>pom</packaging>
-    <description>认证授权模块</description>
+    <artifactId>ordinaryroad-authenticate</artifactId>
+    <description>认证模块SpringSecurity</description>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
-    <modules>
-        <module>ordinaryroad-authenticate</module>
-        <module>ordinaryroad-authorization-server</module>
-        <module>ordinaryroad-client</module>
-    </modules>
+    <dependencies>
+
+        <!-- OrdinaryRoad Commons Security-->
+        <dependency>
+            <groupId>top.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-commons-security</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+    </dependencies>
 
 </project>
