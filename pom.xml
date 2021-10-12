@@ -23,8 +23,6 @@
         <spring-boot.version>2.5.4</spring-boot.version>
         <spring-cloud.version>2020.0.3</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.1.RELEASE</spring-cloud-alibaba.version>
-        <!--        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>-->
-        <alibaba.nacos.version>2.0.3</alibaba.nacos.version>
         <fastjson.version>1.2.76</fastjson.version>
         <poi.version>5.0.0</poi.version>
 
@@ -48,6 +46,12 @@
         <common-pool.version>2.10.0</common-pool.version>
         <spring-boot-starter-data-jpa.version>2.5.2</spring-boot-starter-data-jpa.version>
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
+        <lombok.version>1.18.20</lombok.version>
+        <spring-boot-starter-security.version>2.4.0</spring-boot-starter-security.version>
+        <spring-boot-starter-oauth2-resource-server.version>2.4.0</spring-boot-starter-oauth2-resource-server.version>
+        <spring-security-oauth2-authorization-server.version>0.2.0</spring-security-oauth2-authorization-server.version>
+        <spring-boot-configuration-processor.version>2.4.5</spring-boot-configuration-processor.version>
+        <knife4j-spring-boot-starter.version>3.0.3</knife4j-spring-boot-starter.version>
     </properties>
 
     <modules>
@@ -81,13 +85,6 @@
                 <scope>import</scope>
             </dependency>
 
-            <!-- Alibaba Nacos 配置 -->
-            <dependency>
-                <groupId>com.alibaba.nacos</groupId>
-                <artifactId>nacos-client</artifactId>
-                <version>${alibaba.nacos.version}</version>
-            </dependency>
-
             <!-- SpringBoot 依赖配置 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -111,13 +108,6 @@
                 <version>${tobato.version}</version>
             </dependency>
 
-            <!-- spring-boot-starter-data-jpa -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-data-jpa</artifactId>
-                <version>${spring-boot-starter-data-jpa.version}</version>
-            </dependency>
-
             <!-- Swagger 依赖配置 -->
             <dependency>
                 <groupId>io.swagger</groupId>
@@ -130,18 +120,23 @@
                 <version>${swagger.core.version}</version>
             </dependency>
 
+            <!--BootStrap UI Swagger-->
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
+                <version>${knife4j-spring-boot-starter.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.xiaoymin</groupId>
+                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <version>${knife4j-spring-boot-starter.version}</version>
+            </dependency>
+
             <!-- 验证码 -->
             <dependency>
                 <groupId>com.github.penggle</groupId>
                 <artifactId>kaptcha</artifactId>
                 <version>${kaptcha.version}</version>
-            </dependency>
-
-            <!-- pagehelper 分页插件 -->
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper.boot.version}</version>
             </dependency>
 
             <!-- io常用工具类 -->
@@ -192,6 +187,28 @@
                 <version>${fastjson.version}</version>
             </dependency>
 
+            <!-- lombok -->
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
+            <!--Spring Security oauth2 Authorization Server-->
+            <dependency>
+                <groupId>org.springframework.security</groupId>
+                <artifactId>spring-security-oauth2-authorization-server</artifactId>
+                <version>${spring-security-oauth2-authorization-server.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.session</groupId>
+                <artifactId>spring-session-bom</artifactId>
+                <version>2021.0.2</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- 公共资源池 -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -220,13 +237,6 @@
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
-            <!-- 权限范围 -->
-            <dependency>
-                <groupId>top.ordinaryroad</groupId>
-                <artifactId>ordinaryroad-commons-datascope</artifactId>
-                <version>${ordinaryroad.version}</version>
-            </dependency>
-
             <!-- 多数据源 -->
             <dependency>
                 <groupId>top.ordinaryroad</groupId>
@@ -252,6 +262,13 @@
             <dependency>
                 <groupId>top.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-api-system</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
+            <!-- 认证服务 -->
+            <dependency>
+                <groupId>top.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-authenticate</artifactId>
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
