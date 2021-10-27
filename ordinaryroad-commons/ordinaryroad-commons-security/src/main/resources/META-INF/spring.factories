@@ -1,5 +1,0 @@
-# Commons Security
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  top.ordinaryroad.commons.security.SecurityControllerExceptionHandlerAdvice
-
-  
