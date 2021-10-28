@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
-    <bytecodeTargetLevel>
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="ordinaryroad-upms-api" />
+        <module name="ordinaryroad-upms-web" />
+        <module name="ordinaryroad-commons-swagger" />
+        <module name="ordinaryroad-commons-core" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel target="8">
       <module name="ordinaryroad" target="8" />
+      <module name="ordinaryroad-commons" target="8" />
+      <module name="ordinaryroad-commons-core" target="8" />
+      <module name="ordinaryroad-commons-knife" target="8" />
+      <module name="ordinaryroad-commons-swagger" target="8" />
+      <module name="ordinaryroad-upms" target="8" />
+      <module name="ordinaryroad-upms-api" target="8" />
+      <module name="ordinaryroad-upms-web" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>
