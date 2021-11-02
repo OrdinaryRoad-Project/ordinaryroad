@@ -13,6 +13,7 @@
     <modules>
         <module>ordinaryroad-commons-core</module>
         <module>ordinaryroad-commons-swagger</module>
+        <module>ordinaryroad-commons-mybatis</module>
     </modules>
 
     <artifactId>ordinaryroad-commons</artifactId>

@@ -1,7 +1,7 @@
-package tech.ordinaryroad.commons.core.base.mapper;
+package tech.ordinaryroad.commons.mybatis.mapper;
 
 
-import tech.ordinaryroad.commons.core.base.model.BaseDO;
+import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 import tk.mybatis.mapper.common.Mapper;
 import tk.mybatis.mapper.common.ids.DeleteByIdsMapper;
 import tk.mybatis.mapper.common.ids.SelectByIdsMapper;

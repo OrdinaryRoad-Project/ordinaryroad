@@ -26,6 +26,7 @@ package tech.ordinaryroad.commons.core.advice;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -41,6 +42,7 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 
 import javax.servlet.http.HttpServletResponse;
 
+
 /**
  * 全局Controller异常捕获
  *
@@ -49,7 +51,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Slf4j
 @ControllerAdvice
-public class GlobeControllerExceptionHandlerAdvice {
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+public class GlobalControllerExceptionHandlerAdvice {
     /**
      * 全局异常处理，异常返回统一处理
      */
@@ -66,6 +69,7 @@ public class GlobeControllerExceptionHandlerAdvice {
      * @return Result
      */
     private Result<?> excepHandler(Exception ex) {
+        log.debug("全局异常拦截开始");
         String rootCauseMessage = StrUtil.subPre(ExceptionUtil.getRootCauseMessage(ex), 500);
         if (ex instanceof BaseException) {
             BaseException bizEx = (BaseException) ex;

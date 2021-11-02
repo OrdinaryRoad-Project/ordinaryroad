@@ -1,11 +1,11 @@
-package tech.ordinaryroad.commons.core.base.service;
+package tech.ordinaryroad.commons.mybatis.service;
 
 import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
-import tech.ordinaryroad.commons.core.base.mapper.IBaseMapper;
-import tech.ordinaryroad.commons.core.base.model.BaseDO;
+import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
+import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 

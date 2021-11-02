@@ -1,14 +1,12 @@
-package tech.ordinaryroad.commons.core.base.model;
+package tech.ordinaryroad.commons.mybatis.model;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.IBase;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -20,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @MappedSuperclass
-public class BaseDO implements IBase {
+public class BaseDO implements Serializable {
 
     private static final long serialVersionUID = -7515911796792892668L;
 

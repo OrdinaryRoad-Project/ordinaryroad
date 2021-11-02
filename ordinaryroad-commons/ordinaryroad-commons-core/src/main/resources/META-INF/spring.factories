@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  tech.ordinaryroad.commons.core.advice.GlobeControllerExceptionHandlerAdvice,\
+  tech.ordinaryroad.commons.core.advice.GlobalControllerExceptionHandlerAdvice,\
   tech.ordinaryroad.commons.core.filter.FilterConfig,\
   tech.ordinaryroad.commons.core.web.HttpErrorController
