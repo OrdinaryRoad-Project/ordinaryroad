@@ -23,7 +23,7 @@
  */
 package tech.ordinaryroad.upms.dao;
 
-import tech.ordinaryroad.commons.core.base.mapper.IBaseMapper;
+import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 
 /**

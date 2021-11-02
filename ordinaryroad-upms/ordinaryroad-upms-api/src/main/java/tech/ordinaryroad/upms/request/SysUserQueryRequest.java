@@ -43,4 +43,7 @@ public class SysUserQueryRequest extends BaseQueryRequest {
     @ApiModelProperty("用户名")
     private String username;
 
+    @ApiModelProperty("or帐号")
+    private String orNumber;
+
 }

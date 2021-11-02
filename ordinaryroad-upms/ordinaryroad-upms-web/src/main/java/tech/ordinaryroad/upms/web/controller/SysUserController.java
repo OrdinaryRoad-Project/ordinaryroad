@@ -56,17 +56,17 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
-    public Result<SysUserDTO> findById(@RequestBody @Validated SysUserQueryRequest request) {
+    public Result<SysUserDTO> findById(@RequestBody SysUserQueryRequest request) {
         return sysUserFacade.findById(request);
     }
 
     @Override
-    public Result<List<SysUserDTO>> findAll(@RequestBody @Validated SysUserQueryRequest request) {
+    public Result<List<SysUserDTO>> findAll(@RequestBody SysUserQueryRequest request) {
         return sysUserFacade.selectAll(request);
     }
 
     @Override
-    public Result<PageInfo<SysUserDTO>> list(@RequestBody @Validated SysUserQueryRequest request) {
+    public Result<PageInfo<SysUserDTO>> list(@RequestBody SysUserQueryRequest request) {
         return sysUserFacade.list(request);
     }
 

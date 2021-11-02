@@ -18,6 +18,16 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>tech.ordinaryroad</groupId>
             <artifactId>ordinaryroad-upms-api</artifactId>
         </dependency>
@@ -25,6 +35,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>tech.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-commons-mybatis</artifactId>
         </dependency>
 
         <dependency>

@@ -24,8 +24,8 @@
 package tech.ordinaryroad.upms.service;
 
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.base.service.BaseService;
 import tech.ordinaryroad.commons.core.lang.Argument;
+import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysUserDAO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 import tk.mybatis.mapper.entity.Example;
@@ -41,9 +41,16 @@ import java.util.Optional;
 @Service
 public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
 
-    public Optional<SysUserDO> findByName(String username) {
+    public Optional<SysUserDO> findByUsername(String username) {
         Example example = Example.builder(SysUserDO.class)
                 .where(Sqls.custom().andEqualTo("username", username))
+                .build();
+        return Optional.ofNullable(super.dao.selectOneByExample(example));
+    }
+
+    public Optional<SysUserDO> findByOrNumber(String orNumber) {
+        Example example = Example.builder(SysUserDO.class)
+                .where(Sqls.custom().andEqualTo("orNumber", orNumber))
                 .build();
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }

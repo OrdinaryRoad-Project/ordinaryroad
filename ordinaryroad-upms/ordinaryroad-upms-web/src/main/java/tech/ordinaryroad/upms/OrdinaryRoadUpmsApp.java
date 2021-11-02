@@ -21,62 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.entity;
+package tech.ordinaryroad.upms;
 
-import com.alibaba.fastjson.JSON;
-import lombok.Getter;
-import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.model.BaseDO;
-import tk.mybatis.mapper.annotation.KeySql;
-
-import javax.persistence.Table;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.util.StopWatch;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
- * 用户表
- *
  * @author mjz
  * @date 2021/10/27
  */
-@Getter
-@Setter
-@Table(name = "sys_user")
-public class SysUserDO extends BaseDO {
+@Slf4j
+@EnableDiscoveryClient
+@MapperScan({"tech.ordinaryroad.upms.dao"})
+@SpringBootApplication
+public class OrdinaryRoadUpmsApp {
 
-    private static final long serialVersionUID = 4873747200596716403L;
-
-    /**
-     * or帐号
-     */
-    @KeySql(genId = OrNumberGen.class)
-    private String orNumber;
-    /**
-     * 用户名
-     */
-    private String username;
-    /**
-     * 用户密码
-     */
-    private String password;
-    /**
-     * 账号是否可用。默认为1（可用）
-     */
-    private Boolean enabled;
-    /**
-     * 是否过期。默认为1（没有过期）
-     */
-    private Boolean notExpired;
-    /**
-     * 账号是否锁定。默认为1（没有锁定）
-     */
-    private Boolean notLocked;
-    /**
-     * 密码是否过期。默认为1（没有过期）
-     */
-    private Boolean passwordNotExpired;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
+    public static void main(String[] args) {
+        StopWatch stopWatch = new StopWatch();
+        stopWatch.start("run");
+        SpringApplication.run(OrdinaryRoadUpmsApp.class, args);
+        stopWatch.stop();
+        log.info("run end！ {}", stopWatch.prettyPrint());
     }
 
 }

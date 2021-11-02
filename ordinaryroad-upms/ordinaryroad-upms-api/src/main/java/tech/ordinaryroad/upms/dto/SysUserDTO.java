@@ -37,12 +37,27 @@ import java.io.Serializable;
 @ApiModel
 public class SysUserDTO implements Serializable {
 
-    private static final long serialVersionUID = 2054396765228387646L;
+    private static final long serialVersionUID = 7832921378107878184L;
 
     @ApiModelProperty("or帐号")
     private String orNumber;
 
     @ApiModelProperty("用户名")
     private String username;
+
+    @ApiModelProperty("用户密码")
+    private String password;
+
+    @ApiModelProperty("账号是否可用。默认为1（可用）")
+    private Boolean enabled;
+
+    @ApiModelProperty("是否过期。默认为1（没有过期）")
+    private Boolean notExpired;
+
+    @ApiModelProperty("账号是否锁定。默认为1（没有锁定）")
+    private Boolean notLocked;
+
+    @ApiModelProperty("密码是否过期。默认为1（没有过期）")
+    private Boolean passwordNotExpired;
 
 }

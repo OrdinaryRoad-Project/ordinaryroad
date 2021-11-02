@@ -33,7 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.commons.core.utils.mybatis.PageUtils;
+import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 import tech.ordinaryroad.upms.facade.ISysUserFacade;
@@ -65,7 +65,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     public Result<SysUserDTO> create(SysUserSaveRequest request) {
         // 校验用户名
         String username = request.getUsername();
-        Optional<SysUserDO> byName = sysUserService.findByName(username);
+        Optional<SysUserDO> byName = sysUserService.findByUsername(username);
         if (byName.isPresent()) {
             return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
         }
