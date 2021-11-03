@@ -26,19 +26,17 @@ package tech.ordinaryroad.upms.facade;
 import com.github.pagehelper.PageInfo;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
-import tech.ordinaryroad.upms.request.SysUserQueryRequest;
-import tech.ordinaryroad.upms.request.SysUserSaveRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdatePasswordRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
+import tech.ordinaryroad.upms.dto.SysRoleDTO;
+import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
+import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
 
 import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/10/27
+ * @date 2021/11/3
  */
-public interface ISysUserFacade {
+public interface ISysRoleFacade {
 
     /**
      * 创建
@@ -46,39 +44,7 @@ public interface ISysUserFacade {
      * @param request Request
      * @return DTO
      */
-    Result<SysUserDTO> create(SysUserSaveRequest request);
-
-    /**
-     * 查询
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysUserDTO> findById(SysUserQueryRequest request);
-
-    /**
-     * 查询所有
-     *
-     * @param request Request
-     * @return List
-     */
-    Result<List<SysUserDTO>> selectAll(SysUserQueryRequest request);
-
-    /**
-     * 分页查询所有
-     *
-     * @param request Request
-     * @return Page
-     */
-    Result<PageInfo<SysUserDTO>> list(SysUserQueryRequest request);
-
-    /**
-     * 更新
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysUserDTO> update(SysUserSaveRequest request);
+    Result<SysRoleDTO> create(SysRoleSaveRequest request);
 
     /**
      * 删除
@@ -89,26 +55,35 @@ public interface ISysUserFacade {
     Result<Boolean> delete(BaseDeleteRequest request);
 
     /**
-     * 更新用户名
-     *
-     * @param request Request
-     * @return Boolean
-     */
-    Result<Boolean> updateUsername(SysUserUpdateUsernameRequest request);
-
-    /**
-     * 更新密码
-     *
-     * @param request Request
-     * @return Boolean
-     */
-    Result<Boolean> updatePassword(SysUserUpdatePasswordRequest request);
-
-    /**
-     * 根据唯一列查询用户
+     * 更新
      *
      * @param request Request
      * @return DTO
      */
-    Result<SysUserDTO> findByUniqueColumn(SysUserQueryRequest request);
+    Result<SysRoleDTO> update(SysRoleSaveRequest request);
+
+    /**
+     * 查询
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<SysRoleDTO> findById(SysRoleQueryRequest request);
+
+    /**
+     * 查询所有
+     *
+     * @param request Request
+     * @return List
+     */
+    Result<List<SysRoleDTO>> selectAll(SysRoleQueryRequest request);
+
+    /**
+     * 分页查询所有
+     *
+     * @param request Request
+     * @return Page
+     */
+    Result<PageInfo<SysRoleDTO>> list(SysRoleQueryRequest request);
+
 }

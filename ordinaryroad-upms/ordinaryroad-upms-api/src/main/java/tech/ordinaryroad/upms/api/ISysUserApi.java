@@ -66,6 +66,8 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
+    @PostMapping(value = "/user/findByUniqueColumnAndPassword")
+    Result<SysUserDTO> findByUniqueColumn(@Validated @RequestBody SysUserQueryRequest request);
 
     @PostMapping(value = "/user/updateUsername")
     Result<Boolean> updateUsername(@Validated @RequestBody SysUserUpdateUsernameRequest request);

@@ -81,6 +81,11 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
+    public Result<SysUserDTO> findByUniqueColumn(@RequestBody SysUserQueryRequest request) {
+        return sysUserFacade.findByUniqueColumn(request);
+    }
+
+    @Override
     public Result<Boolean> updateUsername(@RequestBody @Validated SysUserUpdateUsernameRequest request) {
         return sysUserFacade.updateUsername(request);
     }

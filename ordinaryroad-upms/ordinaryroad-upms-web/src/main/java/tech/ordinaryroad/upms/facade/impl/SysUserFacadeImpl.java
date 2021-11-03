@@ -134,4 +134,20 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         return Result.success(sysUserService.doUpdateSelective(sysUserDO));
     }
 
+    @Override
+    public Result<SysUserDTO> findByUniqueColumn(SysUserQueryRequest request) {
+        Optional<SysUserDO> optional;
+        String orNumber = request.getOrNumber();
+        String username = request.getUsername();
+        if (StrUtil.isNotBlank(orNumber)) {
+            optional = sysUserService.findByOrNumber(orNumber);
+        } else if (StrUtil.isNotBlank(username)) {
+            optional = sysUserService.findByUsername(username);
+        } else {
+            return Result.fail(StatusCode.PARAM_NOT_COMPLETE);
+        }
+
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+    }
+
 }
