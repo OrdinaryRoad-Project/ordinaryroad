@@ -7,6 +7,7 @@
         <option value="$PROJECT_DIR$/ordinaryroad-upms/pom.xml" />
         <option value="$PROJECT_DIR$/ordinaryroad-commons/pom.xml" />
         <option value="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-swagger/pom.xml" />
+        <option value="$PROJECT_DIR$/ordinaryroad-generator/pom.xml" />
       </list>
     </option>
   </component>
