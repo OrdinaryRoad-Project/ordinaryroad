@@ -38,9 +38,12 @@ import tech.ordinaryroad.upms.facade.ISysUsersRolesFacade;
 import tech.ordinaryroad.upms.mapstruct.SysUsersRolesMapStruct;
 import tech.ordinaryroad.upms.request.SysUsersRolesQueryRequest;
 import tech.ordinaryroad.upms.request.SysUsersRolesSaveRequest;
+import tech.ordinaryroad.upms.service.SysRoleService;
+import tech.ordinaryroad.upms.service.SysUserService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -52,25 +55,36 @@ import java.util.stream.Collectors;
 @Component
 public class SysUsersRolesFacadeImpl implements ISysUsersRolesFacade {
 
-    private final SysUsersRolesService sysRoleService;
+    private final SysUsersRolesService sysUsersRolesService;
     private final SysUsersRolesMapStruct objMapStruct;
+    private final SysUserService sysUserService;
+    private final SysRoleService sysRoleService;
 
     @Override
     public Result<SysUsersRolesDTO> create(SysUsersRolesSaveRequest request) {
 
+        String userUuid = request.getUserUuid();
+        if (Objects.isNull(sysUserService.findById(userUuid))) {
+            return Result.fail(StatusCode.USER_NOT_EXIST);
+        }
+        String roleUuid = request.getRoleUuid();
+        if (Objects.isNull(sysRoleService.findById(roleUuid))) {
+            return Result.fail(StatusCode.ROLE_NOT_EXIST);
+        }
+
         // 唯一性校验
-        Optional<SysUsersRolesDO> byUserUuidAndRoleUuid = sysRoleService.findByUserUuidAndRoleUuid(request.getUserUuid(), request.getRoleUuid());
+        Optional<SysUsersRolesDO> byUserUuidAndRoleUuid = sysUsersRolesService.findByUserUuidAndRoleUuid(userUuid, roleUuid);
         if (byUserUuidAndRoleUuid.isPresent()) {
             return Result.fail(StatusCode.DATA_ALREADY_EXIST);
         }
 
         SysUsersRolesDO sysRoleDO = objMapStruct.transfer(request);
-        return Result.success(objMapStruct.transfer(sysRoleService.createSelective(sysRoleDO)));
+        return Result.success(objMapStruct.transfer(sysUsersRolesService.createSelective(sysRoleDO)));
     }
 
     @Override
     public Result<Boolean> delete(BaseDeleteRequest request) {
-        return Result.success(sysRoleService.delete(request.getUuid()));
+        return Result.success(sysUsersRolesService.delete(request.getUuid()));
     }
 
     @Override
@@ -82,14 +96,14 @@ public class SysUsersRolesFacadeImpl implements ISysUsersRolesFacade {
     @Override
     public Result<SysUsersRolesDTO> findById(SysUsersRolesQueryRequest request) {
         SysUsersRolesDO sysRoleDO = objMapStruct.transfer(request);
-        return Result.success(objMapStruct.transfer(sysRoleService.findById(sysRoleDO)));
+        return Result.success(objMapStruct.transfer(sysUsersRolesService.findById(sysRoleDO)));
     }
 
     @Override
     public Result<List<SysUsersRolesDTO>> findAll(SysUsersRolesQueryRequest request) {
         SysUsersRolesDO sysRoleDO = objMapStruct.transfer(request);
 
-        List<SysUsersRolesDO> all = sysRoleService.findAll(sysRoleDO);
+        List<SysUsersRolesDO> all = sysUsersRolesService.findAll(sysRoleDO);
         List<SysUsersRolesDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -100,7 +114,7 @@ public class SysUsersRolesFacadeImpl implements ISysUsersRolesFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysUsersRolesDO sysRoleDO = objMapStruct.transfer(request);
-        Page<SysUsersRolesDO> all = (Page<SysUsersRolesDO>) sysRoleService.findAll(sysRoleDO);
+        Page<SysUsersRolesDO> all = (Page<SysUsersRolesDO>) sysUsersRolesService.findAll(sysRoleDO);
 
         PageInfo<SysUsersRolesDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 
