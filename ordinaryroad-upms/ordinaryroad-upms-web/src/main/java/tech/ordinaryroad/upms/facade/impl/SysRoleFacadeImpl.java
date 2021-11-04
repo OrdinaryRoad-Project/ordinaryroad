@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.upms.facade.impl;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -31,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
@@ -116,6 +118,17 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     public Result<SysRoleDTO> findById(SysRoleQueryRequest request) {
         SysRoleDO sysRoleDO = objMapStruct.transfer(request);
         return Result.success(objMapStruct.transfer(sysRoleService.findById(sysRoleDO)));
+    }
+
+    @Override
+    public Result<List<SysRoleDTO>> findAllByIds(BaseQueryRequest request) {
+        List<String> uuids = request.getUuids();
+        if (CollUtil.isEmpty(uuids)) {
+            return Result.success();
+        }
+        List<SysRoleDO> all = sysRoleService.findIds(SysRoleDO.class, uuids);
+        List<SysRoleDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+        return Result.success(list);
     }
 
     @Override

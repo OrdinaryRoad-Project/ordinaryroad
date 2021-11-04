@@ -25,6 +25,7 @@ package tech.ordinaryroad.upms.facade;
 
 import com.github.pagehelper.PageInfo;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
@@ -69,6 +70,14 @@ public interface ISysRoleFacade {
      * @return DTO
      */
     Result<SysRoleDTO> findById(SysRoleQueryRequest request);
+
+    /**
+     * 根据主键列表查询
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<List<SysRoleDTO>> findAllByIds(BaseQueryRequest request);
 
     /**
      * 查询所有

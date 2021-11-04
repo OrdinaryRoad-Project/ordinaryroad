@@ -30,6 +30,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
@@ -57,6 +58,9 @@ public interface ISysRoleApi {
 
     @PostMapping(value = "/role/findById")
     Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request);
+
+    @PostMapping(value = "/role/findAllByIds")
+    Result<List<SysRoleDTO>> findAllByIds(@RequestBody BaseQueryRequest request);
 
     @PostMapping(value = "/role/findAll")
     Result<List<SysRoleDTO>> findAll(@RequestBody SysRoleQueryRequest request);

@@ -29,6 +29,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.api.ISysRoleApi;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
@@ -66,6 +67,11 @@ public class SysRoleController implements ISysRoleApi {
     @Override
     public Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request) {
         return sysRoleFacade.findById(request);
+    }
+
+    @Override
+    public Result<List<SysRoleDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
+        return sysRoleFacade.findAllByIds(request);
     }
 
     @Override

@@ -68,11 +68,11 @@ public class SysUsersRolesService extends BaseService<SysUsersRolesDAO, SysUsers
 
         String userUuid = sysUsersRolesDO.getUserUuid();
         if (Argument.isNotBlank(userUuid)) {
-            sqls.andLike("userUuid", "%" + userUuid + "%");
+            sqls.andEqualTo("userUuid", userUuid);
         }
         String roleUuid = sysUsersRolesDO.getRoleUuid();
         if (Argument.isNotBlank(roleUuid)) {
-            sqls.andLike("roleUuid", "%" + roleUuid + "%");
+            sqls.andEqualTo("roleUuid", roleUuid);
         }
 
         return super.dao.selectByExample(Example.builder(SysUsersRolesDO.class).where(sqls).build());

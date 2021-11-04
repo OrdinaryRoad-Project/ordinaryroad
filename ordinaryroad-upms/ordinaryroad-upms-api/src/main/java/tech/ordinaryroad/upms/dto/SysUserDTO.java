@@ -39,6 +39,9 @@ public class SysUserDTO implements Serializable {
 
     private static final long serialVersionUID = 7832921378107878184L;
 
+    @ApiModelProperty("主键uuid")
+    private String uuid;
+
     @ApiModelProperty("or帐号")
     private String orNumber;
 
