@@ -47,6 +47,8 @@ public enum StatusCode implements IStatusCode {
     NAME_ALREADY_EXIST(4006, "名称已存在"),
     CODE_ALREADY_EXIST(4007, "code已存在"),
     URL_ALREADY_EXIST(4008, "请求路径url已存在"),
+    USER_NOT_EXIST(4009, "用户不存在"),
+    ROLE_NOT_EXIST(4010, "角色不存在"),
     ;
 
     /**

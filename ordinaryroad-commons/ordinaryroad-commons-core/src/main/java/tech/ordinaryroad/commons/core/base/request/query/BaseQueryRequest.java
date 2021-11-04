@@ -4,6 +4,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * 查询请求抽象类
  *
@@ -12,7 +14,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class BaseQueryRequest implements IBaseQueryRequest {
+public class BaseQueryRequest implements IBaseQueryRequest {
 
     private static final long serialVersionUID = -3803036361359796031L;
 
@@ -21,6 +23,12 @@ public abstract class BaseQueryRequest implements IBaseQueryRequest {
      */
     @ApiModelProperty("主键uuid")
     private String uuid;
+
+    /**
+     * 主键uuid列表
+     */
+    @ApiModelProperty("主键uuid列表")
+    private List<String> uuids;
 
     /**
      * 个数

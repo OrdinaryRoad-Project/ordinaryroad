@@ -1,6 +1,7 @@
 package tech.ordinaryroad.commons.mybatis.service;
 
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -249,16 +250,16 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
     /**
      * 按条件查询id列表
      */
-    public List<T> findIds(Class<T> tClass, Long[] ids) {
+    public List<T> findIds(Class<T> tClass, String[] ids) {
         return findIds(tClass, Arrays.asList(ids));
     }
 
     /**
      * 按条件查询id列表
      */
-    public List<T> findIds(Class<T> tClass, List<Long> idList) {
+    public List<T> findIds(Class<T> tClass, List<String> idList) {
         Example example = Example.builder(tClass)
-                .where(Sqls.custom().andIn("id", idList))
+                .where(Sqls.custom().andIn("uuid", idList))
                 .build();
         return dao.selectByExample(example);
     }
@@ -311,7 +312,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * @param t BaseDO
      */
     private void fillMetaFields(T t) {
-        if (t.getUuid() == null) {
+        if (StrUtil.isBlank(t.getUuid())) {
             String uuid = IdUtil.fastSimpleUUID();
             log.debug("生成UUID：{}", uuid);
             t.setUuid(uuid);

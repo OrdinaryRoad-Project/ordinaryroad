@@ -69,7 +69,7 @@ public class GlobalControllerExceptionHandlerAdvice {
      * @return Result
      */
     private Result<?> excepHandler(Exception ex) {
-        log.debug("全局异常拦截开始");
+        log.error("全局异常拦截", ex);
         String rootCauseMessage = StrUtil.subPre(ExceptionUtil.getRootCauseMessage(ex), 500);
         if (ex instanceof BaseException) {
             BaseException bizEx = (BaseException) ex;
