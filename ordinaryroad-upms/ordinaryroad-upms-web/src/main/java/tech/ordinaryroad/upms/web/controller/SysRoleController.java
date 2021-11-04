@@ -21,12 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.facade;
+package tech.ordinaryroad.upms.web.controller;
 
 import com.github.pagehelper.PageInfo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.api.ISysRoleApi;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
+import tech.ordinaryroad.upms.facade.ISysRoleFacade;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
 
@@ -34,56 +40,41 @@ import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/4
  */
-public interface ISysRoleFacade {
+@RequiredArgsConstructor
+@RestController
+public class SysRoleController implements ISysRoleApi {
 
-    /**
-     * 创建
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysRoleDTO> create(SysRoleSaveRequest request);
+    private final ISysRoleFacade sysRoleFacade;
 
-    /**
-     * 删除
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<Boolean> delete(BaseDeleteRequest request);
+    @Override
+    public Result<SysRoleDTO> create(@RequestBody @Validated SysRoleSaveRequest request) {
+        return sysRoleFacade.create(request);
+    }
 
-    /**
-     * 更新
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysRoleDTO> update(SysRoleSaveRequest request);
+    @Override
+    public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
+        return sysRoleFacade.delete(request);
+    }
 
-    /**
-     * 查询
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysRoleDTO> findById(SysRoleQueryRequest request);
+    @Override
+    public Result<SysRoleDTO> update(@RequestBody @Validated SysRoleSaveRequest request) {
+        return sysRoleFacade.update(request);
+    }
 
-    /**
-     * 查询所有
-     *
-     * @param request Request
-     * @return List
-     */
-    Result<List<SysRoleDTO>> findAll(SysRoleQueryRequest request);
+    @Override
+    public Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request) {
+        return sysRoleFacade.findById(request);
+    }
 
-    /**
-     * 分页查询所有
-     *
-     * @param request Request
-     * @return Page
-     */
-    Result<PageInfo<SysRoleDTO>> list(SysRoleQueryRequest request);
+    @Override
+    public Result<List<SysRoleDTO>> findAll(@RequestBody SysRoleQueryRequest request) {
+        return sysRoleFacade.findAll(request);
+    }
 
+    @Override
+    public Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request) {
+        return sysRoleFacade.list(request);
+    }
 }

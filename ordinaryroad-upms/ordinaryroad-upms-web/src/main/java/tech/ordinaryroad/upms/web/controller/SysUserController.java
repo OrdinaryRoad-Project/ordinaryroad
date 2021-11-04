@@ -62,7 +62,7 @@ public class SysUserController implements ISysUserApi {
 
     @Override
     public Result<List<SysUserDTO>> findAll(@RequestBody SysUserQueryRequest request) {
-        return sysUserFacade.selectAll(request);
+        return sysUserFacade.findAll(request);
     }
 
     @Override

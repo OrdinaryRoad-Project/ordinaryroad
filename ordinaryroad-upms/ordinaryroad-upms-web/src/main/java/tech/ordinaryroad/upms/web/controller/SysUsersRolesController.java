@@ -21,12 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.facade;
+package tech.ordinaryroad.upms.web.controller;
 
 import com.github.pagehelper.PageInfo;
+import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.api.ISysUsersRolesApi;
 import tech.ordinaryroad.upms.dto.SysUsersRolesDTO;
+import tech.ordinaryroad.upms.facade.ISysUsersRolesFacade;
 import tech.ordinaryroad.upms.request.SysUsersRolesQueryRequest;
 import tech.ordinaryroad.upms.request.SysUsersRolesSaveRequest;
 
@@ -34,56 +40,36 @@ import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/4
  */
-public interface ISysUsersRolesFacade {
+@RequiredArgsConstructor
+@RestController
+public class SysUsersRolesController implements ISysUsersRolesApi {
 
-    /**
-     * 创建
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysUsersRolesDTO> create(SysUsersRolesSaveRequest request);
+    private final ISysUsersRolesFacade sysUsersRolesFacade;
 
-    /**
-     * 删除
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<Boolean> delete(BaseDeleteRequest request);
+    @Override
+    public Result<SysUsersRolesDTO> create(@Validated @RequestBody SysUsersRolesSaveRequest request) {
+        return sysUsersRolesFacade.create(request);
+    }
 
-    /**
-     * 更新
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysUsersRolesDTO> update(SysUsersRolesSaveRequest request);
+    @Override
+    public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
+        return sysUsersRolesFacade.delete(request);
+    }
 
-    /**
-     * 查询
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysUsersRolesDTO> findById(SysUsersRolesQueryRequest request);
+    @Override
+    public Result<SysUsersRolesDTO> findById(@RequestBody SysUsersRolesQueryRequest request) {
+        return sysUsersRolesFacade.findById(request);
+    }
 
-    /**
-     * 查询所有
-     *
-     * @param request Request
-     * @return List
-     */
-    Result<List<SysUsersRolesDTO>> findAll(SysUsersRolesQueryRequest request);
+    @Override
+    public Result<List<SysUsersRolesDTO>> findAll(@RequestBody SysUsersRolesQueryRequest request) {
+        return sysUsersRolesFacade.findAll(request);
+    }
 
-    /**
-     * 分页查询所有
-     *
-     * @param request Request
-     * @return Page
-     */
-    Result<PageInfo<SysUsersRolesDTO>> list(SysUsersRolesQueryRequest request);
-
+    @Override
+    public Result<PageInfo<SysUsersRolesDTO>> list(@RequestBody SysUsersRolesQueryRequest request) {
+        return sysUsersRolesFacade.list(request);
+    }
 }

@@ -32,47 +32,36 @@ import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
-import tech.ordinaryroad.upms.request.SysUserQueryRequest;
-import tech.ordinaryroad.upms.request.SysUserSaveRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdatePasswordRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
+import tech.ordinaryroad.upms.dto.SysRoleDTO;
+import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
+import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
 
 import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/10/27
+ * @date 2021/11/4
  */
-@Api(value = "用户API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysUserApi")
-public interface ISysUserApi {
+@Api(value = "角色API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysRoleApi")
+public interface ISysRoleApi {
 
-    @PostMapping(value = "/user/create")
-    Result<SysUserDTO> create(@Validated @RequestBody SysUserSaveRequest request);
+    @PostMapping(value = "/role/create")
+    Result<SysRoleDTO> create(@Validated @RequestBody SysRoleSaveRequest request);
 
-    @PostMapping(value = "/user/findById")
-    Result<SysUserDTO> findById(@Validated @RequestBody SysUserQueryRequest request);
-
-    @PostMapping(value = "/user/findAll")
-    Result<List<SysUserDTO>> findAll(@Validated @RequestBody SysUserQueryRequest request);
-
-    @PostMapping(value = "/user/list")
-    Result<PageInfo<SysUserDTO>> list(@Validated @RequestBody SysUserQueryRequest request);
-
-    @PostMapping(value = "/user/update")
-    Result<SysUserDTO> update(@Validated @RequestBody SysUserSaveRequest request);
-
-    @PostMapping(value = "/user/delete")
+    @PostMapping(value = "/role/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/user/findByUniqueColumnAndPassword")
-    Result<SysUserDTO> findByUniqueColumn(@Validated @RequestBody SysUserQueryRequest request);
+    @PostMapping(value = "/role/update")
+    Result<SysRoleDTO> update(@Validated @RequestBody SysRoleSaveRequest request);
 
-    @PostMapping(value = "/user/updateUsername")
-    Result<Boolean> updateUsername(@Validated @RequestBody SysUserUpdateUsernameRequest request);
+    @PostMapping(value = "/role/findById")
+    Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request);
 
-    @PostMapping(value = "/user/updatePassword")
-    Result<Boolean> updatePassword(@Validated @RequestBody SysUserUpdatePasswordRequest request);
+    @PostMapping(value = "/role/findAll")
+    Result<List<SysRoleDTO>> findAll(@RequestBody SysRoleQueryRequest request);
+
+    @PostMapping(value = "/role/list")
+    Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request);
 
 }

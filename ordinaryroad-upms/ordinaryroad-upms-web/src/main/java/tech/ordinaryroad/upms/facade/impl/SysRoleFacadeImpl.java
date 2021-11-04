@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.upms.facade.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -41,6 +42,7 @@ import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
 import tech.ordinaryroad.upms.service.SysRoleService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -81,8 +83,33 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
 
     @Override
     public Result<SysRoleDTO> update(SysRoleSaveRequest request) {
-        // 不支持修改
-        return null;
+        String uuid = request.getUuid();
+        if (StrUtil.isBlank(uuid)) {
+            return Result.fail(StatusCode.PARAM_NOT_COMPLETE);
+        }
+
+        SysRoleDO byId = sysRoleService.findById(uuid);
+        if (Objects.isNull(byId)) {
+            return Result.fail(StatusCode.DATA_NOT_EXIST);
+        }
+
+        String newRoleName = request.getRoleName();
+        String roleName = byId.getRoleName();
+        if (!Objects.equals(newRoleName, roleName)) {
+            if (sysRoleService.findByRoleName(newRoleName).isPresent()) {
+                return Result.fail(StatusCode.NAME_ALREADY_EXIST);
+            }
+        }
+        String newRoleCode = request.getRoleName();
+        String roleCode = byId.getRoleCode();
+        if (!Objects.equals(newRoleCode, roleCode)) {
+            if (sysRoleService.findByRoleCode(newRoleCode).isPresent()) {
+                return Result.fail(StatusCode.CODE_ALREADY_EXIST);
+            }
+        }
+
+        SysRoleDO transfer = objMapStruct.transfer(request);
+        return Result.success(objMapStruct.transfer(sysRoleService.updateSelective(transfer)));
     }
 
     @Override
@@ -92,7 +119,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     }
 
     @Override
-    public Result<List<SysRoleDTO>> selectAll(SysRoleQueryRequest request) {
+    public Result<List<SysRoleDTO>> findAll(SysRoleQueryRequest request) {
         SysRoleDO sysRoleDO = objMapStruct.transfer(request);
 
         List<SysRoleDO> all = sysRoleService.findAll(sysRoleDO);

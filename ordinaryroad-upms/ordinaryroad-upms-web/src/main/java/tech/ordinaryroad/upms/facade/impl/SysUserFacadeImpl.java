@@ -85,7 +85,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     }
 
     @Override
-    public Result<List<SysUserDTO>> selectAll(SysUserQueryRequest request) {
+    public Result<List<SysUserDTO>> findAll(SysUserQueryRequest request) {
         SysUserDO sysUserDO = objMapStruct.transfer(request);
 
         List<SysUserDO> all = sysUserService.findAll(sysUserDO);

@@ -86,7 +86,7 @@ public class SysUsersRolesFacadeImpl implements ISysUsersRolesFacade {
     }
 
     @Override
-    public Result<List<SysUsersRolesDTO>> selectAll(SysUsersRolesQueryRequest request) {
+    public Result<List<SysUsersRolesDTO>> findAll(SysUsersRolesQueryRequest request) {
         SysUsersRolesDO sysRoleDO = objMapStruct.transfer(request);
 
         List<SysUsersRolesDO> all = sysRoleService.findAll(sysRoleDO);

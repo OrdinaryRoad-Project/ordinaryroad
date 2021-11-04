@@ -62,7 +62,7 @@ public interface ISysUserFacade {
      * @param request Request
      * @return List
      */
-    Result<List<SysUserDTO>> selectAll(SysUserQueryRequest request);
+    Result<List<SysUserDTO>> findAll(SysUserQueryRequest request);
 
     /**
      * 分页查询所有

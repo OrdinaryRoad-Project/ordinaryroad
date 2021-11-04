@@ -21,11 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.facade;
+package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysUsersRolesDTO;
 import tech.ordinaryroad.upms.request.SysUsersRolesQueryRequest;
 import tech.ordinaryroad.upms.request.SysUsersRolesSaveRequest;
@@ -34,56 +40,25 @@ import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/4
  */
-public interface ISysUsersRolesFacade {
+@Api(value = "用户角色关联关系API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysUsersRolesApi")
+public interface ISysUsersRolesApi {
 
-    /**
-     * 创建
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysUsersRolesDTO> create(SysUsersRolesSaveRequest request);
+    @PostMapping(value = "/users_users_roless/create")
+    Result<SysUsersRolesDTO> create(@Validated @RequestBody SysUsersRolesSaveRequest request);
 
-    /**
-     * 删除
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<Boolean> delete(BaseDeleteRequest request);
+    @PostMapping(value = "/users_roles/delete")
+    Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    /**
-     * 更新
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysUsersRolesDTO> update(SysUsersRolesSaveRequest request);
+    @PostMapping(value = "/users_roles/findById")
+    Result<SysUsersRolesDTO> findById(@RequestBody SysUsersRolesQueryRequest request);
 
-    /**
-     * 查询
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysUsersRolesDTO> findById(SysUsersRolesQueryRequest request);
+    @PostMapping(value = "/users_roles/findAll")
+    Result<List<SysUsersRolesDTO>> findAll(@RequestBody SysUsersRolesQueryRequest request);
 
-    /**
-     * 查询所有
-     *
-     * @param request Request
-     * @return List
-     */
-    Result<List<SysUsersRolesDTO>> findAll(SysUsersRolesQueryRequest request);
-
-    /**
-     * 分页查询所有
-     *
-     * @param request Request
-     * @return Page
-     */
-    Result<PageInfo<SysUsersRolesDTO>> list(SysUsersRolesQueryRequest request);
+    @PostMapping(value = "/users_roles/list")
+    Result<PageInfo<SysUsersRolesDTO>> list(@RequestBody SysUsersRolesQueryRequest request);
 
 }
