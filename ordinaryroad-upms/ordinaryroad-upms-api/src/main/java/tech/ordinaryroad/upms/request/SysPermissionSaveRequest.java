@@ -21,34 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.dto;
+package tech.ordinaryroad.upms.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/8
  */
-@Data
+@Getter
+@Setter
 @ApiModel
-public class SysRoleDTO implements Serializable {
+public class SysPermissionSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 7448271006522452148L;
+    private static final long serialVersionUID = 783453100910961731L;
 
-    @ApiModelProperty("主键uuid")
-    private String uuid;
+    @ApiModelProperty("权限code")
+    @NotBlank(message = "权限code不能为空")
+    @Size(max = 100, message = "权限code长度不能超过100")
+    private String permissionCode;
 
-    @ApiModelProperty("角色名称")
-    private String roleName;
-
-    @ApiModelProperty("角色code")
-    private String roleCode;
-
-    @ApiModelProperty("角色是否可用。默认为1（可用）")
-    private Boolean enabled;
-
+    @ApiModelProperty("权限描述")
+    @Size(max = 200, message = "权限描述长度不能超过200")
+    private String description;
 }

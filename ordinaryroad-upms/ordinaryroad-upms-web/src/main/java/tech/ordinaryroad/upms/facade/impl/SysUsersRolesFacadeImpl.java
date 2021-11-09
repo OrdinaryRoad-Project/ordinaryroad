@@ -96,7 +96,11 @@ public class SysUsersRolesFacadeImpl implements ISysUsersRolesFacade {
     @Override
     public Result<SysUsersRolesDTO> findById(SysUsersRolesQueryRequest request) {
         SysUsersRolesDO sysRoleDO = objMapStruct.transfer(request);
-        return Result.success(objMapStruct.transfer(sysUsersRolesService.findById(sysRoleDO)));
+        SysUsersRolesDO byId = sysUsersRolesService.findById(sysRoleDO);
+        if (Objects.nonNull(byId)) {
+            return Result.success(objMapStruct.transfer(byId));
+        }
+        return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
     @Override

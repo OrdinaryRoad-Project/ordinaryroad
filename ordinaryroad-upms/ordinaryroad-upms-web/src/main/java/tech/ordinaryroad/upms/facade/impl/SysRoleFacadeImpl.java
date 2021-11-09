@@ -30,6 +30,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
@@ -37,11 +38,13 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
+import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.facade.ISysRoleFacade;
 import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
 import tech.ordinaryroad.upms.service.SysRoleService;
+import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
 import java.util.List;
 import java.util.Objects;
@@ -58,6 +61,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
 
     private final SysRoleService sysRoleService;
     private final SysRoleMapStruct objMapStruct;
+    private final SysUsersRolesService sysUsersRolesService;
 
     @Override
     public Result<SysRoleDTO> create(SysRoleSaveRequest request) {
@@ -117,7 +121,11 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     @Override
     public Result<SysRoleDTO> findById(SysRoleQueryRequest request) {
         SysRoleDO sysRoleDO = objMapStruct.transfer(request);
-        return Result.success(objMapStruct.transfer(sysRoleService.findById(sysRoleDO)));
+        SysRoleDO byId = sysRoleService.findById(sysRoleDO);
+        if (Objects.nonNull(byId)) {
+            return Result.success(objMapStruct.transfer(byId));
+        }
+        return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
     @Override
@@ -151,6 +159,21 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
         PageInfo<SysRoleDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 
         return Result.success(objectPageInfo);
+    }
+
+    @Override
+    public Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request) {
+        String userUuid = request.getUserUuid();
+        if (StrUtil.isBlank(userUuid)) {
+            return Result.fail(StatusCode.PARAM_IS_BLANK);
+        }
+        // 根据用户uuid查询所有角色uuid
+        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
+        // 根据角色uuid查询角色
+        List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
+        BaseQueryRequest baseQueryRequest = new BaseQueryRequest();
+        baseQueryRequest.setUuids(roleUuidList);
+        return this.findAllByIds(baseQueryRequest);
     }
 
 }

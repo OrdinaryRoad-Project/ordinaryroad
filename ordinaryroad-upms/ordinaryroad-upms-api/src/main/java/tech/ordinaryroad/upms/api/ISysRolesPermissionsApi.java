@@ -30,11 +30,12 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
-import tech.ordinaryroad.upms.dto.SysUsersRolesDTO;
-import tech.ordinaryroad.upms.request.SysUsersRolesQueryRequest;
-import tech.ordinaryroad.upms.request.SysUsersRolesSaveRequest;
+import tech.ordinaryroad.upms.dto.SysRolesPermissionsDTO;
+import tech.ordinaryroad.upms.request.SysRolesPermissionsQueryRequest;
+import tech.ordinaryroad.upms.request.SysRolesPermissionsSaveRequest;
 
 import java.util.List;
 
@@ -43,22 +44,25 @@ import java.util.List;
  * @date 2021/11/4
  */
 @Api(value = "用户角色关联关系API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysUsersRolesApi")
-public interface ISysUsersRolesApi {
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysRolesPermissionsApi")
+public interface ISysRolesPermissionsApi {
 
-    @PostMapping(value = "/users_roles/create")
-    Result<SysUsersRolesDTO> create(@Validated @RequestBody SysUsersRolesSaveRequest request);
+    @PostMapping(value = "/roles_permissions/create")
+    Result<SysRolesPermissionsDTO> create(@Validated @RequestBody SysRolesPermissionsSaveRequest request);
 
-    @PostMapping(value = "/users_roles/delete")
+    @PostMapping(value = "/roles_permissions/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/users_roles/find/id")
-    Result<SysUsersRolesDTO> findById(@RequestBody SysUsersRolesQueryRequest request);
+    @PostMapping(value = "/roles_permissions/find/id")
+    Result<SysRolesPermissionsDTO> findById(@RequestBody SysRolesPermissionsQueryRequest request);
 
-    @PostMapping(value = "/users_roles/find_all")
-    Result<List<SysUsersRolesDTO>> findAll(@RequestBody SysUsersRolesQueryRequest request);
+    @PostMapping(value = "/roles_permissions/find_all")
+    Result<List<SysRolesPermissionsDTO>> findAll(@RequestBody SysRolesPermissionsQueryRequest request);
 
-    @PostMapping(value = "/users_roles/list")
-    Result<PageInfo<SysUsersRolesDTO>> list(@RequestBody SysUsersRolesQueryRequest request);
+    @PostMapping(value = "/roles_permissions/find_all/ids")
+    Result<List<SysRolesPermissionsDTO>> findAllByIds(@RequestBody BaseQueryRequest request);
+
+    @PostMapping(value = "/roles_permissions/list")
+    Result<PageInfo<SysRolesPermissionsDTO>> list(@RequestBody SysRolesPermissionsQueryRequest request);
 
 }

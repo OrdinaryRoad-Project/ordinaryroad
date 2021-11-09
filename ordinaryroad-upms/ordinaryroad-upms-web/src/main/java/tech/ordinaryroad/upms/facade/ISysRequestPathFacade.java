@@ -27,25 +27,24 @@ import com.github.pagehelper.PageInfo;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.dto.SysRoleDTO;
-import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
-import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
+import tech.ordinaryroad.upms.request.SysRequestPathQueryRequest;
+import tech.ordinaryroad.upms.request.SysRequestPathSaveRequest;
 
 import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/8
  */
-public interface ISysRoleFacade {
-
+public interface ISysRequestPathFacade {
     /**
      * 创建
      *
      * @param request Request
      * @return DTO
      */
-    Result<SysRoleDTO> create(SysRoleSaveRequest request);
+    Result<SysRequestPathDTO> create(SysRequestPathSaveRequest request);
 
     /**
      * 删除
@@ -61,7 +60,7 @@ public interface ISysRoleFacade {
      * @param request Request
      * @return DTO
      */
-    Result<SysRoleDTO> update(SysRoleSaveRequest request);
+    Result<SysRequestPathDTO> update(SysRequestPathSaveRequest request);
 
     /**
      * 查询
@@ -69,7 +68,7 @@ public interface ISysRoleFacade {
      * @param request Request
      * @return DTO
      */
-    Result<SysRoleDTO> findById(SysRoleQueryRequest request);
+    Result<SysRequestPathDTO> findById(SysRequestPathQueryRequest request);
 
     /**
      * 根据主键列表查询
@@ -77,7 +76,7 @@ public interface ISysRoleFacade {
      * @param request Request
      * @return DTO
      */
-    Result<List<SysRoleDTO>> findAllByIds(BaseQueryRequest request);
+    Result<List<SysRequestPathDTO>> findAllByIds(BaseQueryRequest request);
 
     /**
      * 查询所有
@@ -85,7 +84,7 @@ public interface ISysRoleFacade {
      * @param request Request
      * @return List
      */
-    Result<List<SysRoleDTO>> findAll(SysRoleQueryRequest request);
+    Result<List<SysRequestPathDTO>> findAll(SysRequestPathQueryRequest request);
 
     /**
      * 分页查询所有
@@ -93,6 +92,21 @@ public interface ISysRoleFacade {
      * @param request Request
      * @return Page
      */
-    Result<PageInfo<SysRoleDTO>> list(SysRoleQueryRequest request);
+    Result<PageInfo<SysRequestPathDTO>> list(SysRequestPathQueryRequest request);
 
+    /**
+     * 根据用户uuid查询所有请求路径
+     *
+     * @param request Request
+     * @return List
+     */
+    Result<List<SysRequestPathDTO>> findAllByPermissionUuids(SysRequestPathQueryRequest request);
+
+    /**
+     * 根据用户uuid查询所有请求路径
+     *
+     * @param request Request
+     * @return List
+     */
+    Result<List<SysRequestPathDTO>> findAllByUserUuid(SysRequestPathQueryRequest request);
 }

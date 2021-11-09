@@ -21,34 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.dto;
+package tech.ordinaryroad.upms.entity;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import com.alibaba.fastjson.JSON;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import java.io.Serializable;
+import javax.persistence.Table;
 
 /**
+ * 权限表
+ *
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/5
  */
-@Data
-@ApiModel
-public class SysRoleDTO implements Serializable {
+@Getter
+@Setter
+@Table(name = "sys_permission")
+public class SysPermissionDO extends BaseDO {
 
-    private static final long serialVersionUID = 7448271006522452148L;
+    private static final long serialVersionUID = -6621067925753768071L;
 
-    @ApiModelProperty("主键uuid")
-    private String uuid;
+    /**
+     * 权限code
+     */
+    private String permissionCode;
 
-    @ApiModelProperty("角色名称")
-    private String roleName;
+    /**
+     * 权限描述
+     */
+    private String description;
 
-    @ApiModelProperty("角色code")
-    private String roleCode;
-
-    @ApiModelProperty("角色是否可用。默认为1（可用）")
-    private Boolean enabled;
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
 }

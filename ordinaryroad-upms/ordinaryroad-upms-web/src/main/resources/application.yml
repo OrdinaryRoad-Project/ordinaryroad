@@ -2,6 +2,8 @@
 server:
   port: 9401
 spring:
+  profiles:
+    active: dev
   application:
     # 应用名称
     name: ordinaryroad-upms

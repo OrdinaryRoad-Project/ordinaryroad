@@ -21,34 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.dto;
+package tech.ordinaryroad.upms.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import java.io.Serializable;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/8
  */
-@Data
+@Getter
+@Setter
 @ApiModel
-public class SysRoleDTO implements Serializable {
+public class SysRequestPathSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 7448271006522452148L;
+    private static final long serialVersionUID = 4625071935575346909L;
 
-    @ApiModelProperty("主键uuid")
-    private String uuid;
+    @ApiModelProperty("请求路径所需要的权限uuid")
+    @Size(max = 32, message = "请求路径所需要的权限uuid长度不能超过32")
+    private String permissionUuid;
 
-    @ApiModelProperty("角色名称")
-    private String roleName;
+    @ApiModelProperty("路径url")
+    @NotBlank(message = "路径url不能为空")
+    @Size(max = 200, message = "路径url长度不能超过200")
+    private String path;
 
-    @ApiModelProperty("角色code")
-    private String roleCode;
-
-    @ApiModelProperty("角色是否可用。默认为1（可用）")
-    private Boolean enabled;
-
+    @ApiModelProperty("路径名称")
+    @NotBlank(message = "路径名称不能为空")
+    @Size(max = 100, message = "路径名称长度不能超过100")
+    private String pathName;
 }

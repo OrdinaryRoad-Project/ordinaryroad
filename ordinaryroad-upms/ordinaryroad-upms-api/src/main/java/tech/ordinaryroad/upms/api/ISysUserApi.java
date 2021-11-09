@@ -51,10 +51,10 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/create")
     Result<SysUserDTO> create(@Validated @RequestBody SysUserSaveRequest request);
 
-    @PostMapping(value = "/user/findById")
+    @PostMapping(value = "/user/find/id")
     Result<SysUserDTO> findById(@Validated @RequestBody SysUserQueryRequest request);
 
-    @PostMapping(value = "/user/findAll")
+    @PostMapping(value = "/user/find_all")
     Result<List<SysUserDTO>> findAll(@Validated @RequestBody SysUserQueryRequest request);
 
     @PostMapping(value = "/user/list")
@@ -66,13 +66,13 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/user/findByUniqueColumnAndPassword")
+    @PostMapping(value = "/user/find/unique")
     Result<SysUserDTO> findByUniqueColumn(@Validated @RequestBody SysUserQueryRequest request);
 
-    @PostMapping(value = "/user/updateUsername")
+    @PostMapping(value = "/user/update/username")
     Result<Boolean> updateUsername(@Validated @RequestBody SysUserUpdateUsernameRequest request);
 
-    @PostMapping(value = "/user/updatePassword")
+    @PostMapping(value = "/user/update/password")
     Result<Boolean> updatePassword(@Validated @RequestBody SysUserUpdatePasswordRequest request);
 
 }

@@ -31,61 +31,66 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.api.ISysRoleApi;
-import tech.ordinaryroad.upms.dto.SysRoleDTO;
-import tech.ordinaryroad.upms.facade.ISysRoleFacade;
-import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
-import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.api.ISysPermissionApi;
+import tech.ordinaryroad.upms.dto.SysPermissionDTO;
+import tech.ordinaryroad.upms.facade.ISysPermissionFacade;
+import tech.ordinaryroad.upms.request.SysPermissionQueryRequest;
+import tech.ordinaryroad.upms.request.SysPermissionSaveRequest;
 
 import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/11/4
+ * @date 2021/11/8
  */
 @RequiredArgsConstructor
 @RestController
-public class SysRoleController implements ISysRoleApi {
+public class SysPermissionController implements ISysPermissionApi {
 
-    private final ISysRoleFacade sysRoleFacade;
+    private final ISysPermissionFacade sysPermissionFacade;
 
     @Override
-    public Result<SysRoleDTO> create(@RequestBody @Validated SysRoleSaveRequest request) {
-        return sysRoleFacade.create(request);
+    public Result<SysPermissionDTO> create(@Validated @RequestBody SysPermissionSaveRequest request) {
+        return sysPermissionFacade.create(request);
     }
 
     @Override
-    public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
-        return sysRoleFacade.delete(request);
+    public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
+        return sysPermissionFacade.delete(request);
     }
 
     @Override
-    public Result<SysRoleDTO> update(@RequestBody @Validated SysRoleSaveRequest request) {
-        return sysRoleFacade.update(request);
+    public Result<SysPermissionDTO> update(@Validated @RequestBody SysPermissionSaveRequest request) {
+        return sysPermissionFacade.update(request);
     }
 
     @Override
-    public Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request) {
-        return sysRoleFacade.findById(request);
+    public Result<SysPermissionDTO> findById(@RequestBody SysPermissionQueryRequest request) {
+        return sysPermissionFacade.findById(request);
     }
 
     @Override
-    public Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request) {
-        return sysRoleFacade.findAllByUserUuid(request);
+    public Result<List<SysPermissionDTO>> findAllByUserUuid(@RequestBody SysPermissionQueryRequest request) {
+        return sysPermissionFacade.findAllByUserUuid(request);
     }
 
     @Override
-    public Result<List<SysRoleDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
-        return sysRoleFacade.findAllByIds(request);
+    public Result<List<SysPermissionDTO>> findAllByRoleUuid(@RequestBody SysPermissionQueryRequest request) {
+        return sysPermissionFacade.findAllByRoleUuid(request);
     }
 
     @Override
-    public Result<List<SysRoleDTO>> findAll(@RequestBody SysRoleQueryRequest request) {
-        return sysRoleFacade.findAll(request);
+    public Result<List<SysPermissionDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
+        return sysPermissionFacade.findAllByIds(request);
     }
 
     @Override
-    public Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request) {
-        return sysRoleFacade.list(request);
+    public Result<List<SysPermissionDTO>> findAll(@RequestBody SysPermissionQueryRequest request) {
+        return sysPermissionFacade.findAll(request);
+    }
+
+    @Override
+    public Result<PageInfo<SysPermissionDTO>> list(@RequestBody SysPermissionQueryRequest request) {
+        return sysPermissionFacade.list(request);
     }
 }

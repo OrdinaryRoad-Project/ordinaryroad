@@ -1,5 +1,6 @@
 package tech.ordinaryroad.commons.mybatis.service;
 
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -12,6 +13,7 @@ import tk.mybatis.mapper.util.Sqls;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.function.Function;
 import java.util.function.Predicate;
@@ -258,6 +260,9 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * 按条件查询id列表
      */
     public List<T> findIds(Class<T> tClass, List<String> idList) {
+        if (CollUtil.isEmpty(idList)) {
+            return Collections.emptyList();
+        }
         Example example = Example.builder(tClass)
                 .where(Sqls.custom().andIn("uuid", idList))
                 .build();
@@ -300,6 +305,9 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * @return boolean
      */
     public boolean deleteByIdList(Class<T> tClass, List<String> idList) {
+        if (CollUtil.isEmpty(idList)) {
+            return true;
+        }
         Example example = Example.builder(tClass)
                 .where(Sqls.custom().andIn("uuid", idList))
                 .build();

@@ -21,34 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.dto;
+package tech.ordinaryroad.upms.dao;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
-import java.io.Serializable;
+import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
+import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 
 /**
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/7
  */
-@Data
-@ApiModel
-public class SysRoleDTO implements Serializable {
-
-    private static final long serialVersionUID = 7448271006522452148L;
-
-    @ApiModelProperty("主键uuid")
-    private String uuid;
-
-    @ApiModelProperty("角色名称")
-    private String roleName;
-
-    @ApiModelProperty("角色code")
-    private String roleCode;
-
-    @ApiModelProperty("角色是否可用。默认为1（可用）")
-    private Boolean enabled;
-
+public interface SysRequestPathDAO extends IBaseMapper<SysRequestPathDO> {
 }

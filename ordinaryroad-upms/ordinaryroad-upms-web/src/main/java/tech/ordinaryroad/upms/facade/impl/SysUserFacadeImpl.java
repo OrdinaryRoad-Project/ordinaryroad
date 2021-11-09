@@ -45,6 +45,7 @@ import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
 import tech.ordinaryroad.upms.service.SysUserService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -81,7 +82,11 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     @Override
     public Result<SysUserDTO> findById(SysUserQueryRequest request) {
         SysUserDO sysUserDO = objMapStruct.transfer(request);
-        return Result.success(objMapStruct.transfer(sysUserService.findById(sysUserDO)));
+        SysUserDO byId = sysUserService.findById(sysUserDO);
+        if (Objects.nonNull(byId)) {
+            return Result.success(objMapStruct.transfer(byId));
+        }
+        return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
     @Override

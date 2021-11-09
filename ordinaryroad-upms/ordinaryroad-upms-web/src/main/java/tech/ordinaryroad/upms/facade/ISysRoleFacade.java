@@ -21,18 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.api;
+package tech.ordinaryroad.upms.facade;
 
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
@@ -41,34 +35,71 @@ import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/11/4
+ * @date 2021/11/3
  */
-@Api(value = "角色API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysRoleApi")
-public interface ISysRoleApi {
+public interface ISysRoleFacade {
 
-    @PostMapping(value = "/role/create")
-    Result<SysRoleDTO> create(@Validated @RequestBody SysRoleSaveRequest request);
+    /**
+     * 创建
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<SysRoleDTO> create(SysRoleSaveRequest request);
 
-    @PostMapping(value = "/role/delete")
-    Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
+    /**
+     * 删除
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<Boolean> delete(BaseDeleteRequest request);
 
-    @PostMapping(value = "/role/update")
-    Result<SysRoleDTO> update(@Validated @RequestBody SysRoleSaveRequest request);
+    /**
+     * 更新
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<SysRoleDTO> update(SysRoleSaveRequest request);
 
-    @PostMapping(value = "/role/find/id")
-    Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request);
+    /**
+     * 查询
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<SysRoleDTO> findById(SysRoleQueryRequest request);
 
-    @PostMapping(value = "/role/find_all/user_uuid")
-    Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request);
+    /**
+     * 根据主键列表查询
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<List<SysRoleDTO>> findAllByIds(BaseQueryRequest request);
 
-    @PostMapping(value = "/role/find_all/ids")
-    Result<List<SysRoleDTO>> findAllByIds(@RequestBody BaseQueryRequest request);
+    /**
+     * 查询所有
+     *
+     * @param request Request
+     * @return List
+     */
+    Result<List<SysRoleDTO>> findAll(SysRoleQueryRequest request);
 
-    @PostMapping(value = "/role/find_all")
-    Result<List<SysRoleDTO>> findAll(@RequestBody SysRoleQueryRequest request);
+    /**
+     * 分页查询所有
+     *
+     * @param request Request
+     * @return Page
+     */
+    Result<PageInfo<SysRoleDTO>> list(SysRoleQueryRequest request);
 
-    @PostMapping(value = "/role/list")
-    Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request);
-
+    /**
+     * 根据用户uuid查询所有角色
+     *
+     * @param request Request
+     * @return List
+     */
+    Result<List<SysRoleDTO>> findAllByUserUuid(SysRoleQueryRequest request);
 }

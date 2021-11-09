@@ -21,34 +21,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.dto;
+package tech.ordinaryroad.upms.entity;
 
-import io.swagger.annotations.ApiModel;
+import com.alibaba.fastjson.JSON;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import java.io.Serializable;
+import javax.persistence.Table;
 
 /**
+ * 请求路径表
+ *
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/11/5
  */
-@Data
-@ApiModel
-public class SysRoleDTO implements Serializable {
+@Getter
+@Setter
+@Table(name = "sys_request_path")
+public class SysRequestPathDO extends BaseDO {
 
-    private static final long serialVersionUID = 7448271006522452148L;
+    private static final long serialVersionUID = -4382680460624492429L;
 
-    @ApiModelProperty("主键uuid")
-    private String uuid;
+    /**
+     * 请求路径所需要的权限uuid
+     */
+    private String permissionUuid;
 
-    @ApiModelProperty("角色名称")
-    private String roleName;
+    /**
+     * 路径url
+     */
+    private String path;
 
-    @ApiModelProperty("角色code")
-    private String roleCode;
+    /**
+     * 路径名称
+     */
+    private String pathName;
 
-    @ApiModelProperty("角色是否可用。默认为1（可用）")
-    private Boolean enabled;
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 
 }

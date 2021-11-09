@@ -46,4 +46,7 @@ public class SysRoleQueryRequest extends BaseQueryRequest {
     @ApiModelProperty("角色code")
     private String roleCode;
 
+    @ApiModelProperty("用户uuid")
+    private String userUuid;
+
 }

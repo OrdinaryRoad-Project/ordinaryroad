@@ -31,61 +31,51 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.api.ISysRoleApi;
-import tech.ordinaryroad.upms.dto.SysRoleDTO;
-import tech.ordinaryroad.upms.facade.ISysRoleFacade;
-import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
-import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.api.ISysRolesPermissionsApi;
+import tech.ordinaryroad.upms.dto.SysRolesPermissionsDTO;
+import tech.ordinaryroad.upms.facade.ISysRolesPermissionsFacade;
+import tech.ordinaryroad.upms.request.SysRolesPermissionsQueryRequest;
+import tech.ordinaryroad.upms.request.SysRolesPermissionsSaveRequest;
 
 import java.util.List;
 
 /**
  * @author mjz
- * @date 2021/11/4
+ * @date 2021/11/9
  */
 @RequiredArgsConstructor
 @RestController
-public class SysRoleController implements ISysRoleApi {
+public class SysRolesPermissionsController implements ISysRolesPermissionsApi {
 
-    private final ISysRoleFacade sysRoleFacade;
+    private final ISysRolesPermissionsFacade sysUsersRolesFacade;
 
     @Override
-    public Result<SysRoleDTO> create(@RequestBody @Validated SysRoleSaveRequest request) {
-        return sysRoleFacade.create(request);
+    public Result<SysRolesPermissionsDTO> create(@Validated @RequestBody SysRolesPermissionsSaveRequest request) {
+        return sysUsersRolesFacade.create(request);
     }
 
     @Override
-    public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
-        return sysRoleFacade.delete(request);
+    public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
+        return sysUsersRolesFacade.delete(request);
     }
 
     @Override
-    public Result<SysRoleDTO> update(@RequestBody @Validated SysRoleSaveRequest request) {
-        return sysRoleFacade.update(request);
+    public Result<SysRolesPermissionsDTO> findById(@RequestBody SysRolesPermissionsQueryRequest request) {
+        return sysUsersRolesFacade.findById(request);
     }
 
     @Override
-    public Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request) {
-        return sysRoleFacade.findById(request);
+    public Result<List<SysRolesPermissionsDTO>> findAll(@RequestBody SysRolesPermissionsQueryRequest request) {
+        return sysUsersRolesFacade.findAll(request);
     }
 
     @Override
-    public Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request) {
-        return sysRoleFacade.findAllByUserUuid(request);
+    public Result<List<SysRolesPermissionsDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
+        return sysUsersRolesFacade.findAllByIds(request);
     }
 
     @Override
-    public Result<List<SysRoleDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
-        return sysRoleFacade.findAllByIds(request);
-    }
-
-    @Override
-    public Result<List<SysRoleDTO>> findAll(@RequestBody SysRoleQueryRequest request) {
-        return sysRoleFacade.findAll(request);
-    }
-
-    @Override
-    public Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request) {
-        return sysRoleFacade.list(request);
+    public Result<PageInfo<SysRolesPermissionsDTO>> list(@RequestBody SysRolesPermissionsQueryRequest request) {
+        return sysUsersRolesFacade.list(request);
     }
 }
