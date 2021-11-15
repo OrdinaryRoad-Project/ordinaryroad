@@ -21,23 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.entity;
+package tech.ordinaryroad.upms.service;
 
-import cn.hutool.extra.spring.SpringUtil;
-import tech.ordinaryroad.upms.service.SysOrNumberService;
-import tk.mybatis.mapper.genid.GenId;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 /**
  * @author mjz
- * @date 2021/10/27
+ * @date 2021/11/15
  */
-public class OrNumberGen implements GenId<String> {
+@Service
+@RequiredArgsConstructor
+public class SysOrNumberService {
 
-    @Override
-    public String genId(String table, String column) {
-        // or帐号生成服务
-        SysOrNumberService orNumberService = SpringUtil.getBean(SysOrNumberService.class);
-        return orNumberService.genId();
+    private final SysUserService userService;
+
+    public String genId() {
+        // TODO 账号生成
+        Integer integer = userService.selectCount();
+        return String.valueOf(10000 + integer + 1);
     }
 
 }

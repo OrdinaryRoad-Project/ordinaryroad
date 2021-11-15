@@ -66,4 +66,8 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
         return super.dao.selectByExample(Example.builder(SysUserDO.class).where(sqls).build());
     }
 
+    public Integer selectCount() {
+        return super.dao.selectCount(null);
+    }
+
 }
