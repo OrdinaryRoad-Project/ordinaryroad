@@ -1,0 +1,4 @@
+spring:
+  devtools:
+    livereload:
+      port: 39090

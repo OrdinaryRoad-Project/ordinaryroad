@@ -1,0 +1,11 @@
+# Spring
+spring:
+  profiles:
+    active: dev
+  cloud:
+    nacos:
+      server-addr: localhost:8848
+      config:
+        file-extension: yaml
+  #        shared-configs:
+  #          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
