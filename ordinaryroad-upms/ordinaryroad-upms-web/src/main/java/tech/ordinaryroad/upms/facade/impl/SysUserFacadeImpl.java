@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.facade.impl;
 
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
@@ -53,13 +55,13 @@ import java.util.stream.Collectors;
  * @author mjz
  * @date 2021/10/27
  */
+@RequiredArgsConstructor
 @Component
 public class SysUserFacadeImpl implements ISysUserFacade {
 
-    @Autowired
-    private SysUserService sysUserService;
-    @Autowired
-    private SysUserMapStruct objMapStruct;
+    private final SysUserService sysUserService;
+    private final SysUserMapStruct objMapStruct;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -72,9 +74,14 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         }
 
         SysUserDO sysUserDO = objMapStruct.transfer(request);
-        if (StrUtil.isBlank(sysUserDO.getPassword())) {
-            // TODO 默认密码
-            sysUserDO.setPassword("123456");
+        String password = sysUserDO.getPassword();
+        if (StrUtil.isBlank(password)) {
+            // 默认密码123456
+            sysUserDO.setPassword(passwordEncoder.encode("123456"));
+        } else {
+            if (StrUtil.length(password) < 6 || StrUtil.length(password) > 16) {
+                return Result.fail("密码长度 6-16");
+            }
         }
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }
@@ -113,30 +120,54 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<SysUserDTO> update(SysUserSaveRequest request) {
-        // TODO 更新，只允许管理员
+        // 更新，只允许管理员和开发者
+        StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
         SysUserDO sysUserDO = objMapStruct.transfer(request);
         return Result.success(objMapStruct.transfer(sysUserService.updateSelective(sysUserDO)));
     }
 
     @Override
     public Result<Boolean> delete(BaseDeleteRequest request) {
-        // TODO 删除，只允许管理员
+        // 删除，只允许管理员和开发者
+        StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
         return Result.success(sysUserService.delete(request.getUuid()));
     }
 
     @Override
     public Result<Boolean> updateUsername(SysUserUpdateUsernameRequest request) {
-        // TODO 获取当前登录用户
-        SysUserDO sysUserDO = objMapStruct.transfer(request);
-        return Result.success(sysUserService.doUpdateSelective(sysUserDO));
+        // 获取当前登录用户
+        String orNumber = StpUtil.getLoginIdAsString();
+        Optional<SysUserDO> byOrNumber = sysUserService.findByOrNumber(orNumber);
+        if (!byOrNumber.isPresent()) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+        SysUserDO sysUserDO = byOrNumber.get();
+
+        SysUserDO newSysUserDO = new SysUserDO();
+        newSysUserDO.setUuid(sysUserDO.getUuid());
+        newSysUserDO.setUsername(sysUserDO.getUsername());
+        return Result.success(sysUserService.doUpdateSelective(newSysUserDO));
     }
 
     @Override
     public Result<Boolean> updatePassword(SysUserUpdatePasswordRequest request) {
-        // TODO 获取当前登录用户
-        // TODO 密码加密
-        SysUserDO sysUserDO = objMapStruct.transfer(request);
-        return Result.success(sysUserService.doUpdateSelective(sysUserDO));
+        // 获取当前登录用户
+        String orNumber = StpUtil.getLoginIdAsString();
+        Optional<SysUserDO> byOrNumber = sysUserService.findByOrNumber(orNumber);
+        if (!byOrNumber.isPresent()) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+        // 旧密码是否匹配
+        SysUserDO sysUserDO = byOrNumber.get();
+        if (!passwordEncoder.matches(request.getPassword(), sysUserDO.getPassword())) {
+            return Result.fail(StatusCode.USER_CREDENTIALS_ERROR);
+        }
+
+        SysUserDO newSysUserDO = new SysUserDO();
+        newSysUserDO.setUuid(sysUserDO.getUuid());
+        // 密码加密
+        newSysUserDO.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        return Result.success(sysUserService.doUpdateSelective(newSysUserDO));
     }
 
     @Override
@@ -153,6 +184,29 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         }
 
         return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+    }
+
+    @Override
+    public Result<SysUserDTO> register(SysUserSaveRequest request) {
+        // 校验用户名
+        String username = request.getUsername();
+        Optional<SysUserDO> byName = sysUserService.findByUsername(username);
+        if (byName.isPresent()) {
+            return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+        }
+
+        // 和创建不同的是注册密码必填
+        String password = request.getPassword();
+        if (StrUtil.isBlank(password)) {
+            return Result.fail(StatusCode.PARAM_NOT_COMPLETE);
+        }
+        if (StrUtil.length(password) < 6 || StrUtil.length(password) > 16) {
+            return Result.fail("密码长度 6-16");
+        }
+        // 密码加密
+        SysUserDO sysUserDO = objMapStruct.transfer(request);
+        sysUserDO.setPassword(passwordEncoder.encode(password));
+        return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }
 
 }

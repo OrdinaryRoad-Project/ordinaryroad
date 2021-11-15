@@ -30,6 +30,7 @@ import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
@@ -44,6 +45,12 @@ public class SysUserUpdatePasswordRequest extends BaseSaveRequest {
 
     @ApiModelProperty("密码")
     @NotBlank(message = "密码不能为空")
+    @Size(min = 6, max = 16, message = "密码长度 6-16")
     private String password;
+
+    @ApiModelProperty("新密码")
+    @NotBlank(message = "新密码不能为空")
+    @Size(min = 6, max = 16, message = "新密码长度 6-16")
+    private String newPassword;
 
 }

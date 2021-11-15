@@ -111,4 +111,12 @@ public interface ISysUserFacade {
      * @return DTO
      */
     Result<SysUserDTO> findByUniqueColumn(SysUserQueryRequest request);
+
+    /**
+     * 用户注册
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<SysUserDTO> register(SysUserSaveRequest request);
 }

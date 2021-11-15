@@ -95,4 +95,9 @@ public class SysUserController implements ISysUserApi {
         return sysUserFacade.updatePassword(request);
     }
 
+    @Override
+    public Result<SysUserDTO> register(@Validated @RequestBody SysUserSaveRequest request) {
+        return sysUserFacade.register(request);
+    }
+
 }

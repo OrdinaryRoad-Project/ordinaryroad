@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.upms.api;
 
-import cn.dev33.satoken.annotation.SaCheckPermission;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -57,7 +56,7 @@ public interface ISysPermissionApi {
     @PostMapping(value = "/permission/update")
     Result<SysPermissionDTO> update(@Validated @RequestBody SysPermissionSaveRequest request);
 
-    @PostMapping(value = "/permission/find_id")
+    @PostMapping(value = "/permission/find/id")
     Result<SysPermissionDTO> findById(@RequestBody SysPermissionQueryRequest request);
 
     @PostMapping(value = "/permission/find_all/user_uuid")

@@ -75,4 +75,7 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/update/password")
     Result<Boolean> updatePassword(@Validated @RequestBody SysUserUpdatePasswordRequest request);
 
+    @PostMapping(value = "/user/register")
+    Result<SysUserDTO> register(@Validated @RequestBody SysUserSaveRequest request);
+
 }
