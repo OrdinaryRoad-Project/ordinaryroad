@@ -8,9 +8,9 @@
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-core/ordinaryroad-commons-core.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-core/ordinaryroad-commons-core.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-mybatis/ordinaryroad-commons-mybatis.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-mybatis/ordinaryroad-commons-mybatis.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-satoken/ordinaryroad-commons-satoken.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-satoken/ordinaryroad-commons-satoken.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-swagger/ordinaryroad-commons-swagger.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-swagger/ordinaryroad-commons-swagger.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-gateway/ordinaryroad-gateway.iml" filepath="$PROJECT_DIR$/ordinaryroad-gateway/ordinaryroad-gateway.iml" />
-      <module fileurl="file://$PROJECT_DIR$/ordinaryroad-generator/ordinaryroad-generator.iml" filepath="$PROJECT_DIR$/ordinaryroad-generator/ordinaryroad-generator.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-upms/ordinaryroad-upms.iml" filepath="$PROJECT_DIR$/ordinaryroad-upms/ordinaryroad-upms.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-upms/ordinaryroad-upms-api/ordinaryroad-upms-api.iml" filepath="$PROJECT_DIR$/ordinaryroad-upms/ordinaryroad-upms-api/ordinaryroad-upms-api.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-upms/ordinaryroad-upms-web/ordinaryroad-upms-web.iml" filepath="$PROJECT_DIR$/ordinaryroad-upms/ordinaryroad-upms-web/ordinaryroad-upms-web.iml" />
