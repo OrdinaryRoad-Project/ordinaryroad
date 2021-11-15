@@ -1,6 +1,3 @@
-# 打印Debug日志
-logging:
-  level: { tech.ordinaryroad: debug }
 # Tomcat
 server:
   port: 9302
