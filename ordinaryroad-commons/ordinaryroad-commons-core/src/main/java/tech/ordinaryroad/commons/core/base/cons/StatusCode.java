@@ -37,6 +37,7 @@ public enum StatusCode implements IStatusCode {
 
     /* 接口异常：3001～3999 */
     NO_PERMISSION(3001, "没有权限"),
+    NO_ROLE(3002, "没有角色"),
 
     /* 业务错误：4001～4999 */
     DATA_NOT_EXIST(4001, "数据不存在"),

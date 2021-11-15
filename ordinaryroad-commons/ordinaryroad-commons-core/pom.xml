@@ -130,6 +130,12 @@
             <version>1.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-core</artifactId>
+            <version>1.27.0</version>
+            <scope>compile</scope>
+        </dependency>
 
     </dependencies>
 

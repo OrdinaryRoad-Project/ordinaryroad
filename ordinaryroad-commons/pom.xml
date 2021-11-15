@@ -14,6 +14,7 @@
         <module>ordinaryroad-commons-core</module>
         <module>ordinaryroad-commons-swagger</module>
         <module>ordinaryroad-commons-mybatis</module>
+        <module>ordinaryroad-commons-satoken</module>
     </modules>
 
     <artifactId>ordinaryroad-commons</artifactId>
