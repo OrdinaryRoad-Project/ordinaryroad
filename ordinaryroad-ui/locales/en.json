@@ -1,0 +1,16 @@
+{
+  "theme": "Theme",
+  "themeTitles": {
+    "light": "Light",
+    "dark": "Dark",
+    "hunk": "Hunk",
+    "system": "System"
+  },
+  "menuTitles": {
+    "userManagement": "User Management",
+    "roleManagement": "Role Management",
+    "permissionManagement": "Permission Management",
+    "requestPathManagement": "RequestPath Management"
+  },
+  "settings": "Settings"
+}

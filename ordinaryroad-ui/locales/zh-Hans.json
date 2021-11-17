@@ -1,0 +1,16 @@
+{
+  "theme": "主题",
+  "themeTitles": {
+    "light": "浅色主题",
+    "dark": "深色主题",
+    "hunk": "猛男主题",
+    "system": "系统"
+  },
+  "menuTitles": {
+    "userManagement": "用户管理",
+    "roleManagement": "角色管理",
+    "permissionManagement": "权限管理",
+    "requestPathManagement": "请求路径管理"
+  },
+  "settings": "设置"
+}
