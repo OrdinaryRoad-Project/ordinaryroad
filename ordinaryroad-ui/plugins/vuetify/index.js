@@ -26,38 +26,34 @@ export default ({ app, store }) => {
         instance.execute({ content, color, icon, showClose, top, bottom, timeout, onClose }, vuetify.framework)
       }
 
-      Vue.prototype.$snackbar = (params) => {
-        defaultSnackbar({ content: params, showClose: true, top: true })
+      Vue.prototype.$snackbar = (content, onClose) => {
+        defaultSnackbar({ content, showClose: true, top: true, onClose })
       }
       Vue.prototype.$snackbar.closeAll = instance.closeAll()
       /*
       自定义常用样式 info、success、warning、error
       调用方式：
-          this.$snackbar('默认')
-          this.$snackbar.info('info')
-          this.$snackbar.success('success')
-          this.$snackbar.warning('warning')
-          this.$snackbar.error('error')
+        this.$snackbar('默认')
+        this.$snackbar.info('info')
+        this.$snackbar.success('success')
+        this.$snackbar.warning('warning')
+        this.$snackbar.error('error')
       调用方式：
-         this.$snackbar({
-            content: '默认',
-            onClose: () => {
-              alert('默认onClose回调')
-            }
-        })
+        this.$snackbar('默认onClose回调', () => alert('默认onClose回调'))
+        this.$snackbar.info('info onClose回调', () => alert('info onClose回调'))
        */
-      Vue.prototype.$snackbar.info = (params) => {
-        defaultSnackbar({ content: params, color: 'info', icon: 'mdi-information', showClose: true, top: true })
+      Vue.prototype.$snackbar.info = (content, onClose) => {
+        defaultSnackbar({ content, color: 'info', icon: 'mdi-information', showClose: true, top: true, onClose })
       }
-      Vue.prototype.$snackbar.success = (params) => {
-        defaultSnackbar({ content: params, color: 'success', icon: 'mdi-check-circle', showClose: true, top: true })
+      Vue.prototype.$snackbar.success = (content, onClose) => {
+        defaultSnackbar({ content, color: 'success', icon: 'mdi-check-circle', showClose: true, top: true, onClose })
       }
-      Vue.prototype.$snackbar.warning = (params) => {
-        defaultSnackbar({ content: params, color: 'warning', showClose: true, icon: 'mdi-alert-circle' })
+      Vue.prototype.$snackbar.warning = (content, onClose) => {
+        defaultSnackbar({ content, color: 'warning', showClose: true, icon: 'mdi-alert-circle', onClose })
       }
-      Vue.prototype.$snackbar.error = (params) => {
+      Vue.prototype.$snackbar.error = (content, onClose) => {
         defaultSnackbar({
-          content: params, color: 'error', icon: 'mdi-close-circle', showClose: true, bottom: true, timeout: 10000
+          content, color: 'error', icon: 'mdi-close-circle', showClose: true, bottom: true, timeout: 10000, onClose
         })
       }
     }
