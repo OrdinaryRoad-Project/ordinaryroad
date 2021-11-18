@@ -7,8 +7,9 @@ import Dialog from '~/components/expand/Dialog'
 
 export default ({ app, store }) => {
   const vuetify = app.vuetify
+  const i18n = app.i18n
   // 在created里会报错，在mounted里用
-  Vue.use((Vue, { vuetify, params = {} }) => {
+  Vue.use((Vue, { vuetify, i18n, params = {} }) => {
     Vue.prototype.$dialog = function (arg) {
       return new Promise((resolve) => {
         const DialogConstructor = Vue.extend(Dialog)
@@ -27,13 +28,14 @@ export default ({ app, store }) => {
         })
 
         instanceDialog.$vuetify = vuetify.framework
+        instanceDialog.i18n = i18n
         const vmDialog = instanceDialog.$mount()
 
         document.getElementById('app').appendChild(vmDialog.$el)
         instanceDialog.execute(arg, vuetify.framework)
       })
     }
-  }, { vuetify })
+  }, { vuetify, i18n })
   Vue.use({
     install (Vue, { vuetify, params }) {
       const SnackbarConstructor = Vue.extend(Snackbar)

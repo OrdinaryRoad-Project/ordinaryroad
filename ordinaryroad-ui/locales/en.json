@@ -1,4 +1,7 @@
 {
+  "attention": "Attention",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
   "theme": "Theme",
   "themeTitles": {
     "light": "Light",

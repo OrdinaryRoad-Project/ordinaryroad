@@ -1,4 +1,7 @@
 {
+  "attention": "注意",
+  "cancel": "取消",
+  "confirm": "确认",
   "theme": "主题",
   "themeTitles": {
     "light": "浅色主题",

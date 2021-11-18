@@ -19,7 +19,7 @@
         <v-icon class="me-3">
           {{ params.icon || 'mdi-information' }}
         </v-icon>
-        {{ params.title }}
+        {{ params.title || i18n.messages[i18n.locale].attention }}
       </v-card-title>
       <v-card-text class="text-subtitle-1" v-html="params.content" />
       <v-card-actions v-show="!params.hideActions" class="pa-2">
@@ -30,7 +30,7 @@
           text
           @click="cancel"
         >
-          {{ params.cancelText || '取消' }}
+          {{ params.cancelText || i18n.messages[i18n.locale].cancel }}
         </v-btn>
         <v-btn
           v-show="!params.hideConfirm"
@@ -39,7 +39,7 @@
           text
           @click="confirm"
         >
-          {{ params.confirmText || '确定' }}
+          {{ params.confirmText || i18n.messages[i18n.locale].confirm }}
         </v-btn>
       </v-card-actions>
     </v-card>
