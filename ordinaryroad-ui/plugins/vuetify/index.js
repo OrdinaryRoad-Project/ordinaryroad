@@ -1,13 +1,39 @@
 // plugins/vuetify.js client mode
 import Vue from 'vue'
 import 'vuetify/dist/vuetify.min.css'
-import { dialog, VDateTimePicker } from 'vuetify2-expand'
+import { VDateTimePicker } from 'vuetify2-expand'
 import Snackbar from 'vuetify2-expand/components/Snackbar'
+import Dialog from '~/components/expand/Dialog'
 
 export default ({ app, store }) => {
   const vuetify = app.vuetify
   // 在created里会报错，在mounted里用
-  Vue.use(dialog, { vuetify })
+  Vue.use((Vue, { vuetify, params = {} }) => {
+    Vue.prototype.$dialog = function (arg) {
+      return new Promise((resolve) => {
+        const DialogConstructor = Vue.extend(Dialog)
+
+        const instanceDialog = new DialogConstructor({
+          data: {
+            params: Object.assign({}, params)
+          },
+          updated () {
+            this.loading && resolve(this)
+          },
+          beforeDestroy () {
+            this.$el.remove()
+            this.isConfirm && resolve(this)
+          }
+        })
+
+        instanceDialog.$vuetify = vuetify.framework
+        const vmDialog = instanceDialog.$mount()
+
+        document.getElementById('app').appendChild(vmDialog.$el)
+        instanceDialog.execute(arg, vuetify.framework)
+      })
+    }
+  }, { vuetify })
   Vue.use({
     install (Vue, { vuetify, params }) {
       const SnackbarConstructor = Vue.extend(Snackbar)
