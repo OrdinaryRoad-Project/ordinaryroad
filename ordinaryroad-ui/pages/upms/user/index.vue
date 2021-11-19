@@ -9,77 +9,129 @@
       :title="$t('menuTitles.userManagement')"
       class="px-5 py-3"
     >
-      <div>
-        <v-data-table
-          :headers="headers"
-          :items="desserts"
-        >
-          <template #[`item.name`]="props">
-            <v-edit-dialog
-              :return-value.sync="props.item.name"
-              @save="save"
-              @cancel="cancel"
-              @open="open"
-              @close="close"
-            >
-              {{ props.item.name }}
-              <template #input>
+      <v-data-table
+        :headers="headers"
+        :items="dataTableParams.items"
+        :options.sync="options"
+        :server-items-length="dataTableParams.totalItems"
+        :loading="dataTableParams.loading"
+        :items-per-page="20"
+        :footer-props="{
+          showFirstLastPage: true,
+          firstIcon: 'mdi-page-first',
+          lastIcon: 'mdi-page-last',
+          itemsPerPageOptions:[ 10, 20, 50, 100, -1 ]
+        }"
+      >
+        <template #top>
+          <v-form
+            ref="searchForm"
+          >
+            <v-row align="center">
+              <v-col
+                cols="12"
+                md="4"
+              >
                 <v-text-field
-                  v-model="props.item.name"
-                  :rules="[max25chars]"
-                  label="Edit"
-                  single-line
-                  counter
+                  v-model="searchParams.username"
+                  dense
+                  outlined
+                  clearable
+                  hide-details="auto"
+                  maxlength="10"
+                  :label="$t('username')"
                 />
-              </template>
-            </v-edit-dialog>
-          </template>
-          <template #[`item.iron`]="props">
-            <v-edit-dialog
-              :return-value.sync="props.item.iron"
-              large
-              persistent
-              @save="save"
-              @cancel="cancel"
-              @open="open"
-              @close="close"
+              </v-col>
+              <v-col
+                cols="12"
+                md="4"
+              >
+                <v-btn
+                  small
+                  color="primary"
+                  outlined
+                  @click="getItems"
+                >
+                  <v-icon>mdi-magnify</v-icon>
+                  {{ $t('search') }}
+                </v-btn>
+                <v-btn
+                  small
+                  outlined
+                  @click="resetSearch"
+                >
+                  <v-icon>mdi-refresh</v-icon>
+                  {{ $t('reset') }}
+                </v-btn>
+              </v-col>
+            </v-row>
+          </v-form>
+          <v-row class="mt-2">
+            <v-col
+              cols="12"
+              md="4"
             >
-              <div>{{ props.item.iron }}</div>
-              <template #input>
-                <div class="mt-4 text-h6">
-                  Update Iron
-                </div>
-                <v-text-field
-                  v-model="props.item.iron"
-                  :rules="[max25chars]"
-                  label="Edit"
-                  single-line
-                  counter
-                  autofocus
-                />
-              </template>
-            </v-edit-dialog>
-          </template>
-        </v-data-table>
+              <v-btn
+                outlined
+                color="primary"
+                dark
+                @click="insertItem"
+              >
+                <v-icon>mdi-plus</v-icon>
+                {{ $t('insert') }}
+              </v-btn>
+              <v-btn
+                outlined
+                color="success"
+                dark
+                @click="getItems"
+              >
+                <v-icon>mdi-reload</v-icon>
+                {{ $t('refresh') }}
+              </v-btn>
+            </v-col>
+          </v-row>
+        </template>
 
-        <v-snackbar
-          v-model="snack"
-          :timeout="3000"
-          :color="snackColor"
-        >
-          {{ snackText }}
+        <template #[`item.username`]="props">
+          <v-edit-dialog
+            :return-value.sync="props.item.username"
+            large
+            persistent
+            @save="save"
+            @cancel="cancel"
+            @open="open"
+            @close="close"
+          >
+            {{ props.item.username }}
+            <template #input>
+              <v-text-field
+                v-model="props.item.username"
+                :rules="[max25chars]"
+                label="Edit"
+                single-line
+                counter
+              />
+            </template>
+          </v-edit-dialog>
+        </template>
 
-          <template #action="{ attrs }">
-            <v-btn
-              v-bind="attrs"
-              text
-              @click="snack = false"
-            >
-              Close
-            </v-btn>
-          </template>
-        </v-snackbar>
-      </div>
+        <template #[`item.actions`]="{ item }">
+          <v-icon
+            color="accent"
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            mdi-pencil
+          </v-icon>
+          <v-icon
+            color="error"
+            @click="deleteItem(item)"
+          >
+            mdi-delete-forever
+          </v-icon>
+        </template>
+      </v-data-table>
     </base-material-card>
   </v-container>
 </template>
@@ -88,106 +140,27 @@
 export default {
   data () {
     return {
-      snack: false,
-      snackColor: '',
-      snackText: '',
       max25chars: v => v.length <= 25 || 'Input too long!',
-      pagination: {},
-      headers: [
-        {
-          text: 'Dessert (100g serving)',
-          align: 'start',
-          sortable: false,
-          value: 'name'
-        },
-        { text: 'Calories', value: 'calories' },
-        { text: 'Fat (g)', value: 'fat' },
-        { text: 'Carbs (g)', value: 'carbs' },
-        { text: 'Protein (g)', value: 'protein' },
-        { text: 'Iron (%)', value: 'iron' }
-      ],
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: '1%'
-        },
-        {
-          name: 'Ice cream sandwich',
-          calories: 237,
-          fat: 9.0,
-          carbs: 37,
-          protein: 4.3,
-          iron: '1%'
-        },
-        {
-          name: 'Eclair',
-          calories: 262,
-          fat: 16.0,
-          carbs: 23,
-          protein: 6.0,
-          iron: '7%'
-        },
-        {
-          name: 'Cupcake',
-          calories: 305,
-          fat: 3.7,
-          carbs: 67,
-          protein: 4.3,
-          iron: '8%'
-        },
-        {
-          name: 'Gingerbread',
-          calories: 356,
-          fat: 16.0,
-          carbs: 49,
-          protein: 3.9,
-          iron: '16%'
-        },
-        {
-          name: 'Jelly bean',
-          calories: 375,
-          fat: 0.0,
-          carbs: 94,
-          protein: 0.0,
-          iron: '0%'
-        },
-        {
-          name: 'Lollipop',
-          calories: 392,
-          fat: 0.2,
-          carbs: 98,
-          protein: 0,
-          iron: '2%'
-        },
-        {
-          name: 'Honeycomb',
-          calories: 408,
-          fat: 3.2,
-          carbs: 87,
-          protein: 6.5,
-          iron: '45%'
-        },
-        {
-          name: 'Donut',
-          calories: 452,
-          fat: 25.0,
-          carbs: 51,
-          protein: 4.9,
-          iron: '22%'
-        },
-        {
-          name: 'KitKat',
-          calories: 518,
-          fat: 26.0,
-          carbs: 65,
-          protein: 7,
-          iron: '6%'
-        }
-      ]
+      options: {},
+      searchParams: {
+        username: null
+      },
+      dataTableParams: {
+        loading: true,
+        items: [],
+        totalItems: 0
+      },
+      editedIndex: -1,
+      editedItem: {
+        uuid: '',
+        username: '',
+        orNumber: null
+      },
+      defaultItem: {
+        uuid: '',
+        username: '',
+        orNumber: null
+      }
     }
   },
   head () {
@@ -195,38 +168,103 @@ export default {
       title: this.$t('menuTitles.userManagement')
     }
   },
+  computed: {
+    // 放在这为了支持国际化
+    headers: (vm) => {
+      return [
+        { text: 'UUID', value: 'uuid' },
+        { text: vm.$t('username'), value: 'username' },
+        { text: vm.$t('orNumber'), value: 'orNumber' },
+        { text: vm.$t('createdTime'), value: 'createdTime' },
+        { text: vm.$t('createBy'), value: 'createBy' },
+        { text: vm.$t('updateTime'), value: 'updateTime' },
+        { text: vm.$t('updateBy'), value: 'updateBy' },
+        { text: vm.$t('dataTable.actions'), value: 'actions', sortable: false }
+      ]
+    }
+  },
+  watch: {
+    options: {
+      handler () {
+        this.getItems()
+      },
+      deep: true
+    }
+  },
   created () {
   },
   mounted () {
-    this.$snackbar('这是一段消息文本，默认所有风格')
-    this.$dialog('确定要删除这条数据吗？')
-    console.log(this.$util.uuid())
   },
   methods: {
-    test () {
-      this.$apis.user.list(0, 10).then((value) => {
-        console.log(value)
-      }).catch((reason) => {
-        console.log(reason)
+    insertItem () {
+    },
+    deleteItem (item) {
+      this.editedIndex = this.dataTableParams.items.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      this.$dialog({
+        content: this.$t('deleteDialog.content', [this.editedItem.uuid]),
+        loading: true
+      }).then((dialog) => {
+        // TODO 删除
+        // setTimeout 模拟接口请求的响应时间
+        setTimeout(() => {
+          // 手动关闭对话框
+          this.getItems()
+          dialog.cancel()
+          this.$snackbar.success(this.$t('deleteSuccess'))
+        }, 1000)
       })
     },
+    editItem (item) {
+      this.editedIndex = this.dataTableParams.items.indexOf(item)
+      this.editedItem = Object.assign({}, item)
+      // TODO 编辑对话框
+    },
+    getItems () {
+      /*
+      options:
+        groupBy: Array(0)
+        groupDesc: Array(0)
+        itemsPerPage: 10
+        multiSort: false
+        mustSort: false
+        page: 1
+        sortBy: Array(1)
+        sortDesc: Array(1)
+       */
+      const options = this.options
+      console.log(options)
+      this.dataTableParams.loading = true
+      this.$apis.user.list(
+        options.page === 1 ? 0 : this.dataTableParams.items.length,
+        options.itemsPerPage,
+        this.searchParams.username
+      ).then(({ data }) => {
+        console.log(data)
+        this.dataTableParams = {
+          loading: false,
+          items: data.list,
+          totalItems: data.total
+        }
+      }).catch((reason) => {
+        this.dataTableParams.loading = false
+      })
+    },
+    resetSearch () {
+      this.$refs.searchForm.reset()
+      this.options = { page: 1 }
+    },
     save () {
-      this.snack = true
-      this.snackColor = 'success'
-      this.snackText = 'Data saved'
+      this.$snackbar.success('Data saved')
     },
     cancel () {
-      this.snack = true
-      this.snackColor = 'error'
-      this.snackText = 'Canceled'
+      this.$snackbar.error('Canceled')
     },
     open () {
-      this.snack = true
-      this.snackColor = 'info'
-      this.snackText = 'Dialog opened'
+      this.$snackbar.info('Dialog opened')
     },
     close () {
-      console.log('Dialog closed')
+      this.$snackbar.info('Dialog closed')
     }
   }
 }

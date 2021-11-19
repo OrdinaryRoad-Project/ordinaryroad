@@ -1,4 +1,21 @@
 {
+  "username": "用户名",
+  "orNumber": "OR帐号",
+  "createdTime": "创建时间",
+  "createBy": "创建者",
+  "updateTime": "更新时间",
+  "updateBy": "更新者",
+  "dataTable": {
+    "actions": "操作"
+  },
+  "deleteSuccess": "删除成功",
+  "deleteDialog": {
+    "content": "确定删除uuid为 {0} 的数据？删除后无法恢复。"
+  },
+  "search": "搜索",
+  "reset": "重置",
+  "insert": "新增",
+  "refresh": "刷新",
   "attention": "注意",
   "cancel": "取消",
   "confirm": "确认",
