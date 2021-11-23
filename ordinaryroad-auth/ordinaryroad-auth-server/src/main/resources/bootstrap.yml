@@ -1,5 +1,11 @@
 # Spring
+server:
+  # Tomcat
+  port: 9302
 spring:
+  application:
+    # 应用名称
+    name: ordinaryroad-auth-server
   profiles:
     active: dev
   cloud:

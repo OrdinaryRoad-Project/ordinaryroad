@@ -137,6 +137,11 @@
             <scope>compile</scope>
         </dependency>
 
+        <!-- spring-cloud-starter-bootstrap -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
