@@ -24,6 +24,7 @@
 package tech.ordinaryroad.auth.server.config;
 
 import cn.dev33.satoken.oauth2.config.SaOAuth2Config;
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -62,18 +63,18 @@ public class SaOAuth2Configuration {
                 // TODO 美化登录页面 配置：未登录时返回的View
                 .setNotLoginView(() -> new ModelAndView("login.html"))
                 // 配置：登录处理函数
-                .setDoLoginHandle((name, pwd) -> {
+                .setDoLoginHandle((orNumber, password) -> {
 
                     SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
-                    sysUserQueryRequest.setUsername(name);
+                    sysUserQueryRequest.setOrNumber(orNumber);
                     Result<SysUserDTO> byUniqueColumn = userApi.findByUniqueColumn(sysUserQueryRequest);
                     if (byUniqueColumn.getSuccess()) {
                         SysUserDTO data = byUniqueColumn.getData();
 
                         // 密码校验
-                        if (passwordEncoder.matches(pwd, data.getPassword())) {
+                        if (passwordEncoder.matches(password, data.getPassword())) {
                             // 登录
-                            log.info("登录成功：{},{}", name, data.getOrNumber());
+                            log.info("登录成功：{}", orNumber);
                             StpUtil.login(data.getOrNumber());
                             return Result.success();
                         }
@@ -83,8 +84,8 @@ public class SaOAuth2Configuration {
                 // TODO 配置：确认授权时返回的View
                 .setConfirmView((clientId, scope) -> {
                     Map<String, Object> map = new HashMap<>(2);
-                    map.put("clientId", clientId);
-                    map.put("scope", scope);
+                    map.put(SaOAuth2Consts.Param.client_id, clientId);
+                    map.put(SaOAuth2Consts.Param.scope, scope);
                     return new ModelAndView("confirm.html", map);
                 });
     }

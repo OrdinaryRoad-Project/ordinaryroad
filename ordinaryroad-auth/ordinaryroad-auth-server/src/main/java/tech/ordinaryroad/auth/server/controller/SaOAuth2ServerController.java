@@ -11,9 +11,10 @@ import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
 import tech.ordinaryroad.auth.server.service.OAuth2OpenidService;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.api.ISysUserApi;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
+import tech.ordinaryroad.upms.request.SysUserQueryRequest;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -24,6 +25,7 @@ import java.util.Optional;
 public class SaOAuth2ServerController {
 
     private final OAuth2OpenidService openidService;
+    private final ISysUserApi sysUserApi;
 
     /**
      * 处理所有OAuth相关请求
@@ -62,23 +64,16 @@ public class SaOAuth2ServerController {
     // TODO ---------- 开放相关资源接口： Client端根据 Access-Token ，置换相关资源 ------------
     // 获取Userinfo信息：昵称、头像、性别等等
     @RequestMapping("/oauth2/userinfo")
-    public SaResult userinfo() {
+    public Result<SysUserDTO> userinfo() {
         // 获取 Access-Token 对应的账号id
-        String accessToken = SaHolder.getRequest().getParamNotNull("access_token");
+        String accessToken = SaHolder.getRequest().getParamNotNull("Authorization");
         Object loginId = SaOAuth2Util.getLoginIdByAccessToken(accessToken);
-        System.out.println("-------- 此Access-Token对应的账号id: " + loginId);
-
         // 校验 Access-Token 是否具有权限: userinfo
         SaOAuth2Util.checkScope(accessToken, "userinfo");
 
-        // 模拟账号信息 （真实环境需要查询数据库获取信息）
-        Map<String, Object> map = new LinkedHashMap<>();
-        map.put("nickname", "shengzhang_");
-        map.put("avatar", "http://xxx.com/1.jpg");
-        map.put("age", "18");
-        map.put("sex", "男");
-        map.put("address", "山东省 青岛市 城阳区");
-        return SaResult.data(map);
+        SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+        sysUserQueryRequest.setOrNumber((String) loginId);
+        return sysUserApi.findByUniqueColumn(sysUserQueryRequest);
     }
 
 }
