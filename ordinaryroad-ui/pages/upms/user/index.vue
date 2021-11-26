@@ -20,7 +20,7 @@
           showFirstLastPage: true,
           firstIcon: 'mdi-page-first',
           lastIcon: 'mdi-page-last',
-          itemsPerPageOptions:[ 10, 20, 50, 100, -1 ]
+          itemsPerPageOptions:[ 10, 20, 50, 100 ]
         }"
       >
         <template #top>
@@ -172,13 +172,13 @@ export default {
     // 放在这为了支持国际化
     headers: (vm) => {
       return [
-        { text: 'UUID', value: 'uuid' },
-        { text: vm.$t('username'), value: 'username' },
-        { text: vm.$t('orNumber'), value: 'orNumber' },
-        { text: vm.$t('createdTime'), value: 'createdTime' },
-        { text: vm.$t('createBy'), value: 'createBy' },
-        { text: vm.$t('updateTime'), value: 'updateTime' },
-        { text: vm.$t('updateBy'), value: 'updateBy' },
+        { text: 'UUID', value: 'uuid', sortable: false },
+        { text: vm.$t('username'), value: 'username', sortable: false },
+        { text: vm.$t('orNumber'), value: 'orNumber', sortable: false },
+        { text: vm.$t('createdTime'), value: 'createdTime', sortable: false },
+        { text: vm.$t('createBy'), value: 'createBy', sortable: false },
+        { text: vm.$t('updateTime'), value: 'updateTime', sortable: false },
+        { text: vm.$t('updateBy'), value: 'updateBy', sortable: false },
         { text: vm.$t('dataTable.actions'), value: 'actions', sortable: false }
       ]
     }
@@ -221,7 +221,7 @@ export default {
       // TODO 编辑对话框
     },
     getItems () {
-      /*
+      /* TODO 排序支持
       options:
         groupBy: Array(0)
         groupDesc: Array(0)
@@ -235,7 +235,7 @@ export default {
       const options = this.options
       console.log(options)
       this.dataTableParams.loading = true
-      this.$apis.user.list(
+      this.$apis.upms.user.list(
         options.page === 1 ? 0 : this.dataTableParams.items.length,
         options.itemsPerPage,
         this.searchParams.username
