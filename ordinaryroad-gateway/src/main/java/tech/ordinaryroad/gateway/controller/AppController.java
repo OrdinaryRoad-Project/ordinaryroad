@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.gateway.controller;
 
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -31,12 +32,12 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.gateway.request.LoginRequest;
 
+import javax.validation.Valid;
 import java.util.HashMap;
 
 /**
@@ -85,14 +86,16 @@ public class AppController {
         return exchangeToken(params);
     }
 
-    @GetMapping("login")
-    public Result<JSONObject> login(@RequestParam String username, @RequestParam String password) {
+    @PostMapping("login")
+    public Result<JSONObject> login(@Valid @RequestBody LoginRequest request) {
+        // TODO 支持username和邮箱登录
+        String orNumber = request.getOrNumber();
         // 用帐号密码直接获取token
         JSONObject params = new JSONObject();
-        params.put("grant_type", "password");
-        params.put("client_id", clientId);
-        params.put("username", username);
-        params.put("password", password);
+        params.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);
+        params.put(SaOAuth2Consts.Param.client_id, clientId);
+        params.put(SaOAuth2Consts.Param.username, orNumber);
+        params.put(SaOAuth2Consts.Param.password, request.getPassword());
         return exchangeToken(params);
     }
 
@@ -150,6 +153,7 @@ public class AppController {
         // 返回相关参数
         StpUtil.login(orNumber);
         log.info("网关登录成功：{}", orNumber);
+        response.getJSONObject("data").put("satoken", StpUtil.getTokenValue());
         return Result.success(response);
     }
 
