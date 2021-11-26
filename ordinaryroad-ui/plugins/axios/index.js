@@ -15,29 +15,27 @@ export default function (context, inject) {
   $axios.interceptors.response.use((res) => {
     // 未设置状态码则默认成功状态
     const code = res.data.code || 200
-    // 获取错误信息
-    const msg = errorCode[code] || res.data.details || res.data.msg || errorCode.default
-    if (code === 3001) {
-      context.$dialog({
-        persistent: true,
-        title: '系统提示',
-        content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
-        confirmText: '重新登录'
-      }).then((value) => {
-        // 跳转登录页面
-        store.dispatch('user/logout').then(() => {
-          router.push({ path: '/user/login', query: { redirect: route.fullPath } })
-        })
-      })
-    } else if (code === 500) {
-      context.$snackbar.error(msg)
-    } else if (code !== 200) {
-      context.$snackbar.error(msg)
-    }
     if (code === 200) {
       return res.data
     } else {
-      return Promise.reject(res.data)
+      // 获取错误信息
+      const msg = errorCode[code] || res.data.details || res.data.msg || errorCode.default
+      if (code === 3001) {
+        store.commit('user/SET_TOKEN_INFO', null)
+        store.commit('user/SET_SATOKEN', null)
+        context.$dialog({
+          persistent: true,
+          title: '系统提示',
+          content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
+          confirmText: '重新登录'
+        }).then((value) => {
+          // 跳转登录页面
+          router.push({ path: '/user/login', query: { redirect: route.fullPath } })
+        })
+      } else {
+        context.$snackbar.error(msg)
+      }
+      return Promise.reject(msg)
     }
   },
   (error) => {

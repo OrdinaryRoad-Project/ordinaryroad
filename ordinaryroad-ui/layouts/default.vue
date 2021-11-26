@@ -45,6 +45,12 @@
       </v-btn>
       <v-toolbar-title>{{ $t(titleKey) }}</v-toolbar-title>
       <v-spacer />
+      <v-btn
+        icon
+        @click.stop="logout"
+      >
+        <v-icon>mdi-logout</v-icon>
+      </v-btn>
       <!-- TODO 个人头像 -->
       <v-menu offset-y open-on-hover>
         <template #activator="{ on, attrs }">
@@ -209,7 +215,20 @@ export default {
     }),
     ...mapActions('i18n', {
       setLang: 'setLang'
-    })
+    }),
+
+    logout () {
+      this.$dialog({
+        content: this.$i18n.t('confirmLogout'),
+        loading: true
+      }).then((value) => {
+        this.$store.dispatch('user/logout', {
+          $apis: this.$apis,
+          $router: this.$router,
+          $route: this.$route
+        }).then(() => value.cancel())
+      })
+    }
   }
 }
 </script>

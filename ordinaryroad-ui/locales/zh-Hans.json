@@ -1,4 +1,5 @@
 {
+  "confirmLogout": "确认退出登录？",
   "username": "用户名",
   "orNumber": "OR帐号",
   "createdTime": "创建时间",

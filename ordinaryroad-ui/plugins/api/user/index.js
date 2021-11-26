@@ -10,7 +10,7 @@ export default {
       return $axios({ url: '/login', method: 'post', data })
     },
     logout: () => {
-      return $axios({ url: '/user/logout', method: 'post' })
+      return $axios({ url: '/logout', method: 'get' })
     }
   }
 }

@@ -11,7 +11,16 @@ export default {
         })
     })
   },
-  logout ({ commit }) {
-
+  logout ({ commit }, { $apis, $router, $route }) {
+    return new Promise((resolve, reject) => {
+      $apis.user.logout().then(() => {
+        commit('SET_TOKEN_INFO', null)
+        commit('SET_SATOKEN', null)
+        $router.push({ path: '/user/login', query: { redirect: $route.fullPath } })
+        resolve()
+      }).catch((error) => {
+        reject(error)
+      })
+    })
   }
 }
