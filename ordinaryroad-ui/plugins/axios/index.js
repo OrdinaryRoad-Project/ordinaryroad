@@ -1,4 +1,3 @@
-import Cookies from 'js-cookie'
 import errorCode from './errorCode'
 
 // Create a custom axios instance
@@ -9,7 +8,7 @@ export default function (context, inject) {
   // 请求拦截器
   $axios.onRequest((config) => {
     // 将获取到token加入到请求头中
-    config.headers.common.satoken = Cookies.get('satoken') || ''
+    config.headers.common.satoken = store.getters['user/getSatoken'](store)
   })
 
   // 响应拦截器
@@ -25,10 +24,9 @@ export default function (context, inject) {
         content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
         confirmText: '重新登录'
       }).then((value) => {
-        // TODO 跳转登录页面
-        alert('跳转登录页面')
-        store.dispatch('user/LogOut').then(() => {
-          router.push({ path: '/dashboard/user/login', query: { redirect: route.fullPath } })
+        // 跳转登录页面
+        store.dispatch('user/logout').then(() => {
+          router.push({ path: '/user/login', query: { redirect: route.fullPath } })
         })
       })
     } else if (code === 500) {
@@ -36,7 +34,11 @@ export default function (context, inject) {
     } else if (code !== 200) {
       context.$snackbar.error(msg)
     }
-    return res.data
+    if (code === 200) {
+      return res.data
+    } else {
+      return Promise.reject(res.data)
+    }
   },
   (error) => {
     console.log('err' + error)
