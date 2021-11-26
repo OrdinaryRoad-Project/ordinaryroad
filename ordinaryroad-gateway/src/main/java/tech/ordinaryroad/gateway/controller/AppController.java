@@ -99,6 +99,12 @@ public class AppController {
         return exchangeToken(params);
     }
 
+    @GetMapping("logout")
+    public Result<?> logout() {
+        StpUtil.logout();
+        return Result.success();
+    }
+
     /**
      * 向auth-server请求，换取token，并在gateway端登录
      *
