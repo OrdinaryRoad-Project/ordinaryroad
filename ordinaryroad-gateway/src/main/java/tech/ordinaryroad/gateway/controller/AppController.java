@@ -101,7 +101,9 @@ public class AppController {
 
     @GetMapping("logout")
     public Result<?> logout() {
+        Object loginId = StpUtil.getLoginId();
         StpUtil.logout();
+        log.info("网关登出成功：{}", loginId);
         return Result.success();
     }
 
