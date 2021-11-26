@@ -1,13 +1,13 @@
-import roleApis from './upms/role'
-import userApis from './upms/user'
+import upmsApis from './upms/index'
+import userApis from './user/index'
 
 export default function ({ $axios, app }, inject) {
   // 初始化axios
+  upmsApis.initAxios($axios)
   userApis.initAxios($axios)
-  roleApis.initAxios($axios)
   // $apis
   inject('apis', {
-    role: roleApis,
-    user: userApis
+    user: userApis.apis,
+    upms: upmsApis.apis
   })
 }
