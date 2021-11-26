@@ -10,8 +10,8 @@ spring:
     name: ordinaryroad-gateway
   cloud:
     nacos:
-      server-addr: localhost:8848
+      server-addr: ordinaryroad-nacos:8848
       config:
         file-extension: yaml
-  #        shared-configs:
-  #          - application-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        shared-configs:
+          - ordinaryroad-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

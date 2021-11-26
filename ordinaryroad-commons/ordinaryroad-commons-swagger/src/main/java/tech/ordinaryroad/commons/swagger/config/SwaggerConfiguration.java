@@ -32,8 +32,8 @@ public class SwaggerConfiguration {
         List<GrantType> grantTypes = new ArrayList<>();
 
         // 授权码模式AuthorizationCodeGrant
-        TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("http://localhost:9302/oauth2/authorize", "ordinaryroad-knife", "secret");
-        TokenEndpoint tokenEndpoint = new TokenEndpoint("http://localhost:9302/oauth2/token", "access_token");
+        TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("https://auth-server.ordinaryroad.tech:8302/oauth2/authorize", "ordinaryroad-knife", "secret");
+        TokenEndpoint tokenEndpoint = new TokenEndpoint("https://auth-server.ordinaryroad.tech:8302/oauth2/token", "access_token");
         AuthorizationCodeGrant authorizationCodeGrant = new AuthorizationCodeGrant(tokenRequestEndpoint, tokenEndpoint);
         grantTypes.add(authorizationCodeGrant);
 

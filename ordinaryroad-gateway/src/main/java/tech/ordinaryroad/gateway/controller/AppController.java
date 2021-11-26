@@ -109,7 +109,7 @@ public class AppController {
         // 需要将结果封装
         params.put("wrapped", true);
         JSONObject response = JSON.parseObject(
-                OkHttps.sync("http://localhost:9302/oauth2/token")
+                OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/token")
                         .addBodyPara(params)
                         .post()
                         .getBody().toString()
@@ -134,7 +134,7 @@ public class AppController {
         orNumberParams.put("clientId", clientId);
         orNumberParams.put("openid", openid);
         JSONObject orNumberResponse = JSON.parseObject(
-                OkHttps.sync("http://localhost:9302/oauth2/getOrNumber")
+                OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/getOrNumber")
                         .addBodyPara(orNumberParams)
                         .post()
                         .getBody().toString()
