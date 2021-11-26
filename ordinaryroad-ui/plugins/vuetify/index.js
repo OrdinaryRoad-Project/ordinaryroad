@@ -5,7 +5,7 @@ import { VDateTimePicker } from 'vuetify2-expand'
 import Snackbar from 'vuetify2-expand/components/Snackbar'
 import Dialog from '~/components/expand/Dialog'
 
-export default ({ app, store }) => {
+export default ({ app, store }, inject) => {
   const vuetify = app.vuetify
   const i18n = app.i18n
   // 在created里会报错，在mounted里用
@@ -88,4 +88,7 @@ export default ({ app, store }) => {
   }, { vuetify, params: { top: true, showClose: true } })
   // 全局引入 VDateTimePicker 组件
   Vue.use(VDateTimePicker)
+
+  inject('dialog', Vue.prototype.$dialog)
+  inject('snackbar', Vue.prototype.$snackbar)
 }
