@@ -6,7 +6,7 @@
     content-class="rounded-0"
     :dark="params.dark"
     :light="params.light"
-    :persistent="params.persistent"
+    :persistent="params.loading||params.persistent"
     :internal-activator="params.internalActivator"
     :overlay-color="params.overlayColor"
     :overlay-opacity="params.overlayOpacity"
