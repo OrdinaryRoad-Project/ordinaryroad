@@ -46,6 +46,7 @@ import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
 import tech.ordinaryroad.upms.service.SysRoleService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -132,7 +133,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     public Result<List<SysRoleDTO>> findAllByIds(BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {
-            return Result.success();
+            return Result.success(Collections.emptyList());
         }
         List<SysRoleDO> all = sysRoleService.findIds(SysRoleDO.class, uuids);
         List<SysRoleDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());

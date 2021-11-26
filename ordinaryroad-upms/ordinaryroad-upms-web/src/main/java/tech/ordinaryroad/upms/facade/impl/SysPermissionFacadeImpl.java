@@ -123,7 +123,7 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     public Result<List<SysPermissionDTO>> findAllByIds(BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {
-            return Result.success();
+            return Result.success(Collections.emptyList());
         }
         List<SysPermissionDO> all = sysPermissionService.findIds(SysPermissionDO.class, uuids);
         List<SysPermissionDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());

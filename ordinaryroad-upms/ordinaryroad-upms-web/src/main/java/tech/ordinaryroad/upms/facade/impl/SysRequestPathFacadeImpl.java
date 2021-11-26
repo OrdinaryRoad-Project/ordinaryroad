@@ -48,6 +48,7 @@ import tech.ordinaryroad.upms.service.SysRequestPathService;
 import tech.ordinaryroad.upms.service.SysRolesPermissionsService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -129,7 +130,7 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
     public Result<List<SysRequestPathDTO>> findAllByIds(BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {
-            return Result.success();
+            return Result.success(Collections.emptyList());
         }
         List<SysRequestPathDO> all = sysRequestPathService.findIds(SysRequestPathDO.class, uuids);
         List<SysRequestPathDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
