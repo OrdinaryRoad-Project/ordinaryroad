@@ -8,6 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -41,7 +42,13 @@ public class ModifyRequestHeaderGlobalFilter implements WebFilter {
             if (accessToken.contains(" ")) {
                 accessToken = accessToken.substring(accessToken.indexOf(" ") + 1);
             }
-            AccessTokenModel accessTokenModel = SaOAuth2Util.checkAccessToken(accessToken);
+            AccessTokenModel accessTokenModel;
+            try {
+                accessTokenModel = SaOAuth2Util.checkAccessToken(accessToken);
+            } catch (Exception e) {
+                exchange.getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
+                return exchange.getResponse().setComplete();
+            }
             String tokenValue = StpUtil.getTokenValueByLoginId(accessTokenModel.loginId);
             // 将Authorization解析为新header：satoken
             ServerHttpRequest newHttpRequest = FilterRequestResponseUtil.getNewHttpRequest(
