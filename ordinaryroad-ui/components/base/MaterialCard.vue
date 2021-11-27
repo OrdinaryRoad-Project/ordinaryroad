@@ -2,7 +2,7 @@
   <v-card
     v-bind="$attrs"
     :class="classes"
-    class="v-card--material pa-3 mt-8"
+    class="v-card--material pa-5 mt-8 mx-auto"
   >
     <div class="d-flex grow flex-wrap">
       <v-avatar
