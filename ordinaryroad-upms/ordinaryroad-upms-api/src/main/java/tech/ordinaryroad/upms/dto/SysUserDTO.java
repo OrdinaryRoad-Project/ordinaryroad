@@ -45,6 +45,9 @@ public class SysUserDTO implements Serializable {
     @ApiModelProperty("or帐号")
     private String orNumber;
 
+    @ApiModelProperty("邮箱")
+    private String email;
+
     @ApiModelProperty("用户名")
     private String username;
 

@@ -30,6 +30,7 @@ import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -42,6 +43,12 @@ import javax.validation.constraints.Size;
 public class SysUserSaveRequest extends BaseSaveRequest {
 
     private static final long serialVersionUID = 7843775040808391158L;
+
+    @ApiModelProperty("邮箱")
+    @NotBlank(message = "邮箱不能为空")
+    @Size(max = 255, message = "邮箱长度不能超过255")
+    @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
+    private String email;
 
     @ApiModelProperty("用户名")
     @NotBlank(message = "用户名不能为空")

@@ -29,6 +29,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,11 +67,9 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Result<SysUserDTO> create(SysUserSaveRequest request) {
-        // 校验用户名
-        String username = request.getUsername();
-        Optional<SysUserDO> byName = sysUserService.findByUsername(username);
-        if (byName.isPresent()) {
-            return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+        Result<SysUserDTO> validResult = checkValid(request);
+        if (validResult != null) {
+            return validResult;
         }
 
         SysUserDO sysUserDO = objMapStruct.transfer(request);
@@ -172,15 +171,18 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<SysUserDTO> findByUniqueColumn(SysUserQueryRequest request) {
-        Optional<SysUserDO> optional;
+        Optional<SysUserDO> optional = Optional.empty();
         String orNumber = request.getOrNumber();
+        String email = request.getEmail();
         String username = request.getUsername();
         if (StrUtil.isNotBlank(orNumber)) {
             optional = sysUserService.findByOrNumber(orNumber);
-        } else if (StrUtil.isNotBlank(username)) {
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(email)) {
+            optional = sysUserService.findByEmail(email);
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(username)) {
             optional = sysUserService.findByUsername(username);
-        } else {
-            return Result.fail(StatusCode.PARAM_NOT_COMPLETE);
         }
 
         return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
@@ -188,11 +190,9 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<SysUserDTO> register(SysUserSaveRequest request) {
-        // 校验用户名
-        String username = request.getUsername();
-        Optional<SysUserDO> byName = sysUserService.findByUsername(username);
-        if (byName.isPresent()) {
-            return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+        Result<SysUserDTO> validResult = checkValid(request);
+        if (validResult != null) {
+            return validResult;
         }
 
         // 和创建不同的是注册密码必填
@@ -209,4 +209,20 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }
 
+    @Nullable
+    private Result<SysUserDTO> checkValid(SysUserSaveRequest request) {
+        // 校验邮箱
+        String email = request.getEmail();
+        Optional<SysUserDO> byEmail = sysUserService.findByEmail(email);
+        if (byEmail.isPresent()) {
+            return Result.fail(StatusCode.EMAIL_ALREADY_EXIST);
+        }
+        // 校验用户名
+        String username = request.getUsername();
+        Optional<SysUserDO> byName = sysUserService.findByUsername(username);
+        if (byName.isPresent()) {
+            return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+        }
+        return null;
+    }
 }

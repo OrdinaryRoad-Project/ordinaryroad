@@ -40,6 +40,9 @@ public class SysUserQueryRequest extends BaseQueryRequest {
 
     private static final long serialVersionUID = -1990288332342617918L;
 
+    @ApiModelProperty("邮箱")
+    private String email;
+
     @ApiModelProperty("用户名")
     private String username;
 

@@ -41,6 +41,13 @@ import java.util.Optional;
 @Service
 public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
 
+    public Optional<SysUserDO> findByEmail(String email) {
+        Example example = Example.builder(SysUserDO.class)
+                .where(Sqls.custom().andEqualTo("email", email))
+                .build();
+        return Optional.ofNullable(super.dao.selectOneByExample(example));
+    }
+
     public Optional<SysUserDO> findByUsername(String username) {
         Example example = Example.builder(SysUserDO.class)
                 .where(Sqls.custom().andEqualTo("username", username))
@@ -57,6 +64,11 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
 
     public List<SysUserDO> findAll(SysUserDO sysUserDO) {
         Sqls sqls = Sqls.custom();
+
+        String email = sysUserDO.getEmail();
+        if (Argument.isNotBlank(email)) {
+            sqls.andLike("email", "%" + email + "%");
+        }
 
         String username = sysUserDO.getUsername();
         if (Argument.isNotBlank(username)) {
