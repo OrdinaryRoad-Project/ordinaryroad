@@ -2,6 +2,7 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   tech.ordinaryroad.commons.core.advice.GlobalControllerExceptionHandlerAdvice,\
   tech.ordinaryroad.commons.core.filter.FilterConfig,\
   tech.ordinaryroad.commons.core.config.PasswordEncoderConfig,\
+  tech.ordinaryroad.commons.core.config.RedisTemplateConfiguration,\
   tech.ordinaryroad.commons.core.web.HttpErrorController,\
   tech.ordinaryroad.commons.core.web.CrossConfig,\
   tech.ordinaryroad.commons.core.web.HttpConverters
