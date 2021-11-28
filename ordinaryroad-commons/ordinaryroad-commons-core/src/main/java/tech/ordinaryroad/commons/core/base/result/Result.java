@@ -155,4 +155,8 @@ public class Result<T> implements IBaseResult<T> {
         return JSON.toJSONString(this);
     }
 
+    public static <T> Result<T> parse(String jsonString) {
+        return JSON.parseObject(jsonString, Result.class);
+    }
+
 }

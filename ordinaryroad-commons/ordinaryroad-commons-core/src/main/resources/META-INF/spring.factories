@@ -5,4 +5,5 @@ org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   tech.ordinaryroad.commons.core.config.RedisTemplateConfiguration,\
   tech.ordinaryroad.commons.core.web.HttpErrorController,\
   tech.ordinaryroad.commons.core.web.CrossConfig,\
-  tech.ordinaryroad.commons.core.web.HttpConverters
+  tech.ordinaryroad.commons.core.web.HttpConverters,\
+  tech.ordinaryroad.commons.core.service.RedisService
