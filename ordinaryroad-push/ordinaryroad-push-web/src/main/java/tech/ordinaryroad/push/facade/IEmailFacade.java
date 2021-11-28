@@ -32,6 +32,6 @@ import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
  */
 public interface IEmailFacade {
 
-    Result<String> sendRegisterCaptcha(EmailRegisterCaptchaRequest request);
+    Result<?> sendRegisterCaptcha(EmailRegisterCaptchaRequest request);
 
 }

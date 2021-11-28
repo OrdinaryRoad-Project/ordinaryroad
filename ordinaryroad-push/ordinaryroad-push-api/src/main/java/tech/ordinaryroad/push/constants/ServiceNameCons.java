@@ -21,31 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push;
-
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
+package tech.ordinaryroad.push.constants;
 
 /**
  * @author mjz
  * @date 2021/10/27
  */
-@Slf4j
-@EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.upms.api"})
-@SpringBootApplication
-public class OrdinaryRoadPushApp {
+public class ServiceNameCons {
 
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadPushApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
-    }
+    public static final String SERVICE_NAME = "ordinaryroad-push";
 
 }

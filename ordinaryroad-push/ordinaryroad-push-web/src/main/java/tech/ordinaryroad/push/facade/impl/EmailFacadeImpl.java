@@ -23,8 +23,9 @@
  */
 package tech.ordinaryroad.push.facade.impl;
 
-import cn.hutool.extra.mail.MailUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.push.facade.IEmailFacade;
@@ -38,10 +39,23 @@ import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
 @Component
 public class EmailFacadeImpl implements IEmailFacade {
 
+    private final JavaMailSender mailSender;
+
     @Override
-    public Result<String> sendRegisterCaptcha(EmailRegisterCaptchaRequest request) {
-        // TODO 发送邮件
-        return Result.success(MailUtil.sendText(request.getEmail(), "主题", "验证码为：" + request.getCode() + "，五分钟内有效"));
+    public Result<?> sendRegisterCaptcha(EmailRegisterCaptchaRequest request) {
+        // 发送邮件
+        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
+        // from必须
+        simpleMailMessage.setFrom("1962247851@qq.com");
+        simpleMailMessage.setTo(request.getEmail());
+        simpleMailMessage.setSubject("欢迎您注册OR帐号");
+        simpleMailMessage.setText("您的验证码为：" + request.getCode() + "，五分钟内有效");
+        try {
+            mailSender.send(simpleMailMessage);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.fail(e.getMessage());
+        }
     }
 
 }

@@ -25,7 +25,6 @@ package tech.ordinaryroad.push.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.IBaseRequest;
@@ -40,7 +39,6 @@ import javax.validation.constraints.Size;
  * @author mjz
  * @date 2021/11/27
  */
-@Builder
 @Getter
 @Setter
 @ApiModel

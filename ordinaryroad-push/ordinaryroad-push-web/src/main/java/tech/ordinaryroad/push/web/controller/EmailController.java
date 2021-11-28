@@ -43,7 +43,7 @@ public class EmailController implements IEmailApi {
     private final IEmailFacade emailFacade;
 
     @Override
-    public Result<String> sendRegisterCaptcha(@RequestBody @Validated EmailRegisterCaptchaRequest request) {
+    public Result<?> sendRegisterCaptcha(@RequestBody @Validated EmailRegisterCaptchaRequest request) {
         return emailFacade.sendRegisterCaptcha(request);
     }
 
