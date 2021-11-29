@@ -54,6 +54,7 @@
         <module>ordinaryroad-commons</module>
         <module>ordinaryroad-auth</module>
         <module>ordinaryroad-gateway</module>
+        <module>ordinaryroad-push</module>
     </modules>
 
     <!-- 以下依赖 全局所有的模块都会引入 -->
@@ -185,6 +186,13 @@
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-upms-api</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
+            <!-- ordinaryroad-push-api -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-push-api</artifactId>
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
