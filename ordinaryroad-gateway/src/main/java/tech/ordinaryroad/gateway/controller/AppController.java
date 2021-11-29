@@ -152,8 +152,9 @@ public class AppController {
         String orNumber = orNumberResponse.getData();
         // 返回相关参数
         StpUtil.login(orNumber);
-        log.info("网关登录成功：{}", orNumber);
-        data.put("satoken", StpUtil.getTokenValue());
+        String tokenValue = StpUtil.getTokenValue();
+        data.put("satoken", tokenValue);
+        log.info("网关登录成功：{}，token：{}", orNumber, tokenValue);
         return Result.success(data);
     }
 

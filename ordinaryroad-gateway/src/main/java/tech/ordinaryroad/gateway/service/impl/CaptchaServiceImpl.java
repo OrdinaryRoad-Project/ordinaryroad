@@ -24,13 +24,16 @@
 package tech.ordinaryroad.gateway.service.impl;
 
 import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.exception.CaptchaException;
+import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.core.service.RedisService;
+import tech.ordinaryroad.gateway.dto.CaptchaLoginDTO;
 import tech.ordinaryroad.gateway.service.ICaptchaService;
 
 /**
@@ -58,20 +61,24 @@ public class CaptchaServiceImpl implements ICaptchaService {
     }
 
     @Override
-    public String generateLoginCaptcha(String orNumber) {
-        // 自定义纯数字的验证码（随机6位数字，可重复）
+    public Result<CaptchaLoginDTO> generateLoginCaptcha() {
+        String uuid = IdUtil.fastUUID();
         LineCaptcha lineCaptcha = new LineCaptcha(400, 200);
 
         String code = lineCaptcha.getCode();
         String imageBase64 = lineCaptcha.getImageBase64();
 
-        redisService.setCacheObject(String.format(CacheConstants.CAPTCHA_LOGIN_KEY, orNumber), code);
-        return imageBase64;
+        redisService.setCacheObject(CacheConstants.generateLoginCaptchaKey(uuid), code);
+
+        CaptchaLoginDTO captchaLoginDTO = new CaptchaLoginDTO();
+        captchaLoginDTO.setCaptchaId(uuid);
+        captchaLoginDTO.setImg(imageBase64);
+        return Result.success(captchaLoginDTO);
     }
 
     @Override
-    public void checkLoginCaptcha(String orNumber, String code) {
-        this.checkValid(String.format(CacheConstants.CAPTCHA_LOGIN_KEY, orNumber), code);
+    public void checkLoginCaptcha(String captchaId, String code) {
+        this.checkValid(CacheConstants.generateLoginCaptchaKey(captchaId), code);
     }
 
     @Override
@@ -79,14 +86,14 @@ public class CaptchaServiceImpl implements ICaptchaService {
         // 自定义纯数字的验证码（随机6位数字，可重复）
         String code = RandomUtil.randomString(RandomUtil.BASE_NUMBER, 6);
 
-        String key = String.format(CacheConstants.CAPTCHA_REGISTER_KEY, email);
+        String key = CacheConstants.generateRegisterCaptchaKey(email);
         redisService.setCacheObject(key, code);
         return code;
     }
 
     @Override
-    public void checkRegisterCaptcha(String uuid, String code) {
-        this.checkValid(String.format(CacheConstants.CAPTCHA_REGISTER_KEY, uuid), code);
+    public void checkRegisterCaptcha(String email, String code) {
+        this.checkValid(CacheConstants.generateRegisterCaptchaKey(email), code);
     }
 
 }

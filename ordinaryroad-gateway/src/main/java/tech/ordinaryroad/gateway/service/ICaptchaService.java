@@ -23,7 +23,9 @@
  */
 package tech.ordinaryroad.gateway.service;
 
+import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.CacheConstants;
+import tech.ordinaryroad.gateway.dto.CaptchaLoginDTO;
 
 import javax.validation.constraints.NotNull;
 
@@ -38,18 +40,17 @@ public interface ICaptchaService {
     /**
      * 生成登录base64图片验证码
      *
-     * @param orNumber OR账号，key的一部分 {@link CacheConstants#CAPTCHA_LOGIN_KEY}
-     * @return base64格式的图片
+     * @return DTO
      */
-    String generateLoginCaptcha(@NotNull String orNumber);
+    Result<CaptchaLoginDTO> generateLoginCaptcha();
 
     /**
      * 校验登录验证码
      *
-     * @param orNumber OR账号，key的一部分 {@link CacheConstants#CAPTCHA_LOGIN_KEY}
-     * @param code     用户输入的验证码
+     * @param captchaId key的一部分 {@link CacheConstants#CAPTCHA_LOGIN_KEY}
+     * @param code      用户输入的验证码
      */
-    void checkLoginCaptcha(@NotNull String orNumber, @NotNull String code);
+    void checkLoginCaptcha(@NotNull String captchaId, @NotNull String code);
 
     /**
      * 生成注册纯文字验证码

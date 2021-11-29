@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.gateway.dto.CaptchaLoginDTO;
 import tech.ordinaryroad.gateway.service.ICaptchaService;
 import tech.ordinaryroad.push.api.IEmailApi;
 import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
@@ -60,8 +61,8 @@ public class CaptchaController {
     });
 
     @GetMapping("login")
-    public Mono<Result<String>> generateLoginCaptcha(@RequestParam String orNumber) {
-        return Mono.just(Result.success(captchaService.generateLoginCaptcha(orNumber)));
+    public Mono<Result<CaptchaLoginDTO>> generateLoginCaptcha() {
+        return Mono.just(captchaService.generateLoginCaptcha());
     }
 
     @GetMapping("register")

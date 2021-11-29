@@ -21,51 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.gateway.request;
+package tech.ordinaryroad.gateway.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.IBaseRequest;
+import lombok.Data;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import java.io.Serializable;
 
 /**
- * 登录请求
- *
  * @author mjz
- * @date 2021/11/26
+ * @date 2021/11/29
  */
-@Getter
-@Setter
+@Data
 @ApiModel
-public class LoginRequest implements IBaseRequest {
+public class CaptchaLoginDTO implements Serializable {
 
-    private static final long serialVersionUID = -3404691201449928129L;
+    private static final long serialVersionUID = 2607314725580018296L;
 
     @ApiModelProperty("验证码UUID")
-    @NotBlank(message = "验证码UUID不能为空")
-    @Size(max = 36, message = "验证码UUID长度不能超过36")
     private String captchaId;
 
-    @ApiModelProperty("验证码")
-    @NotBlank(message = "验证码不能为空")
-    @Size(max = 10, message = "验证码长度不能超过10")
-    private String code;
-
-    @ApiModelProperty("用户名")
-    private String username;
-
-    @ApiModelProperty("邮箱")
-    private String email;
-
-    @ApiModelProperty("or帐号")
-    private String orNumber;
-
-    @ApiModelProperty("密码")
-    @NotBlank(message = "密码不能为空")
-    private String password;
+    @ApiModelProperty("base64格式的验证码图片")
+    private String img;
 
 }
