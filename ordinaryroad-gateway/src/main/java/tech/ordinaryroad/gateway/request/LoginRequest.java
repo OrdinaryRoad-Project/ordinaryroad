@@ -30,6 +30,7 @@ import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.IBaseRequest;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * 登录请求
@@ -43,6 +44,11 @@ import javax.validation.constraints.NotBlank;
 public class LoginRequest implements IBaseRequest {
 
     private static final long serialVersionUID = -3404691201449928129L;
+
+    @ApiModelProperty("验证码")
+    @NotBlank(message = "验证码不能为空")
+    @Size(max = 10, message = "验证码长度不能超过10")
+    private String code;
 
     @ApiModelProperty("用户名")
     private String username;
