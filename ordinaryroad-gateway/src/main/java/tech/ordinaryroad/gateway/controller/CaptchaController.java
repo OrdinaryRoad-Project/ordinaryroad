@@ -23,22 +23,19 @@
  */
 package tech.ordinaryroad.gateway.controller;
 
-import cn.hutool.captcha.LineCaptcha;
-import cn.hutool.core.util.IdUtil;
-import cn.hutool.core.util.RandomUtil;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.StringRedisTemplate;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.commons.core.constant.CacheConstants;
+import tech.ordinaryroad.gateway.service.ICaptchaService;
 import tech.ordinaryroad.push.api.IEmailApi;
 import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
 
-import java.time.Duration;
+import java.util.concurrent.*;
 
 /**
  * 验证码Controller
@@ -52,42 +49,33 @@ import java.time.Duration;
 public class CaptchaController {
 
     private final IEmailApi emailApi;
-
-    private final StringRedisTemplate redisTemplate;
+    private final ICaptchaService captchaService;
+    private final ExecutorService executorService = new ThreadPoolExecutor(10, 20, 1L, TimeUnit.MINUTES, new LinkedBlockingQueue<>(), new ThreadFactory() {
+        @Override
+        public Thread newThread(@NotNull Runnable r) {
+            Thread thread = new Thread(r);
+            thread.setName("邮件API调用线程");
+            return thread;
+        }
+    });
 
     @GetMapping("login")
     public Mono<Result<String>> generateLoginCaptcha(@RequestParam String orNumber) {
-        // 自定义纯数字的验证码（随机6位数字，可重复）
-        LineCaptcha lineCaptcha = new LineCaptcha(400, 200);
-
-        String code = lineCaptcha.getCode();
-        String imageBase64 = lineCaptcha.getImageBase64();
-
-        String key = String.format(CacheConstants.CAPTCHA_LOGIN_KEY, orNumber);
-        redisTemplate.opsForValue().set(key, code, Duration.ofMinutes(5));
-
-        return Mono.just(Result.success(imageBase64));
+        return Mono.just(Result.success(captchaService.generateLoginCaptcha(orNumber)));
     }
 
     @GetMapping("register")
-    public Mono<Result<String>> generateRegisterCaptcha(@RequestParam String email) {
-        String uuid = IdUtil.fastUUID();
-
-        // 自定义纯数字的验证码（随机6位数字，可重复）
-        String code = RandomUtil.randomString(RandomUtil.BASE_NUMBER, 6);
-
-        String key = String.format(CacheConstants.CAPTCHA_REGISTER_KEY, uuid);
-        redisTemplate.opsForValue().set(key, code, Duration.ofMinutes(5));
-
-        EmailRegisterCaptchaRequest request = EmailRegisterCaptchaRequest.builder()
-                .email(email)
-                .code(code)
-                .build();
-
-        emailApi.sendRegisterCaptcha(request);
-
-        return Mono.just(Result.success(uuid));
+    public Mono<Result<?>> generateRegisterCaptcha(@RequestParam String email) {
+        String code = captchaService.generateRegisterCaptcha(email);
+        EmailRegisterCaptchaRequest request = new EmailRegisterCaptchaRequest();
+        request.setEmail(email);
+        request.setCode(code);
+        Future<? extends Result<?>> future = executorService.submit(() -> emailApi.sendRegisterCaptcha(request));
+        try {
+            return Mono.just(future.get());
+        } catch (InterruptedException | ExecutionException e) {
+            return Mono.just(Result.fail(e.getMessage()));
+        }
     }
-
 
 }
