@@ -25,19 +25,17 @@ package tech.ordinaryroad.gateway.controller;
 
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.ejlchina.okhttps.OkHttps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.gateway.request.LoginRequest;
 
-import javax.validation.Valid;
 import java.util.HashMap;
 
 /**
@@ -87,7 +85,7 @@ public class AppController {
     }
 
     @PostMapping("login")
-    public Result<JSONObject> login(@Valid @RequestBody LoginRequest request) {
+    public Result<JSONObject> login(@Validated @RequestBody LoginRequest request) {
         // TODO 支持username和邮箱登录
         String orNumber = request.getOrNumber();
         // 用帐号密码直接获取token
@@ -118,7 +116,7 @@ public class AppController {
     private Result<JSONObject> exchangeToken(JSONObject params) {
         // 需要将结果封装
         params.put("wrapped", true);
-        JSONObject response = JSON.parseObject(
+        Result<JSONObject> response = Result.parse(
                 OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/token")
                         .addBodyPara(params)
                         .post()
@@ -128,22 +126,18 @@ public class AppController {
         if (response == null) {
             return Result.fail();
         }
-        if (response.getInteger("code") != HttpStatus.OK.value()) {
-            return Result.fail(
-                    response.getInteger("code"),
-                    response.getString("msg"),
-                    response.getString("details")
-            );
+        if (!response.getSuccess()) {
+            return response;
         }
 
         // 根据openid获取其对应的userId
-        JSONObject data = response.getJSONObject("data");
+        JSONObject data = response.getData();
         String openid = data.getString("openid");
-        String clientId = params.getString("client_id");
+        String clientId = params.getString(SaOAuth2Consts.Param.client_id);
         HashMap<String, String> orNumberParams = new HashMap<>(2);
-        orNumberParams.put("clientId", clientId);
+        orNumberParams.put(SaOAuth2Consts.Param.client_id, clientId);
         orNumberParams.put("openid", openid);
-        JSONObject orNumberResponse = JSON.parseObject(
+        Result<String> orNumberResponse = Result.parse(
                 OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/getOrNumber")
                         .addBodyPara(orNumberParams)
                         .post()
@@ -152,19 +146,15 @@ public class AppController {
         if (orNumberResponse == null) {
             return Result.fail();
         }
-        if (orNumberResponse.getInteger("code") != HttpStatus.OK.value()) {
-            return Result.fail(
-                    response.getInteger("code"),
-                    response.getString("msg"),
-                    response.getString("details")
-            );
+        if (!response.getSuccess()) {
+            return response;
         }
-        String orNumber = orNumberResponse.getString("data");
+        String orNumber = orNumberResponse.getData();
         // 返回相关参数
         StpUtil.login(orNumber);
         log.info("网关登录成功：{}", orNumber);
-        response.getJSONObject("data").put("satoken", StpUtil.getTokenValue());
-        return Result.success(response);
+        data.put("satoken", StpUtil.getTokenValue());
+        return Result.success(data);
     }
 
 }
