@@ -187,9 +187,11 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<SysUserDTO> register(SysUserRegisterRequest request) {
-        Result<SysUserDTO> validResult = checkValid(request);
-        if (validResult != null) {
-            return validResult;
+        // 校验邮箱
+        String email = request.getEmail();
+        Optional<SysUserDO> byEmail = sysUserService.findByEmail(email);
+        if (byEmail.isPresent()) {
+            return Result.fail(StatusCode.EMAIL_ALREADY_EXIST);
         }
         // 密码加密
         SysUserDO sysUserDO = objMapStruct.transfer(request);

@@ -47,6 +47,10 @@ public class SysUserRegisterRequest extends SysUserSaveRequest {
     @Size(max = 10, message = "验证码长度不能超过10")
     private String code;
 
+    @ApiModelProperty(value = "用户名")
+    @Size(max = 10, message = "用户名长度不能超过10")
+    private String username;
+
     @ApiModelProperty(value = "密码", required = true)
     @NotBlank(message = "密码不能为空")
     @Size(min = 6, max = 16, message = "用户名长度 6-16")
