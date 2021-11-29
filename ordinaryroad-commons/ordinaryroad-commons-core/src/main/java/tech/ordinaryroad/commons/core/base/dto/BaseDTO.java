@@ -21,27 +21,35 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.gateway.dto;
+package tech.ordinaryroad.commons.core.base.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+
+import java.time.LocalDateTime;
 
 /**
  * @author mjz
  * @date 2021/11/29
  */
 @Data
-@ApiModel
-public class CaptchaLoginDTO extends BaseDTO {
+public class BaseDTO implements IBaseDTO {
 
-    private static final long serialVersionUID = 2607314725580018296L;
+    private static final long serialVersionUID = 6284738194158708959L;
 
-    @ApiModelProperty("验证码UUID")
-    private String captchaId;
+    @ApiModelProperty("主键uuid")
+    private String uuid;
 
-    @ApiModelProperty("base64格式的验证码图片")
-    private String img;
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createdTime;
+
+    @ApiModelProperty("创建者uuid")
+    private String createBy;
+
+    @ApiModelProperty("更新时间")
+    private LocalDateTime updateTime;
+
+    @ApiModelProperty("更新者uuid")
+    private String updateBy;
 
 }

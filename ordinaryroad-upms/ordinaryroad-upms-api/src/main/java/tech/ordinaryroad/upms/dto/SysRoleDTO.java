@@ -26,8 +26,7 @@ package tech.ordinaryroad.upms.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 
 /**
  * @author mjz
@@ -35,7 +34,7 @@ import java.io.Serializable;
  */
 @Data
 @ApiModel
-public class SysRoleDTO implements Serializable {
+public class SysRoleDTO extends BaseDTO {
 
     private static final long serialVersionUID = 7448271006522452148L;
 

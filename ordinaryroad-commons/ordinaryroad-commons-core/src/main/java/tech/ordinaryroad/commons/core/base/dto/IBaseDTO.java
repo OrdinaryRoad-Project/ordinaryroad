@@ -21,27 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.gateway.dto;
+package tech.ordinaryroad.commons.core.base.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.commons.core.base.IBase;
 
 /**
  * @author mjz
  * @date 2021/11/29
  */
-@Data
-@ApiModel
-public class CaptchaLoginDTO extends BaseDTO {
-
-    private static final long serialVersionUID = 2607314725580018296L;
-
-    @ApiModelProperty("验证码UUID")
-    private String captchaId;
-
-    @ApiModelProperty("base64格式的验证码图片")
-    private String img;
-
+public interface IBaseDTO extends IBase {
 }
