@@ -27,11 +27,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Bean;
 import org.springframework.util.StopWatch;
-import org.springframework.web.reactive.function.client.WebClient;
 
 /**
  * @author mjz
@@ -39,7 +36,7 @@ import org.springframework.web.reactive.function.client.WebClient;
  */
 @Slf4j
 @EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.upms.api"})
+@EnableFeignClients({"tech.ordinaryroad.*.api"})
 @SpringBootApplication
 public class OrdinaryRoadGatewayApp {
 
