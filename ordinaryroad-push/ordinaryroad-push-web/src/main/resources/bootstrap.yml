@@ -1,0 +1,17 @@
+# Tomcat
+server:
+  port: 9402
+# Spring
+spring:
+  profiles:
+    active: dev
+  application:
+    # 应用名称
+    name: ordinaryroad-push
+  cloud:
+    nacos:
+      server-addr: ordinaryroad-nacos:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - ordinaryroad-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}

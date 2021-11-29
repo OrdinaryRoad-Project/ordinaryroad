@@ -1,0 +1,37 @@
+{
+  "confirmLogout": "Confirm Logout?",
+  "username": "Username",
+  "orNumber": "OR Account",
+  "createdTime": "Created Time",
+  "createBy": "Create By",
+  "updateTime": "Update Time",
+  "updateBy": "Update By",
+  "dataTable": {
+    "actions": "Actions"
+  },
+  "deleteSuccess": "Successfully deleted",
+  "deleteDialog": {
+    "content": "Are you sure to delete the data whose uuid is {0}? It cannot be restored after deletion."
+  },
+  "search": "Search",
+  "reset": "Reset",
+  "insert": "Insert",
+  "refresh": "Refresh",
+  "attention": "Attention",
+  "cancel": "Cancel",
+  "confirm": "Confirm",
+  "theme": "Theme",
+  "themeTitles": {
+    "light": "Light",
+    "dark": "Dark",
+    "hunk": "Hunk",
+    "system": "System"
+  },
+  "menuTitles": {
+    "userManagement": "User Management",
+    "roleManagement": "Role Management",
+    "permissionManagement": "Permission Management",
+    "requestPathManagement": "RequestPath Management"
+  },
+  "settings": "Settings"
+}

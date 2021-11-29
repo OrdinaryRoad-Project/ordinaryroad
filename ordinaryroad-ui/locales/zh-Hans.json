@@ -1,0 +1,37 @@
+{
+  "confirmLogout": "确认退出登录？",
+  "username": "用户名",
+  "orNumber": "OR帐号",
+  "createdTime": "创建时间",
+  "createBy": "创建者",
+  "updateTime": "更新时间",
+  "updateBy": "更新者",
+  "dataTable": {
+    "actions": "操作"
+  },
+  "deleteSuccess": "删除成功",
+  "deleteDialog": {
+    "content": "确定删除uuid为 {0} 的数据？删除后无法恢复。"
+  },
+  "search": "搜索",
+  "reset": "重置",
+  "insert": "新增",
+  "refresh": "刷新",
+  "attention": "注意",
+  "cancel": "取消",
+  "confirm": "确认",
+  "theme": "主题",
+  "themeTitles": {
+    "light": "浅色主题",
+    "dark": "深色主题",
+    "hunk": "猛男主题",
+    "system": "系统"
+  },
+  "menuTitles": {
+    "userManagement": "用户管理",
+    "roleManagement": "角色管理",
+    "permissionManagement": "权限管理",
+    "requestPathManagement": "请求路径管理"
+  },
+  "settings": "设置"
+}
