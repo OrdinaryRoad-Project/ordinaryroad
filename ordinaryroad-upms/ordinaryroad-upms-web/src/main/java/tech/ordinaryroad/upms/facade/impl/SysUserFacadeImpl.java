@@ -193,8 +193,8 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         if (byEmail.isPresent()) {
             return Result.fail(StatusCode.EMAIL_ALREADY_EXIST);
         }
-        // 密码加密
         SysUserDO sysUserDO = objMapStruct.transfer(request);
+        // 密码加密
         sysUserDO.setPassword(passwordEncoder.encode(request.getPassword()));
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }

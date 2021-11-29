@@ -26,10 +26,7 @@ package tech.ordinaryroad.upms.mapstruct;
 import org.mapstruct.Mapper;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
-import tech.ordinaryroad.upms.request.SysUserQueryRequest;
-import tech.ordinaryroad.upms.request.SysUserSaveRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdatePasswordRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
+import tech.ordinaryroad.upms.request.*;
 
 /**
  * @author mjz
@@ -39,6 +36,8 @@ import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
 public interface SysUserMapStruct {
 
     SysUserDO transfer(SysUserSaveRequest request);
+
+    SysUserDO transfer(SysUserRegisterRequest request);
 
     SysUserDTO transfer(SysUserDO sysUserDO);
 
