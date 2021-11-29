@@ -56,7 +56,7 @@ public class SaOAuth2ServerController {
      * @return Result
      */
     @RequestMapping("/oauth2/getOrNumber")
-    public Result<String> getOrNumber(@RequestParam String clientId, @RequestParam String openid) {
+    public Result<String> getOrNumber(@RequestParam("client_id") String clientId, @RequestParam String openid) {
         Optional<OAuth2OpenidDO> byClientIdAndOpenid = openidService.findByClientIdAndOpenid(clientId, openid);
         return byClientIdAndOpenid.map(oAuth2OpenidDO -> Result.success(oAuth2OpenidDO.getOrNumber())).orElseGet(Result::fail);
     }
