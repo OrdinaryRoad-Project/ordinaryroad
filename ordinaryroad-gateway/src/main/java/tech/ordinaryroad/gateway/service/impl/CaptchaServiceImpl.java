@@ -51,10 +51,11 @@ public class CaptchaServiceImpl implements ICaptchaService {
         if (StrUtil.isBlank(code)) {
             throw new CaptchaException("验证码不能为空");
         }
-
+        if (!redisService.hasKey(key)) {
+            throw new CaptchaException("验证码已失效");
+        }
         String captcha = redisService.getCacheObject(key);
-        redisService.deleteObjectIfExists(key);
-
+        redisService.deleteObject(key);
         if (!code.equalsIgnoreCase(captcha)) {
             throw new CaptchaException("验证码错误");
         }
