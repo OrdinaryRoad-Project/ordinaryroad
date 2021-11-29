@@ -27,10 +27,7 @@ import com.github.pagehelper.PageInfo;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
-import tech.ordinaryroad.upms.request.SysUserQueryRequest;
-import tech.ordinaryroad.upms.request.SysUserSaveRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdatePasswordRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
+import tech.ordinaryroad.upms.request.*;
 
 import java.util.List;
 
@@ -118,5 +115,5 @@ public interface ISysUserFacade {
      * @param request Request
      * @return DTO
      */
-    Result<SysUserDTO> register(SysUserSaveRequest request);
+    Result<SysUserDTO> register(SysUserRegisterRequest request);
 }

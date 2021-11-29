@@ -28,15 +28,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.api.ISysUserApi;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.facade.ISysUserFacade;
-import tech.ordinaryroad.upms.request.SysUserQueryRequest;
-import tech.ordinaryroad.upms.request.SysUserSaveRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdatePasswordRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
+import tech.ordinaryroad.upms.request.*;
 
 import java.util.List;
 
@@ -86,6 +84,11 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
+    public Mono<Result<SysUserDTO>> findByUniqueColumnAsync(@RequestBody SysUserQueryRequest request) {
+        return Mono.just(this.findByUniqueColumn(request));
+    }
+
+    @Override
     public Result<Boolean> updateUsername(@RequestBody @Validated SysUserUpdateUsernameRequest request) {
         return sysUserFacade.updateUsername(request);
     }
@@ -96,7 +99,7 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
-    public Result<SysUserDTO> register(@Validated @RequestBody SysUserSaveRequest request) {
+    public Result<SysUserDTO> register(@Validated @RequestBody SysUserRegisterRequest request) {
         return sysUserFacade.register(request);
     }
 

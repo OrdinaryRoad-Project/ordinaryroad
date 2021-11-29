@@ -41,10 +41,7 @@ import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 import tech.ordinaryroad.upms.facade.ISysUserFacade;
 import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
-import tech.ordinaryroad.upms.request.SysUserQueryRequest;
-import tech.ordinaryroad.upms.request.SysUserSaveRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdatePasswordRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
+import tech.ordinaryroad.upms.request.*;
 import tech.ordinaryroad.upms.service.SysUserService;
 
 import java.util.List;
@@ -189,23 +186,14 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     }
 
     @Override
-    public Result<SysUserDTO> register(SysUserSaveRequest request) {
+    public Result<SysUserDTO> register(SysUserRegisterRequest request) {
         Result<SysUserDTO> validResult = checkValid(request);
         if (validResult != null) {
             return validResult;
         }
-
-        // 和创建不同的是注册密码必填
-        String password = request.getPassword();
-        if (StrUtil.isBlank(password)) {
-            return Result.fail(StatusCode.PARAM_NOT_COMPLETE);
-        }
-        if (StrUtil.length(password) < 6 || StrUtil.length(password) > 16) {
-            return Result.fail("密码长度 6-16");
-        }
         // 密码加密
         SysUserDO sysUserDO = objMapStruct.transfer(request);
-        sysUserDO.setPassword(passwordEncoder.encode(password));
+        sysUserDO.setPassword(passwordEncoder.encode(request.getPassword()));
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }
 

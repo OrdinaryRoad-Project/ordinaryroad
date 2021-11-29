@@ -29,14 +29,12 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
-import tech.ordinaryroad.upms.request.SysUserQueryRequest;
-import tech.ordinaryroad.upms.request.SysUserSaveRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdatePasswordRequest;
-import tech.ordinaryroad.upms.request.SysUserUpdateUsernameRequest;
+import tech.ordinaryroad.upms.request.*;
 
 import java.util.List;
 
@@ -69,6 +67,17 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/find/unique")
     Result<SysUserDTO> findByUniqueColumn(@Validated @RequestBody SysUserQueryRequest request);
 
+    /**
+     * 根据唯一列查找用户
+     *
+     * @param request Request
+     * @return Mono
+     * @deprecated 暂时没搞懂怎么用
+     */
+    @Deprecated
+    @PostMapping(value = "/user/find/unique/async")
+    Mono<Result<SysUserDTO>> findByUniqueColumnAsync(@Validated @RequestBody SysUserQueryRequest request);
+
     @PostMapping(value = "/user/update/username")
     Result<Boolean> updateUsername(@Validated @RequestBody SysUserUpdateUsernameRequest request);
 
@@ -76,6 +85,6 @@ public interface ISysUserApi {
     Result<Boolean> updatePassword(@Validated @RequestBody SysUserUpdatePasswordRequest request);
 
     @PostMapping(value = "/user/register")
-    Result<SysUserDTO> register(@Validated @RequestBody SysUserSaveRequest request);
+    Result<SysUserDTO> register(@Validated @RequestBody SysUserRegisterRequest request);
 
 }
