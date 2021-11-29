@@ -76,3 +76,6 @@ logs
 /**/*.iml
 
 .idea
+
+docker/**/*.jar
+docker/ordinaryroad-nginx/ssl
