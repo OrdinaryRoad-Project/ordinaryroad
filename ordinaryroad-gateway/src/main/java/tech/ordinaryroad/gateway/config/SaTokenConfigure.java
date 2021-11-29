@@ -41,10 +41,18 @@ public class SaTokenConfigure {
                 .addExclude("/login", "/logout", "/authorized")
                 // 开放地址 注册
                 .addExclude("/upms/user/register")
+
+                // 开放地址 验证码
+                .addExclude("/captcha/**")
+
                 // 鉴权方法：每次访问进入
                 .setAuth(obj -> {
-                    // 登录校验 -- 拦截所有路由
-                    SaRouter.match("/**").check(StpUtil::checkLogin);
+                    // Client校验和登录校验 -- 拦截所有路由
+                    SaRouter.match("/**").check(() -> {
+                        // 需要实现 SaOAuth2Template 接口
+//                        SaOAuth2Util.checkClientSecret("ordinaryroad-gateway", "secret");
+                        StpUtil.checkLogin();
+                    });
                 })
                 // 异常处理方法：每次setAuth函数出现异常时进入
                 .setError(e -> Result.fail(StatusCode.NO_PERMISSION, e.getMessage()));
