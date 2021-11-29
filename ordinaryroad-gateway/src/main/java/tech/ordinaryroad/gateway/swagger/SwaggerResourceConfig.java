@@ -41,7 +41,7 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                         }
                     });
         });
-
+        resources.add(swaggerResource("ordinaryroad-gateway", "/v2/api-docs"));
         return resources;
     }
 
