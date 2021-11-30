@@ -1,4 +1,24 @@
 {
+  "invalidPassword": "必须包含大小写字母和数字的组合，可以使用特殊字符",
+  "invalidEmail": "邮箱格式错误",
+  "minNChars": "长度不能小于{0}",
+  "maxNChars": "长度不能大于{0}",
+  "orUseORAccount": "或者使用OR账号",
+  "captcha": "验证码",
+  "password": "密码",
+  "getCaptcha": "获取验证码",
+  "registrationSuccessDialog": {
+    "title": "注册成功",
+    "confirmText": "去登录",
+    "content": "感谢您注册OR帐号，您的OR帐号为：{0}，请牢记！"
+  },
+  "captchaSendSuccess": "验证码已发送至{0}，请注意查收。",
+  "email": "邮箱",
+  "required": "必填",
+  "captchaNotValidMsg": "请输入完整的验证码！",
+  "register": "注册",
+  "logout": "登出",
+  "login": "登录",
   "confirmLogout": "确认退出登录？",
   "username": "用户名",
   "orNumber": "OR帐号",
@@ -24,8 +44,8 @@
   "themeTitles": {
     "light": "浅色主题",
     "dark": "深色主题",
-    "hunk": "猛男主题",
-    "system": "系统"
+    "hunk": "猛男配色",
+    "system": "深色猛男"
   },
   "menuTitles": {
     "userManagement": "用户管理",
