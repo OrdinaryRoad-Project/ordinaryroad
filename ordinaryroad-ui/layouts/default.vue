@@ -2,8 +2,10 @@
   <v-app>
     <v-navigation-drawer
       v-model="drawerLeftModel"
-      :mini-variant="miniVariant"
-      :clipped="clipped"
+      mini-variant-width="70"
+      :expand-on-hover="drawerMiniVariant"
+      :mini-variant="drawerMiniVariant"
+      :clipped="drawerClipped"
       fixed
       app
     >
@@ -26,20 +28,20 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar
-      :clipped-left="clipped"
+      :clipped-left="drawerClipped"
       fixed
       app
     >
       <v-app-bar-nav-icon @click.stop="toggleDrawerLeft" />
       <v-btn
         icon
-        @click.stop="miniVariant = !miniVariant"
+        @click.stop="toggleDrawerMiniVariant"
       >
-        <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
+        <v-icon>mdi-{{ `chevron-${drawerMiniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-btn
         icon
-        @click.stop="clipped = !clipped"
+        @click.stop="toggleDrawerClipped"
       >
         <v-icon>mdi-application</v-icon>
       </v-btn>
@@ -80,7 +82,7 @@
         icon
         @click.stop="toggleDrawerRight"
       >
-        <v-icon>mdi-menu</v-icon>
+        <v-icon>mdi-cog</v-icon>
       </v-btn>
     </v-app-bar>
     <v-main>
@@ -90,7 +92,7 @@
     </v-main>
     <v-navigation-drawer
       v-model="drawerRightModel"
-      width="300"
+      width="310"
       right
       temporary
       fixed
@@ -110,14 +112,15 @@
           <div class="text-subtitle-2 font-weight-black">
             {{ $t('theme') }}
           </div>
-          <v-item-group v-model="selectedThemeOptionModel" mandatory>
+          <v-item-group v-model="selectedThemeOption" mandatory>
             <v-container>
               <v-row>
                 <v-col
-                  v-for="themeOption in themeOptions"
+                  v-for="(themeOption,index) in themeOptions"
                   :key="themeOption.title"
                   cols="6"
                   class="pa-1"
+                  @click="click(index)"
                 >
                   <v-item v-slot="{ active, toggle }">
                     <v-card
@@ -150,14 +153,9 @@
 <script>
 // Utilities
 import { mapActions, mapGetters } from 'vuex'
+import { updateTheme } from 'static/js/utils/vuetify'
 
 export default {
-  data () {
-    return {
-      clipped: false,
-      miniVariant: false
-    }
-  },
   head () {
     return {
       htmlAttrs: {
@@ -169,6 +167,8 @@ export default {
     ...mapGetters('app', {
       drawerLeft: 'getDrawerLeft',
       drawerRight: 'getDrawerRight',
+      drawerMiniVariant: 'getDrawerMiniVariant',
+      drawerClipped: 'getDrawerClipped',
       selectedThemeOption: 'getSelectedThemeOption',
       themeOptions: 'getThemeOptions',
       menuItems: 'getMenuItems',
@@ -178,7 +178,6 @@ export default {
       localeOptions: 'getLocaleOptions',
       locales: 'getLocales'
     }),
-
     drawerLeftModel: {
       get () {
         return this.drawerLeft
@@ -194,20 +193,19 @@ export default {
       set (val) {
         this.setDrawerRight(val)
       }
-    },
-
-    selectedThemeOptionModel: {
-      get () {
-        return this.selectedThemeOption
-      },
-      set (val) {
-        this.setSelectedThemeOption({ value: val, $vuetify: this.$vuetify })
-      }
     }
+  },
+  mounted () {
+    // dom初始化完成再初始化主题
+    this.$nextTick(() => {
+      updateTheme(this.selectedThemeOption, this.$vuetify)
+    })
   },
   methods: {
     ...mapActions('app', {
       setSelectedThemeOption: 'setSelectedThemeOption',
+      toggleDrawerMiniVariant: 'toggleDrawerMiniVariant',
+      toggleDrawerClipped: 'toggleDrawerClipped',
       setDrawerLeft: 'setDrawerLeft',
       setDrawerRight: 'setDrawerRight',
       toggleDrawerLeft: 'toggleDrawerLeft',
@@ -228,6 +226,10 @@ export default {
           $route: this.$route
         }).then(() => value.cancel())
       })
+    },
+
+    click (index) {
+      this.setSelectedThemeOption({ value: index, $vuetify: this.$vuetify })
     }
   }
 }
