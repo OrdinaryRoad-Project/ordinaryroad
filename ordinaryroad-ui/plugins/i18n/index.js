@@ -19,4 +19,7 @@ export default ({ app, store }) => {
     }
     return `/${app.i18n.locale}/${link}`
   }
+  app.i18n.$t = function (key) {
+    return app.i18n.messages[app.i18n.locale][key]
+  }
 }
