@@ -19,7 +19,7 @@ export default function (context, inject) {
       return res.data
     } else {
       // 获取错误信息
-      const msg = errorCode[code] || res.data.details || res.data.msg || errorCode.default
+      const msg = errorCode[code] || res.data.msg || errorCode.default
       if (code === 3001) {
         store.commit('user/SET_TOKEN_INFO', null)
         store.commit('user/SET_SATOKEN', null)
