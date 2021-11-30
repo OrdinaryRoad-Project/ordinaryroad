@@ -14,7 +14,15 @@ export default {
     return state.drawerRight
   },
 
-  getSelectedThemeOption (state) {
+  getDrawerMiniVariant (state) {
+    return state.drawerMiniVariant
+  },
+
+  getDrawerClipped (state) {
+    return state.drawerClipped
+  },
+
+  getSelectedThemeOption: (state) => {
     return state.selectedThemeOption
   },
 

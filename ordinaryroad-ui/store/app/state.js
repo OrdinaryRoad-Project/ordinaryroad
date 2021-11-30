@@ -1,7 +1,9 @@
 export default () => ({
   drawerLeft: null,
   drawerRight: null,
-  selectedThemeOption: 0,
+  drawerMiniVariant: null,
+  drawerClipped: null,
+  selectedThemeOption: null,
   menuItems: [
     {
       titleKey: 'menuTitles.userManagement',
@@ -41,7 +43,8 @@ export default () => ({
     },
     {
       titleKey: 'themeTitles.system',
-      icon: 'mdi-desktop-tower-monitor'
+      // icon: 'mdi-desktop-tower-monitor'
+      icon: 'mdi-arm-flex'
     }
   ]
 })

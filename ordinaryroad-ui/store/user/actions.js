@@ -1,10 +1,11 @@
 export default {
   login ({ commit }, { params, $apis }) {
+    // TODO 密码非对称加密
     return new Promise((resolve, reject) => {
       $apis.user.login(params)
         .then((value) => {
-          commit('SET_TOKEN_INFO', value.data.data)
-          commit('SET_SATOKEN', value.data.data.satoken)
+          commit('SET_TOKEN_INFO', value.data)
+          commit('SET_SATOKEN', value.data.satoken)
           resolve()
         }).catch((error) => {
           reject(error)
