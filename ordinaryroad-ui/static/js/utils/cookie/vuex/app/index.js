@@ -5,8 +5,7 @@ export const DRAWER_MINI_VARIANT_KEY = 'drawerMiniVariant'
 export const DRAWER_CLIPPED_KEY = 'drawerClipped'
 
 export function getDrawerMiniVariant () {
-  const fromCookie = Cookies.get(DRAWER_MINI_VARIANT_KEY)
-  return fromCookie ? Boolean(fromCookie) : undefined
+  return Cookies.get(DRAWER_MINI_VARIANT_KEY) === 'true'
 }
 
 export function setDrawerMiniVariant (value) {
@@ -14,8 +13,7 @@ export function setDrawerMiniVariant (value) {
 }
 
 export function getDrawerClipped () {
-  const fromCookie = Cookies.get(DRAWER_CLIPPED_KEY)
-  return fromCookie ? Boolean(fromCookie) : undefined
+  return Cookies.get(DRAWER_CLIPPED_KEY) === 'true'
 }
 
 export function setDrawerClipped (value) {

@@ -4,8 +4,7 @@ export const REMEMBER_ME_KEY = 'rememberMe'
 export const TOKEN_INFO_KEY = 'tokenInfo'
 
 export function getRememberMe () {
-  const fromCookie = Cookies.get(REMEMBER_ME_KEY)
-  return fromCookie ? Boolean(fromCookie) : undefined
+  return Cookies.get(REMEMBER_ME_KEY) === 'true'
 }
 
 export function setRememberMe (value) {
