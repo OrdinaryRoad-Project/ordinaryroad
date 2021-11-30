@@ -5,8 +5,8 @@ export default {
     $axios = $axios || axios
   },
   apis: {
-    login: ({ captchaId, code, orNumber, username, email, password }) => {
-      const data = { captchaId, code, orNumber, username, email, password }
+    login: ({ rememberMe, captchaId, code, orNumber, username, email, password }) => {
+      const data = { rememberMe, captchaId, code, orNumber, username, email, password }
       return $axios({ url: '/login', method: 'post', data })
     },
     logout: () => {

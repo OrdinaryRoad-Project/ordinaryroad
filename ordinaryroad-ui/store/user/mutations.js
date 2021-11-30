@@ -1,20 +1,16 @@
-import Cookies from 'js-cookie'
+import { removeTokenInfo, setRememberMe, setTokenInfo } from 'static/js/utils/cookie/vuex/user'
 
 export default {
-  SET_TOKEN_INFO (state, tokenInfo) {
-    if (tokenInfo) {
-      Cookies.set('tokenInfo', JSON.stringify(tokenInfo))
-    } else {
-      Cookies.remove('tokenInfo')
-    }
-    state.tokenInfo = tokenInfo
+  REMOVE_TOKEN_INFO (state) {
+    state.tokenInfo = null
+    removeTokenInfo()
   },
-  SET_SATOKEN (state, satoken) {
-    if (satoken) {
-      Cookies.set('satoken', satoken)
-    } else {
-      Cookies.remove('satoken')
-    }
-    state.satoken = satoken
+  SET_TOKEN_INFO (state, tokenInfo) {
+    state.tokenInfo = tokenInfo
+    setTokenInfo(tokenInfo)
+  },
+  SET_REMEMBER_ME (state, rememberMe) {
+    state.rememberMe = rememberMe
+    setRememberMe(rememberMe)
   }
 }

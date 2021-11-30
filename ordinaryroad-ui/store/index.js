@@ -1,4 +1,5 @@
 import { DRAWER_CLIPPED_KEY, DRAWER_MINI_VARIANT_KEY, SELECTED_THEME_OPTION_KEY } from 'static/js/utils/cookie/vuex/app'
+import { REMEMBER_ME_KEY, TOKEN_INFO_KEY } from 'static/js/utils/cookie/vuex/user'
 
 function parseCookieString (string) {
   const cookie = {}
@@ -25,6 +26,11 @@ function getNumberFromCookie (string, key, defaultValue) {
   return fromCookie ? Number(fromCookie) : defaultValue
 }
 
+function getObjectFromCookie (string, key, defaultValue) {
+  const fromCookie = getFromCookie(string, key)
+  return fromCookie ? JSON.parse(decodeURIComponent(fromCookie)) : defaultValue
+}
+
 export const actions = {
   nuxtServerInit ({ commit }, { $vuetify, req, app }) {
     const store = app.store
@@ -37,6 +43,9 @@ export const actions = {
         value: getNumberFromCookie(cookieString, SELECTED_THEME_OPTION_KEY, store.getters['app/getSelectedThemeOption']),
         $vuetify
       })
+
+      commit('user/SET_REMEMBER_ME', getBooleanFromCookie(cookieString, REMEMBER_ME_KEY, store.getters['user/getRememberMe']))
+      commit('user/SET_TOKEN_INFO', getObjectFromCookie(cookieString, TOKEN_INFO_KEY, store.getters['user/getTokenInfo']))
     }
   }
 }

@@ -8,7 +8,10 @@ export default function (context, inject) {
   // 请求拦截器
   $axios.onRequest((config) => {
     // 将获取到token加入到请求头中
-    config.headers.common.satoken = store.getters['user/getSatoken'](store)
+    const tokenInfo = store.getters['user/getTokenInfo']
+    if (tokenInfo) {
+      config.headers.common.satoken = tokenInfo.satoken
+    }
   })
 
   // 响应拦截器
@@ -21,8 +24,7 @@ export default function (context, inject) {
       // 获取错误信息
       const msg = errorCode[code] || res.data.msg || errorCode.default
       if (code === 3001) {
-        store.commit('user/SET_TOKEN_INFO', null)
-        store.commit('user/SET_SATOKEN', null)
+        store.commit('user/REMOVE_TOKEN_INFO')
         context.$dialog({
           persistent: true,
           title: '系统提示',
