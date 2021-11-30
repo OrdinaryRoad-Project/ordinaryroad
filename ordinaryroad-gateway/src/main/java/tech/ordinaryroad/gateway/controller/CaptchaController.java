@@ -30,11 +30,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
+import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.gateway.dto.CaptchaLoginDTO;
 import tech.ordinaryroad.gateway.service.ICaptchaService;
 import tech.ordinaryroad.push.api.IEmailApi;
 import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
+import tech.ordinaryroad.upms.api.ISysUserApi;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
+import tech.ordinaryroad.upms.request.SysUserQueryRequest;
 
 import java.util.concurrent.*;
 
@@ -49,13 +53,14 @@ import java.util.concurrent.*;
 @RequestMapping("captcha")
 public class CaptchaController {
 
+    private final ISysUserApi sysUserApi;
     private final IEmailApi emailApi;
     private final ICaptchaService captchaService;
     private final ExecutorService executorService = new ThreadPoolExecutor(10, 20, 1L, TimeUnit.MINUTES, new LinkedBlockingQueue<>(), new ThreadFactory() {
         @Override
         public Thread newThread(@NotNull Runnable r) {
             Thread thread = new Thread(r);
-            thread.setName("邮件API调用线程");
+            thread.setName("API调用线程");
             return thread;
         }
     });
@@ -67,6 +72,18 @@ public class CaptchaController {
 
     @GetMapping("register")
     public Mono<Result<?>> generateRegisterCaptcha(@RequestParam String email) {
+        Future<Result<SysUserDTO>> byEmail = executorService.submit(() -> {
+            SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+            sysUserQueryRequest.setEmail(email);
+            return sysUserApi.findByUniqueColumn(sysUserQueryRequest);
+        });
+        try {
+            if (byEmail.get().getSuccess()) {
+                return Mono.just(Result.fail(StatusCode.EMAIL_ALREADY_EXIST));
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            return Mono.just(Result.fail(e.getMessage()));
+        }
         String code = captchaService.generateRegisterCaptcha(email);
         EmailRegisterCaptchaRequest request = new EmailRegisterCaptchaRequest();
         request.setEmail(email);
