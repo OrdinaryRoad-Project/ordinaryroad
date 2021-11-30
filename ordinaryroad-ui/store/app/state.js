@@ -3,7 +3,7 @@ export default () => ({
   drawerRight: false,
   // 设置初始值
   drawerMiniVariant: true,
-  drawerClipped: null,
+  drawerClipped: false,
   selectedThemeOption: 1,
   menuItems: [
     {

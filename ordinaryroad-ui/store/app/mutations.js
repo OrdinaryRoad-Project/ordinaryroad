@@ -26,7 +26,7 @@ export default {
   },
   TOGGLE_DRAWER_CLIPPED: (state) => {
     state.drawerClipped = !state.drawerClipped
-    setDrawerMiniVariant(state.drawerClipped)
+    setDrawerClipped(state.drawerClipped)
   },
   TOGGLE_DRAWER_LEFT: state => (state.drawerLeft = !state.drawerLeft),
   TOGGLE_DRAWER_RIGHT: state => (state.drawerRight = !state.drawerRight)
