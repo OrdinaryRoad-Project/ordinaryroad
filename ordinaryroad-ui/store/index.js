@@ -15,23 +15,25 @@ function getFromCookie (string, key) {
   return parseCookieString(string)[key]
 }
 
-function getBooleanFromCookie (string, key) {
-  return getFromCookie(string, key) === 'true'
+function getBooleanFromCookie (string, key, defaultValue) {
+  const fromCookie = getFromCookie(string, key)
+  return fromCookie ? fromCookie === 'true' : defaultValue
 }
 
-function getNumberFromCookie (string, key) {
+function getNumberFromCookie (string, key, defaultValue) {
   const fromCookie = getFromCookie(string, key)
-  return fromCookie ? Number(fromCookie) : null
+  return fromCookie ? Number(fromCookie) : defaultValue
 }
 
 export const actions = {
-  nuxtServerInit ({ commit }, { $vuetify, req }) {
-    // 初始化
+  nuxtServerInit ({ commit }, { $vuetify, req, app }) {
+    const store = app.store
+    // 初始化，可以获取初始值
     if (typeof req !== 'undefined' && req.headers && req.headers.cookie) {
       const cookieString = req.headers.cookie
-      commit('app/SET_DRAWER_MINI_VARIANT', getBooleanFromCookie(cookieString, DRAWER_MINI_VARIANT_KEY))
+      commit('app/SET_DRAWER_MINI_VARIANT', getBooleanFromCookie(cookieString, DRAWER_MINI_VARIANT_KEY, store.getters['app/getDrawerMiniVariant']))
       commit('app/SET_SELECTED_THEME_OPTION', {
-        value: getNumberFromCookie(cookieString, SELECTED_THEME_OPTION_KEY),
+        value: getNumberFromCookie(cookieString, SELECTED_THEME_OPTION_KEY, store.getters['app/getSelectedThemeOption']),
         $vuetify
       })
     }

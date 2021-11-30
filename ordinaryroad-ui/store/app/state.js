@@ -1,9 +1,10 @@
 export default () => ({
-  drawerLeft: null,
-  drawerRight: null,
-  drawerMiniVariant: null,
+  drawerLeft: true,
+  drawerRight: false,
+  // 设置初始值
+  drawerMiniVariant: true,
   drawerClipped: null,
-  selectedThemeOption: null,
+  selectedThemeOption: 1,
   menuItems: [
     {
       titleKey: 'menuTitles.userManagement',
