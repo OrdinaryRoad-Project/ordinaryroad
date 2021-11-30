@@ -77,11 +77,11 @@ public class AppController {
 
         // 用code获取token
         JSONObject params = new JSONObject();
-        params.put("grant_type", "authorization_code");
-        params.put("code", code);
-        params.put("client_id", clientId);
-        params.put("client_secret", clientSecret);
-        return exchangeToken(params);
+        params.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.authorization_code);
+        params.put(SaOAuth2Consts.Param.code, code);
+        params.put(SaOAuth2Consts.Param.client_id, clientId);
+        params.put(SaOAuth2Consts.Param.client_secret, clientSecret);
+        return exchangeToken(params, true);
     }
 
     @PostMapping("login")
@@ -94,7 +94,7 @@ public class AppController {
         params.put(SaOAuth2Consts.Param.client_id, clientId);
         params.put(SaOAuth2Consts.Param.username, orNumber);
         params.put(SaOAuth2Consts.Param.password, request.getPassword());
-        return exchangeToken(params);
+        return exchangeToken(params, request.getRememberMe());
     }
 
     @GetMapping("logout")
@@ -110,10 +110,11 @@ public class AppController {
     /**
      * 向auth-server请求，换取token，并在gateway端登录
      *
-     * @param params 请求参数
+     * @param params     请求参数
+     * @param rememberMe 记住我
      * @return 返回给客户端的响应
      */
-    private Result<JSONObject> exchangeToken(JSONObject params) {
+    private Result<JSONObject> exchangeToken(JSONObject params, Boolean rememberMe) {
         // 需要将结果封装
         params.put("wrapped", true);
         Result<JSONObject> response = Result.parse(
@@ -151,7 +152,7 @@ public class AppController {
         }
         String orNumber = orNumberResponse.getData();
         // 返回相关参数
-        StpUtil.login(orNumber);
+        StpUtil.login(orNumber, rememberMe);
         String tokenValue = StpUtil.getTokenValue();
         data.put("satoken", tokenValue);
         log.info("网关登录成功：{}，token：{}", orNumber, tokenValue);

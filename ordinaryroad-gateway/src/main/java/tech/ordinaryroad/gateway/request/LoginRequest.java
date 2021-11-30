@@ -45,12 +45,15 @@ public class LoginRequest implements IBaseRequest {
 
     private static final long serialVersionUID = -3404691201449928129L;
 
-    @ApiModelProperty("验证码UUID")
+    @ApiModelProperty("记住我")
+    private Boolean rememberMe;
+
+    @ApiModelProperty(value = "验证码UUID", required = true)
     @NotBlank(message = "验证码UUID不能为空")
     @Size(max = 36, message = "验证码UUID长度不能超过36")
     private String captchaId;
 
-    @ApiModelProperty("验证码")
+    @ApiModelProperty(value = "验证码", required = true)
     @NotBlank(message = "验证码不能为空")
     @Size(max = 10, message = "验证码长度不能超过10")
     private String code;
@@ -64,7 +67,7 @@ public class LoginRequest implements IBaseRequest {
     @ApiModelProperty("or帐号")
     private String orNumber;
 
-    @ApiModelProperty("密码")
+    @ApiModelProperty(value = "密码", required = true)
     @NotBlank(message = "密码不能为空")
     private String password;
 
