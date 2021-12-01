@@ -25,6 +25,7 @@ package tech.ordinaryroad.gateway.controller;
 
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.BooleanUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.ejlchina.okhttps.OkHttps;
 import lombok.RequiredArgsConstructor;
@@ -152,7 +153,7 @@ public class AppController {
         }
         String orNumber = orNumberResponse.getData();
         // 返回相关参数
-        StpUtil.login(orNumber, rememberMe);
+        StpUtil.login(orNumber, BooleanUtil.isTrue(rememberMe));
         String tokenValue = StpUtil.getTokenValue();
         data.put("satoken", tokenValue);
         log.info("网关登录成功：{}，token：{}", orNumber, tokenValue);
