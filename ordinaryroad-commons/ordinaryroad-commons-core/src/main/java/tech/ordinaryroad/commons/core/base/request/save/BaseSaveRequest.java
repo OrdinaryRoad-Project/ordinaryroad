@@ -3,6 +3,7 @@ package tech.ordinaryroad.commons.core.base.request.save;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
 /**
  * 新增/更新请求抽象类
@@ -12,7 +13,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public abstract class BaseSaveRequest implements IBaseSaveRequest {
+public abstract class BaseSaveRequest extends BaseRequest {
 
     private static final long serialVersionUID = -879891710040240181L;
 
