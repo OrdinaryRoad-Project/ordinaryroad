@@ -23,33 +23,14 @@
  */
 package tech.ordinaryroad.commons.core.base.dto;
 
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-
-import java.time.LocalDateTime;
-
 /**
+ * DTO DTO抽象类
+ *
  * @author mjz
- * @date 2021/11/29
+ * @date 2021/12/1
  */
-@Data
-public class BaseDTO implements IBaseDTO {
+public abstract class BaseDTO implements IBaseDTO {
 
-    private static final long serialVersionUID = 6284738194158708959L;
-
-    @ApiModelProperty("主键uuid")
-    private String uuid;
-
-    @ApiModelProperty("创建时间")
-    private LocalDateTime createdTime;
-
-    @ApiModelProperty("创建者uuid")
-    private String createBy;
-
-    @ApiModelProperty("更新时间")
-    private LocalDateTime updateTime;
-
-    @ApiModelProperty("更新者uuid")
-    private String updateBy;
+    private static final long serialVersionUID = -4406187362812160064L;
 
 }

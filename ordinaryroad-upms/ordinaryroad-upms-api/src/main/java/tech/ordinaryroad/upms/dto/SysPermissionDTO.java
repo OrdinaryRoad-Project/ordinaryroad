@@ -26,18 +26,21 @@ package tech.ordinaryroad.upms.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import lombok.EqualsAndHashCode;
+import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 
 /**
  * @author mjz
  * @date 2021/11/8
  */
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 @ApiModel
-public class SysPermissionDTO extends BaseDTO {
+public class SysPermissionDTO extends BaseModelDTO {
 
     private static final long serialVersionUID = 3946269706675533907L;
 
+    @EqualsAndHashCode.Include
     @ApiModelProperty("权限code")
     private String permissionCode;
 

@@ -21,41 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.auth.server.dto;
+package tech.ordinaryroad.commons.core.base.dto;
 
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
-import tech.ordinaryroad.upms.dto.SysPermissionDTO;
-import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
-import tech.ordinaryroad.upms.dto.SysRoleDTO;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
 /**
- * 用户相关信息DTO：User, Role, Permission, RequestPath
+ * Model DTO抽象类，包含 {@code BaseDO} 的一些通用字段
  *
  * @author mjz
- * @date 2021/12/1
+ * @date 2021/11/29
  */
 @Data
-@ApiModel
-public class UserInfoDTO extends BaseDTO {
+public class BaseModelDTO extends BaseDTO {
 
-    private static final long serialVersionUID = -6751413689961969112L;
+    private static final long serialVersionUID = 6284738194158708959L;
 
-    @ApiModelProperty("用户信息")
-    private SysUserDTO user;
+    @ApiModelProperty("主键uuid")
+    private String uuid;
 
-    @ApiModelProperty("拥有的所有角色")
-    private List<SysRoleDTO> roles;
+    @ApiModelProperty("创建时间")
+    private LocalDateTime createdTime;
 
-    @ApiModelProperty("拥有的所有权限")
-    private List<SysPermissionDTO> permissions;
+    @ApiModelProperty("创建者uuid")
+    private String createBy;
 
-    @ApiModelProperty("可以访问的所有请求路径")
-    private List<SysRequestPathDTO> requestPaths;
+    @ApiModelProperty("更新时间")
+    private LocalDateTime updateTime;
+
+    @ApiModelProperty("更新者uuid")
+    private String updateBy;
 
 }

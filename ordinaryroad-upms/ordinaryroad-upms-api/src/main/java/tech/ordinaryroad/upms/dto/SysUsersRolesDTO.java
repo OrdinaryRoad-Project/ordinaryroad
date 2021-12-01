@@ -26,7 +26,7 @@ package tech.ordinaryroad.upms.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 
 /**
  * @author mjz
@@ -34,7 +34,7 @@ import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
  */
 @Data
 @ApiModel
-public class SysUsersRolesDTO extends BaseDTO {
+public class SysUsersRolesDTO extends BaseModelDTO {
 
     private static final long serialVersionUID = -7044382516510759473L;
 

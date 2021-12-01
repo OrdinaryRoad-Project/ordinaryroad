@@ -26,7 +26,7 @@ package tech.ordinaryroad.gateway.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.IBaseDTO;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 
 /**
  * @author mjz
@@ -34,7 +34,7 @@ import tech.ordinaryroad.commons.core.base.dto.IBaseDTO;
  */
 @Data
 @ApiModel
-public class CaptchaLoginDTO implements IBaseDTO {
+public class CaptchaLoginDTO extends BaseDTO {
 
     private static final long serialVersionUID = 2607314725580018296L;
 
