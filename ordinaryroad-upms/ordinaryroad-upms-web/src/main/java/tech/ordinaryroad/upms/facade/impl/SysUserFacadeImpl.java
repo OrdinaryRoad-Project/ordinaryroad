@@ -137,12 +137,26 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         if (!byOrNumber.isPresent()) {
             return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
         }
+        String newUsername = request.getUsername();
         SysUserDO sysUserDO = byOrNumber.get();
+        String username = sysUserDO.getUsername();
+        if (newUsername.equals(username)) {
+            return Result.success(false);
+        }
+
+        Optional<SysUserDO> byUsername = sysUserService.findByUsername(newUsername);
+        if (byUsername.isPresent()) {
+            return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+        }
 
         SysUserDO newSysUserDO = new SysUserDO();
         newSysUserDO.setUuid(sysUserDO.getUuid());
-        newSysUserDO.setUsername(sysUserDO.getUsername());
-        return Result.success(sysUserService.doUpdateSelective(newSysUserDO));
+        newSysUserDO.setUsername(newUsername);
+        if (sysUserService.doUpdateSelective(newSysUserDO)) {
+            return Result.success(true);
+        } else {
+            return Result.fail();
+        }
     }
 
     @Override

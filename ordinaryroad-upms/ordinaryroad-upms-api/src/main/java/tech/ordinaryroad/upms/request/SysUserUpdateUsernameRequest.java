@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
+import tech.ordinaryroad.commons.core.base.request.IBaseRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -39,7 +39,7 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @ApiModel
-public class SysUserUpdateUsernameRequest extends BaseSaveRequest {
+public class SysUserUpdateUsernameRequest implements IBaseRequest {
 
     private static final long serialVersionUID = -4860381285231585328L;
 
