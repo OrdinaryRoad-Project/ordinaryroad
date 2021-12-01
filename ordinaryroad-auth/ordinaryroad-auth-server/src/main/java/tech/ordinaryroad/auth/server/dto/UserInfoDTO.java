@@ -26,7 +26,7 @@ package tech.ordinaryroad.auth.server.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.commons.core.base.dto.IBaseDTO;
 import tech.ordinaryroad.upms.dto.SysPermissionDTO;
 import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
@@ -42,7 +42,7 @@ import java.util.List;
  */
 @Data
 @ApiModel
-public class UserInfoDTO extends BaseDTO {
+public class UserInfoDTO implements IBaseDTO {
 
     private static final long serialVersionUID = -6751413689961969112L;
 
