@@ -5,6 +5,7 @@ export default {
       $apis.user.login(params)
         .then((value) => {
           commit('SET_TOKEN_INFO', value.data)
+          commit('SET_TOKEN_INFO', value.data.userInfo)
           resolve()
         }).catch((error) => {
           reject(error)
@@ -15,6 +16,7 @@ export default {
     return new Promise((resolve, reject) => {
       $apis.user.logout().then(() => {
         commit('REMOVE_TOKEN_INFO')
+        commit('REMOVE_USER_INFO')
         $router.push({ path: '/user/login', query: { redirect: $route.fullPath } })
         resolve()
       }).catch((error) => {
@@ -24,5 +26,8 @@ export default {
   },
   setRememberMe ({ commit }, rememberMe) {
     commit('SET_REMEMBER_ME', rememberMe)
+  },
+  setUserInfo ({ commit }, userInfo) {
+    commit('SET_TOKEN_INFO', userInfo)
   }
 }

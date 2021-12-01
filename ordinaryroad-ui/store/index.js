@@ -1,5 +1,5 @@
 import { DRAWER_CLIPPED_KEY, DRAWER_MINI_VARIANT_KEY, SELECTED_THEME_OPTION_KEY } from 'static/js/utils/cookie/vuex/app'
-import { REMEMBER_ME_KEY, TOKEN_INFO_KEY } from 'static/js/utils/cookie/vuex/user'
+import { REMEMBER_ME_KEY, TOKEN_INFO_KEY, USER_INFO_KEY } from 'static/js/utils/cookie/vuex/user'
 
 function parseCookieString (string) {
   const cookie = {}
@@ -46,6 +46,7 @@ export const actions = {
 
       commit('user/SET_REMEMBER_ME', getBooleanFromCookie(cookieString, REMEMBER_ME_KEY, store.getters['user/getRememberMe']))
       commit('user/SET_TOKEN_INFO', getObjectFromCookie(cookieString, TOKEN_INFO_KEY, store.getters['user/getTokenInfo']))
+      commit('user/SET_USER_INFO', getObjectFromCookie(cookieString, USER_INFO_KEY, store.getters['user/getUserInfo']))
     }
   }
 }

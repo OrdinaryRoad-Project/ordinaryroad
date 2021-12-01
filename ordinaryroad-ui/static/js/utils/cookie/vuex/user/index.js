@@ -2,6 +2,7 @@ import Cookies from 'js-cookie'
 
 export const REMEMBER_ME_KEY = 'rememberMe'
 export const TOKEN_INFO_KEY = 'tokenInfo'
+export const USER_INFO_KEY = 'userInfo'
 
 export function getRememberMe () {
   return Cookies.get(REMEMBER_ME_KEY) === 'true'
@@ -18,10 +19,20 @@ export function getTokenInfo () {
 
 export function setTokenInfo (tokenInfo) {
   Cookies.set(TOKEN_INFO_KEY, JSON.stringify(tokenInfo), {
-    expires: getRememberMe() ? 365 : null
+    expires: getRememberMe() ? 30 : null
   })
 }
 
 export function removeTokenInfo () {
   Cookies.remove(TOKEN_INFO_KEY)
+}
+
+export function setUserInfo (tokenInfo) {
+  Cookies.set(USER_INFO_KEY, JSON.stringify(tokenInfo), {
+    expires: getRememberMe() ? 30 : null
+  })
+}
+
+export function removeUserInfo () {
+  Cookies.remove(USER_INFO_KEY)
 }
