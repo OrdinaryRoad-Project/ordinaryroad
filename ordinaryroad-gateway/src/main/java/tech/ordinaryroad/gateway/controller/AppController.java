@@ -93,6 +93,7 @@ public class AppController {
         JSONObject params = new JSONObject();
         params.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);
         params.put(SaOAuth2Consts.Param.client_id, clientId);
+        params.put(SaOAuth2Consts.Param.scope, "openid,userinfo");
         params.put(SaOAuth2Consts.Param.username, orNumber);
         params.put(SaOAuth2Consts.Param.password, request.getPassword());
         return exchangeToken(params, request.getRememberMe());
@@ -134,6 +135,7 @@ public class AppController {
 
         // 根据openid获取其对应的userId
         JSONObject data = response.getData();
+        String accessToken = data.getString(SaOAuth2Consts.Param.access_token);
         String openid = data.getString("openid");
         String clientId = params.getString(SaOAuth2Consts.Param.client_id);
         HashMap<String, String> orNumberParams = new HashMap<>(2);
@@ -159,7 +161,7 @@ public class AppController {
 
         Result<JSONObject> userInfoResponse = Result.parse(
                 OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/userinfo")
-                        .addBodyPara(orNumberParams)
+                        .addBodyPara(SaOAuth2Consts.Param.access_token, accessToken)
                         .post()
                         .getBody().toString()
         );
