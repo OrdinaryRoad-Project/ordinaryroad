@@ -156,7 +156,19 @@ public class AppController {
         StpUtil.login(orNumber, BooleanUtil.isTrue(rememberMe));
         String tokenValue = StpUtil.getTokenValue();
         data.put("satoken", tokenValue);
-        log.info("网关登录成功：{}，token：{}", orNumber, tokenValue);
+
+        Result<JSONObject> userInfoResponse = Result.parse(
+                OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/userinfo")
+                        .addBodyPara(orNumberParams)
+                        .post()
+                        .getBody().toString()
+        );
+        if (userInfoResponse == null) {
+            return Result.fail();
+        }
+        data.put("userInfo", userInfoResponse.getData());
+
+        log.info("Gateway login successfully. OrNumber：{}, Token：{}\nUserInfo: {}", orNumber, tokenValue, userInfoResponse.getData());
         return Result.success(data);
     }
 
