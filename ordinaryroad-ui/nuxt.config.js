@@ -1,4 +1,3 @@
-import colors from 'vuetify/es5/util/colors'
 import en from 'vuetify/lib/locale/en'
 import zhHans from 'vuetify/lib/locale/zh-Hans'
 
@@ -59,12 +58,13 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/dayjs'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'http://localhost:9090',
+    baseURL: 'https://ordinaryroad.tech:8090',
     withCredentials: true,
     timeout: 10000
   },
@@ -82,26 +82,12 @@ export default {
       locales: { en, 'zh-Hans': zhHans },
       current: 'zh-Hans'
     },
-    customVariables: ['~/assets/variables.scss'],
-    theme: {
-      themes: {
-        dark: {
-          primary: colors.blue.darken2,
-          accent:
-          colors.grey.darken3,
-          secondary:
-          colors.amber.darken3,
-          info:
-          colors.teal.lighten1,
-          warning:
-          colors.amber.base,
-          error:
-          colors.deepOrange.accent4,
-          success:
-          colors.green.accent3
-        }
-      }
-    }
+    customVariables: ['~/assets/variables.scss']
+  },
+
+  dayjs: {
+    locales: ['en', 'zh-cn'],
+    defaultLocale: 'zh-cn'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

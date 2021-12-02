@@ -26,25 +26,28 @@ package tech.ordinaryroad.upms.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
+import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 
 /**
  * @author mjz
  * @date 2021/11/8
  */
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 @ApiModel
-public class SysRequestPathDTO implements Serializable {
+public class SysRequestPathDTO extends BaseModelDTO {
 
     private static final long serialVersionUID = -7506769423673444795L;
 
     @ApiModelProperty("请求路径所需要的权限uuid")
     private String permissionUuid;
 
+    @EqualsAndHashCode.Include
     @ApiModelProperty("路径url")
     private String path;
 
+    @EqualsAndHashCode.Include
     @ApiModelProperty("路径名称")
     private String pathName;
 }

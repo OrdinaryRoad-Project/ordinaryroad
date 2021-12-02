@@ -1,4 +1,28 @@
 {
+  "whatUpdateSuccessfully": "{0} updated successfully.",
+  "userMenuTitles": {
+    "userProfile": "User Profile"
+  },
+  "invalidPassword": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used.",
+  "invalidEmail": "Invalid Email",
+  "minNChars": "The length cannot be less than {0}",
+  "maxNChars": "The length cannot be greater than {0}",
+  "orUseORAccount": "Or use OR account",
+  "captcha": "Captcha",
+  "password": "Password",
+  "getCaptcha": "Get Captcha",
+  "registrationSuccessDialog": {
+    "title": "Registration Success",
+    "confirmText": "Go to login",
+    "content": "Thank you for registering an OR account. Your OR account number is: {0}. Please remember!"
+  },
+  "captchaSendSuccess": "The captcha has been sent to {0}, please check the email.",
+  "email": "Email",
+  "required": "Required",
+  "captchaNotValidMsg": "Please enter the complete verification code!",
+  "register": "Register",
+  "logout": "Logout",
+  "login": "Login",
   "confirmLogout": "Confirm Logout?",
   "username": "Username",
   "orNumber": "OR Account",
@@ -9,7 +33,7 @@
   "dataTable": {
     "actions": "Actions"
   },
-  "deleteSuccess": "Successfully deleted",
+  "deleteSuccess": "Successfully deleted.",
   "deleteDialog": {
     "content": "Are you sure to delete the data whose uuid is {0}? It cannot be restored after deletion."
   },
@@ -25,7 +49,7 @@
     "light": "Light",
     "dark": "Dark",
     "hunk": "Hunk",
-    "system": "System"
+    "system": "Dark Hunk"
   },
   "menuTitles": {
     "userManagement": "User Management",

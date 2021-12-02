@@ -137,12 +137,26 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         if (!byOrNumber.isPresent()) {
             return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
         }
+        String newUsername = request.getUsername();
         SysUserDO sysUserDO = byOrNumber.get();
+        String username = sysUserDO.getUsername();
+        if (newUsername.equals(username)) {
+            return Result.success(false);
+        }
+
+        Optional<SysUserDO> byUsername = sysUserService.findByUsername(newUsername);
+        if (byUsername.isPresent()) {
+            return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+        }
 
         SysUserDO newSysUserDO = new SysUserDO();
         newSysUserDO.setUuid(sysUserDO.getUuid());
-        newSysUserDO.setUsername(sysUserDO.getUsername());
-        return Result.success(sysUserService.doUpdateSelective(newSysUserDO));
+        newSysUserDO.setUsername(newUsername);
+        if (sysUserService.doUpdateSelective(newSysUserDO)) {
+            return Result.success(true);
+        } else {
+            return Result.fail();
+        }
     }
 
     @Override
@@ -187,12 +201,14 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<SysUserDTO> register(SysUserRegisterRequest request) {
-        Result<SysUserDTO> validResult = checkValid(request);
-        if (validResult != null) {
-            return validResult;
+        // 校验邮箱
+        String email = request.getEmail();
+        Optional<SysUserDO> byEmail = sysUserService.findByEmail(email);
+        if (byEmail.isPresent()) {
+            return Result.fail(StatusCode.EMAIL_ALREADY_EXIST);
         }
-        // 密码加密
         SysUserDO sysUserDO = objMapStruct.transfer(request);
+        // 密码加密
         sysUserDO.setPassword(passwordEncoder.encode(request.getPassword()));
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }

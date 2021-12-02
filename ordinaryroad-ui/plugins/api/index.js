@@ -5,9 +5,10 @@ export default function ({ $axios, app }, inject) {
   // 初始化axios
   upmsApis.initAxios($axios)
   userApis.initAxios($axios)
-  // $apis
-  inject('apis', {
+  const $apis = {
     user: userApis.apis,
     upms: upmsApis.apis
-  })
+  }
+  // $apis
+  inject('apis', $apis)
 }

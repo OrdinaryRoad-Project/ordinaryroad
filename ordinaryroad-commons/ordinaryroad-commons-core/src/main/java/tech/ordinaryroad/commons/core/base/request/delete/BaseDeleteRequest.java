@@ -3,6 +3,7 @@ package tech.ordinaryroad.commons.core.base.request.delete;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
 import javax.validation.constraints.NotBlank;
 
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotBlank;
  */
 @Getter
 @Setter
-public class BaseDeleteRequest implements IBaseDeleteRequest {
+public class BaseDeleteRequest extends BaseRequest {
 
     private static final long serialVersionUID = 3183898936938983687L;
 

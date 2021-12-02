@@ -7,5 +7,10 @@ export default ({ app, store }) => {
         store.commit('app/SET_TITLE_KEY', item.titleKey)
       }
     })
+    store.getters['app/getUserMenuItems'].forEach((item) => {
+      if (item.to === to.path) {
+        store.commit('app/SET_TITLE_KEY', item.titleKey)
+      }
+    })
   })
 }

@@ -1,4 +1,5 @@
 export default () => ({
   tokenInfo: null,
-  satoken: null
+  rememberMe: false,
+  userInfo: null
 })

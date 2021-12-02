@@ -1,18 +1,15 @@
-import Cookies from 'js-cookie'
-
 export default {
-  getTokenInfo: state => ($store) => {
-    if (!state.tokenInfo) {
-      $store.commit('user/SET_TOKEN_INFO', Cookies.get('tokenInfo') ? JSON.parse(Cookies.get('tokenInfo')) : null)
-      console.log('从cookie获取tokenInfo', state.tokenInfo)
+  getTokenInfo: state => state.tokenInfo,
+  getRememberMe: state => state.rememberMe,
+  getUserInfo: state => state.userInfo,
+  getUserRolesNameString: (state) => {
+    let userRolesNameString = ''
+    if (!state.userInfo.roles) {
+      return userRolesNameString
     }
-    return state.tokenInfo
-  },
-  getSatoken: state => ($store) => {
-    if (!state.satoken) {
-      $store.commit('user/SET_SATOKEN', Cookies.get('satoken'))
-      console.log('从cookie获取satoken', state.satoken)
-    }
-    return state.satoken
+    state.userInfo.roles.forEach((role) => {
+      userRolesNameString += role.roleName + '，'
+    })
+    return userRolesNameString.slice(0, userRolesNameString.length - 1)
   }
 }

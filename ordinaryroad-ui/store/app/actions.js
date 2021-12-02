@@ -11,8 +11,20 @@ export default {
   setTitleKey ({ commit }, value) {
     commit('SET_TITLE_KEY', value)
   },
+  setDrawerMiniVariant ({ commit }, value) {
+    commit('SET_DRAWER_MINI_VARIANT', value)
+  },
+  setDrawerClipped ({ commit }, value) {
+    commit('SET_DRAWER_CLIPPED', value)
+  },
   setSelectedThemeOption ({ commit }, values) {
     commit('SET_SELECTED_THEME_OPTION', values)
+  },
+  toggleDrawerMiniVariant ({ commit }) {
+    commit('TOGGLE_DRAWER_MINI_VARIANT')
+  },
+  toggleDrawerClipped ({ commit }) {
+    commit('TOGGLE_DRAWER_CLIPPED')
   },
   toggleDrawerLeft ({ commit }) {
     commit('TOGGLE_DRAWER_LEFT')

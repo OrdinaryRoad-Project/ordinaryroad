@@ -23,6 +23,8 @@
  */
 package tech.ordinaryroad.commons.core.constant;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 缓存常量
  * <p>
@@ -40,13 +42,35 @@ public class CacheConstants {
     public static String CAPTCHA_DEFAULT_KEY = "gateway:captcha.default:%s:string";
 
     /**
-     * 登录验证码的key
+     * 登录验证码的key，captchaId
      */
     public static String CAPTCHA_LOGIN_KEY = "gateway:captcha.login:%s:string";
 
     /**
-     * 注册验证码的key
+     * 注册验证码的key，captchaId
      */
     public static String CAPTCHA_REGISTER_KEY = "gateway:captcha.register:%s:string";
+
+    /**
+     * 生成登录验证码缓存key
+     *
+     * @param captchaId uuid
+     * @return KEY
+     * @see CacheConstants#CAPTCHA_LOGIN_KEY
+     */
+    public static String generateLoginCaptchaKey(@NotNull String captchaId) {
+        return String.format(CacheConstants.CAPTCHA_LOGIN_KEY, captchaId);
+    }
+
+    /**
+     * 生成注册验证码缓存key
+     *
+     * @param email 邮箱
+     * @return KEY
+     * @see CacheConstants#CAPTCHA_REGISTER_KEY
+     */
+    public static String generateRegisterCaptchaKey(@NotNull String email) {
+        return String.format(CacheConstants.CAPTCHA_REGISTER_KEY, email);
+    }
 
 }

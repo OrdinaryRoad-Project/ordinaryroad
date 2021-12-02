@@ -26,25 +26,25 @@ package tech.ordinaryroad.upms.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-
-import java.io.Serializable;
+import lombok.EqualsAndHashCode;
+import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 
 /**
  * @author mjz
  * @date 2021/11/3
  */
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
 @ApiModel
-public class SysRoleDTO implements Serializable {
+public class SysRoleDTO extends BaseModelDTO {
 
     private static final long serialVersionUID = 7448271006522452148L;
 
-    @ApiModelProperty("主键uuid")
-    private String uuid;
-
+    @EqualsAndHashCode.Include
     @ApiModelProperty("角色名称")
     private String roleName;
 
+    @EqualsAndHashCode.Include
     @ApiModelProperty("角色code")
     private String roleCode;
 

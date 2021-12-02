@@ -1,0 +1,99 @@
+version: "2"
+services:
+  ordinaryroad-nginx:
+    image: ordinaryroad-nginx
+    container_name: ordinaryroad-nginx
+    build:
+      context: ./ordinaryroad-nginx
+    volumes:
+      - ./ordinaryroad-nginx/conf/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      # 网关 https
+      - "8090:8090"
+      # 认证服务器 https
+      - "8302:8302"
+    restart: always
+
+  ordinaryroad-redis:
+    image: ordinaryroad-redis
+    container_name: ordinaryroad-redis
+    build:
+      context: ./ordinaryroad-redis
+    hostname: ordinaryroad-redis
+    restart: always
+
+  ordinaryroad-mysql:
+    image: ordinaryroad-mysql
+    container_name: ordinaryroad-mysql
+    build:
+      context: ./ordinaryroad-mysql
+    volumes:
+      - ./ordinaryroad-mysql/etc/my.cnf:/etc/my.cnf
+      - ./ordinaryroad-mysql/data:/var/lib/mysql
+    ports:
+      - "3307:3307"
+    hostname: ordinaryroad-mysql
+    restart: always
+
+  ordinaryroad-nacos:
+    image: ordinaryroad-nacos
+    container_name: ordinaryroad-nacos
+    build:
+      context: ./ordinaryroad-nacos
+    volumes:
+      - ./ordinaryroad-nacos/standalone-logs/:/home/nacos/logs
+    ports:
+      - "8848:8848"
+      - "9848:9848"
+      - "9555:9555"
+    depends_on:
+      - ordinaryroad-mysql
+    hostname: ordinaryroad-nacos
+    restart: always
+
+  ordinaryroad-gateway:
+    image: ordinaryroad-gateway
+    container_name: ordinaryroad-gateway
+    build:
+      context: ./ordinaryroad-gateway
+    depends_on:
+      - ordinaryroad-nacos
+      - ordinaryroad-redis
+    hostname: ordinaryroad-gateway
+    restart: always
+
+  ordinaryroad-auth-server:
+    image: ordinaryroad-auth-server
+    container_name: ordinaryroad-auth-server
+    build:
+      context: ./ordinaryroad-auth-server
+    depends_on:
+      - ordinaryroad-mysql
+      - ordinaryroad-redis
+      - ordinaryroad-nacos
+    hostname: ordinaryroad-auth-server
+    restart: always
+
+  ordinaryroad-upms:
+    image: ordinaryroad-upms
+    container_name: ordinaryroad-upms
+    build:
+      context: ./ordinaryroad-upms
+    depends_on:
+      - ordinaryroad-mysql
+      - ordinaryroad-redis
+      - ordinaryroad-nacos
+    hostname: ordinaryroad-upms
+    restart: always
+
+  ordinaryroad-push:
+    image: ordinaryroad-push
+    container_name: ordinaryroad-push
+    build:
+      context: ./ordinaryroad-push
+    depends_on:
+      - ordinaryroad-mysql
+      - ordinaryroad-redis
+      - ordinaryroad-nacos
+    hostname: ordinaryroad-push
+    restart: always

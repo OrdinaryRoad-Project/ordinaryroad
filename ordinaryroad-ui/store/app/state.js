@@ -1,7 +1,17 @@
 export default () => ({
-  drawerLeft: null,
-  drawerRight: null,
-  selectedThemeOption: 0,
+  drawerLeft: true,
+  drawerRight: false,
+  // 设置初始值
+  drawerMiniVariant: true,
+  drawerClipped: false,
+  selectedThemeOption: 1,
+  userMenuItems: [
+    {
+      titleKey: 'userMenuTitles.userProfile',
+      to: '/user/profile',
+      icon: 'mdi-account'
+    }
+  ],
   menuItems: [
     {
       titleKey: 'menuTitles.userManagement',
@@ -41,7 +51,8 @@ export default () => ({
     },
     {
       titleKey: 'themeTitles.system',
-      icon: 'mdi-desktop-tower-monitor'
+      // icon: 'mdi-desktop-tower-monitor'
+      icon: 'mdi-arm-flex'
     }
   ]
 })

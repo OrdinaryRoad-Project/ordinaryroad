@@ -107,7 +107,7 @@
             <template #input>
               <v-text-field
                 v-model="props.item.username"
-                :rules="[max25chars]"
+                :rules="[$rules.required, $rules.max25chars]"
                 label="Edit"
                 single-line
                 counter
@@ -140,7 +140,6 @@
 export default {
   data () {
     return {
-      max25chars: v => v.length <= 25 || 'Input too long!',
       options: {},
       searchParams: {
         username: null
@@ -173,8 +172,9 @@ export default {
     headers: (vm) => {
       return [
         { text: 'UUID', value: 'uuid', sortable: false },
-        { text: vm.$t('username'), value: 'username', sortable: false },
+        { text: vm.$t('email'), value: 'email', sortable: false },
         { text: vm.$t('orNumber'), value: 'orNumber', sortable: false },
+        { text: vm.$t('username'), value: 'username', sortable: false },
         { text: vm.$t('createdTime'), value: 'createdTime', sortable: false },
         { text: vm.$t('createBy'), value: 'createBy', sortable: false },
         { text: vm.$t('updateTime'), value: 'updateTime', sortable: false },
