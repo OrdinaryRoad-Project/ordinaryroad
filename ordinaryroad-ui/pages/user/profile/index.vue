@@ -139,17 +139,21 @@ export default {
       if (this.usernameTextField.disabled) {
         this.usernameTextField.disabled = false
       } else if (this.$refs.usernameForm.validate()) {
-        this.usernameTextField.loading = true
-        this.updateUsername({
-          username: this.usernameTextField.value,
-          $apis: this.$apis
-        }).then(() => {
-          this.usernameTextField.loading = false
-          this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('username')]))
+        if (this.usernameTextField.value === this.userInfo.user.username) {
           this.usernameTextField.disabled = true
-        }).catch(() => {
-          this.usernameTextField.loading = false
-        })
+        } else {
+          this.usernameTextField.loading = true
+          this.updateUsername({
+            username: this.usernameTextField.value,
+            $apis: this.$apis
+          }).then(() => {
+            this.usernameTextField.loading = false
+            this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('username')]))
+            this.usernameTextField.disabled = true
+          }).catch(() => {
+            this.usernameTextField.loading = false
+          })
+        }
       }
     }
   }
