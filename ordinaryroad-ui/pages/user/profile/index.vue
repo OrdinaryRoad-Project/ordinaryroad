@@ -145,6 +145,8 @@ export default {
           $apis: this.$apis
         }).then(() => {
           this.usernameTextField.loading = false
+          this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('username')]))
+          this.usernameTextField.disabled = true
         }).catch(() => {
           this.usernameTextField.loading = false
         })
