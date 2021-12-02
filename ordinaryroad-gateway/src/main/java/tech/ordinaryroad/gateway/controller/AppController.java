@@ -65,10 +65,10 @@ public class AppController {
     private final WebClient webClient;
 
     /**
-     * 登录：http://auth-server:9302/oauth2/authorize?response_type=code&client_id=1001&redirect_uri=http://localhost:9090/authorized&scope=userinfo
+     * 登录：https://auth-server.ordinaryroad.tech:8302/oauth2/authorize?response_type=code&client_id=ordinaryroad-gateway&redirect_uri=https://ordinaryroad.tech:8090/authorized&scope=userinfo,openid
      * 登录成功后的回调，设置为已登录状态
      * <p>
-     * 回调示例：http://localhost:9090/authorized?code=8mVExAojCrZN10HmozB4QtV1KS8z8NNEN2CIWVKuAzy7lmWLUHDfIEhZZ5Ys
+     * 回调示例：https://ordinaryroad.tech:8090/authorized?code=WqgMfxtmJKVjzX9RHswCcgR4FsZyUtmcjnYEcVWqlIARl2zSgHH6c6UKAzvf
      *
      * @return Result
      */
@@ -93,7 +93,7 @@ public class AppController {
         JSONObject params = new JSONObject();
         params.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);
         params.put(SaOAuth2Consts.Param.client_id, clientId);
-        params.put(SaOAuth2Consts.Param.scope, "openid,userinfo");
+        params.put(SaOAuth2Consts.Param.scope, "userinfo");
         params.put(SaOAuth2Consts.Param.username, orNumber);
         params.put(SaOAuth2Consts.Param.password, request.getPassword());
         return exchangeToken(params, request.getRememberMe());

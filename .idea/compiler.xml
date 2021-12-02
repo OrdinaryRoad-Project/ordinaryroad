@@ -12,14 +12,16 @@
           <entry name="$MAVEN_REPOSITORY$/org/mapstruct/mapstruct/1.4.1.Final/mapstruct-1.4.1.Final.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.12/lombok-1.18.12.jar" />
         </processorPath>
+        <module name="ordinaryroad-push-web" />
         <module name="ordinaryroad-gateway" />
         <module name="ordinaryroad-upms-web" />
         <module name="ordinaryroad-commons-mybatis" />
-        <module name="ordinaryroad-commons-satoken" />
         <module name="ordinaryroad-commons-core" />
+        <module name="ordinaryroad-commons-satoken" />
         <module name="ordinaryroad-upms-api" />
         <module name="ordinaryroad-commons-swagger" />
         <module name="ordinaryroad-auth-server" />
+        <module name="ordinaryroad-push-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
@@ -34,6 +36,9 @@
       <module name="ordinaryroad-commons-swagger" target="8" />
       <module name="ordinaryroad-gateway" target="8" />
       <module name="ordinaryroad-generator" target="8" />
+      <module name="ordinaryroad-push" target="8" />
+      <module name="ordinaryroad-push-api" target="8" />
+      <module name="ordinaryroad-push-web" target="8" />
       <module name="ordinaryroad-upms" target="8" />
       <module name="ordinaryroad-upms-api" target="8" />
       <module name="ordinaryroad-upms-web" target="8" />
