@@ -94,6 +94,14 @@ public interface ISysUserFacade {
     Result<Boolean> updateUsername(SysUserUpdateUsernameRequest request);
 
     /**
+     * 更新邮箱
+     *
+     * @param request Request
+     * @return Boolean
+     */
+    Result<Boolean> updateEmail(SysUserUpdateEmailRequest request);
+
+    /**
      * 更新密码
      *
      * @param request Request

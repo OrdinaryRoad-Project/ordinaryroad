@@ -15,5 +15,9 @@ export default {
   updateUsername: (username) => {
     const data = { username }
     return $axios({ url: '/upms/user/update/username', method: 'post', data })
+  },
+  updateEmail: (email) => {
+    const data = { email }
+    return $axios({ url: '/upms/user/update/email', method: 'post', data })
   }
 }

@@ -94,6 +94,11 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
+    public Result<Boolean> updateEmail(@RequestBody @Validated SysUserUpdateEmailRequest request) {
+        return sysUserFacade.updateEmail(request);
+    }
+
+    @Override
     public Result<Boolean> updatePassword(@RequestBody @Validated SysUserUpdatePasswordRequest request) {
         return sysUserFacade.updatePassword(request);
     }

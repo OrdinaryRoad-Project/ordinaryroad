@@ -160,6 +160,36 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     }
 
     @Override
+    public Result<Boolean> updateEmail(SysUserUpdateEmailRequest request) {
+        // 获取当前登录用户
+        String orNumber = StpUtil.getLoginIdAsString();
+        Optional<SysUserDO> byOrNumber = sysUserService.findByOrNumber(orNumber);
+        if (!byOrNumber.isPresent()) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+        String newEmail = request.getEmail();
+        SysUserDO sysUserDO = byOrNumber.get();
+        String email = sysUserDO.getEmail();
+        if (newEmail.equals(email)) {
+            return Result.success(false);
+        }
+
+        Optional<SysUserDO> byEmail = sysUserService.findByEmail(newEmail);
+        if (byEmail.isPresent()) {
+            return Result.fail(StatusCode.EMAIL_ALREADY_EXIST);
+        }
+
+        SysUserDO newSysUserDO = new SysUserDO();
+        newSysUserDO.setUuid(sysUserDO.getUuid());
+        newSysUserDO.setEmail(newEmail);
+        if (sysUserService.doUpdateSelective(newSysUserDO)) {
+            return Result.success(true);
+        } else {
+            return Result.fail();
+        }
+    }
+
+    @Override
     public Result<Boolean> updatePassword(SysUserUpdatePasswordRequest request) {
         // 获取当前登录用户
         String orNumber = StpUtil.getLoginIdAsString();

@@ -34,6 +34,16 @@ export default {
       })
     })
   },
+  updateEmail ({ commit }, { email, $apis }) {
+    return new Promise((resolve, reject) => {
+      $apis.upms.user.updateEmail(email).then(() => {
+        commit('UPDATE_USER_INFO_EMAIL', email)
+        resolve()
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
   setRememberMe ({ commit }, rememberMe) {
     commit('SET_REMEMBER_ME', rememberMe)
   },

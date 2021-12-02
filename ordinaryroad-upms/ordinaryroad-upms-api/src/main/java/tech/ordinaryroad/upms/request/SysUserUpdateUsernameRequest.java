@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.IBaseRequest;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -39,11 +39,11 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @ApiModel
-public class SysUserUpdateUsernameRequest implements IBaseRequest {
+public class SysUserUpdateUsernameRequest extends BaseRequest {
 
     private static final long serialVersionUID = -4860381285231585328L;
 
-    @ApiModelProperty("用户名")
+    @ApiModelProperty(value = "用户名", required = true)
     @NotBlank(message = "用户名不能为空")
     @Size(max = 10, message = "用户名长度不能超过10")
     private String username;

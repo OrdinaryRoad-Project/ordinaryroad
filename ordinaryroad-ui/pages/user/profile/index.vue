@@ -27,13 +27,23 @@
             </v-btn>
           </div>
         </v-form>
+
         <v-form
           ref="emailForm"
         >
-          <v-text-field
-            type="text"
-            :label="$t('email')"
-          />
+          <div class="d-flex align-center">
+            <v-text-field
+              v-model="emailTextField.value"
+              :rules="[$rules.required,$rules.max100Chars,$rules.email]"
+              :loading="emailTextField.loading"
+              :disabled="emailTextField.disabled"
+              type="text"
+              :label="$t('email')"
+            />
+            <v-btn class="ms-3" icon @click="emailClick">
+              <v-icon>mdi-{{ emailTextField.disabled ? 'pencil' : 'check' }}</v-icon>
+            </v-btn>
+          </div>
         </v-form>
       </base-material-card>
     </v-col>
@@ -114,6 +124,11 @@ export default {
       value: '',
       disabled: true,
       loading: false
+    },
+    emailTextField: {
+      value: '',
+      disabled: true,
+      loading: false
     }
   }),
   head () {
@@ -129,10 +144,12 @@ export default {
   },
   mounted () {
     this.usernameTextField.value = this.userInfo.user.username
+    this.emailTextField.value = this.userInfo.user.email
   },
   methods: {
     ...mapActions('user', {
-      updateUsername: 'updateUsername'
+      updateUsername: 'updateUsername',
+      updateEmail: 'updateEmail'
     }),
 
     usernameClick () {
@@ -152,6 +169,28 @@ export default {
             this.usernameTextField.disabled = true
           }).catch(() => {
             this.usernameTextField.loading = false
+          })
+        }
+      }
+    },
+
+    emailClick () {
+      if (this.emailTextField.disabled) {
+        this.emailTextField.disabled = false
+      } else if (this.$refs.emailForm.validate()) {
+        if (this.emailTextField.value === this.userInfo.user.username) {
+          this.emailTextField.disabled = true
+        } else {
+          this.emailTextField.loading = true
+          this.updateEmail({
+            username: this.emailTextField.value,
+            $apis: this.$apis
+          }).then(() => {
+            this.emailTextField.loading = false
+            this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('email')]))
+            this.emailTextField.disabled = true
+          }).catch(() => {
+            this.emailTextField.loading = false
           })
         }
       }

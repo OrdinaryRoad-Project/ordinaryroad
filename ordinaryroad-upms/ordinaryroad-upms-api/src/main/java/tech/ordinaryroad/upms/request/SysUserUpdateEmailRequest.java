@@ -35,25 +35,19 @@ import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2021/10/28
+ * @date 2021/12/2
  */
 @Getter
 @Setter
 @ApiModel
-public class SysUserUpdatePasswordRequest extends BaseRequest {
+public class SysUserUpdateEmailRequest extends BaseRequest {
 
-    private static final long serialVersionUID = -4860381285231585328L;
+    private static final long serialVersionUID = -8856703747918186253L;
 
-    @ApiModelProperty(value = "密码", required = true)
-    @NotBlank(message = "密码不能为空")
-    @Size(min = 6, max = 16, message = "密码长度 6-16")
-    @Pattern(regexp = "^(?=.*\\+d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$", message = "必须包含大小写字母和数字的组合，可以使用特殊字符")
-    private String password;
-
-    @ApiModelProperty(value = "新密码", required = true)
-    @NotBlank(message = "新密码不能为空")
-    @Size(min = 6, max = 16, message = "新密码长度 6-16")
-    @Pattern(regexp = "^(?=.*\\+d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$", message = "必须包含大小写字母和数字的组合，可以使用特殊字符")
-    private String newPassword;
+    @ApiModelProperty(value = "邮箱", required = true)
+    @NotBlank(message = "邮箱不能为空")
+    @Size(max = 255, message = "邮箱长度不能超过255")
+    @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
+    private String email;
 
 }

@@ -81,6 +81,9 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/update/username")
     Result<Boolean> updateUsername(@Validated @RequestBody SysUserUpdateUsernameRequest request);
 
+    @PostMapping(value = "/user/update/email")
+    Result<Boolean> updateEmail(@Validated @RequestBody SysUserUpdateEmailRequest request);
+
     @PostMapping(value = "/user/update/password")
     Result<Boolean> updatePassword(@Validated @RequestBody SysUserUpdatePasswordRequest request);
 
