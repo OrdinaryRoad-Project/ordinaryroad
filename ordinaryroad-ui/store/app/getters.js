@@ -32,5 +32,9 @@ export default {
 
   getMenuItems (state) {
     return state.menuItems
+  },
+
+  getUserMenuItems (state) {
+    return state.userMenuItems
   }
 }

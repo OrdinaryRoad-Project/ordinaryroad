@@ -5,6 +5,13 @@ export default () => ({
   drawerMiniVariant: true,
   drawerClipped: false,
   selectedThemeOption: 1,
+  userMenuItems: [
+    {
+      titleKey: 'userMenuTitles.userProfile',
+      to: '/user/profile',
+      icon: 'mdi-account'
+    }
+  ],
   menuItems: [
     {
       titleKey: 'menuTitles.userManagement',

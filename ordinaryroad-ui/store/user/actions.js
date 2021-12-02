@@ -5,7 +5,7 @@ export default {
       $apis.user.login(params)
         .then((value) => {
           commit('SET_TOKEN_INFO', value.data)
-          commit('SET_TOKEN_INFO', value.data.userInfo)
+          commit('SET_USER_INFO', value.data.userInfo)
           resolve()
         }).catch((error) => {
           reject(error)
@@ -18,6 +18,16 @@ export default {
         commit('REMOVE_TOKEN_INFO')
         commit('REMOVE_USER_INFO')
         $router.push({ path: '/user/login', query: { redirect: $route.fullPath } })
+        resolve()
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  updateUsername ({ commit }, { username, $apis }) {
+    return new Promise((resolve, reject) => {
+      $apis.upms.user.updateUsername(username).then(() => {
+        commit('UPDATE_USER_INFO_USERNAME', username)
         resolve()
       }).catch((error) => {
         reject(error)

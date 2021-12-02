@@ -17,12 +17,13 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
+    "@mdi/font": "^5.9.55",
     "@nuxtjs/axios": "^5.13.1",
+    "@nuxtjs/dayjs": "^1.4.1",
     "@nuxtjs/pwa": "^3.3.5",
     "core-js": "^3.9.1",
-    "nuxt": "^2.15.3",
-    "@mdi/font": "^5.9.55",
     "js-cookie": "^3.0.1",
+    "nuxt": "^2.15.3",
     "vue-i18n": "^8.26.7",
     "vuetify2-expand": "^1.1.2"
   },

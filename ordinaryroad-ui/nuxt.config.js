@@ -58,7 +58,8 @@ export default {
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
-    '@nuxtjs/pwa'
+    '@nuxtjs/pwa',
+    '@nuxtjs/dayjs'
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
@@ -82,6 +83,11 @@ export default {
       current: 'zh-Hans'
     },
     customVariables: ['~/assets/variables.scss']
+  },
+
+  dayjs: {
+    locales: ['en', 'zh-cn'],
+    defaultLocale: 'zh-cn'
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build

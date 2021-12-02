@@ -11,5 +11,9 @@ export default {
   list: (offset, limit, username) => {
     const data = { offset, limit, username }
     return $axios({ url: '/upms/user/list', method: 'post', data })
+  },
+  updateUsername: (username) => {
+    const data = { username }
+    return $axios({ url: '/upms/user/update/username', method: 'post', data })
   }
 }

@@ -1,4 +1,7 @@
 {
+  "userMenuTitles": {
+    "userProfile": "User Profile"
+  },
   "invalidPassword": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used.",
   "invalidEmail": "Invalid Email",
   "minNChars": "The length cannot be less than {0}",

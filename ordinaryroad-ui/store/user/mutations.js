@@ -26,5 +26,13 @@ export default {
   SET_USER_INFO (state, userInfo) {
     state.userInfo = userInfo
     setUserInfo(userInfo)
+  },
+  UPDATE_USER_INFO_USERNAME (state, username) {
+    state.userInfo.user.username = username
+    setUserInfo(state.userInfo)
+  },
+  UPDATE_USER_INFO_EMAIL (state, email) {
+    state.userInfo.user.email = email
+    setUserInfo(state.userInfo)
   }
 }

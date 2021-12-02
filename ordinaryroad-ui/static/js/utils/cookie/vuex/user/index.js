@@ -27,10 +27,8 @@ export function removeTokenInfo () {
   Cookies.remove(TOKEN_INFO_KEY)
 }
 
-export function setUserInfo (tokenInfo) {
-  Cookies.set(USER_INFO_KEY, JSON.stringify(tokenInfo), {
-    expires: getRememberMe() ? 30 : null
-  })
+export function setUserInfo (userInfo) {
+  Cookies.set(USER_INFO_KEY, JSON.stringify(userInfo), { expires: 365 })
 }
 
 export function removeUserInfo () {

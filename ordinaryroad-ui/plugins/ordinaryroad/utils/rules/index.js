@@ -6,6 +6,7 @@ export default {
   },
   required: value => !!value || $t('required'),
   min6Chars: value => value.length >= 6 || $t('minNChars', [6]),
+  max10Chars: value => value.length <= 10 || $t('maxNChars', [10]),
   max16Chars: value => value.length <= 16 || $t('maxNChars', [16]),
   max25chars: v => v.length <= 25 || $t('maxNChars', [25]),
   max100Chars: value => value.length <= 100 || $t('maxNChars', [100]),
