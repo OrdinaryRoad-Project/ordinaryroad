@@ -197,16 +197,23 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         if (!byOrNumber.isPresent()) {
             return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
         }
-        // 旧密码是否匹配
+        // 新旧密码是否相同
+        String newPassword = request.getNewPassword();
         SysUserDO sysUserDO = byOrNumber.get();
-        if (!passwordEncoder.matches(request.getPassword(), sysUserDO.getPassword())) {
+        String password = sysUserDO.getPassword();
+        if (password.equals(newPassword)) {
+            Result.success(false);
+        }
+
+        // 旧密码是否匹配
+        if (!passwordEncoder.matches(request.getPassword(), password)) {
             return Result.fail(StatusCode.USER_CREDENTIALS_ERROR);
         }
 
         SysUserDO newSysUserDO = new SysUserDO();
         newSysUserDO.setUuid(sysUserDO.getUuid());
         // 密码加密
-        newSysUserDO.setPassword(passwordEncoder.encode(request.getNewPassword()));
+        newSysUserDO.setPassword(passwordEncoder.encode(newPassword));
         return Result.success(sysUserService.doUpdateSelective(newSysUserDO));
     }
 
