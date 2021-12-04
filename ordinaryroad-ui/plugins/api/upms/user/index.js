@@ -19,5 +19,9 @@ export default {
   updateEmail: (email) => {
     const data = { email }
     return $axios({ url: '/upms/user/update/email', method: 'post', data })
+  },
+  updatePassword: (password, newPassword) => {
+    const data = { password, newPassword }
+    return $axios({ url: '/upms/user/update/password', method: 'post', data })
   }
 }
