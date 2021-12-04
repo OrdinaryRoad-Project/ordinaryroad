@@ -10,41 +10,106 @@
         icon="mdi-account"
         :title="$t('userMenuTitles.userProfile')"
       >
-        <v-form
-          ref="usernameForm"
-        >
-          <div class="d-flex align-center">
-            <v-text-field
-              v-model="usernameTextField.value"
-              :rules="[$rules.required,$rules.max10Chars]"
-              :loading="usernameTextField.loading"
-              :disabled="usernameTextField.disabled"
-              type="text"
-              :label="$t('username')"
-            />
-            <v-btn class="ms-3" icon @click="usernameClick">
-              <v-icon>mdi-{{ usernameTextField.disabled ? 'pencil' : 'check' }}</v-icon>
-            </v-btn>
-          </div>
-        </v-form>
+        <v-tabs v-model="tab">
+          <v-tab>{{ $t('basicInformation') }}</v-tab>
+          <v-tab>{{ $t('changePassword') }}</v-tab>
+        </v-tabs>
 
-        <v-form
-          ref="emailForm"
-        >
-          <div class="d-flex align-center">
+        <v-tabs-items v-model="tab" class="mt-5">
+          <v-tab-item>
             <v-text-field
-              v-model="emailTextField.value"
-              :rules="[$rules.required,$rules.max100Chars,$rules.email]"
-              :loading="emailTextField.loading"
-              :disabled="emailTextField.disabled"
+              v-model="userInfo.user.orNumber"
+              :disabled="true"
+              type="text"
+              :label="$t('orNumber')"
+            />
+
+            <v-form
+              ref="usernameForm"
+            >
+              <div class="d-flex align-center">
+                <v-text-field
+                  v-model="usernameTextField.value"
+                  clearable
+                  :rules="[$rules.required,$rules.max10Chars]"
+                  :loading="usernameTextField.loading"
+                  :disabled="usernameTextField.disabled"
+                  type="text"
+                  :label="$t('username')"
+                />
+                <v-btn class="ms-3" icon @click="usernameClick">
+                  <v-icon>mdi-{{ usernameTextField.disabled ? 'pencil' : 'check' }}</v-icon>
+                </v-btn>
+              </div>
+            </v-form>
+
+            <v-form
+              v-if="false"
+              ref="emailForm"
+            >
+              <div class="d-flex align-center">
+                <v-text-field
+                  v-model="emailTextField.value"
+                  :rules="[$rules.required,$rules.max100Chars,$rules.email]"
+                  :loading="emailTextField.loading"
+                  :disabled="emailTextField.disabled"
+                  type="text"
+                  :label="$t('email')"
+                />
+                <v-btn class="ms-3" icon @click="emailClick">
+                  <v-icon>mdi-{{ emailTextField.disabled ? 'pencil' : 'check' }}</v-icon>
+                </v-btn>
+              </div>
+            </v-form>
+
+            <!-- TODO 修改邮箱需要验证-->
+            <v-text-field
+              v-model="userInfo.user.email"
+              :disabled="true"
               type="text"
               :label="$t('email')"
             />
-            <v-btn class="ms-3" icon @click="emailClick">
-              <v-icon>mdi-{{ emailTextField.disabled ? 'pencil' : 'check' }}</v-icon>
-            </v-btn>
-          </div>
-        </v-form>
+          </v-tab-item>
+          <v-tab-item>
+            <v-form ref="passwordForm">
+              <v-text-field
+                v-model="passwordForm.oldPassword.value"
+                clearable
+                :append-icon="passwordForm.oldPassword.show ? 'mdi-eye' : 'mdi-eye-off'"
+                :rules="[$rules.required,$rules.password]"
+                :type="passwordForm.oldPassword.show ? 'text' : 'password'"
+                :label="$t('oldPassword')"
+                @click:append="passwordForm.oldPassword.show=!passwordForm.oldPassword.show"
+              />
+              <v-text-field
+                v-model="passwordForm.newPassword.value"
+                clearable
+                :label="$t('newPassword')"
+                :rules="[$rules.required,$rules.password]"
+                :append-icon="passwordForm.newPassword.show ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="passwordForm.newPassword.show ? 'text' : 'password'"
+                @click:append="passwordForm.newPassword.show = !passwordForm.newPassword.show"
+              />
+              <v-text-field
+                v-model="passwordForm.confirmPassword.value"
+                clearable
+                :rules="[$rules.required,$rules.password]"
+                :error-messages="passwordForm.confirmPassword.errorMessageKey?$t(passwordForm.confirmPassword.errorMessageKey):null"
+                :label="$t('confirmPassword')"
+                :append-icon="passwordForm.confirmPassword.show ? 'mdi-eye' : 'mdi-eye-off'"
+                :type="passwordForm.confirmPassword.show ? 'text' : 'password'"
+                @click:append="passwordForm.confirmPassword.show = !passwordForm.confirmPassword.show"
+              />
+              <v-btn
+                :loading="passwordForm.loading"
+                color="primary"
+                @click="updatePassword"
+              >
+                {{ $t('update') }}
+              </v-btn>
+            </v-form>
+          </v-tab-item>
+        </v-tabs-items>
       </base-material-card>
     </v-col>
     <v-col
@@ -120,6 +185,7 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   data: () => ({
+    tab: null,
     usernameTextField: {
       value: '',
       disabled: true,
@@ -129,6 +195,23 @@ export default {
       value: '',
       disabled: true,
       loading: false
+    },
+
+    passwordForm: {
+      loading: false,
+      oldPassword: {
+        value: null,
+        show: false
+      },
+      newPassword: {
+        value: null,
+        show: false
+      },
+      confirmPassword: {
+        value: null,
+        show: false,
+        errorMessageKey: null
+      }
     }
   }),
   head () {
@@ -178,12 +261,12 @@ export default {
       if (this.emailTextField.disabled) {
         this.emailTextField.disabled = false
       } else if (this.$refs.emailForm.validate()) {
-        if (this.emailTextField.value === this.userInfo.user.username) {
+        if (this.emailTextField.value === this.userInfo.user.email) {
           this.emailTextField.disabled = true
         } else {
           this.emailTextField.loading = true
           this.updateEmail({
-            username: this.emailTextField.value,
+            email: this.emailTextField.value,
             $apis: this.$apis
           }).then(() => {
             this.emailTextField.loading = false
@@ -192,6 +275,29 @@ export default {
           }).catch(() => {
             this.emailTextField.loading = false
           })
+        }
+      }
+    },
+
+    updatePassword () {
+      if (this.$refs.passwordForm.validate()) {
+        if (this.passwordForm.newPassword.value === this.passwordForm.confirmPassword.value) {
+          this.passwordForm.confirmPassword.errorMessageKey = null
+          if (this.passwordForm.oldPassword.value === this.passwordForm.newPassword.value) {
+            this.passwordForm.confirmPassword.errorMessageKey = 'oldAndNewPasswordsAreTheSame'
+          } else {
+            // 更新密码
+            this.passwordForm.loading = true
+            this.$apis.upms.user.updatePassword(this.passwordForm.oldPassword.value, this.passwordForm.confirmPassword.value)
+              .then(() => {
+                this.passwordForm.loading = false
+                this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('password')]))
+              }).catch(() => {
+                this.passwordForm.loading = false
+              })
+          }
+        } else {
+          this.passwordForm.confirmPassword.errorMessageKey = 'inconsistentPasswords'
         }
       }
     }

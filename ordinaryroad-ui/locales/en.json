@@ -1,9 +1,17 @@
 {
+  "oldAndNewPasswordsAreTheSame": "The old and new passwords cannot be the same.",
+  "inconsistentPasswords": "Inconsistent Passwords",
+  "update": "Update",
+  "confirmPassword": "Confirm Password",
+  "newPassword": "New Password",
+  "oldPassword": "Old Password",
+  "basicInformation": "Basic Information",
+  "changePassword": "Change Password",
   "whatUpdateSuccessfully": "{0} updated successfully.",
   "userMenuTitles": {
     "userProfile": "User Profile"
   },
-  "invalidPassword": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used.",
+  "invalidPassword": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used, the length is between 6-16.",
   "invalidEmail": "Invalid Email",
   "minNChars": "The length cannot be less than {0}",
   "maxNChars": "The length cannot be greater than {0}",
