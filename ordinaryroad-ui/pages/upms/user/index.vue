@@ -1,9 +1,5 @@
 <template>
-  <v-container
-    id="regular-tables"
-    fluid
-    tag="section"
-  >
+  <div>
     <base-material-card
       :icon="`mdi-account`"
       :title="$t('menuTitles.userManagement')"
@@ -133,7 +129,8 @@
         </template>
       </v-data-table>
     </base-material-card>
-  </v-container>
+    <or-upms-user v-model="dialogOptions.show" />
+  </div>
 </template>
 
 <script>
@@ -159,6 +156,10 @@ export default {
         uuid: '',
         username: '',
         orNumber: null
+      },
+
+      dialogOptions: {
+        show: false
       }
     }
   },
@@ -219,6 +220,7 @@ export default {
       this.editedIndex = this.dataTableParams.items.indexOf(item)
       this.editedItem = Object.assign({}, item)
       // TODO 编辑对话框
+      this.dialogOptions.show = true
     },
     getItems () {
       /* TODO 排序支持
