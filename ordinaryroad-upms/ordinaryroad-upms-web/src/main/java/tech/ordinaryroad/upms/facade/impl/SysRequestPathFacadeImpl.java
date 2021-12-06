@@ -70,7 +70,13 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
 
     @Override
     public Result<SysRequestPathDTO> create(SysRequestPathSaveRequest request) {
-        SysRequestPathDO sysRequestPathDO = objMapStruct.transfer(request);
+        // 校验permissionUuid
+        String permissionUuid = request.getPermissionUuid();
+        if (StrUtil.isNotBlank(permissionUuid)) {
+            if (Objects.isNull(sysPermissionService.findById(permissionUuid))) {
+                return Result.fail(StatusCode.PERMISSION_NOT_EXIST);
+            }
+        }
 
         // 唯一性校验
         String path = request.getPath();
@@ -84,6 +90,7 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
             return Result.fail(StatusCode.NAME_ALREADY_EXIST);
         }
 
+        SysRequestPathDO sysRequestPathDO = objMapStruct.transfer(request);
         return Result.success(objMapStruct.transfer(sysRequestPathService.createSelective(sysRequestPathDO)));
     }
 
@@ -109,6 +116,14 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
         if (!Objects.equals(newPath, path)) {
             if (sysRequestPathService.findByPath(newPath).isPresent()) {
                 return Result.fail(StatusCode.PATH_ALREADY_EXIST);
+            }
+        }
+
+        String newPathName = request.getPathName();
+        String pathName = byId.getPathName();
+        if (!Objects.equals(newPathName, pathName)) {
+            if (sysRequestPathService.findByPathName(newPathName).isPresent()) {
+                return Result.fail(StatusCode.PATH_NAME_ALREADY_EXIST);
             }
         }
 
