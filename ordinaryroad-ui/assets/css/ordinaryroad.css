@@ -1,0 +1,13 @@
+.sticky-right {
+  position: sticky !important;
+  right: 0 !important;
+  padding: 0 !important;
+}
+
+.sticky-right > div {
+  padding: 10px !important;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
