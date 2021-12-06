@@ -19,12 +19,41 @@
         }"
       >
         <template #top>
-          <v-form
-            ref="searchForm"
-          >
+          <v-form ref="searchForm">
             <v-row align="center">
               <v-col
-                cols="12"
+                cols="6"
+                lg="3"
+                md="4"
+              >
+                <v-text-field
+                  v-model="searchParams.email"
+                  dense
+                  outlined
+                  clearable
+                  hide-details="auto"
+                  maxlength="10"
+                  :label="$t('email')"
+                />
+              </v-col>
+              <v-col
+                cols="6"
+                lg="3"
+                md="4"
+              >
+                <v-text-field
+                  v-model="searchParams.orNumber"
+                  dense
+                  outlined
+                  clearable
+                  hide-details="auto"
+                  maxlength="10"
+                  :label="$t('orNumber')"
+                />
+              </v-col>
+              <v-col
+                cols="6"
+                lg="3"
                 md="4"
               >
                 <v-text-field
@@ -38,7 +67,8 @@
                 />
               </v-col>
               <v-col
-                cols="12"
+                cols="6"
+                lg="3"
                 md="4"
               >
                 <v-btn
@@ -156,6 +186,8 @@ export default {
     return {
       options: {},
       searchParams: {
+        email: null,
+        orNumber: null,
         username: null
       },
       dataTableParams: {
@@ -296,12 +328,11 @@ export default {
         sortDesc: Array(1)
        */
       const options = this.options
-      console.log(options)
       this.dataTableParams.loading = true
       this.$apis.upms.user.list(
         options.page === 1 ? 0 : this.dataTableParams.items.length,
         options.itemsPerPage,
-        this.searchParams.username
+        this.searchParams
       ).then(({ data }) => {
         this.dataTableParams = {
           loading: false,

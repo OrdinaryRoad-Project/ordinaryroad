@@ -20,8 +20,8 @@ export default {
     const data = { code, password, email, username }
     return $axios({ url: '/upms/user/register', method: 'post', data })
   },
-  list: (offset, limit, username) => {
-    const data = { offset, limit, username }
+  list: (offset, limit, { email, orNumber, username }) => {
+    const data = { offset, limit, email, orNumber, username }
     return $axios({ url: '/upms/user/list', method: 'post', data })
   },
   updateUsername: (username) => {
