@@ -124,9 +124,7 @@
           #[`header.actions`]="{ header }"
         >
           <v-sheet elevation="8">
-            <span>
-              {{ header.text }}
-            </span>
+            {{ header.text }}
           </v-sheet>
         </template>
 
@@ -172,7 +170,6 @@
     >
       <or-upms-user
         ref="userForm"
-        title="用户"
         :preset="selectedItem"
         @update="onItemUpdate"
       />
