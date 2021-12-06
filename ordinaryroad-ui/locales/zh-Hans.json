@@ -1,4 +1,7 @@
 {
+  "path": "路径url",
+  "pathName": "路径名称",
+  "permissionUuid": "请求路径所需要的权限uuid",
   "role": "角色",
   "roleCode": "角色code",
   "roleName": "角色名称",

@@ -1,4 +1,7 @@
 {
+  "path": "URL",
+  "pathName": "Path Name",
+  "permissionUuid": "Permission UUID",
   "role": "Role",
   "roleCode": "Role Code",
   "roleName": "Role Name",
