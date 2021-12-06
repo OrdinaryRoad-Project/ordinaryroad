@@ -87,45 +87,51 @@
               </v-btn>
             </v-col>
           </v-row>
+          <v-divider class="mt-2" />
         </template>
 
-        <template #[`item.username`]="props">
-          <v-edit-dialog
-            :return-value.sync="props.item.username"
-            large
-            persistent
-            @save="save"
-            @cancel="cancel"
-            @open="open"
-            @close="close"
-          >
-            {{ props.item.username }}
-            <template #input>
-              <v-text-field
-                v-model="props.item.username"
-                :rules="[$rules.required, $rules.max25chars]"
-                label="Edit"
-                single-line
-                counter
-              />
-            </template>
-          </v-edit-dialog>
+        <template
+          v-if="!$vuetify.breakpoint.xs"
+          #[`header.actions`]="{ header }"
+        >
+          <v-sheet elevation="8">
+            <span>
+              {{ header.text }}
+            </span>
+          </v-sheet>
         </template>
 
         <template #[`item.actions`]="{ item }">
-          <v-icon
-            color="accent"
-            class="mr-2"
-            @click="editItem(item)"
-          >
-            mdi-pencil
-          </v-icon>
-          <v-icon
-            color="error"
-            @click="deleteItem(item)"
-          >
-            mdi-delete-forever
-          </v-icon>
+          <template v-if="$vuetify.breakpoint.xs">
+            <v-icon
+              color="accent"
+              class="mr-2"
+              @click="editItem(item)"
+            >
+              mdi-pencil
+            </v-icon>
+            <v-icon
+              color="error"
+              @click="deleteItem(item)"
+            >
+              mdi-delete-forever
+            </v-icon>
+          </template>
+          <v-sheet v-else elevation="8">
+            <v-icon
+              color="accent"
+              class="mr-2"
+              @click="editItem(item)"
+            >
+              mdi-pencil
+            </v-icon>
+            <v-icon
+              color="error"
+              @click="deleteItem(item)"
+            >
+              mdi-delete-forever
+            </v-icon>
+          </v-sheet>
         </template>
       </v-data-table>
     </base-material-card>
@@ -200,7 +206,14 @@ export default {
         { text: this.$t('createBy'), value: 'createBy', sortable: false },
         { text: this.$t('updateTime'), value: 'updateTime', sortable: false },
         { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
-        { text: this.$t('dataTable.actions'), value: 'actions', sortable: false }
+        {
+          text: this.$t('dataTable.actions'),
+          value: 'actions',
+          sortable: false,
+          align: 'center',
+          class: 'sticky-right',
+          cellClass: 'sticky-right'
+        }
       ]
     },
     action () {
@@ -291,7 +304,6 @@ export default {
         options.itemsPerPage,
         this.searchParams.username
       ).then(({ data }) => {
-        console.log(data)
         this.dataTableParams = {
           loading: false,
           items: data.list,
@@ -304,23 +316,7 @@ export default {
     resetSearch () {
       this.$refs.searchForm.reset()
       this.options = { page: 1 }
-    },
-    save () {
-      this.$snackbar.success('Data saved')
-    },
-    cancel () {
-      this.$snackbar.error('Canceled')
-    },
-    open () {
-      this.$snackbar.info('Dialog opened')
-    },
-    close () {
-      this.$snackbar.info('Dialog closed')
     }
   }
 }
 </script>
-
-<style scoped>
-
-</style>
