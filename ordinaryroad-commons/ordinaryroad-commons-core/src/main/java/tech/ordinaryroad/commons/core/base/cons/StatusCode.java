@@ -52,6 +52,7 @@ public enum StatusCode implements IStatusCode {
     ROLE_NOT_EXIST(4010, "角色不存在"),
     PATH_ALREADY_EXIST(4011, "路径已存在"),
     PERMISSION_NOT_EXIST(4012, "权限不存在"),
+    PATH_NAME_ALREADY_EXIST(4013, "路径名称已存在"),
     ;
 
     /**
