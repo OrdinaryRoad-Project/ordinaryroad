@@ -1,4 +1,6 @@
 {
+  "permissionCode": "Permission Code",
+  "description": "Description",
   "path": "URL",
   "pathName": "Path Name",
   "permissionUuid": "Permission UUID",
