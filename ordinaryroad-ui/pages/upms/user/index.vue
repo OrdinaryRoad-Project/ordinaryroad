@@ -252,12 +252,8 @@ export default {
     }
   },
   watch: {
-    options: {
-      handler () {
-        this.getItems()
-      },
-      deep: true,
-      immediate: true
+    options () {
+      this.getItems()
     }
   },
   created () {
