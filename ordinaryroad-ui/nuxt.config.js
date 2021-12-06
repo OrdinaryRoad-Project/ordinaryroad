@@ -33,6 +33,8 @@ export default {
     '@/plugins/api/index',
     // axios拦截器等
     '~/plugins/axios/index.js',
+    // dayjs
+    '~/plugins/dayjs/index.js',
     // 国际化插件
     '~/plugins/i18n/index.js',
     // 自定义常量 工具类等
