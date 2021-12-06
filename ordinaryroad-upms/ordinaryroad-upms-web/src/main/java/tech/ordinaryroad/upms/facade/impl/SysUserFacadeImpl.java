@@ -44,9 +44,11 @@ import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
 import tech.ordinaryroad.upms.request.*;
 import tech.ordinaryroad.upms.service.SysUserService;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 /**
@@ -60,6 +62,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     private final SysUserService sysUserService;
     private final SysUserMapStruct objMapStruct;
     private final PasswordEncoder passwordEncoder;
+    private final Pattern passwordPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$");
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -70,15 +73,12 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         }
 
         SysUserDO sysUserDO = objMapStruct.transfer(request);
-        String password = sysUserDO.getPassword();
-        if (StrUtil.isBlank(password)) {
-            // 默认密码123456
-            sysUserDO.setPassword(passwordEncoder.encode("123456"));
-        } else {
-            if (StrUtil.length(password) < 6 || StrUtil.length(password) > 16) {
-                return Result.fail("密码长度 6-16");
-            }
+
+        Result<SysUserDTO> fail = validatePassword(sysUserDO);
+        if (fail != null) {
+            return fail;
         }
+
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }
 
@@ -119,6 +119,8 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         // 更新，只允许管理员和开发者
         StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
         SysUserDO sysUserDO = objMapStruct.transfer(request);
+        // 不允许更新密码
+        sysUserDO.setPassword(null);
         return Result.success(objMapStruct.transfer(sysUserService.updateSelective(sysUserDO)));
     }
 
@@ -260,10 +262,37 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         }
         // 校验用户名
         String username = request.getUsername();
-        Optional<SysUserDO> byName = sysUserService.findByUsername(username);
-        if (byName.isPresent()) {
-            return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+        if (StrUtil.isNotBlank(username)) {
+            Optional<SysUserDO> byName = sysUserService.findByUsername(username);
+            if (byName.isPresent()) {
+                return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+            }
         }
         return null;
     }
+
+    /**
+     * 校验密码是否合法
+     *
+     * @param sysUserDO SysUserDO
+     * @return 密码合法返回null
+     */
+    @Nullable
+    private Result<SysUserDTO> validatePassword(@NotNull SysUserDO sysUserDO) {
+        String password = sysUserDO.getPassword();
+        if (StrUtil.isBlank(password)) {
+            // 默认密码123456
+            sysUserDO.setPassword(passwordEncoder.encode("123456"));
+        } else {
+            if (StrUtil.length(password) < 6 || StrUtil.length(password) > 16) {
+                return Result.fail("密码长度 6-16");
+            } else {
+                if (!passwordPattern.matcher(password).matches()) {
+                    return Result.fail("必须包含大小写字母和数字的组合，可以使用特殊字符");
+                }
+            }
+        }
+        return null;
+    }
+
 }
