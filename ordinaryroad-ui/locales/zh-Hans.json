@@ -1,6 +1,8 @@
 {
+  "permission": "权限",
   "permissionCode": "权限code",
   "description": "描述",
+  "requestPath": "请求路径",
   "path": "路径url",
   "pathName": "路径名称",
   "permissionUuid": "请求路径所需要的权限uuid",

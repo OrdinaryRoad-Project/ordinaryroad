@@ -158,7 +158,7 @@
     <or-base-dialog
       ref="requestPathDialog"
       loading
-      :title="$t(action+'What',[$t('role')])"
+      :title="$t(action+'What',[$t('requestPath')])"
       @onConfirm="createOrUpdate"
     >
       <or-upms-request-path

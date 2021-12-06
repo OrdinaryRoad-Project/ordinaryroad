@@ -158,7 +158,7 @@
     <or-base-dialog
       ref="permissionDialog"
       loading
-      :title="$t(action+'What',[$t('role')])"
+      :title="$t(action+'What',[$t('permission')])"
       @onConfirm="createOrUpdate"
     >
       <or-upms-permission
