@@ -6,46 +6,50 @@
     @input="input"
   >
     <v-card>
-      <v-card-title>
-        <v-toolbar-title>{{ title }}</v-toolbar-title>
-        <v-spacer />
-        <v-btn
-          :disabled="loadingModel"
-          icon
-          @click="close"
-        >
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
-      </v-card-title>
+      <v-sheet class="sticky-top" style="z-index: 6">
+        <v-card-title class="v-sheet">
+          <v-toolbar-title>{{ title }}</v-toolbar-title>
+          <v-spacer />
+          <v-btn
+            :disabled="loadingModel"
+            icon
+            @click="close"
+          >
+            <v-icon>mdi-close</v-icon>
+          </v-btn>
+        </v-card-title>
+      </v-sheet>
 
-      <v-card-text v-if="!destroyBody">
+      <v-card-text v-if="!destroyBody" style="z-index: 6">
         <slot name="default" />
       </v-card-text>
 
-      <v-card-actions class="pa-2">
-        <v-spacer />
-        <slot
-          v-if="$slots.actions"
-          name="actions"
-        />
-        <div v-else>
-          <v-btn
-            :disabled="loadingModel"
-            text
-            @click="close"
-          >
-            {{ $t('cancel') }}
-          </v-btn>
-          <v-btn
-            :loading="loadingModel"
-            text
-            color="primary"
-            @click="confirm"
-          >
-            {{ $t('confirm') }}
-          </v-btn>
-        </div>
-      </v-card-actions>
+      <v-sheet class="sticky-bottom" style="z-index: 6">
+        <v-card-actions class="pa-2">
+          <v-spacer />
+          <slot
+            v-if="$slots.actions"
+            name="actions"
+          />
+          <div v-else>
+            <v-btn
+              :disabled="loadingModel"
+              text
+              @click="close"
+            >
+              {{ $t('cancel') }}
+            </v-btn>
+            <v-btn
+              :loading="loadingModel"
+              text
+              color="primary"
+              @click="confirm"
+            >
+              {{ $t('confirm') }}
+            </v-btn>
+          </div>
+        </v-card-actions>
+      </v-sheet>
     </v-card>
   </v-dialog>
 </template>
