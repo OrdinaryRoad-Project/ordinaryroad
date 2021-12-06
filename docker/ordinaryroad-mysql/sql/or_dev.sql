@@ -176,16 +176,16 @@ CREATE TABLE `sys_user`
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user`
-VALUES (1, '76a8133381924e23a9172dac75100047', '2021-11-15 10:08:36', NULL, NULL, NULL, '10001', 'developer',
-        '1962247851@qq.com', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
+VALUES (1, '76a8133381924e23a9172dac75100047', '2021-11-15 10:08:36', NULL, NULL, NULL, '10001', '1962247851@qq.com',
+        'developer', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
         b'1');
 INSERT INTO `sys_user`
-VALUES (2, '24f14f1a400b4bed9caa8d698b33d49a', '2021-11-15 16:07:41', NULL, NULL, NULL, '10002', 'admin',
-        '204879304@qq.com', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
+VALUES (2, '24f14f1a400b4bed9caa8d698b33d49a', '2021-11-15 16:07:41', NULL, NULL, NULL, '10002', '204879304@qq.com',
+        'admin', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
         b'1');
 INSERT INTO `sys_user`
-VALUES (3, 'c8e93fc029d445119e0c0215ea5ee4b7', '2021-11-29 19:25:26', NULL, NULL, NULL, '10003', 'zjy',
-        '1781422987@qq.com', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
+VALUES (3, 'c8e93fc029d445119e0c0215ea5ee4b7', '2021-11-29 19:25:26', NULL, NULL, NULL, '10003', '1781422987@qq.com',
+        'zjy', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
         b'1');
 
 -- ----------------------------
