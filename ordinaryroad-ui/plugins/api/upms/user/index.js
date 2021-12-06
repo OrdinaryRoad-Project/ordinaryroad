@@ -4,6 +4,18 @@ export default {
   initAxios (axios) {
     $axios = $axios || axios
   },
+  create: ({ email, username, password }) => {
+    const data = { email, username, password }
+    return $axios({ url: '/upms/user/create', method: 'post', data })
+  },
+  delete: (uuid) => {
+    const data = { uuid }
+    return $axios({ url: '/upms/user/delete', method: 'post', data })
+  },
+  update: ({ uuid, email, username, password }) => {
+    const data = { uuid, email, username, password }
+    return $axios({ url: '/upms/user/update', method: 'post', data })
+  },
   register: ({ code, password, email, username }) => {
     const data = { code, password, email, username }
     return $axios({ url: '/upms/user/register', method: 'post', data })

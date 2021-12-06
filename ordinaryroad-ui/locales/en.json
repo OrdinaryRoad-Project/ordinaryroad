@@ -1,4 +1,10 @@
 {
+  "hints": {
+    "password": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used, the length is between 6-16. if it is empty, the default is 123456."
+  },
+  "user": "User",
+  "updateWhat": "Update {0}",
+  "createWhat": "Create {0}",
   "oldAndNewPasswordsAreTheSame": "The old and new passwords cannot be the same.",
   "inconsistentPasswords": "Inconsistent Passwords",
   "update": "Update",

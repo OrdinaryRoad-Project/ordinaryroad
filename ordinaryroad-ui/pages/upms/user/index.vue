@@ -129,7 +129,19 @@
         </template>
       </v-data-table>
     </base-material-card>
-    <or-upms-user v-model="dialogOptions.show" />
+    <or-base-dialog
+      ref="userDialog"
+      loading
+      :title="$t(action+'What',[$t('user')])"
+      @onConfirm="createOrUpdate"
+    >
+      <or-upms-user
+        ref="userForm"
+        title="用户"
+        :preset="selectedItem"
+        @update="onItemUpdate"
+      />
+    </or-base-dialog>
   </div>
 </template>
 
@@ -146,20 +158,28 @@ export default {
         items: [],
         totalItems: 0
       },
-      editedIndex: -1,
+
+      selectedIndex: -1,
       editedItem: {
-        uuid: '',
+        uuid: null,
+        email: '',
         username: '',
+        password: '',
+        orNumber: null
+      },
+      selectedItem: {
+        uuid: null,
+        email: '',
+        username: '',
+        password: '',
         orNumber: null
       },
       defaultItem: {
-        uuid: '',
+        uuid: null,
+        email: '',
         username: '',
+        password: '',
         orNumber: null
-      },
-
-      dialogOptions: {
-        show: false
       }
     }
   },
@@ -169,19 +189,22 @@ export default {
     }
   },
   computed: {
-    // 放在这为了支持国际化
-    headers: (vm) => {
+    // 放在这为了支持国际化，如果放在data下切换语言不会更新
+    headers () {
       return [
         { text: 'UUID', value: 'uuid', sortable: false },
-        { text: vm.$t('email'), value: 'email', sortable: false },
-        { text: vm.$t('orNumber'), value: 'orNumber', sortable: false },
-        { text: vm.$t('username'), value: 'username', sortable: false },
-        { text: vm.$t('createdTime'), value: 'createdTime', sortable: false },
-        { text: vm.$t('createBy'), value: 'createBy', sortable: false },
-        { text: vm.$t('updateTime'), value: 'updateTime', sortable: false },
-        { text: vm.$t('updateBy'), value: 'updateBy', sortable: false },
-        { text: vm.$t('dataTable.actions'), value: 'actions', sortable: false }
+        { text: this.$t('email'), value: 'email', sortable: false },
+        { text: this.$t('orNumber'), value: 'orNumber', sortable: false },
+        { text: this.$t('username'), value: 'username', sortable: false },
+        { text: this.$t('createdTime'), value: 'createdTime', sortable: false },
+        { text: this.$t('createBy'), value: 'createBy', sortable: false },
+        { text: this.$t('updateTime'), value: 'updateTime', sortable: false },
+        { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
+        { text: this.$t('dataTable.actions'), value: 'actions', sortable: false }
       ]
+    },
+    action () {
+      return this.selectedIndex === -1 ? 'create' : 'update'
     }
   },
   watch: {
@@ -189,7 +212,8 @@ export default {
       handler () {
         this.getItems()
       },
-      deep: true
+      deep: true,
+      immediate: true
     }
   },
   created () {
@@ -197,30 +221,55 @@ export default {
   mounted () {
   },
   methods: {
+    onItemUpdate (item) {
+      this.editedItem = item
+    },
+    createOrUpdate () {
+      if (this.$refs.userForm.validate()) {
+        const action = this.selectedIndex === -1 ? 'create' : 'update'
+        this.$apis.upms.user[action](this.editedItem)
+          .then(() => {
+            this.$refs.userDialog.close()
+            this.getItems()
+          })
+          .catch(() => {
+            // 取消loading
+            this.$refs.userDialog.cancelLoading()
+          })
+      } else {
+        // 取消loading
+        this.$refs.userDialog.cancelLoading()
+      }
+    },
     insertItem () {
+      this.selectedIndex = -1
+      this.selectedItem = Object.assign({}, this.defaultItem)
+      this.$refs.userDialog.show()
     },
     deleteItem (item) {
-      this.editedIndex = this.dataTableParams.items.indexOf(item)
-      this.editedItem = Object.assign({}, item)
+      this.selectedIndex = this.dataTableParams.items.indexOf(item)
+      this.selectedItem = Object.assign({}, item)
       this.$dialog({
-        content: this.$t('deleteDialog.content', [this.editedItem.uuid]),
+        content: this.$t('deleteDialog.content', [this.selectedItem.uuid]),
         loading: true
       }).then((dialog) => {
-        // TODO 删除
-        // setTimeout 模拟接口请求的响应时间
-        setTimeout(() => {
-          // 手动关闭对话框
-          this.getItems()
-          dialog.cancel()
-          this.$snackbar.success(this.$t('deleteSuccess'))
-        }, 1000)
+        // 删除
+        this.$apis.upms.user.delete(this.selectedItem.uuid)
+          .then(() => {
+            // 手动关闭对话框
+            this.getItems()
+            dialog.cancel()
+            this.$snackbar.success(this.$t('deleteSuccess'))
+          })
+          .catch(() => {
+            dialog.cancel()
+          })
       })
     },
     editItem (item) {
-      this.editedIndex = this.dataTableParams.items.indexOf(item)
-      this.editedItem = Object.assign({}, item)
-      // TODO 编辑对话框
-      this.dialogOptions.show = true
+      this.selectedIndex = this.dataTableParams.items.indexOf(item)
+      this.selectedItem = Object.assign({}, item)
+      this.$refs.userDialog.show()
     },
     getItems () {
       /* TODO 排序支持
