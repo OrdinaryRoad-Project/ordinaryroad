@@ -160,6 +160,30 @@ function uuid () {
   return s.join('')
 }
 
+/**
+ * 对比两个对象的值是否完全相等
+ * @param a 对象A
+ * @param b 对象B
+ * @returns {boolean}
+ */
+function objectEquals (a, b) {
+  // 取对象a和b的属性名
+  const aProps = Object.keys(a)
+  const bProps = Object.keys(b)
+  // 判断属性名的length是否一致
+  if (aProps.length !== bProps.length) {
+    return false
+  }
+  // 循环取出属性名，再判断属性值是否一致
+  for (let i = 0; i < aProps.length; i++) {
+    const propName = aProps[i]
+    if (a[propName] !== b[propName]) {
+      return false
+    }
+  }
+  return true
+}
+
 module.exports = {
   formatSeconds,
   formatTime,
@@ -169,5 +193,6 @@ module.exports = {
   query,
   remove,
   contain,
-  uuid
+  uuid,
+  objectEquals
 }
