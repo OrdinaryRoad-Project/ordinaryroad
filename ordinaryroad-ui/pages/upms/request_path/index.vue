@@ -114,7 +114,7 @@
         </template>
 
         <template #[`item.createdTime`]="{ item }">
-          {{ $dayjs(item.updateTime).format() }}
+          {{ $dayjs(item.createdTime).format() }}
         </template>
 
         <template #[`item.updateTime`]="{ item }">
