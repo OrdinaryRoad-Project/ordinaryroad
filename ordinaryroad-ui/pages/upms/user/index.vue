@@ -3,7 +3,6 @@
     <base-material-card
       :icon="`mdi-account`"
       :title="$t('menuTitles.userManagement')"
-      class="px-5 py-3"
     >
       <v-data-table
         :headers="headers"
@@ -309,7 +308,7 @@ export default {
           items: data.list,
           totalItems: data.total
         }
-      }).catch((reason) => {
+      }).catch(() => {
         this.dataTableParams.loading = false
       })
     },
