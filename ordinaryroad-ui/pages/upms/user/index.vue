@@ -128,6 +128,14 @@
           </v-sheet>
         </template>
 
+        <template #[`item.createdTime`]="{ item }">
+          {{ $dayjs(item.createdTime).format() }}
+        </template>
+
+        <template #[`item.updateTime`]="{ item }">
+          {{ $dayjs(item.updateTime).format() }}
+        </template>
+
         <template #[`item.actions`]="{ item }">
           <template v-if="$vuetify.breakpoint.xs">
             <v-icon
