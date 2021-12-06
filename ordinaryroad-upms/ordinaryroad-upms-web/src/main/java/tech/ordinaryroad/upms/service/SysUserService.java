@@ -75,6 +75,11 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
             sqls.andLike("username", "%" + username + "%");
         }
 
+        String orNumber = sysUserDO.getOrNumber();
+        if (Argument.isNotBlank(orNumber)) {
+            sqls.andLike("orNumber", "%" + orNumber + "%");
+        }
+
         return super.dao.selectByExample(Example.builder(SysUserDO.class).where(sqls).build());
     }
 
