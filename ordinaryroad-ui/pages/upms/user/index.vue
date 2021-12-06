@@ -230,9 +230,9 @@ export default {
         { text: this.$t('email'), value: 'email', sortable: false },
         { text: this.$t('orNumber'), value: 'orNumber', sortable: false },
         { text: this.$t('username'), value: 'username', sortable: false },
-        { text: this.$t('createdTime'), value: 'createdTime', sortable: false },
+        { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
         { text: this.$t('createBy'), value: 'createBy', sortable: false },
-        { text: this.$t('updateTime'), value: 'updateTime', sortable: false },
+        { text: this.$t('updateTime'), value: 'updateTime', sortable: false, width: '220' },
         { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
         {
           text: this.$t('dataTable.actions'),

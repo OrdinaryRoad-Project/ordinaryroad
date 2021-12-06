@@ -215,9 +215,9 @@ export default {
         { text: 'UUID', value: 'uuid', sortable: false },
         { text: this.$t('roleName'), value: 'roleName', sortable: false },
         { text: this.$t('roleCode'), value: 'roleCode', sortable: false },
-        { text: this.$t('createdTime'), value: 'createdTime', sortable: false },
+        { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
         { text: this.$t('createBy'), value: 'createBy', sortable: false },
-        { text: this.$t('updateTime'), value: 'updateTime', sortable: false },
+        { text: this.$t('updateTime'), value: 'updateTime', sortable: false, width: '220' },
         { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
         {
           text: this.$t('dataTable.actions'),
