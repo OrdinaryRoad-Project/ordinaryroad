@@ -12,19 +12,19 @@ DROP TABLE IF EXISTS `sys_permission`;
 CREATE TABLE `sys_permission`
 (
     `id`              bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT '主键UUID',
+    `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time`    datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
     `update_time`     datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '更新者uuid',
-    `permission_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '权限code',
-    `description`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '权限描述',
+    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `permission_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '权限code',
+    `description`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '权限描述',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_permission_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
   CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci COMMENT = '权限表'
+  COLLATE = utf8mb4_0900_as_cs COMMENT = '权限表'
   ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -48,20 +48,20 @@ DROP TABLE IF EXISTS `sys_request_path`;
 CREATE TABLE `sys_request_path`
 (
     `id`              bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT '主键UUID',
+    `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time`    datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
     `update_time`     datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '更新者uuid',
-    `path`            varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '路径url',
-    `path_name`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '路径名称',
-    `permission_uuid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '请求路径所需要的权限uuid',
+    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `path`            varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '路径url',
+    `path_name`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '路径名称',
+    `permission_uuid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '请求路径所需要的权限uuid',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_request_path_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 2
   CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci COMMENT = '请求路径表'
+  COLLATE = utf8mb4_0900_as_cs COMMENT = '请求路径表'
   ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -81,20 +81,20 @@ DROP TABLE IF EXISTS `sys_role`;
 CREATE TABLE `sys_role`
 (
     `id`           bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT '主键UUID',
+    `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time` datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
     `update_time`  datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '更新者uuid',
-    `role_name`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色名称',
-    `role_code`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色code',
+    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `role_name`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '角色名称',
+    `role_code`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '角色code',
     `enabled`      bit(1)                                                        NULL DEFAULT b'1' COMMENT '角色是否可用',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_role_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 3
   CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色表'
+  COLLATE = utf8mb4_0900_as_cs COMMENT = '角色表'
   ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -113,19 +113,19 @@ DROP TABLE IF EXISTS `sys_roles_permissions`;
 CREATE TABLE `sys_roles_permissions`
 (
     `id`              bigint(20)                                                   NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键UUID',
+    `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '主键UUID',
     `created_time`    datetime                                                     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '创建者uuid',
     `update_time`     datetime                                                     NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '更新者uuid',
-    `role_uuid`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色uuid',
-    `permission_uuid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '权限uuid',
+    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '更新者uuid',
+    `role_uuid`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '角色uuid',
+    `permission_uuid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '权限uuid',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_roles_permissions_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 4
   CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci COMMENT = '角色权限关联关系表'
+  COLLATE = utf8mb4_0900_as_cs COMMENT = '角色权限关联关系表'
   ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -151,14 +151,14 @@ DROP TABLE IF EXISTS `sys_user`;
 CREATE TABLE `sys_user`
 (
     `id`                   bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `uuid`                 varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT '主键UUID',
+    `uuid`                 varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time`         datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
     `update_time`          datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
     `or_number`            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'or帐号',
-    `email`                varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '邮箱',
-    `username`             varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户名',
+    `email`                varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '邮箱',
+    `username`             varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '用户名',
     `password`             varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户密码',
     `enabled`              bit(1)                                                        NULL DEFAULT b'1' COMMENT '账号是否可用',
     `not_expired`          bit(1)                                                        NULL DEFAULT b'1' COMMENT '帐号是否未过期',
@@ -167,7 +167,7 @@ CREATE TABLE `sys_user`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_user_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
+  AUTO_INCREMENT = 3
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户表'
   ROW_FORMAT = Dynamic;
@@ -177,11 +177,15 @@ CREATE TABLE `sys_user`
 -- ----------------------------
 INSERT INTO `sys_user`
 VALUES (1, '76a8133381924e23a9172dac75100047', '2021-11-15 10:08:36', NULL, NULL, NULL, '10001', 'developer',
-        '1962247851@qq.com', '{bcrypt}$2a$10$7hEXm1/XC66HW8ehUhFASuyRzV7w4J5bTiH8VFUgWjxPF3/YzReD6', b'1', b'1', b'1',
+        '1962247851@qq.com', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
         b'1');
 INSERT INTO `sys_user`
 VALUES (2, '24f14f1a400b4bed9caa8d698b33d49a', '2021-11-15 16:07:41', NULL, NULL, NULL, '10002', 'admin',
-        '204879304@qq.com', '{bcrypt}$2a$10$7hEXm1/XC66HW8ehUhFASuyRzV7w4J5bTiH8VFUgWjxPF3/YzReD6', b'1', b'1', b'1',
+        '204879304@qq.com', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
+        b'1');
+INSERT INTO `sys_user`
+VALUES (3, 'c8e93fc029d445119e0c0215ea5ee4b7', '2021-11-29 19:25:26', NULL, NULL, NULL, '10003', 'zjy',
+        '1781422987@qq.com', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'1', b'1', b'1',
         b'1');
 
 -- ----------------------------
@@ -191,19 +195,19 @@ DROP TABLE IF EXISTS `sys_users_roles`;
 CREATE TABLE `sys_users_roles`
 (
     `id`           bigint(20)                                                   NOT NULL AUTO_INCREMENT COMMENT '主键ID',
-    `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '主键UUID',
+    `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '主键UUID',
     `created_time` datetime                                                     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '创建者uuid',
     `update_time`  datetime                                                     NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '更新者uuid',
-    `user_uuid`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户uuid',
-    `role_uuid`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '角色uuid',
+    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '更新者uuid',
+    `user_uuid`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '用户uuid',
+    `role_uuid`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '角色uuid',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_users_roles_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
   AUTO_INCREMENT = 2
   CHARACTER SET = utf8mb4
-  COLLATE = utf8mb4_0900_ai_ci COMMENT = '用户角色关联关系表'
+  COLLATE = utf8mb4_0900_as_cs COMMENT = '用户角色关联关系表'
   ROW_FORMAT = Dynamic;
 
 -- ----------------------------
