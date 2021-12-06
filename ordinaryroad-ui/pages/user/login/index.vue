@@ -153,6 +153,7 @@ export default {
     if (this.$store.getters['user/getTokenInfo']) {
       this.$router.replace({ path: this.redirect })
     } else {
+      this.$store.commit('user/REMOVE_USER_INFO')
       this.getCaptchaImage()
     }
   },
@@ -178,8 +179,7 @@ export default {
         }).then(() => {
           this.loading = false
           this.$router.replace({ path: this.redirect })
-        }).catch((reason) => {
-          this.getCaptchaImage()
+        }).catch(() => {
           this.loading = false
         })
       }
