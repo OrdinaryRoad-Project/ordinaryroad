@@ -262,7 +262,10 @@ export default {
       this.editedItem = item
     },
     createOrUpdate () {
-      if (this.$refs.userForm.validate()) {
+      if (this.$util.objectEquals(this.editedItem, this.selectedItem)) {
+        this.$refs.userDialog.close()
+        // 有变动才进行创建或更新
+      } else if (this.$refs.userForm.validate()) {
         const action = this.selectedIndex === -1 ? 'create' : 'update'
         this.$apis.upms.user[action](this.editedItem)
           .then(() => {
