@@ -123,7 +123,7 @@
           v-if="!$vuetify.breakpoint.xs"
           #[`header.actions`]="{ header }"
         >
-          <v-sheet elevation="8">
+          <v-sheet elevation="1">
             {{ header.text }}
           </v-sheet>
         </template>
@@ -152,7 +152,7 @@
               mdi-delete-forever
             </v-icon>
           </template>
-          <v-sheet v-else elevation="8">
+          <v-sheet v-else elevation="1">
             <v-icon
               color="accent"
               class="mr-2"
