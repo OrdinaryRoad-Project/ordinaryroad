@@ -137,7 +137,11 @@
         </template>
 
         <template #[`item.actions`]="{ item }">
-          <template v-if="$vuetify.breakpoint.xs">
+          <div
+            :class="$vuetify.breakpoint.xs?''
+              :$vuetify.theme.dark ?'v-sheet theme--dark elevation-1'
+                :'v-sheet theme--light elevation-1'"
+          >
             <v-icon
               color="accent"
               class="mr-2"
@@ -151,22 +155,37 @@
             >
               mdi-delete-forever
             </v-icon>
-          </template>
-          <v-sheet v-else elevation="1">
-            <v-icon
-              color="accent"
-              class="mr-2"
-              @click="editItem(item)"
+            <v-menu
+              offset-y
+              open-on-hover
             >
-              mdi-pencil
-            </v-icon>
-            <v-icon
-              color="error"
-              @click="deleteItem(item)"
-            >
-              mdi-delete-forever
-            </v-icon>
-          </v-sheet>
+              <template #activator="{ on, attrs }">
+                <v-btn
+                  color="primary"
+                  dark
+                  v-bind="attrs"
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>mdi-chevron-down</v-icon>
+                </v-btn>
+              </template>
+              <v-list dense>
+                <v-list-item @click="$snackbar('重置密码')">
+                  <v-list-item-avatar size="16">
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-title>重置密码</v-list-item-title>
+                </v-list-item>
+                <v-list-item @click="$snackbar('分配角色')">
+                  <v-list-item-avatar size="16">
+                    <v-icon>mdi-account</v-icon>
+                  </v-list-item-avatar>
+                  <v-list-item-title>分配角色</v-list-item-title>
+                </v-list-item>
+              </v-list>
+            </v-menu>
+          </div>
         </template>
       </v-data-table>
     </base-material-card>

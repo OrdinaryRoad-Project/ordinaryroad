@@ -122,7 +122,11 @@
         </template>
 
         <template #[`item.actions`]="{ item }">
-          <template v-if="$vuetify.breakpoint.xs">
+          <div
+            :class="$vuetify.breakpoint.xs?''
+              :$vuetify.theme.dark ?'v-sheet theme--dark elevation-1'
+                :'v-sheet theme--light elevation-1'"
+          >
             <v-icon
               color="accent"
               class="mr-2"
@@ -136,22 +140,7 @@
             >
               mdi-delete-forever
             </v-icon>
-          </template>
-          <v-sheet v-else elevation="1">
-            <v-icon
-              color="accent"
-              class="mr-2"
-              @click="editItem(item)"
-            >
-              mdi-pencil
-            </v-icon>
-            <v-icon
-              color="error"
-              @click="deleteItem(item)"
-            >
-              mdi-delete-forever
-            </v-icon>
-          </v-sheet>
+          </div>
         </template>
       </v-data-table>
     </base-material-card>
