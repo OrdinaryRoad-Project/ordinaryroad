@@ -23,10 +23,7 @@
  */
 package tech.ordinaryroad.commons.core.advice;
 
-import cn.dev33.satoken.exception.NotPermissionException;
-import cn.dev33.satoken.exception.NotRoleException;
 import cn.dev33.satoken.exception.SaTokenException;
-import cn.dev33.satoken.oauth2.exception.SaOAuth2Exception;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -43,6 +40,7 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.utils.exception.ExceptionUtils;
 
 import javax.servlet.http.HttpServletResponse;
 
@@ -125,13 +123,7 @@ public class GlobalControllerExceptionHandlerAdvice {
             String method = exception.getMethod();
             return Result.fail(HttpStatus.METHOD_NOT_ALLOWED.value(), String.format("%s 方法不支持", method), rootCauseMessage);
         } else if (ex instanceof SaTokenException) {
-            if (ex instanceof NotPermissionException) {
-                return Result.fail(StatusCode.NO_PERMISSION, rootCauseMessage);
-            } else if (ex instanceof NotRoleException) {
-                return Result.fail(StatusCode.NO_ROLE, rootCauseMessage);
-            } else if (ex instanceof SaOAuth2Exception) {
-                return Result.fail(StatusCode.COMMON_EXCEPTION, rootCauseMessage);
-            }
+            return ExceptionUtils.getResult(ex);
         } else if (ex instanceof HttpMessageNotReadableException) {
             return Result.fail(StatusCode.PARAM_NOT_VALID, rootCauseMessage);
         }

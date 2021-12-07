@@ -5,8 +5,7 @@ import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
-import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.utils.exception.ExceptionUtils;
 
 /**
  * [Sa-Token 权限认证] 配置类
@@ -55,7 +54,7 @@ public class SaTokenConfigure {
                     });
                 })
                 // 异常处理方法：每次setAuth函数出现异常时进入
-                .setError(e -> Result.fail(StatusCode.NO_PERMISSION, e.getMessage()));
+                .setError(ExceptionUtils::getResult);
     }
 
 }
