@@ -30,6 +30,7 @@ import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 /**
@@ -49,7 +50,7 @@ public class SysUserUpdateEnabledRequest extends BaseRequest {
     private String uuid;
 
     @ApiModelProperty(value = "账号是否可用", required = true)
-    @NotBlank(message = "账号是否可用不能为空")
+    @NotNull(message = "账号是否可用不能为空")
     private Boolean enabled;
 
     @ApiModelProperty(value = "停用时间，单位秒，-1永久封禁，当前为永久封禁", hidden = true)
