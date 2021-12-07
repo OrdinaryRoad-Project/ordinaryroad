@@ -20,6 +20,10 @@ export default {
     const data = { code, password, email, username }
     return $axios({ url: '/upms/user/register', method: 'post', data })
   },
+  findByUniqueColumn: ({ orNumber, email, username }) => {
+    const data = { orNumber, email, username }
+    return $axios({ url: '/upms/user/find/unique', method: 'post', data })
+  },
   list: (offset, limit, { email, orNumber, username }) => {
     const data = { offset, limit, email, orNumber, username }
     return $axios({ url: '/upms/user/list', method: 'post', data })

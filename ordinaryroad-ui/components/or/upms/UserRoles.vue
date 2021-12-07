@@ -38,6 +38,12 @@
     <v-row>
       <v-spacer />
       <v-btn
+        text
+        @click="$router.push({path:'/upms/user'})"
+      >
+        {{ $t('back') }}
+      </v-btn>
+      <v-btn
         :loading="updating"
         text
         color="primary"
@@ -72,9 +78,11 @@ export default {
   watch: {
     preset: {
       handler (val) {
-        this.model = Object.assign({ roleUuids: [] }, val)
-        // 查询拥有的角色
-        this.initRoles()
+        if (val) {
+          this.model = Object.assign({ roleUuids: [] }, val)
+          // 查询拥有的角色
+          this.initRoles()
+        }
       },
       deep: true,
       immediate: true

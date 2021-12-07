@@ -315,7 +315,7 @@ export default {
   },
   methods: {
     updateItemRoles (item) {
-      this.$router.push({ name: 'upms-user_roles', params: { item } })
+      this.$router.push({ name: 'upms-user_roles-orNumber', params: { orNumber: item.orNumber, item } })
     },
     resetItemPassword (item) {
       this.showPassword = false
