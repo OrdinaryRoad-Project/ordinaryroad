@@ -23,10 +23,7 @@
  */
 package tech.ordinaryroad.commons.core.utils.exception;
 
-import cn.dev33.satoken.exception.NotLoginException;
-import cn.dev33.satoken.exception.NotPermissionException;
-import cn.dev33.satoken.exception.NotRoleException;
-import cn.dev33.satoken.exception.SaTokenException;
+import cn.dev33.satoken.exception.*;
 import cn.dev33.satoken.oauth2.exception.SaOAuth2Exception;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
@@ -62,17 +59,19 @@ public class ExceptionUtils {
      * @return Result
      */
     public static Result<?> getResult(SaTokenException saTokenException) {
-        String rootCauseMessage = StrUtil.subPre(ExceptionUtil.getRootCauseMessage(saTokenException), 500);
+        String simpleMessage = StrUtil.subPre(ExceptionUtil.getSimpleMessage(saTokenException), 500);
         if (saTokenException instanceof NotPermissionException) {
-            return Result.fail(StatusCode.NO_PERMISSION.getCode(), rootCauseMessage);
+            return Result.fail(StatusCode.NO_PERMISSION.getCode(), simpleMessage);
         } else if (saTokenException instanceof NotRoleException) {
-            return Result.fail(StatusCode.NO_ROLE.getCode(), rootCauseMessage);
+            return Result.fail(StatusCode.NO_ROLE.getCode(), simpleMessage);
         } else if (saTokenException instanceof NotLoginException) {
-            return Result.fail(StatusCode.USER_NOT_LOGIN.getCode(), rootCauseMessage);
+            return Result.fail(StatusCode.USER_NOT_LOGIN.getCode(), simpleMessage);
+        } else if (saTokenException instanceof DisableLoginException) {
+            return Result.fail(StatusCode.USER_ACCOUNT_DISABLE.getCode(), simpleMessage);
         } else if (saTokenException instanceof SaOAuth2Exception) {
-            return Result.fail(StatusCode.COMMON_EXCEPTION.getCode(), rootCauseMessage);
+            return Result.fail(StatusCode.COMMON_EXCEPTION.getCode(), simpleMessage);
         }
-        return Result.fail(StatusCode.COMMON_EXCEPTION.getCode(), rootCauseMessage);
+        return Result.fail(StatusCode.COMMON_EXCEPTION.getCode(), simpleMessage);
     }
 
 }
