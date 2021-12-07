@@ -256,12 +256,18 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     public Result<?> resetPassword(SysUserResetPasswordRequest request) {
         // 重置密码，只允许管理员和开发者
         StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
+
+        SysUserDO byUuid = sysUserService.findById(request.getUuid());
+        if (Objects.isNull(byUuid)) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+
         SysUserDO sysUserDO = objMapStruct.transfer(request);
         // 密码加密
         sysUserDO.setPassword(passwordEncoder.encode(sysUserDO.getPassword()));
         sysUserService.updateSelective(sysUserDO);
         // 重置密码后强制下线
-        StpUtil.kickout(sysUserDO.getOrNumber());
+        StpUtil.kickout(byUuid.getOrNumber());
         return Result.success();
     }
 
