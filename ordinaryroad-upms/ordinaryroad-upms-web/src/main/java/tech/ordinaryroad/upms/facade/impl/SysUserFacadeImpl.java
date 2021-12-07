@@ -260,6 +260,8 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         // 密码加密
         sysUserDO.setPassword(passwordEncoder.encode(sysUserDO.getPassword()));
         sysUserService.updateSelective(sysUserDO);
+        // 重置密码后强制下线
+        StpUtil.kickout(sysUserDO.getOrNumber());
         return Result.success();
     }
 
