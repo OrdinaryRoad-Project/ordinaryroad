@@ -23,7 +23,7 @@ export default function (context, inject) {
     } else {
       // 获取错误信息
       const msg = errorCode[code] || res.data.msg || errorCode.default
-      if (code === 3001) {
+      if (code === 2001) {
         store.commit('user/REMOVE_TOKEN_INFO')
         context.$dialog({
           persistent: true,

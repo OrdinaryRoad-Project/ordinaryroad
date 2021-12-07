@@ -1,6 +1,8 @@
 {
+  "userRoles": "User Roles",
+  "userRolesManagement": "User Roles Management",
   "resetPassword": "Reset Password",
-  "inputSearchPlaceHolder": "Enter the permission code to search.",
+  "inputWhatToSearchPlaceHolder": "Enter {0} to search.",
   "permission": "Permission",
   "permissionCode": "Permission Code",
   "description": "Description",
@@ -83,5 +85,6 @@
     "permissionManagement": "Permission Management",
     "requestPathManagement": "RequestPath Management"
   },
-  "settings": "Settings"
+  "settings": "Settings",
+  "ordinaryroad": "Ordinary Road"
 }

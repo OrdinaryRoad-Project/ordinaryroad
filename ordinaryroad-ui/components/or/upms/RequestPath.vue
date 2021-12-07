@@ -9,7 +9,7 @@
       item-text="permissionCode"
       item-value="uuid"
       :label="$t('permission')"
-      :placeholder="$t('inputSearchPlaceHolder')"
+      :placeholder="$t('inputWhatToSearchPlaceHolder',[$t('permissionCode')])"
       @update:search-input="searchPermissions"
     >
       <template #selection="{item}">
@@ -83,12 +83,7 @@ export default {
       this.$apis.upms.permission.findAll({ permissionCode: inputPermissionCode })
         .then((value) => {
           this.permissionUuidOption.loading = false
-          const data = value.data
-          this.permissionUuidOption.items = []
-          data.forEach((value) => {
-            // this.permissionUuidOption.items.push(value.permissionCode)
-            this.permissionUuidOption.items.push(value)
-          })
+          this.permissionUuidOption.items = value.data
         })
         .catch(() => {
           this.permissionUuidOption.loading = false

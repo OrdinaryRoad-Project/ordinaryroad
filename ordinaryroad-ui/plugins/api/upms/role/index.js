@@ -19,5 +19,17 @@ export default {
   list: (offset, limit, { roleName, roleCode }) => {
     const data = { limit, offset, roleName, roleCode }
     return $axios({ url: '/upms/role/list', method: 'post', data })
+  },
+  findAll: ({ roleCode, roleName }) => {
+    const data = { roleCode, roleName }
+    return $axios({ url: '/upms/role/find_all', method: 'post', data })
+  },
+  findAllByUserUuid: (userUuid) => {
+    const data = { userUuid }
+    return $axios({ url: '/upms/role/find_all/user_uuid', method: 'post', data })
+  },
+  updateUserRoles: ({ userUuid, roleUuids }) => {
+    const data = { userUuid, roleUuids }
+    return $axios({ url: '/upms/role/update/user_roles', method: 'post', data })
   }
 }

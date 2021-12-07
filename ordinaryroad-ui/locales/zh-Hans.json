@@ -1,6 +1,8 @@
 {
+  "userRoles": "用户角色",
+  "userRolesManagement": "用户角色管理",
   "resetPassword": "重置密码",
-  "inputSearchPlaceHolder": "输入权限code进行搜索",
+  "inputWhatToSearchPlaceHolder": "输入{0}进行搜索",
   "permission": "权限",
   "permissionCode": "权限code",
   "description": "描述",
@@ -83,5 +85,6 @@
     "permissionManagement": "权限管理",
     "requestPathManagement": "请求路径管理"
   },
-  "settings": "设置"
+  "settings": "设置",
+  "ordinaryroad": "Ordinary Road"
 }

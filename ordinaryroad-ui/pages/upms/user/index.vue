@@ -180,13 +180,13 @@
                   </v-list-item-avatar>
                   <v-list-item-title>{{ $t('resetPassword') }}</v-list-item-title>
                 </v-list-item>
-                <v-list-item @click="$snackbar('分配角色')">
+                <v-list-item @click="updateItemRoles(item)">
                   <v-list-item-avatar size="16">
                     <v-icon small>
                       mdi-account-multiple
                     </v-icon>
                   </v-list-item-avatar>
-                  <v-list-item-title>分配角色</v-list-item-title>
+                  <v-list-item-title>{{ $t('userRolesManagement') }}</v-list-item-title>
                 </v-list-item>
               </v-list>
             </v-menu>
@@ -314,6 +314,9 @@ export default {
   mounted () {
   },
   methods: {
+    updateItemRoles (item) {
+      this.$router.push({ name: 'upms-user_roles', params: { item } })
+    },
     resetItemPassword (item) {
       this.showPassword = false
       this.selectedIndex = this.dataTableParams.items.indexOf(item)
@@ -323,7 +326,7 @@ export default {
     },
     resetPassword () {
       if (this.$refs.resetPasswordForm.validate()) {
-        // TODO 调用API重置密码
+        // 调用API重置密码
         this.$apis.upms.user.resetPassword(this.selectedItem.uuid, this.editedItem.password)
           .then(() => {
             this.$refs.resetPasswordDialog.close()
