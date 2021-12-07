@@ -55,9 +55,10 @@ public class CaptchaServiceImpl implements ICaptchaService {
             throw new CaptchaException("验证码已失效");
         }
         String captcha = redisService.getCacheObject(key);
-        redisService.deleteObject(key);
         if (!code.equalsIgnoreCase(captcha)) {
             throw new CaptchaException("验证码错误");
+        } else {
+            redisService.deleteObject(key);
         }
     }
 
