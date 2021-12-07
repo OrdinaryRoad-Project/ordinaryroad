@@ -76,7 +76,7 @@
                 v-model="passwordForm.oldPassword.value"
                 clearable
                 :append-icon="passwordForm.oldPassword.show ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="[$rules.required,$rules.password]"
+                :rules="[$rules.required,$ruels.min6Chars,$rules.max16Chars,$rules.password]"
                 :type="passwordForm.oldPassword.show ? 'text' : 'password'"
                 :label="$t('oldPassword')"
                 @click:append="passwordForm.oldPassword.show=!passwordForm.oldPassword.show"
@@ -85,7 +85,7 @@
                 v-model="passwordForm.newPassword.value"
                 clearable
                 :label="$t('newPassword')"
-                :rules="[$rules.required,$rules.password]"
+                :rules="[$rules.required,$ruels.min6Chars,$rules.max16Chars,$rules.password]"
                 :append-icon="passwordForm.newPassword.show ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="passwordForm.newPassword.show ? 'text' : 'password'"
                 @click:append="passwordForm.newPassword.show = !passwordForm.newPassword.show"
@@ -93,7 +93,7 @@
               <v-text-field
                 v-model="passwordForm.confirmPassword.value"
                 clearable
-                :rules="[$rules.required,$rules.password]"
+                :rules="[$rules.required,$ruels.min6Chars,$rules.max16Chars,$rules.password]"
                 :error-messages="passwordForm.confirmPassword.errorMessageKey?$t(passwordForm.confirmPassword.errorMessageKey):null"
                 :label="$t('confirmPassword')"
                 :append-icon="passwordForm.confirmPassword.show ? 'mdi-eye' : 'mdi-eye-off'"

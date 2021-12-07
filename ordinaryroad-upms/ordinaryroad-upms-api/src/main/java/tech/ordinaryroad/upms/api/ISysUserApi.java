@@ -90,4 +90,7 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/register")
     Result<SysUserDTO> register(@Validated @RequestBody SysUserRegisterRequest request);
 
+    @PostMapping(value = "/user/reset/password")
+    Result<?> resetPassword(@Validated @RequestBody SysUserResetPasswordRequest request);
+
 }

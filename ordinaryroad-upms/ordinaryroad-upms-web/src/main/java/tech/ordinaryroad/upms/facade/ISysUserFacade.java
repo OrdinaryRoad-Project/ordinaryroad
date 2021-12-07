@@ -124,4 +124,12 @@ public interface ISysUserFacade {
      * @return DTO
      */
     Result<SysUserDTO> register(SysUserRegisterRequest request);
+
+    /**
+     * 重置密码
+     *
+     * @param request Request
+     * @return Boolean
+     */
+    Result<?> resetPassword(SysUserResetPasswordRequest request);
 }

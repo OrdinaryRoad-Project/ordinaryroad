@@ -108,4 +108,9 @@ public class SysUserController implements ISysUserApi {
         return sysUserFacade.register(request);
     }
 
+    @Override
+    public Result<?> resetPassword(SysUserResetPasswordRequest request) {
+        return sysUserFacade.resetPassword(request);
+    }
+
 }

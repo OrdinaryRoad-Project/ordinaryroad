@@ -35,5 +35,9 @@ export default {
   updatePassword: (password, newPassword) => {
     const data = { password, newPassword }
     return $axios({ url: '/upms/user/update/password', method: 'post', data })
+  },
+  resetPassword: (uuid, password) => {
+    const data = { uuid, password }
+    return $axios({ url: '/upms/user/reset/password', method: 'post', data })
   }
 }

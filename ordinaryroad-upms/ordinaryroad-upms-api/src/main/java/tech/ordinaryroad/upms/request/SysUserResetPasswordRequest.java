@@ -21,31 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.mapstruct;
+package tech.ordinaryroad.upms.request;
 
-import org.mapstruct.Mapper;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
-import tech.ordinaryroad.upms.entity.SysUserDO;
-import tech.ordinaryroad.upms.request.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2021/10/27
+ * @date 2021/12/7
  */
-@Mapper(componentModel = "spring")
-public interface SysUserMapStruct {
+@Getter
+@Setter
+@ApiModel
+public class SysUserResetPasswordRequest extends BaseSaveRequest {
 
-    SysUserDO transfer(SysUserSaveRequest request);
+    private static final long serialVersionUID = 2799421794369131616L;
 
-    SysUserDO transfer(SysUserRegisterRequest request);
+    @ApiModelProperty(value = "主键uuid", required = true)
+    @NotBlank(message = "主键uuid不能为空")
+    @Size(max = 32, message = "主键uuid长度不能超过32")
+    private String uuid;
 
-    SysUserDTO transfer(SysUserDO sysUserDO);
+    @ApiModelProperty(value = "密码", required = true)
+    @NotBlank(message = "密码不能为空")
+    @Size(min = 6, max = 16, message = "密码长度 6-16")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$", message = "必须包含大小写字母和数字的组合，可以使用特殊字符")
+    private String password;
 
-    SysUserDO transfer(SysUserQueryRequest request);
-
-    SysUserDO transfer(SysUserUpdateUsernameRequest request);
-
-    SysUserDO transfer(SysUserUpdatePasswordRequest request);
-
-    SysUserDO transfer(SysUserResetPasswordRequest request);
 }

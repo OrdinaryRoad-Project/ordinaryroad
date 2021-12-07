@@ -1,4 +1,5 @@
 {
+  "resetPassword": "重置密码",
   "inputSearchPlaceHolder": "输入权限code进行搜索",
   "permission": "权限",
   "permissionCode": "权限code",
@@ -28,7 +29,7 @@
   "userMenuTitles": {
     "userProfile": "个人中心"
   },
-  "invalidPassword": "必须包含大小写字母和数字的组合，可以使用特殊字符，长度6-16",
+  "invalidPassword": "必须包含大小写字母和数字的组合，可以使用特殊字符",
   "invalidEmail": "邮箱格式错误",
   "minNChars": "长度不能小于{0}",
   "maxNChars": "长度不能大于{0}",

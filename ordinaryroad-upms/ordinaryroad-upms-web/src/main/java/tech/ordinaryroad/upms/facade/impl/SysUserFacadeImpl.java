@@ -252,6 +252,17 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }
 
+    @Override
+    public Result<?> resetPassword(SysUserResetPasswordRequest request) {
+        // 重置密码，只允许管理员和开发者
+        StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
+        SysUserDO sysUserDO = objMapStruct.transfer(request);
+        // 密码加密
+        sysUserDO.setPassword(passwordEncoder.encode(sysUserDO.getPassword()));
+        sysUserService.updateSelective(sysUserDO);
+        return Result.success();
+    }
+
     @Nullable
     private Result<SysUserDTO> checkValid(SysUserSaveRequest request) {
         // 校验邮箱

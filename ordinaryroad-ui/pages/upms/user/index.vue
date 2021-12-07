@@ -151,6 +151,7 @@
             </v-icon>
             <v-icon
               color="error"
+              class="mr-2"
               @click="deleteItem(item)"
             >
               mdi-delete-forever
@@ -171,15 +172,19 @@
                 </v-btn>
               </template>
               <v-list dense>
-                <v-list-item @click="$snackbar('重置密码')">
+                <v-list-item @click="resetItemPassword(item)">
                   <v-list-item-avatar size="16">
-                    <v-icon>mdi-account</v-icon>
+                    <v-icon small>
+                      mdi-lock
+                    </v-icon>
                   </v-list-item-avatar>
-                  <v-list-item-title>重置密码</v-list-item-title>
+                  <v-list-item-title>{{ $t('resetPassword') }}</v-list-item-title>
                 </v-list-item>
                 <v-list-item @click="$snackbar('分配角色')">
                   <v-list-item-avatar size="16">
-                    <v-icon>mdi-account</v-icon>
+                    <v-icon small>
+                      mdi-account-multiple
+                    </v-icon>
                   </v-list-item-avatar>
                   <v-list-item-title>分配角色</v-list-item-title>
                 </v-list-item>
@@ -200,6 +205,28 @@
         :preset="selectedItem"
         @update="onItemUpdate"
       />
+    </or-base-dialog>
+    <or-base-dialog
+      ref="resetPasswordDialog"
+      loading
+      :title="$t('resetPassword')"
+      @onConfirm="resetPassword"
+    >
+      <v-form ref="resetPasswordForm">
+        <v-text-field
+          v-model="selectedItem.orNumber"
+          readonly
+          :label="$t('orNumber')"
+        />
+        <v-text-field
+          v-model="editedItem.password"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :rules="[$rules.required,$rules.min6Chars,$rules.max16Chars,$rules.password]"
+          :type="showPassword ? 'text' : 'password'"
+          :label="$t('password')"
+          @click:append="showPassword=!showPassword"
+        />
+      </v-form>
     </or-base-dialog>
   </div>
 </template>
@@ -241,7 +268,9 @@ export default {
         username: '',
         password: '',
         orNumber: null
-      }
+      },
+
+      showPassword: false
     }
   },
   head () {
@@ -285,6 +314,27 @@ export default {
   mounted () {
   },
   methods: {
+    resetItemPassword (item) {
+      this.showPassword = false
+      this.selectedIndex = this.dataTableParams.items.indexOf(item)
+      this.selectedItem = Object.assign({}, item)
+      this.editedItem = Object.assign({}, this.defaultItem)
+      this.$refs.resetPasswordDialog.show()
+    },
+    resetPassword () {
+      if (this.$refs.resetPasswordForm.validate()) {
+        // TODO 调用API重置密码
+        this.$apis.upms.user.resetPassword(this.selectedItem.uuid, this.editedItem.password)
+          .then(() => {
+            this.$refs.resetPasswordDialog.close()
+            this.getItems()
+          }).catch(() => {
+            this.$refs.resetPasswordDialog.cancelLoading()
+          })
+      } else {
+        this.$refs.resetPasswordDialog.cancelLoading()
+      }
+    },
     onItemUpdate (item) {
       this.editedItem = item
     },
