@@ -132,4 +132,6 @@ public interface ISysUserFacade {
      * @return Boolean
      */
     Result<?> resetPassword(SysUserResetPasswordRequest request);
+
+    Result<?> updateEnabled(SysUserUpdateEnabledRequest request);
 }

@@ -21,33 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.mapstruct;
+package tech.ordinaryroad.upms.request;
 
-import org.mapstruct.Mapper;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
-import tech.ordinaryroad.upms.entity.SysUserDO;
-import tech.ordinaryroad.upms.request.*;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2021/10/27
+ * @date 2021/12/7
  */
-@Mapper(componentModel = "spring")
-public interface SysUserMapStruct {
+@Getter
+@Setter
+@ApiModel
+public class SysUserUpdateEnabledRequest extends BaseRequest {
 
-    SysUserDO transfer(SysUserSaveRequest request);
+    private static final long serialVersionUID = 5282199712444997943L;
 
-    SysUserDO transfer(SysUserRegisterRequest request);
+    @ApiModelProperty(value = "主键uuid", required = true)
+    @NotBlank(message = "主键uuid不能为空")
+    @Size(max = 32, message = "主键uuid长度不能超过32")
+    private String uuid;
 
-    SysUserDTO transfer(SysUserDO sysUserDO);
+    @ApiModelProperty(value = "账号是否可用", required = true)
+    @NotBlank(message = "账号是否可用不能为空")
+    private Boolean enabled;
 
-    SysUserDO transfer(SysUserQueryRequest request);
+    @ApiModelProperty(value = "停用时间，单位秒，-1永久封禁，当前为永久封禁", hidden = true)
+    private Long disableTime = -1L;
 
-    SysUserDO transfer(SysUserUpdateUsernameRequest request);
-
-    SysUserDO transfer(SysUserUpdatePasswordRequest request);
-
-    SysUserDO transfer(SysUserResetPasswordRequest request);
-
-    SysUserDO transfer(SysUserUpdateEnabledRequest request);
 }

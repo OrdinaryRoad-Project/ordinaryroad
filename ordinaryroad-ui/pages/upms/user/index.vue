@@ -128,6 +128,15 @@
           </v-sheet>
         </template>
 
+        <template #[`item.enabled`]="{ item }">
+          <v-switch
+            v-model="item.enabled"
+            readonly
+            inset
+            @click="updateItemEnabled(item)"
+          />
+        </template>
+
         <template #[`item.createdTime`]="{ item }">
           {{ $dayjs(item.createdTime).format() }}
         </template>
@@ -286,6 +295,7 @@ export default {
         { text: this.$t('email'), value: 'email', sortable: false },
         { text: this.$t('orNumber'), value: 'orNumber', sortable: false },
         { text: this.$t('username'), value: 'username', sortable: false },
+        { text: this.$t('enabled'), value: 'enabled', sortable: false },
         { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
         { text: this.$t('createBy'), value: 'createBy', sortable: false },
         { text: this.$t('updateTime'), value: 'updateTime', sortable: false, width: '220' },
@@ -314,6 +324,24 @@ export default {
   mounted () {
   },
   methods: {
+    updateItemEnabled (item) {
+      const actionKey = item.enabled ? 'disable' : 'enable'
+      const operationString = this.$t(actionKey) + ' ' + item.orNumber + ' '
+      this.$dialog({
+        content: this.$t('areYouSureToDoWhat', [operationString]),
+        loading: true
+      }).then((dialog) => {
+        this.$apis.upms.user.updateEnabled(item.uuid, !item.enabled)
+          .then(() => {
+            this.$snackbar.success(this.$t('whatSuccessfully', [operationString]))
+            item.enabled = !item.enabled
+            dialog.cancel()
+          })
+          .catch(() => {
+            dialog.cancel()
+          })
+      })
+    },
     updateItemRoles (item) {
       this.$router.push({ name: 'upms-user_roles-orNumber', params: { orNumber: item.orNumber, item } })
     },

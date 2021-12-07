@@ -271,6 +271,29 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         return Result.success();
     }
 
+    @Override
+    public Result<?> updateEnabled(SysUserUpdateEnabledRequest request) {
+        // 停用或启用账号，只允许管理员和开发者
+        StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
+
+        SysUserDO byUuid = sysUserService.findById(request.getUuid());
+        if (Objects.isNull(byUuid)) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+
+        SysUserDO sysUserDO = objMapStruct.transfer(request);
+        sysUserService.updateSelective(sysUserDO);
+
+        String orNumber = byUuid.getOrNumber();
+        if (request.getEnabled()) {
+            StpUtil.untieDisable(orNumber);
+        } else {
+            StpUtil.disable(orNumber, -1L);
+        }
+
+        return Result.success();
+    }
+
     @Nullable
     private Result<SysUserDTO> checkValid(SysUserSaveRequest request) {
         // 校验邮箱

@@ -1,4 +1,9 @@
 {
+  "whatSuccessfully": "{0}成功",
+  "disable": "禁用",
+  "enable": "启用",
+  "areYouSureToDoWhat": "确定{0}？",
+  "enabled": "启用",
   "back": "返回",
   "userRoles": "用户角色",
   "userRolesManagement": "用户角色管理",

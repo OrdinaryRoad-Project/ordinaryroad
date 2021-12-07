@@ -1,4 +1,9 @@
 {
+  "whatSuccessfully": "{0} successfully.",
+  "disable": "Disable",
+  "enable": "Enable",
+  "areYouSureToDoWhat": "Are you sure to {0} ?",
+  "enabled": "Enabled",
   "back": "Back",
   "userRoles": "User Roles",
   "userRolesManagement": "User Roles Management",

@@ -93,4 +93,7 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/reset/password")
     Result<?> resetPassword(@Validated @RequestBody SysUserResetPasswordRequest request);
 
+    @PostMapping(value = "/user/update/enabled")
+    Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request);
+
 }
