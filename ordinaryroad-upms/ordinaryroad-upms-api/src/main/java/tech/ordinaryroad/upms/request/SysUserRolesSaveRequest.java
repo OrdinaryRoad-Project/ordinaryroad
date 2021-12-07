@@ -21,45 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.entity;
+package tech.ordinaryroad.upms.request;
 
-import com.alibaba.fastjson.JSON;
-import lombok.EqualsAndHashCode;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ordinaryroad.commons.mybatis.model.BaseDO;
+import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
- * 用户角色关联关系表
+ * 更新用户角色请求
  *
  * @author mjz
- * @date 2021/11/3
+ * @date 2021/12/7
  */
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Getter
 @Setter
-@Table(name = "sys_users_roles")
-public class SysUsersRolesDO extends BaseDO {
+@ApiModel
+public class SysUserRolesSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 8132681650981971837L;
+    private static final long serialVersionUID = 3675384556752998450L;
 
-    /**
-     * 用户uuid
-     */
-    @EqualsAndHashCode.Include
+    @ApiModelProperty("用户uuid")
+    @NotBlank(message = "用户uuid不能为空")
+    @Size(max = 32, message = "用户uuid长度不能超过32")
     private String userUuid;
 
-    /**
-     * 角色uuid
-     */
-    @EqualsAndHashCode.Include
-    private String roleUuid;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
+    @ApiModelProperty("角色uuid列表")
+    private List<String> roleUuids;
 
 }

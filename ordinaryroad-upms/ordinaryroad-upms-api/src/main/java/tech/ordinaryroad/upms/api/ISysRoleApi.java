@@ -36,6 +36,7 @@ import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysUserRolesSaveRequest;
 
 import java.util.List;
 
@@ -70,5 +71,8 @@ public interface ISysRoleApi {
 
     @PostMapping(value = "/role/list")
     Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request);
+
+    @PostMapping(value = "/role/update/user_roles")
+    Result<Boolean> updateUserRoles(@Validated @RequestBody SysUserRolesSaveRequest request);
 
 }

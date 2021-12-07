@@ -30,7 +30,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.transaction.annotation.Transactional;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
@@ -43,13 +43,11 @@ import tech.ordinaryroad.upms.facade.ISysRoleFacade;
 import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysUserRolesSaveRequest;
 import tech.ordinaryroad.upms.service.SysRoleService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -163,7 +161,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     }
 
     @Override
-    public Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request) {
+    public Result<List<SysRoleDTO>> findAllByUserUuid(SysRoleQueryRequest request) {
         String userUuid = request.getUserUuid();
         if (StrUtil.isBlank(userUuid)) {
             return Result.fail(StatusCode.PARAM_IS_BLANK);
@@ -175,6 +173,59 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
         BaseQueryRequest baseQueryRequest = new BaseQueryRequest();
         baseQueryRequest.setUuids(roleUuidList);
         return this.findAllByIds(baseQueryRequest);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result<Boolean> updateUserRoles(SysUserRolesSaveRequest request) {
+        String userUuid = request.getUserUuid();
+
+        // 最新的角色uuids
+        List<String> roleUuids = request.getRoleUuids();
+
+        // 本地的角色uuids
+        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
+
+        // 需要新增的用户角色关联关系实体类
+        List<SysUsersRolesDO> needInsertList = new ArrayList<>();
+        // 需要删除的角色uuids
+        List<String> needDeleteList = new ArrayList<>();
+
+        roleUuids.forEach(roleUuid -> {
+            // 判断是否需要新增
+            boolean find = false;
+            for (SysUsersRolesDO sysUsersRolesDO : allByUserUuid) {
+                if (sysUsersRolesDO.getRoleUuid().equals(roleUuid)) {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find) {
+                SysUsersRolesDO sysUsersRolesDO = new SysUsersRolesDO();
+                sysUsersRolesDO.setUserUuid(userUuid);
+                sysUsersRolesDO.setRoleUuid(roleUuid);
+                needInsertList.add(sysUsersRolesDO);
+            }
+        });
+        allByUserUuid.forEach(sysUsersRolesDO -> {
+            // 最新的不存在，需要删除的
+            if (!roleUuids.contains(sysUsersRolesDO.getRoleUuid())) {
+                needDeleteList.add(sysUsersRolesDO.getUuid());
+            }
+        });
+
+        if (CollUtil.isEmpty(needDeleteList) && CollUtil.isEmpty(needInsertList)) {
+            return Result.success(false);
+        } else {
+            if (CollUtil.isNotEmpty(needDeleteList)) {
+                sysUsersRolesService.deleteByIdList(SysUsersRolesDO.class, needDeleteList);
+            }
+            if (CollUtil.isNotEmpty(needInsertList)) {
+                sysUsersRolesService.insertList(needInsertList);
+            }
+        }
+
+        return Result.success(true);
     }
 
 }

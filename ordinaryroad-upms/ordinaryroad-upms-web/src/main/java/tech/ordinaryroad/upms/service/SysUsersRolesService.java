@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.collection.CollUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
@@ -31,6 +32,7 @@ import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -51,6 +53,16 @@ public class SysUsersRolesService extends BaseService<SysUsersRolesDAO, SysUsers
     public List<SysUsersRolesDO> findAllByRoleUuid(String roleUuid) {
         Example example = Example.builder(SysUsersRolesDO.class)
                 .where(Sqls.custom().andEqualTo("roleUuid", roleUuid))
+                .build();
+        return super.dao.selectByExample(example);
+    }
+
+    public List<SysUsersRolesDO> findAllByRoleUuids(List<String> roleUuids) {
+        if (CollUtil.isEmpty(roleUuids)) {
+            return Collections.emptyList();
+        }
+        Example example = Example.builder(SysUsersRolesDO.class)
+                .where(Sqls.custom().andIn("roleUuid", roleUuids))
                 .build();
         return super.dao.selectByExample(example);
     }
