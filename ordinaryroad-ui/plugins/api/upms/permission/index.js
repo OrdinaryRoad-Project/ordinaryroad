@@ -19,5 +19,9 @@ export default {
   list: (offset, limit, { permissionCode, description }) => {
     const data = { limit, offset, permissionCode, description }
     return $axios({ url: '/upms/permission/list', method: 'post', data })
+  },
+  findAll: ({ permissionCode, description }) => {
+    const data = { permissionCode, description }
+    return $axios({ url: '/upms/permission/find_all', method: 'post', data })
   }
 }

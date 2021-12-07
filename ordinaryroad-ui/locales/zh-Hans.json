@@ -1,4 +1,5 @@
 {
+  "inputSearchPlaceHolder": "输入权限code进行搜索",
   "permission": "权限",
   "permissionCode": "权限code",
   "description": "描述",

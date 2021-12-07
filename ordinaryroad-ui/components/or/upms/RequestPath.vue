@@ -1,10 +1,27 @@
 <template>
   <v-form ref="form">
-    <v-text-field
+    <v-autocomplete
       v-model="model.permissionUuid"
-      :rules="[$rules.max32Chars]"
-      :label="$t('permissionUuid')"
-    />
+      :items="permissionUuidOption.items"
+      :loading="permissionUuidOption.loading"
+      hide-no-data
+      hide-selected
+      item-text="permissionCode"
+      item-value="uuid"
+      :label="$t('permission')"
+      :placeholder="$t('inputSearchPlaceHolder')"
+      @update:search-input="searchPermissions"
+    >
+      <template #selection="{item}">
+        {{ item.permissionCode }} {{ item.description }}
+      </template>
+      <template #item="{item}">
+        <div>
+          <v-list-item-title>{{ item.permissionCode }}</v-list-item-title>
+          <v-list-item-subtitle>{{ item.description }}</v-list-item-subtitle>
+        </div>
+      </template>
+    </v-autocomplete>
     <v-text-field
       v-model="model.path"
       :rules="[$rules.required,$rules.max200Chars]"
@@ -32,6 +49,11 @@ export default {
     }
   },
   data: () => ({
+    permissionUuidOption: {
+      select: null,
+      loading: false,
+      items: []
+    },
     model: {}
   }),
   watch: {
@@ -55,6 +77,22 @@ export default {
   methods: {
     validate () {
       return this.$refs.form.validate()
+    },
+    searchPermissions (inputPermissionCode) {
+      this.permissionUuidOption.loading = true
+      this.$apis.upms.permission.findAll({ permissionCode: inputPermissionCode })
+        .then((value) => {
+          this.permissionUuidOption.loading = false
+          const data = value.data
+          this.permissionUuidOption.items = []
+          data.forEach((value) => {
+            // this.permissionUuidOption.items.push(value.permissionCode)
+            this.permissionUuidOption.items.push(value)
+          })
+        })
+        .catch(() => {
+          this.permissionUuidOption.loading = false
+        })
     }
   }
 }
