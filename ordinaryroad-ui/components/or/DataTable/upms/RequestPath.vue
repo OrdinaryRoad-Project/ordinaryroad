@@ -1,144 +1,51 @@
 <template>
   <div>
-    <v-data-table
-      :headers="headers"
-      :items="dataTableParams.items"
-      :options.sync="options"
-      :server-items-length="dataTableParams.totalItems"
-      :loading="dataTableParams.loading"
-      :items-per-page="20"
-      :footer-props="{
-        showFirstLastPage: true,
-        firstIcon: 'mdi-page-first',
-        lastIcon: 'mdi-page-last',
-        itemsPerPageOptions:[ 10, 20, 50, 100 ]
-      }"
+    <or-base-data-table
+      ref="dataTable"
+      :single-select="singleSelect"
+      :select-return-object="selectReturnObject"
+      :show-select="showSelect"
+      :show-actions-when-selecting="showActionsWhenSelecting"
+      :table-headers="headers"
+      @getItems="onGetItems"
+      @insertItem="onInsertItem"
+      @deleteItem="onDeleteItem"
+      @editItem="onEditItem"
+      @itemsSelected="onItemsSelected"
     >
-      <template #top>
-        <v-form ref="searchForm">
-          <v-row align="center">
-            <v-col
-              cols="6"
-              lg="3"
-              md="4"
-            >
-              <v-text-field
-                v-model="searchParams.path"
-                dense
-                outlined
-                clearable
-                hide-details="auto"
-                maxlength="200"
-                :label="$t('path')"
-              />
-            </v-col>
-            <v-col
-              cols="6"
-              lg="3"
-              md="4"
-            >
-              <v-text-field
-                v-model="searchParams.pathName"
-                dense
-                outlined
-                clearable
-                hide-details="auto"
-                maxlength="100"
-                :label="$t('pathName')"
-              />
-            </v-col>
-            <v-col
-              cols="6"
-              lg="3"
-              md="4"
-            >
-              <v-btn
-                small
-                color="primary"
-                outlined
-                @click="getItems"
-              >
-                <v-icon>mdi-magnify</v-icon>
-                {{ $t('search') }}
-              </v-btn>
-              <v-btn
-                small
-                outlined
-                @click="resetSearch"
-              >
-                <v-icon>mdi-refresh</v-icon>
-                {{ $t('reset') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-        <v-row class="mt-2">
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-btn
-              outlined
-              color="primary"
-              dark
-              @click="insertItem"
-            >
-              <v-icon>mdi-plus</v-icon>
-              {{ $t('insert') }}
-            </v-btn>
-            <v-btn
-              outlined
-              color="success"
-              dark
-              @click="getItems"
-            >
-              <v-icon>mdi-reload</v-icon>
-              {{ $t('refresh') }}
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-divider class="mt-2" />
-      </template>
-
-      <template
-        v-if="!$vuetify.breakpoint.xs"
-        #[`header.actions`]="{ header }"
-      >
-        <v-sheet elevation="1">
-          {{ header.text }}
-        </v-sheet>
-      </template>
-
-      <template #[`item.createdTime`]="{ item }">
-        {{ $dayjs(item.createdTime).format() }}
-      </template>
-
-      <template #[`item.updateTime`]="{ item }">
-        {{ $dayjs(item.updateTime).format() }}
-      </template>
-
-      <template #[`item.actions`]="{ item }">
-        <div
-          :class="$vuetify.breakpoint.xs?''
-            :$vuetify.theme.dark ?'v-sheet theme--dark elevation-1'
-              :'v-sheet theme--light elevation-1'"
+      <template #searchFormBody>
+        <v-col
+          cols="6"
+          lg="3"
+          md="4"
         >
-          <v-icon
-            color="accent"
-            class="mr-2"
-            @click="editItem(item)"
-          >
-            mdi-pencil
-          </v-icon>
-          <v-icon
-            color="error"
-            @click="deleteItem(item)"
-          >
-            mdi-delete-forever
-          </v-icon>
-        </div>
+          <v-text-field
+            v-model="searchParams.path"
+            dense
+            outlined
+            clearable
+            hide-details="auto"
+            maxlength="200"
+            :label="$t('path')"
+          />
+        </v-col>
+        <v-col
+          cols="6"
+          lg="3"
+          md="4"
+        >
+          <v-text-field
+            v-model="searchParams.pathName"
+            dense
+            outlined
+            clearable
+            hide-details="auto"
+            maxlength="100"
+            :label="$t('pathName')"
+          />
+        </v-col>
       </template>
-    </v-data-table>
+    </or-base-data-table>
     <or-base-dialog
       ref="requestPathDialog"
       loading
@@ -157,19 +64,33 @@
 <script>
 export default {
   name: 'OrDataTableUpmsRequestPath',
+  props: {
+    /**
+     * 选中返回完整Object数组，默认只返回uuid数组
+     */
+    selectReturnObject: {
+      type: Boolean,
+      default: false
+    },
+    singleSelect: {
+      type: Boolean,
+      default: false
+    },
+    showSelect: {
+      type: Boolean,
+      default: false
+    },
+    showActionsWhenSelecting: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
-      options: {},
       searchParams: {
         path: null,
         pathName: null
       },
-      dataTableParams: {
-        loading: true,
-        items: [],
-        totalItems: 0
-      },
-
       selectedIndex: -1,
       editedItem: {
         uuid: null,
@@ -195,33 +116,16 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: 'UUID', value: 'uuid', sortable: false },
         { text: this.$t('permissionUuid'), value: 'permissionUuid', sortable: false, width: '300' },
         { text: this.$t('path'), value: 'path', sortable: false },
-        { text: this.$t('pathName'), value: 'pathName', sortable: false, width: '200' },
-        { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
-        { text: this.$t('createBy'), value: 'createBy', sortable: false },
-        { text: this.$t('updateTime'), value: 'updateTime', sortable: false, width: '220' },
-        { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
-        {
-          text: this.$t('dataTable.actions'),
-          value: 'actions',
-          sortable: false,
-          align: 'center',
-          class: 'sticky-right',
-          cellClass: 'sticky-right'
-        }
+        { text: this.$t('pathName'), value: 'pathName', sortable: false, width: '200' }
       ]
     },
     action () {
       return this.selectedIndex === -1 ? 'create' : 'update'
     }
   },
-  watch: {
-    options () {
-      this.getItems()
-    }
-  },
+  watch: {},
   created () {
   },
   mounted () {
@@ -239,7 +143,7 @@ export default {
         this.$apis.upms.request_path[action](this.editedItem)
           .then(() => {
             this.$refs.requestPathDialog.close()
-            this.getItems()
+            this.$refs.dataTable.getItems()
           })
           .catch(() => {
             // 取消loading
@@ -250,37 +154,28 @@ export default {
         this.$refs.requestPathDialog.cancelLoading()
       }
     },
-    insertItem () {
+    onInsertItem () {
       this.selectedIndex = -1
       this.selectedItem = Object.assign({}, this.defaultItem)
       this.$refs.requestPathDialog.show()
     },
-    deleteItem (item) {
-      this.selectedIndex = this.dataTableParams.items.indexOf(item)
+    onDeleteItem ({ item, index }) {
       this.selectedItem = Object.assign({}, item)
-      this.$dialog({
-        content: this.$t('deleteDialog.content', [this.selectedItem.uuid]),
-        loading: true
-      }).then((dialog) => {
-        // 删除
-        this.$apis.upms.request_path.delete(this.selectedItem.uuid)
-          .then(() => {
-            // 手动关闭对话框
-            this.getItems()
-            dialog.cancel()
-            this.$snackbar.success(this.$t('deleteSuccess'))
-          })
-          .catch(() => {
-            dialog.cancel()
-          })
-      })
+      // 删除
+      this.$apis.upms.request_path.delete(this.selectedItem.uuid)
+        .then(() => {
+          this.$refs.dataTable.deleteSuccessfully()
+        })
+        .catch(() => {
+          this.$refs.dataTable.deleteFailed()
+        })
     },
-    editItem (item) {
-      this.selectedIndex = this.dataTableParams.items.indexOf(item)
+    onEditItem ({ item, index }) {
+      this.selectedIndex = index
       this.selectedItem = Object.assign({}, item)
       this.$refs.requestPathDialog.show()
     },
-    getItems () {
+    onGetItems ({ options, offset, limit }) {
       /* TODO 排序支持
       options:
         groupBy: Array(0)
@@ -292,25 +187,15 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      const options = this.options
-      this.dataTableParams.loading = true
-      this.$apis.upms.request_path.list(
-        options.page === 1 ? 0 : this.dataTableParams.items.length,
-        options.itemsPerPage,
-        this.searchParams
-      ).then(({ data }) => {
-        this.dataTableParams = {
-          loading: false,
-          items: data.list,
-          totalItems: data.total
-        }
-      }).catch(() => {
-        this.dataTableParams.loading = false
-      })
+      this.$apis.upms.request_path.list(offset, limit, this.searchParams)
+        .then(({ data }) => {
+          this.$refs.dataTable.loadSuccessfully(data.list, data.total)
+        }).catch(() => {
+          this.$refs.dataTable.loadFinish()
+        })
     },
-    resetSearch () {
-      this.$refs.searchForm.reset()
-      this.options = { page: 1 }
+    onItemsSelected (items) {
+      this.$emit('itemsSelected', items)
     }
   }
 }

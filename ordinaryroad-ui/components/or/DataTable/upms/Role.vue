@@ -1,183 +1,74 @@
 <template>
   <div>
-    <v-data-table
-      :headers="headers"
-      :items="dataTableParams.items"
-      :options.sync="options"
-      :server-items-length="dataTableParams.totalItems"
-      :loading="dataTableParams.loading"
-      :items-per-page="20"
-      :footer-props="{
-        showFirstLastPage: true,
-        firstIcon: 'mdi-page-first',
-        lastIcon: 'mdi-page-last',
-        itemsPerPageOptions:[ 10, 20, 50, 100 ]
-      }"
+    <or-base-data-table
+      ref="dataTable"
+      :single-select="singleSelect"
+      :select-return-object="selectReturnObject"
+      :show-select="showSelect"
+      :show-actions-when-selecting="showActionsWhenSelecting"
+      :table-headers="headers"
+      @getItems="onGetItems"
+      @insertItem="onInsertItem"
+      @deleteItem="onDeleteItem"
+      @editItem="onEditItem"
+      @itemsSelected="onItemsSelected"
     >
-      <template #top>
-        <v-form ref="searchForm">
-          <v-row align="center">
-            <v-col
-              cols="6"
-              lg="3"
-              md="4"
-            >
-              <v-text-field
-                v-model="searchParams.roleName"
-                dense
-                outlined
-                clearable
-                hide-details="auto"
-                maxlength="10"
-                :label="$t('roleName')"
-              />
-            </v-col>
-            <v-col
-              cols="6"
-              lg="3"
-              md="4"
-            >
-              <v-text-field
-                v-model="searchParams.roleCode"
-                dense
-                outlined
-                clearable
-                hide-details="auto"
-                maxlength="10"
-                :label="$t('roleCode')"
-              />
-            </v-col>
-            <v-col
-              cols="6"
-              lg="3"
-              md="4"
-            >
-              <v-btn
-                small
-                color="primary"
-                outlined
-                @click="getItems"
-              >
-                <v-icon>mdi-magnify</v-icon>
-                {{ $t('search') }}
-              </v-btn>
-              <v-btn
-                small
-                outlined
-                @click="resetSearch"
-              >
-                <v-icon>mdi-refresh</v-icon>
-                {{ $t('reset') }}
-              </v-btn>
-            </v-col>
-          </v-row>
-        </v-form>
-        <v-row class="mt-2">
-          <v-col
-            cols="12"
-            md="4"
-          >
-            <v-btn
-              outlined
-              color="primary"
-              dark
-              @click="insertItem"
-            >
-              <v-icon>mdi-plus</v-icon>
-              {{ $t('insert') }}
-            </v-btn>
-            <v-btn
-              outlined
-              color="success"
-              dark
-              @click="getItems"
-            >
-              <v-icon>mdi-reload</v-icon>
-              {{ $t('refresh') }}
-            </v-btn>
-          </v-col>
-        </v-row>
-        <v-divider class="mt-2" />
-      </template>
-
-      <template
-        v-if="!$vuetify.breakpoint.xs"
-        #[`header.actions`]="{ header }"
-      >
-        <v-sheet elevation="1">
-          {{ header.text }}
-        </v-sheet>
-      </template>
-
-      <template #[`item.createdTime`]="{ item }">
-        {{ $dayjs(item.createdTime).format() }}
-      </template>
-
-      <template #[`item.updateTime`]="{ item }">
-        {{ $dayjs(item.updateTime).format() }}
-      </template>
-
-      <template #[`item.actions`]="{ item }">
-        <div
-          :class="$vuetify.breakpoint.xs?''
-            :$vuetify.theme.dark ?'v-sheet theme--dark elevation-1'
-              :'v-sheet theme--light elevation-1'"
+      <template #searchFormBody>
+        <v-col
+          cols="6"
+          lg="3"
+          md="4"
         >
-          <v-icon
-            color="accent"
-            class="mr-2"
-            @click="editItem(item)"
-          >
-            mdi-pencil
-          </v-icon>
-          <v-icon
-            color="error"
-            class="mr-2"
-            @click="deleteItem(item)"
-          >
-            mdi-delete-forever
-          </v-icon>
-          <v-menu
-            offset-y
-            open-on-hover
-          >
-            <template #activator="{ on, attrs }">
-              <v-btn
-                color="primary"
-                dark
-                v-bind="attrs"
-                icon
-                v-on="on"
-              >
-                <v-icon>mdi-chevron-down</v-icon>
-              </v-btn>
-            </template>
-            <v-list dense>
-              <v-list-item
-                @click="$router.push({ name: 'upms-role-permissions-roleCode', params: { roleCode: item.roleCode, item } })"
-              >
-                <v-list-item-avatar size="16">
-                  <v-icon small>
-                    mdi-lock
-                  </v-icon>
-                </v-list-item-avatar>
-                <v-list-item-title>{{ $t('rolePermissionsManagement') }}</v-list-item-title>
-              </v-list-item>
-              <v-list-item
-                @click="$router.push({ name: 'upms-role-users-roleCode', params: { roleCode: item.roleCode, item } })"
-              >
-                <v-list-item-avatar size="16">
-                  <v-icon small>
-                    mdi-account
-                  </v-icon>
-                </v-list-item-avatar>
-                <v-list-item-title>{{ $t('roleUsersManagement') }}</v-list-item-title>
-              </v-list-item>
-            </v-list>
-          </v-menu>
-        </div>
+          <v-text-field
+            v-model="searchParams.roleName"
+            dense
+            outlined
+            clearable
+            hide-details="auto"
+            maxlength="10"
+            :label="$t('roleName')"
+          />
+        </v-col>
+        <v-col
+          cols="6"
+          lg="3"
+          md="4"
+        >
+          <v-text-field
+            v-model="searchParams.roleCode"
+            dense
+            outlined
+            clearable
+            hide-details="auto"
+            maxlength="10"
+            :label="$t('roleCode')"
+          />
+        </v-col>
       </template>
-    </v-data-table>
+
+      <template #moreActions="{item}">
+        <v-list-item
+          @click="$router.push({ name: 'upms-role-permissions-roleCode', params: { roleCode: item.roleCode, item } })"
+        >
+          <v-list-item-avatar size="16">
+            <v-icon small>
+              mdi-lock
+            </v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>{{ $t('rolePermissionsManagement') }}</v-list-item-title>
+        </v-list-item>
+        <v-list-item
+          @click="$router.push({ name: 'upms-role-users-roleCode', params: { roleCode: item.roleCode, item } })"
+        >
+          <v-list-item-avatar size="16">
+            <v-icon small>
+              mdi-account
+            </v-icon>
+          </v-list-item-avatar>
+          <v-list-item-title>{{ $t('roleUsersManagement') }}</v-list-item-title>
+        </v-list-item>
+      </template>
+    </or-base-data-table>
     <or-base-dialog
       ref="roleDialog"
       loading
@@ -196,19 +87,33 @@
 <script>
 export default {
   name: 'OrDataTableUpmsRole',
+  props: {
+    /**
+     * 选中返回完整Object数组，默认只返回uuid数组
+     */
+    selectReturnObject: {
+      type: Boolean,
+      default: false
+    },
+    singleSelect: {
+      type: Boolean,
+      default: false
+    },
+    showSelect: {
+      type: Boolean,
+      default: false
+    },
+    showActionsWhenSelecting: {
+      type: Boolean,
+      default: false
+    }
+  },
   data () {
     return {
-      options: {},
       searchParams: {
         roleName: null,
         roleCode: null
       },
-      dataTableParams: {
-        loading: true,
-        items: [],
-        totalItems: 0
-      },
-
       selectedIndex: -1,
       editedItem: {
         uuid: null,
@@ -231,32 +136,15 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: 'UUID', value: 'uuid', sortable: false },
         { text: this.$t('roleName'), value: 'roleName', sortable: false },
-        { text: this.$t('roleCode'), value: 'roleCode', sortable: false },
-        { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
-        { text: this.$t('createBy'), value: 'createBy', sortable: false },
-        { text: this.$t('updateTime'), value: 'updateTime', sortable: false, width: '220' },
-        { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
-        {
-          text: this.$t('dataTable.actions'),
-          value: 'actions',
-          sortable: false,
-          align: 'center',
-          class: 'sticky-right',
-          cellClass: 'sticky-right'
-        }
+        { text: this.$t('roleCode'), value: 'roleCode', sortable: false }
       ]
     },
     action () {
       return this.selectedIndex === -1 ? 'create' : 'update'
     }
   },
-  watch: {
-    options () {
-      this.getItems()
-    }
-  },
+  watch: {},
   created () {
   },
   mounted () {
@@ -274,7 +162,7 @@ export default {
         this.$apis.upms.role[action](this.editedItem)
           .then(() => {
             this.$refs.roleDialog.close()
-            this.getItems()
+            this.$refs.dataTable.getItems()
           })
           .catch(() => {
             // 取消loading
@@ -285,37 +173,28 @@ export default {
         this.$refs.roleDialog.cancelLoading()
       }
     },
-    insertItem () {
+    onInsertItem () {
       this.selectedIndex = -1
       this.selectedItem = Object.assign({}, this.defaultItem)
       this.$refs.roleDialog.show()
     },
-    deleteItem (item) {
-      this.selectedIndex = this.dataTableParams.items.indexOf(item)
+    onDeleteItem ({ item, index }) {
       this.selectedItem = Object.assign({}, item)
-      this.$dialog({
-        content: this.$t('deleteDialog.content', [this.selectedItem.uuid]),
-        loading: true
-      }).then((dialog) => {
-        // 删除
-        this.$apis.upms.role.delete(this.selectedItem.uuid)
-          .then(() => {
-            // 手动关闭对话框
-            this.getItems()
-            dialog.cancel()
-            this.$snackbar.success(this.$t('deleteSuccess'))
-          })
-          .catch(() => {
-            dialog.cancel()
-          })
-      })
+      // 删除
+      this.$apis.upms.role.delete(this.selectedItem.uuid)
+        .then(() => {
+          this.$refs.dataTable.deleteSuccessfully()
+        })
+        .catch(() => {
+          this.$refs.dataTable.deleteFailed()
+        })
     },
-    editItem (item) {
-      this.selectedIndex = this.dataTableParams.items.indexOf(item)
+    onEditItem ({ item, index }) {
+      this.selectedIndex = index
       this.selectedItem = Object.assign({}, item)
       this.$refs.roleDialog.show()
     },
-    getItems () {
+    onGetItems ({ options, offset, limit }) {
       /* TODO 排序支持
       options:
         groupBy: Array(0)
@@ -327,25 +206,15 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      const options = this.options
-      this.dataTableParams.loading = true
-      this.$apis.upms.role.list(
-        options.page === 1 ? 0 : this.dataTableParams.items.length,
-        options.itemsPerPage,
-        this.searchParams
-      ).then(({ data }) => {
-        this.dataTableParams = {
-          loading: false,
-          items: data.list,
-          totalItems: data.total
-        }
-      }).catch(() => {
-        this.dataTableParams.loading = false
-      })
+      this.$apis.upms.role.list(offset, limit, this.searchParams)
+        .then(({ data }) => {
+          this.$refs.dataTable.loadSuccessfully(data.list, data.total)
+        }).catch(() => {
+          this.$refs.dataTable.loadFinish()
+        })
     },
-    resetSearch () {
-      this.$refs.searchForm.reset()
-      this.options = { page: 1 }
+    onItemsSelected (items) {
+      this.$emit('itemsSelected', items)
     }
   }
 }
