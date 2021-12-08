@@ -71,6 +71,11 @@ public class SysRoleController implements ISysRoleApi {
     }
 
     @Override
+    public Result<SysRoleDTO> findByUniqueColumn(@RequestBody SysRoleQueryRequest request) {
+        return sysRoleFacade.findByUniqueColumn(request);
+    }
+
+    @Override
     public Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request) {
         return sysRoleFacade.findAllByUserUuid(request);
     }

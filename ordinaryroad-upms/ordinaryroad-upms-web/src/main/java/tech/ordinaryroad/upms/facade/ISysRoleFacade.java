@@ -73,6 +73,14 @@ public interface ISysRoleFacade {
     Result<SysRoleDTO> findById(SysRoleQueryRequest request);
 
     /**
+     * 根据唯一列查询角色
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<SysRoleDTO> findByUniqueColumn(SysRoleQueryRequest request);
+
+    /**
      * 根据主键列表查询
      *
      * @param request Request

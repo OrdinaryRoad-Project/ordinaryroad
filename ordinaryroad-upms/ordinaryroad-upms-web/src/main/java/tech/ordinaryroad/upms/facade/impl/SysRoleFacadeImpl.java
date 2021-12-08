@@ -128,6 +128,20 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     }
 
     @Override
+    public Result<SysRoleDTO> findByUniqueColumn(SysRoleQueryRequest request) {
+        Optional<SysRoleDO> optional = Optional.empty();
+        String roleCode = request.getRoleCode();
+        String roleName = request.getRoleName();
+        if (StrUtil.isNotBlank(roleCode)) {
+            optional = sysRoleService.findByRoleCode(roleCode);
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(roleName)) {
+            optional = sysRoleService.findByRoleName(roleName);
+        }
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+    }
+
+    @Override
     public Result<List<SysRoleDTO>> findAllByIds(BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {

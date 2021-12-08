@@ -60,6 +60,9 @@ public interface ISysRoleApi {
     @PostMapping(value = "/role/find/id")
     Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request);
 
+    @PostMapping(value = "/role/find/unique")
+    Result<SysRoleDTO> findByUniqueColumn(@RequestBody SysRoleQueryRequest request);
+
     @PostMapping(value = "/role/find_all/user_uuid")
     Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request);
 
