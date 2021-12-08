@@ -30,6 +30,7 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 import tech.ordinaryroad.upms.request.SysUserRolesSaveRequest;
 
 import java.util.List;
@@ -119,4 +120,12 @@ public interface ISysRoleFacade {
      * @return Result，True表示发生改动
      */
     Result<Boolean> updateUserRoles(SysUserRolesSaveRequest request);
+
+    /**
+     * 更新角色关联的用户，删除或新增
+     *
+     * @param request Request
+     * @return Result，True表示发生改动
+     */
+    Result<Boolean> updateRoleUsers(SysRoleUsersSaveRequest request);
 }

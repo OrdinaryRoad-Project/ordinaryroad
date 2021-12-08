@@ -117,4 +117,9 @@ public class SysUserController implements ISysUserApi {
     public Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request) {
         return sysUserFacade.updateEnabled(request);
     }
+
+    @Override
+    public Result<List<SysUserDTO>> findAllByRoleCode(@RequestBody SysUserQueryRequest request) {
+        return sysUserFacade.findAllByRoleCode(request);
+    }
 }

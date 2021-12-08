@@ -96,4 +96,6 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/update/enabled")
     Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request);
 
+    @PostMapping(value = "/user/find_all/roleCode")
+    Result<List<SysUserDTO>> findAllByRoleCode(@RequestBody SysUserQueryRequest request);
 }

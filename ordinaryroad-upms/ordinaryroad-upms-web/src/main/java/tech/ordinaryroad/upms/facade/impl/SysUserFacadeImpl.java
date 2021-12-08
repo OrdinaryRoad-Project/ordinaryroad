@@ -38,13 +38,18 @@ import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
+import tech.ordinaryroad.upms.entity.SysRoleDO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
+import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.facade.ISysUserFacade;
 import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
 import tech.ordinaryroad.upms.request.*;
+import tech.ordinaryroad.upms.service.SysRoleService;
 import tech.ordinaryroad.upms.service.SysUserService;
+import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
 import javax.validation.constraints.NotNull;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -60,6 +65,8 @@ import java.util.stream.Collectors;
 public class SysUserFacadeImpl implements ISysUserFacade {
 
     private final SysUserService sysUserService;
+    private final SysRoleService sysRoleService;
+    private final SysUsersRolesService sysUsersRolesService;
     private final SysUserMapStruct objMapStruct;
     private final PasswordEncoder passwordEncoder;
     private final Pattern passwordPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$");
@@ -292,6 +299,27 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         }
 
         return Result.success();
+    }
+
+    @Override
+    public Result<List<SysUserDTO>> findAllByRoleCode(SysUserQueryRequest request) {
+        String roleCode = request.getRoleCode();
+        if (StrUtil.isBlank(roleCode)) {
+            return Result.success(Collections.emptyList());
+        }
+        Optional<SysRoleDO> byRoleCode = sysRoleService.findByRoleCode(roleCode);
+        if (!byRoleCode.isPresent()) {
+            return Result.success(Collections.emptyList());
+        }
+        SysRoleDO sysRoleDO = byRoleCode.get();
+        // 根据角色uuid查询所有用户uuid
+        List<SysUsersRolesDO> allByRoleUuid = sysUsersRolesService.findAllByRoleUuid(sysRoleDO.getUuid());
+        List<String> userUuids = allByRoleUuid.stream().map(SysUsersRolesDO::getUserUuid).collect(Collectors.toList());
+
+        List<SysUserDO> all = sysUserService.findIds(SysUserDO.class, userUuids);
+        List<SysUserDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+
+        return Result.success(list);
     }
 
     @Nullable

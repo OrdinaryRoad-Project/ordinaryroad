@@ -36,6 +36,7 @@ import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.facade.ISysRoleFacade;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 import tech.ordinaryroad.upms.request.SysUserRolesSaveRequest;
 
 import java.util.List;
@@ -98,5 +99,10 @@ public class SysRoleController implements ISysRoleApi {
     @Override
     public Result<Boolean> updateUserRoles(@RequestBody @Validated SysUserRolesSaveRequest request) {
         return sysRoleFacade.updateUserRoles(request);
+    }
+
+    @Override
+    public Result<Boolean> updateRoleUsers(@RequestBody @Validated SysRoleUsersSaveRequest request) {
+        return sysRoleFacade.updateRoleUsers(request);
     }
 }

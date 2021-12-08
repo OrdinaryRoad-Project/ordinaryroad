@@ -134,4 +134,12 @@ public interface ISysUserFacade {
     Result<?> resetPassword(SysUserResetPasswordRequest request);
 
     Result<?> updateEnabled(SysUserUpdateEnabledRequest request);
+
+    /**
+     * 根据角色code查询所有用户
+     *
+     * @param request Request
+     * @return Result
+     */
+    Result<List<SysUserDTO>> findAllByRoleCode(SysUserQueryRequest request);
 }

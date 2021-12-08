@@ -43,6 +43,7 @@ import tech.ordinaryroad.upms.facade.ISysRoleFacade;
 import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 import tech.ordinaryroad.upms.request.SysUserRolesSaveRequest;
 import tech.ordinaryroad.upms.service.SysRoleService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
@@ -242,4 +243,56 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
         return Result.success(true);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result<Boolean> updateRoleUsers(SysRoleUsersSaveRequest request) {
+        String roleUuid = request.getRoleUuid();
+
+        // 最新的用户uuids
+        List<String> userUuids = request.getUserUuids();
+
+        // 本地的用户uuids
+        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByRoleUuid(roleUuid);
+
+        // 需要新增的用户角色关联关系实体类
+        List<SysUsersRolesDO> needInsertList = new ArrayList<>();
+        // 需要删除的用户uuids
+        List<String> needDeleteList = new ArrayList<>();
+
+        userUuids.forEach(userUuid -> {
+            // 判断是否需要新增
+            boolean find = false;
+            for (SysUsersRolesDO sysUsersRolesDO : allByUserUuid) {
+                if (sysUsersRolesDO.getUserUuid().equals(userUuid)) {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find) {
+                SysUsersRolesDO sysUsersRolesDO = new SysUsersRolesDO();
+                sysUsersRolesDO.setUserUuid(userUuid);
+                sysUsersRolesDO.setRoleUuid(userUuid);
+                needInsertList.add(sysUsersRolesDO);
+            }
+        });
+        allByUserUuid.forEach(sysUsersRolesDO -> {
+            // 最新的不存在，需要删除的
+            if (!userUuids.contains(sysUsersRolesDO.getUserUuid())) {
+                needDeleteList.add(sysUsersRolesDO.getUuid());
+            }
+        });
+
+        if (CollUtil.isEmpty(needDeleteList) && CollUtil.isEmpty(needInsertList)) {
+            return Result.success(false);
+        } else {
+            if (CollUtil.isNotEmpty(needDeleteList)) {
+                sysUsersRolesService.deleteByIdList(SysUsersRolesDO.class, needDeleteList);
+            }
+            if (CollUtil.isNotEmpty(needInsertList)) {
+                sysUsersRolesService.insertList(needInsertList);
+            }
+        }
+
+        return Result.success(Boolean.TRUE);
+    }
 }
