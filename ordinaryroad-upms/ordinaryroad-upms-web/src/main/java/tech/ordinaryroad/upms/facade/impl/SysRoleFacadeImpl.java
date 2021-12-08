@@ -105,7 +105,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
                 return Result.fail(StatusCode.NAME_ALREADY_EXIST);
             }
         }
-        String newRoleCode = request.getRoleName();
+        String newRoleCode = request.getRoleCode();
         String roleCode = byId.getRoleCode();
         if (!Objects.equals(newRoleCode, roleCode)) {
             if (sysRoleService.findByRoleCode(newRoleCode).isPresent()) {
