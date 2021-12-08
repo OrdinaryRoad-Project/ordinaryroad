@@ -259,21 +259,25 @@ export default {
       }).then((dialog) => {
         this.deleteDialog = dialog
         // 删除
-        this.$emit('deleteItem', this.selectedItem, this.selectedIndex)
+        this.$emit('deleteItem', {
+          item: this.selectedItem, index: this.selectedIndex
+        })
       })
     },
     editItem (item) {
       this.selectedIndex = this.dataTableParams.items.indexOf(item)
       this.selectedItem = Object.assign({}, item)
-      this.$emit('editItem', this.selectedItem, this.selectedIndex)
+      this.$emit('editItem', {
+        item: this.selectedItem, index: this.selectedIndex
+      })
     },
     getItems () {
       this.dataTableParams.loading = true
-      this.$emit('getItems',
-        this.options,
-        this.options.page === 1 ? 0 : this.dataTableParams.items.length,
-        this.options.itemsPerPage
-      )
+      this.$emit('getItems', {
+        options: this.options,
+        offset: this.options.page === 1 ? 0 : this.dataTableParams.items.length,
+        limit: this.options.itemsPerPage
+      })
     },
     onItemSelected ({ item, value }) {
       if (value) {
