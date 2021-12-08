@@ -1,29 +1,27 @@
 <template>
   <v-form ref="form">
     <v-text-field
-      v-model="model.permissionCode"
-      :rules="[$rules.required,$rules.max100Chars]"
-      :label="$t('permissionCode')"
+      v-model="model.roleName"
+      :rules="[$rules.required,$rules.max10Chars]"
+      :label="$t('roleName')"
     />
-    <v-textarea
-      v-model="model.description"
-      rows="1"
-      auto-grow
-      :rules="[$rules.max200Chars]"
-      :label="$t('description')"
+    <v-text-field
+      v-model="model.roleCode"
+      :rules="[$rules.required,$rules.max10Chars]"
+      :label="$t('roleCode')"
     />
   </v-form>
 </template>
 
 <script>
 export default {
-  name: 'Permission',
+  name: 'OrFormUpmsRoleSave',
   props: {
     preset: {
       type: Object,
       default: () => ({
-        permissionCode: null,
-        description: null
+        roleName: null,
+        roleCode: null
       })
     }
   },

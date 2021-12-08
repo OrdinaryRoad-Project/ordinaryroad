@@ -1,4 +1,6 @@
 {
+  "roleUsersManagement": "Role Users Management",
+  "rolePermissionsManagement": "Role Permissions Management",
   "whatSuccessfully": "{0} successfully.",
   "disable": "Disable",
   "enable": "Enable",

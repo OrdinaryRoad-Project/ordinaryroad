@@ -1,4 +1,6 @@
 {
+  "roleUsersManagement": "角色用户管理",
+  "rolePermissionsManagement": "角色权限管理",
   "whatSuccessfully": "{0}成功",
   "disable": "禁用",
   "enable": "启用",

@@ -16,6 +16,10 @@ export default {
     const data = { uuid, roleName, roleCode }
     return $axios({ url: '/upms/role/update', method: 'post', data })
   },
+  findByUniqueColumn: ({ roleCode, roleName }) => {
+    const data = { roleCode, roleName }
+    return $axios({ url: '/upms/role/find/unique', method: 'post', data })
+  },
   list: (offset, limit, { roleName, roleCode }) => {
     const data = { limit, offset, roleName, roleCode }
     return $axios({ url: '/upms/role/list', method: 'post', data })

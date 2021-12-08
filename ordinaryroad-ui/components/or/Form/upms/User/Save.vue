@@ -22,7 +22,7 @@
 
 <script>
 export default {
-  name: 'User',
+  name: 'OrFormUpmsUserSave',
   props: {
     preset: {
       type: Object,

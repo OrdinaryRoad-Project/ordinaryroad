@@ -37,7 +37,7 @@
 
 <script>
 export default {
-  name: 'RequestPath',
+  name: 'OrFormUpmsRequestPathSave',
   props: {
     preset: {
       type: Object,

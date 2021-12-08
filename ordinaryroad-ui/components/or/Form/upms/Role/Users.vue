@@ -56,7 +56,7 @@
 </template>
 <script>
 export default {
-  name: 'UserRoles',
+  name: 'OrFormUpmsRoleUsers',
   props: {
     preset: {
       type: Object,

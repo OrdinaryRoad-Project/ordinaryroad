@@ -3,7 +3,7 @@
     icon="mdi-account-multiple"
     title="用户角色管理"
   >
-    <or-upms-user-roles
+    <or-form-upms-user-roles
       :preset="presetModel"
     />
   </base-material-card>
