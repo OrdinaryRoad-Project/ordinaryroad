@@ -174,10 +174,52 @@ function objectEquals (a, b) {
   if (aProps.length !== bProps.length) {
     return false
   }
+  // 排除这种情况： { a: 1, b: [] }, { a: 1, b: {} }
+  if (aProps.length === 0) {
+    return a === b
+  }
+  aProps.sort()
   // 循环取出属性名，再判断属性值是否一致
   for (let i = 0; i < aProps.length; i++) {
     const propName = aProps[i]
-    if (a[propName] !== b[propName]) {
+    if (a[propName] instanceof Array && b[propName] instanceof Array) {
+      if (!arrayEquals(a[propName], b[propName])) {
+        return false
+      }
+    } else if (!objectEquals(a[propName], b[propName])) {
+      return false
+    }
+  }
+  return true
+}
+
+/**
+ * 比较两个数组内容是否一样，元素顺序无关
+ * @param a Array A
+ * @param b Array B
+ * @returns {boolean}
+ */
+function arrayEquals (a, b) {
+  // falsy value, return
+  if (!a || !b) {
+    return false
+  }
+
+  // compare lengths - can save a lot of time
+  if (a.length !== b.length) {
+    return false
+  }
+
+  a.sort()
+  b.sort()
+
+  for (let i = 0, l = a.length; i < l; i++) {
+    // Check if we have nested arrays
+    if (a[i] instanceof Array && b[i] instanceof Array) {
+      if (!arrayEquals(a[i], b[i])) {
+        return false
+      }
+    } else if (!objectEquals(a[i], b[i])) {
       return false
     }
   }
@@ -194,5 +236,6 @@ module.exports = {
   remove,
   contain,
   uuid,
-  objectEquals
+  objectEquals,
+  arrayEquals
 }
