@@ -20,7 +20,7 @@
   >
     <template #top>
       <v-form ref="searchForm">
-        <v-row>
+        <v-row align="center">
           <slot name="searchFormBody" />
           <v-col
             cols="6"
