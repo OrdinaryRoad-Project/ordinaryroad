@@ -1,5 +1,6 @@
 <template>
   <v-data-table
+    ref="table"
     :single-select="singleSelect"
     :show-select="showSelect"
     item-key="uuid"
@@ -53,6 +54,7 @@
           md="4"
         >
           <v-btn
+            v-if="!hideActions"
             outlined
             color="primary"
             dark
@@ -326,13 +328,33 @@ export default {
      * 加载完成后通过$refs手动调用
      */
     loadSuccessfully (items, totalItems) {
+      const oldItems = this.dataTableParams.items
       this.dataTableParams = { loading: false, items, totalItems }
+      if (this.showSelect) {
+        // 判断items是否发生变化，发生变化才取消全选
+        if (!this.$util.arrayEquals(oldItems, items)) {
+          this.$refs.table.toggleSelectAll(false)
+        }
+      }
     },
     /**
      * 仅取消加载动画
      */
     loadFinish () {
       this.setLoading(false)
+    },
+    /**
+     * 初始化预先选中的，在 loadSuccessfully 后调用
+     * @param presetSelectedItems 预先选中items
+     */
+    presetSelectedItems (presetSelectedItems) {
+      presetSelectedItems.forEach((presetSelectedItem) => {
+        const selectedItem = this.$util.query(
+          this.dataTableParams.items, 'uuid',
+          this.selectReturnObject ? presetSelectedItem.uuid : presetSelectedItem
+        )[0]
+        this.$refs.table.select(selectedItem)
+      })
     }
   }
 }
