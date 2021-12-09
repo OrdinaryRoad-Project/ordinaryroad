@@ -1,8 +1,10 @@
 <template>
-  <div>
-    角色用户管理
-    <div>{{ presetModel }}</div>
-  </div>
+  <base-material-card
+    icon="mdi-account"
+    :title="$t('roleUsersManagement')"
+  >
+    <or-form-upms-role-users :preset="presetModel" />
+  </base-material-card>
 </template>
 <script>
 export default {

@@ -6,6 +6,7 @@
       :select-return-object="selectReturnObject"
       :show-select="showSelect"
       :show-actions-when-selecting="showActionsWhenSelecting"
+      :preset-selected-items="presetSelectedItems"
       :table-headers="headers"
       @getItems="onGetItems"
       @insertItem="onInsertItem"
@@ -65,6 +66,7 @@
         <v-switch
           v-model="item.enabled"
           readonly
+          :disabled="showSelect&&!showActionsWhenSelecting"
           inset
           @click="updateItemEnabled(item)"
         />
@@ -138,6 +140,10 @@ export default {
     showActionsWhenSelecting: {
       type: Boolean,
       default: false
+    },
+    presetSelectedItems: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
@@ -192,6 +198,9 @@ export default {
   },
   methods: {
     updateItemEnabled (item) {
+      if (this.showSelect && !this.showActionsWhenSelecting) {
+        return
+      }
       const actionKey = item.enabled ? 'disable' : 'enable'
       const operationString = this.$t(actionKey) + ' ' + item.orNumber + ' '
       this.$dialog({
@@ -298,6 +307,9 @@ export default {
     },
     onItemsSelected (items) {
       this.$emit('itemsSelected', items)
+    },
+    unSelectItem (item) {
+      this.$refs.dataTable.select({ item, value: false, emit: true })
     }
   }
 }

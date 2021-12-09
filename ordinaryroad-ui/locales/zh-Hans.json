@@ -1,4 +1,5 @@
 {
+  "roleUsers": "角色用户",
   "roleUsersManagement": "角色用户管理",
   "rolePermissionsManagement": "角色权限管理",
   "whatSuccessfully": "{0}成功",

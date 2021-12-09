@@ -1,40 +1,49 @@
 <template>
-  <v-form ref="form">
-    <v-text-field
-      v-model="model.orNumber"
-      readonly
-      :label="$t('orNumber')"
-    />
-    <v-autocomplete
-      v-model="model.roleUuids"
-      clearable
-      :disabled="roleUuidsOption.initializing"
-      :items="roleUuidsOption.items"
-      :loading="roleUuidsOption.initializing||roleUuidsOption.loading"
-      hide-no-data
-      hide-selected
-      item-text="roleCode"
-      item-value="uuid"
-      multiple
-      :label="$t('role')"
-      :placeholder="$t('inputWhatToSearchPlaceHolder',[$t('roleCode')])"
-      @update:search-input="searchRoles"
-    >
-      <template #selection="{item}">
-        <v-chip
-          close
-          @click:close="model.roleUuids.splice(model.roleUuids.indexOf(item.uuid),1)"
-        >
-          {{ item.roleCode }} {{ item.roleName }}
-        </v-chip>
-      </template>
-      <template #item="{item}">
-        <div>
-          <v-list-item-title>{{ item.roleCode }}</v-list-item-title>
-          <v-list-item-subtitle>{{ item.roleName }}</v-list-item-subtitle>
-        </div>
-      </template>
-    </v-autocomplete>
+  <div>
+    <v-form ref="form">
+      <v-text-field
+        v-model="model.roleCode"
+        readonly
+        :label="$t('roleCode')"
+      />
+      <v-menu
+        min-width="40%"
+        eager
+        offset-y
+        :close-on-content-click="false"
+      >
+        <template #activator="{ on, attrs }">
+          <v-autocomplete
+            v-model="selectedUsers"
+            v-bind="attrs"
+            :items="selectedUsers"
+            multiple
+            :label="$t('user')"
+            readonly
+            hide-spin-buttons
+            v-on="on"
+          >
+            <template #selection="{item}">
+              <v-chip
+                close
+                @click:close="$refs.userDataTable.unSelectItem(item)"
+              >
+                {{ item.orNumber }} {{ item.username }}
+              </v-chip>
+            </template>
+          </v-autocomplete>
+        </template>
+        <v-sheet class="pa-2">
+          <or-data-table-upms-user
+            ref="userDataTable"
+            :preset-selected-items="presetUsers"
+            select-return-object
+            show-select
+            @itemsSelected="onUserSelected"
+          />
+        </v-sheet>
+      </v-menu>
+    </v-form>
     <v-row>
       <v-spacer />
       <v-btn
@@ -52,7 +61,7 @@
         {{ $t('confirm') }}
       </v-btn>
     </v-row>
-  </v-form>
+  </div>
 </template>
 <script>
 export default {
@@ -62,26 +71,23 @@ export default {
       type: Object,
       default: () => ({
         uuid: null,
-        orNumber: null
+        roleCode: null
       })
     }
   },
   data: () => ({
+    presetUsers: [],
+    selectedUsers: [],
     model: {},
-    updating: false,
-    roleUuidsOption: {
-      initializing: true,
-      loading: false,
-      items: []
-    }
+    updating: false
   }),
   watch: {
     preset: {
       handler (val) {
         if (val) {
-          this.model = Object.assign({ roleUuids: [] }, val)
-          // 查询拥有的角色
-          this.initRoles()
+          this.model = Object.assign({ userUuids: [] }, val)
+          // 查询关联的用户
+          this.initUsers()
         }
       },
       deep: true,
@@ -98,45 +104,35 @@ export default {
   mounted () {
   },
   methods: {
+    onUserSelected (users) {
+      // 防止重新选中预选的item
+      this.presetUsers = []
+      this.selectedUsers = users
+      this.model.userUuids = []
+      this.selectedUsers.forEach((user) => {
+        this.model.userUuids.push(user.uuid)
+      })
+    },
     validate () {
       return this.$refs.form.validate()
     },
-    searchRoles (inputRoleCode) {
-      this.roleUuidsOption.loading = true
-      this.$apis.upms.role.findAll({ roleCode: inputRoleCode })
-        .then((value) => {
-          this.roleUuidsOption.loading = false
-          this.roleUuidsOption.items = value.data
-        })
-        .catch(() => {
-          this.roleUuidsOption.loading = false
-        })
-    },
-    initRoles () {
-      // 根据用户uuid查询roles
-      this.roleUuidsOption.initializing = true
-      this.$apis.upms.role.findAllByUserUuid(this.preset.uuid)
-        .then((value) => {
-          this.model.roleUuids = []
-          value.data.forEach((value) => {
-            this.model.roleUuids.push(value.uuid)
-          })
-          this.roleUuidsOption.initializing = false
-        })
-        .catch(() => {
-          this.roleUuidsOption.initializing = false
+    initUsers () {
+      // 根据角色code查询users
+      this.$apis.upms.user.findAllByForeignColumn({ roleCode: this.preset.roleCode })
+        .then(({ data }) => {
+          this.presetUsers = data
         })
     },
     confirm () {
       if (this.$refs.form.validate()) {
         this.updating = true
-        this.$apis.upms.role.updateUserRoles({
-          userUuid: this.model.uuid, roleUuids: this.model.roleUuids
+        this.$apis.upms.role.updateRoleUsers({
+          roleUuid: this.model.uuid, userUuids: this.model.userUuids
         })
           .then(() => {
             this.$emit('finish')
             this.updating = false
-            this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('userRoles')]))
+            this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('roleUsers')]))
           })
           .catch(() => {
             this.updating = false

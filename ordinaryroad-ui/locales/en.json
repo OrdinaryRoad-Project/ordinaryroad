@@ -1,4 +1,5 @@
 {
+  "roleUsers": "Role Users",
   "roleUsersManagement": "Role Users Management",
   "rolePermissionsManagement": "Role Permissions Management",
   "whatSuccessfully": "{0} successfully.",
