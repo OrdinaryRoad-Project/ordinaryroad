@@ -284,7 +284,7 @@ export default {
       this.dataTableParams.loading = true
       this.$emit('getItems', {
         options: this.options,
-        offset: this.options.page === 1 ? 0 : this.dataTableParams.items.length,
+        offset: (this.options.page - 1) * this.options.itemsPerPage,
         limit: this.options.itemsPerPage
       })
     },
