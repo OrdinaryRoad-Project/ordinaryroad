@@ -68,9 +68,20 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://ordinaryroad.tech:8090',
+    prefix: '/api',
     withCredentials: true,
-    timeout: 10000
+    timeout: 10000,
+    // https://axios.nuxtjs.org/options/#proxy
+    proxy: true // Can be also an object with default options
+  },
+
+  proxy: {
+    '/api/': {
+      target: 'https://ordinaryroad.tech:8090',
+      pathRewrite: {
+        '^/api/': ''
+      }
+    }
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
