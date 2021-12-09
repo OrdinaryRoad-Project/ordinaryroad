@@ -172,6 +172,10 @@ export default {
       type: Boolean,
       default: false
     },
+    presetSelectedItems: {
+      type: Array,
+      default: () => []
+    },
 
     tableHeaders: {
       type: Array,
@@ -180,6 +184,7 @@ export default {
   },
   data () {
     return {
+      initialized: false,
       deleteDialog: null,
       options: {},
       dataTableParams: {
@@ -247,7 +252,9 @@ export default {
   methods: {
     resetSearch () {
       this.$refs.searchForm.reset()
-      this.options = { page: 1 }
+      const options = Object.assign({}, this.options)
+      options.page = 1
+      this.options = options
     },
     insertItem () {
       this.$emit('insertItem')
@@ -282,6 +289,9 @@ export default {
       })
     },
     onItemSelected ({ item, value }) {
+      if (!item) {
+        return
+      }
       if (value) {
         this.selectedItems.push(this.selectReturnObject ? Object.assign({}, item) : item.uuid)
       } else if (this.selectReturnObject) {
@@ -328,13 +338,10 @@ export default {
      * 加载完成后通过$refs手动调用
      */
     loadSuccessfully (items, totalItems) {
-      const oldItems = this.dataTableParams.items
       this.dataTableParams = { loading: false, items, totalItems }
       if (this.showSelect) {
-        // 判断items是否发生变化，发生变化才取消全选
-        if (!this.$util.arrayEquals(oldItems, items)) {
-          this.$refs.table.toggleSelectAll(false)
-        }
+        // 每次加载完成需要设置选择的item
+        this.setPresetSelectedItems()
       }
     },
     /**
@@ -344,17 +351,20 @@ export default {
       this.setLoading(false)
     },
     /**
-     * 初始化预先选中的，在 loadSuccessfully 后调用
-     * @param presetSelectedItems 预先选中items
+     * 初始化预先选中的item，在 loadSuccessfully 后自动调用
      */
-    presetSelectedItems (presetSelectedItems) {
-      presetSelectedItems.forEach((presetSelectedItem) => {
-        const selectedItem = this.$util.query(
-          this.dataTableParams.items, 'uuid',
-          this.selectReturnObject ? presetSelectedItem.uuid : presetSelectedItem
-        )[0]
-        this.$refs.table.select(selectedItem)
-      })
+    setPresetSelectedItems () {
+      setTimeout(() => {
+        this.presetSelectedItems.forEach((presetSelectedItem) => {
+          const selectedItem = this.$util.query(
+            this.dataTableParams.items, 'uuid',
+            this.selectReturnObject ? presetSelectedItem.uuid : presetSelectedItem
+          )[0]
+          if (!this.$refs.table.isSelected(selectedItem)) {
+            this.$refs.table.select(selectedItem)
+          }
+        })
+      }, 200)
     }
   }
 }
