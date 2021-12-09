@@ -302,12 +302,30 @@ export default {
       this.$emit('itemsSelected', this.selectedItems)
     },
     onToggleSelectAll ({ items, value }) {
-      this.selectedItems = []
-      if (value) {
-        items.forEach((item) => {
-          this.selectedItems.push(this.selectReturnObject ? Object.assign({}, item) : item.uuid)
-        })
-      }
+      // 考虑不在当前显示的items情况，items:1,2,3,4,5和selectedItems:1,3,5,7两个合并
+      items.forEach((item) => {
+        const searchElement = this.selectReturnObject ? Object.assign({}, item) : item.uuid
+        if (value) {
+          // 全选直接添加items
+          if (!this.selectedItems.includes(searchElement)) {
+            this.selectedItems.push(searchElement)
+          }
+        } else {
+          // 删除取消选择的items
+          const indexOf = this.selectedItems.indexOf(searchElement)
+          if (indexOf !== -1) {
+            this.selectedItems.splice(indexOf, 1)
+          }
+        }
+      })
+
+      // 更新UI
+      this.selectedItems.forEach((selectedItem) => {
+        if (!this.$refs.table.isSelected(selectedItem)) {
+          // 不需要VDataTable emit
+          this.$refs.table.select(selectedItem, true, false)
+        }
+      })
       this.$emit('itemsSelected', this.selectedItems)
     },
     setLoading (loading) {
