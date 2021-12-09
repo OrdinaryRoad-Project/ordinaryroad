@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     ref="table"
+    :height="showSelect?'50vh':null"
     :single-select="singleSelect"
     :show-select="showSelect"
     item-key="uuid"
@@ -218,22 +219,36 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       const headers = []
-      headers.push(
-        { text: 'UUID', value: 'uuid', sortable: false },
-        ...this.tableHeaders,
-        { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
-        { text: this.$t('createBy'), value: 'createBy', sortable: false },
-        { text: this.$t('updateTime'), value: 'updateTime', sortable: false, width: '220' },
-        { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
-        {
-          text: this.$t('dataTable.actions'),
-          value: 'actions',
-          sortable: false,
-          align: 'center',
-          class: 'sticky-right',
-          cellClass: 'sticky-right'
-        }
-      )
+      if (this.showSelect) {
+        headers.push(
+          ...this.tableHeaders,
+          {
+            text: this.$t('dataTable.actions'),
+            value: 'actions',
+            sortable: false,
+            align: 'center',
+            class: 'sticky-right',
+            cellClass: 'sticky-right'
+          }
+        )
+      } else {
+        headers.push(
+          { text: 'UUID', value: 'uuid', sortable: false },
+          ...this.tableHeaders,
+          { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
+          { text: this.$t('createBy'), value: 'createBy', sortable: false },
+          { text: this.$t('updateTime'), value: 'updateTime', sortable: false, width: '220' },
+          { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
+          {
+            text: this.$t('dataTable.actions'),
+            value: 'actions',
+            sortable: false,
+            align: 'center',
+            class: 'sticky-right',
+            cellClass: 'sticky-right'
+          }
+        )
+      }
       return this.hideActions ? this.$util.remove(headers, 'value', 'actions') : headers
     },
     action () {
@@ -330,6 +345,9 @@ export default {
       this.dataTableParams.loading = loading
     },
 
+    select ({ item, value, emit }) {
+      this.$refs.table.select(item, value, emit)
+    },
     /**
      * 删除成功后通过$refs手动调用
      */
