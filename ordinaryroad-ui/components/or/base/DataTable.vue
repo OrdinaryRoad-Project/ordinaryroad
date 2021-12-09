@@ -305,7 +305,7 @@ export default {
       // 考虑不在当前显示的items情况，items:1,2,3,4,5和selectedItems:1,3,5,7两个合并
       items.forEach((item) => {
         const searchElement = this.selectReturnObject ? Object.assign({}, item) : item.uuid
-        const index = this.selectedItems.indexOf(searchElement)
+        const index = this.$util.indexOf(this.selectedItems, searchElement)
         if (value) {
           // 全选直接添加items
           if (index === -1) {

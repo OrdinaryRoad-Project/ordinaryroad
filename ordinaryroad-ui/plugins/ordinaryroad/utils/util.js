@@ -167,6 +167,12 @@ function uuid () {
  * @returns {boolean}
  */
 function objectEquals (a, b) {
+  // falsy value, return
+  if (!a && !b) {
+    return true
+  } else if ((!a && b) || (!b && a)) {
+    return false
+  }
   // 取对象a和b的属性名
   const aProps = Object.keys(a)
   const bProps = Object.keys(b)
@@ -186,7 +192,7 @@ function objectEquals (a, b) {
       if (!arrayEquals(a[propName], b[propName])) {
         return false
       }
-    } else if (!objectEquals(a[propName], b[propName])) {
+    } else if (a[propName] !== b[propName]) {
       return false
     }
   }
@@ -201,7 +207,9 @@ function objectEquals (a, b) {
  */
 function arrayEquals (a, b) {
   // falsy value, return
-  if (!a || !b) {
+  if (!a && !b) {
+    return true
+  } else if ((!a && b) || (!b && a)) {
     return false
   }
 
@@ -226,6 +234,22 @@ function arrayEquals (a, b) {
   return true
 }
 
+/**
+ * 根据item内容获取index
+ * @param array Array
+ * @param searchItem Item
+ * @returns {number} 下标，不存在返回-1
+ */
+function indexOf (array, searchItem) {
+  for (let i = 0; i < array.length; i++) {
+    const item = array[i]
+    if (objectEquals(item, searchItem)) {
+      return i
+    }
+  }
+  return -1
+}
+
 module.exports = {
   formatSeconds,
   formatTime,
@@ -237,5 +261,6 @@ module.exports = {
   contain,
   uuid,
   objectEquals,
-  arrayEquals
+  arrayEquals,
+  indexOf
 }
