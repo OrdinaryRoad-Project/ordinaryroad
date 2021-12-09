@@ -17,6 +17,7 @@
       lastIcon: 'mdi-page-last',
       itemsPerPageOptions:[ 10, 20, 50, 100 ]
     }"
+    @click:row="onClickRow"
     @item-selected="onItemSelected"
     @toggle-select-all="onToggleSelectAll"
   >
@@ -265,6 +266,9 @@ export default {
   mounted () {
   },
   methods: {
+    onClickRow (item, { isSelected }) {
+      this.showSelect && this.select({ item, value: !isSelected, emit: true })
+    },
     resetSearch () {
       this.$refs.searchForm.reset()
       const options = Object.assign({}, this.options)
