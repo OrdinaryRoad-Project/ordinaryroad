@@ -185,7 +185,7 @@ export default {
       }
     },
     getCaptchaImage () {
-      this.$apis.user.getLoginCaptcha(this.orNumber)
+      this.$apis.user.getLoginCaptcha()
         .then((value) => {
           this.code = ''
           const data = value.data
