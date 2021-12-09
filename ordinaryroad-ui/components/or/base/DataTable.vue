@@ -305,17 +305,15 @@ export default {
       // 考虑不在当前显示的items情况，items:1,2,3,4,5和selectedItems:1,3,5,7两个合并
       items.forEach((item) => {
         const searchElement = this.selectReturnObject ? Object.assign({}, item) : item.uuid
+        const index = this.selectedItems.indexOf(searchElement)
         if (value) {
           // 全选直接添加items
-          if (!this.selectedItems.includes(searchElement)) {
+          if (index === -1) {
             this.selectedItems.push(searchElement)
           }
-        } else {
+        } else if (index !== -1) {
           // 删除取消选择的items
-          const indexOf = this.selectedItems.indexOf(searchElement)
-          if (indexOf !== -1) {
-            this.selectedItems.splice(indexOf, 1)
-          }
+          this.selectedItems.splice(index, 1)
         }
       })
 
