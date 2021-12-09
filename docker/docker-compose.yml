@@ -5,6 +5,9 @@ services:
     container_name: ordinaryroad-nginx
     build:
       context: ./ordinaryroad-nginx
+    volumes:
+      - $PWD/ordinaryroad-nginx/ssl:/etc/nginx/ssl
+      - $PWD/ordinaryroad-nginx/dist:/usr/share/nginx/html
     ports:
       # 前端
       - "8021:8021"
@@ -19,6 +22,8 @@ services:
     container_name: ordinaryroad-redis
     build:
       context: ./ordinaryroad-redis
+    volumes:
+      - $PWD/ordinaryroad-redis/data:/data
     hostname: ordinaryroad-redis
     restart: always
 
@@ -27,6 +32,9 @@ services:
     container_name: ordinaryroad-mysql
     build:
       context: ./ordinaryroad-mysql
+    volumes:
+      - $PWD/ordinaryroad-mysql/etc/my.cnf:/etc/my.cnf
+      - $PWD/ordinaryroad-mysql/data:/var/lib/mysql
     ports:
       - "3307:3307"
     hostname: ordinaryroad-mysql
@@ -37,6 +45,8 @@ services:
     container_name: ordinaryroad-nacos
     build:
       context: ./ordinaryroad-nacos
+    volumes:
+      - $PWD/ordinaryroad-nacos/standalone-logs:/home/nacos/logs
     ports:
       - "8848:8848"
       - "9848:9848"
