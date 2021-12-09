@@ -12,3 +12,5 @@ ENV PREFER_HOST_MODE="hostname" \
     MYSQL_SERVICE_PASSWORD="Gpt8GB9RlsPseeoy" \
 #    MYSQL_SERVICE_DB_PARAM="characterEncoding=utf8&connectTimeout=1000&socketTimeout=3000&autoReconnect=true&useSSL=false"
     MYSQL_SERVICE_DB_PARAM="useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true"
+
+VOLUME $PWD/standalone-logs         /home/nacos/logs

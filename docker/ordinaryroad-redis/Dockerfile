@@ -4,4 +4,4 @@ MAINTAINER mjz(miaojinzhou@ordinaryroad.tech)
 
 COPY ./cnf/redis.conf /usr/local/etc/redis/redis.conf
 
-VOLUME ./dir:/data
+VOLUME $PWD/data    /data

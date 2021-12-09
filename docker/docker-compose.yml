@@ -5,9 +5,9 @@ services:
     container_name: ordinaryroad-nginx
     build:
       context: ./ordinaryroad-nginx
-    volumes:
-      - ./ordinaryroad-nginx/conf/nginx.conf:/etc/nginx/nginx.conf
     ports:
+      # 前端
+      - "8021:8021"
       # 网关 https
       - "8090:8090"
       # 认证服务器 https
@@ -27,9 +27,6 @@ services:
     container_name: ordinaryroad-mysql
     build:
       context: ./ordinaryroad-mysql
-    volumes:
-      - ./ordinaryroad-mysql/etc/my.cnf:/etc/my.cnf
-      - ./ordinaryroad-mysql/data:/var/lib/mysql
     ports:
       - "3307:3307"
     hostname: ordinaryroad-mysql
@@ -40,8 +37,6 @@ services:
     container_name: ordinaryroad-nacos
     build:
       context: ./ordinaryroad-nacos
-    volumes:
-      - ./ordinaryroad-nacos/standalone-logs/:/home/nacos/logs
     ports:
       - "8848:8848"
       - "9848:9848"
