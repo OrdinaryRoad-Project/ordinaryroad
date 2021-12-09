@@ -1,7 +1,7 @@
 <template>
   <div>
     <base-material-card
-      :icon="`mdi-account`"
+      :icon="`mdi-account-multiple`"
       :title="$t('menuTitles.roleManagement')"
     >
       <or-data-table-upms-role />

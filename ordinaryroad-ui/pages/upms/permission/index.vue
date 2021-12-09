@@ -1,7 +1,7 @@
 <template>
   <div>
     <base-material-card
-      :icon="`mdi-account`"
+      :icon="`mdi-lock`"
       :title="$t('menuTitles.permissionManagement')"
     >
       <or-data-table-upms-permission />

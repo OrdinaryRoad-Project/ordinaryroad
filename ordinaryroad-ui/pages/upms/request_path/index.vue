@@ -1,7 +1,7 @@
 <template>
   <div>
     <base-material-card
-      :icon="`mdi-account`"
+      :icon="`mdi-menu`"
       :title="$t('menuTitles.requestPathManagement')"
     >
       <or-data-table-upms-request-path />
