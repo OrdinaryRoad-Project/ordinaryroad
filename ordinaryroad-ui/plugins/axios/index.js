@@ -25,7 +25,7 @@ export default function (context, inject) {
       const msg = errorCode[code] || res.data.msg || errorCode.default
       if (code === 2001) {
         store.commit('user/REMOVE_TOKEN_INFO')
-        context.$dialog({
+        process.client && context.$dialog({
           persistent: true,
           title: '系统提示',
           content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
@@ -35,13 +35,12 @@ export default function (context, inject) {
           router.push({ path: '/user/login', query: { redirect: route.fullPath } })
         })
       } else {
-        context.$snackbar.error(msg)
+        process.client && context.$snackbar.error(msg)
       }
       return Promise.reject(msg)
     }
   },
   (error) => {
-    console.log('err' + error)
     let { message } = error
     if (message === 'Network Error') {
       message = '后端接口连接异常'
@@ -50,7 +49,7 @@ export default function (context, inject) {
     } else if (message.includes('Request failed with status code')) {
       message = '系统接口' + message.substr(message.length - 3) + '异常'
     }
-    context.$snackbar.error(message)
+    process.client && context.$snackbar.error(message)
     return Promise.reject(error)
   }
   )

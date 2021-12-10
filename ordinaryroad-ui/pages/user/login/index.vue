@@ -95,7 +95,7 @@
             v-model="rememberMeModel"
             label="记住我"
             hide-details="auto"
-            :messages="rememberMeModel?'不要在非自己电脑上勾选哦':null"
+            :messages="rememberMeModel?'不要在非自己设备上勾选哦':null"
           />
           <div class="text-center mt-10">
             <v-btn

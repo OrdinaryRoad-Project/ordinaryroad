@@ -3,8 +3,11 @@ import userApis from './user'
 import requestPathApis from './request_path'
 import permissionApis from './permission'
 
+let $axios = null
+
 export default {
   initAxios (axios) {
+    $axios = $axios || axios
     userApis.initAxios(axios)
     roleApis.initAxios(axios)
     requestPathApis.initAxios(axios)
@@ -14,6 +17,10 @@ export default {
     role: roleApis,
     user: userApis,
     request_path: requestPathApis,
-    permission: permissionApis
+    permission: permissionApis,
+    userInfo: ({ saToken }) => {
+      const data = { saToken }
+      return $axios({ url: '/upms/userinfo', method: 'post', data })
+    }
   }
 }

@@ -3,9 +3,11 @@ export default {
     // TODO 密码非对称加密
     return new Promise((resolve, reject) => {
       $apis.user.login(params)
-        .then((value) => {
-          commit('SET_TOKEN_INFO', value.data)
-          commit('SET_USER_INFO', value.data.userInfo)
+        .then(({ data }) => {
+          const tokenInfo = Object.assign({}, data)
+          delete tokenInfo.userInfo
+          commit('SET_TOKEN_INFO', tokenInfo)
+          commit('SET_USER_INFO', data.userInfo)
           resolve()
         }).catch((error) => {
           reject(error)
