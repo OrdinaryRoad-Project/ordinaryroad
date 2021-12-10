@@ -24,11 +24,14 @@
 package tech.ordinaryroad.upms.web.controller;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.api.ISysApi;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
 import tech.ordinaryroad.upms.facade.ISysFacade;
+import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 
 /**
  * @author mjz
@@ -41,7 +44,7 @@ public class SysController implements ISysApi {
     private final ISysFacade sysFacade;
 
     @Override
-    public Result<SysUserInfoDTO> userInfo() {
-        return sysFacade.userinfo();
+    public Result<SysUserInfoDTO> userInfo(@Validated @RequestBody SysUserInfoRequest request) {
+        return sysFacade.userInfo(request);
     }
 }

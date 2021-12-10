@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.gateway.service.impl;
 
-import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
@@ -33,6 +32,7 @@ import tech.ordinaryroad.commons.core.base.exception.CaptchaException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.core.service.RedisService;
+import tech.ordinaryroad.commons.core.utils.captcha.TransparentBackgroundLineCaptcha;
 import tech.ordinaryroad.gateway.dto.CaptchaLoginDTO;
 import tech.ordinaryroad.gateway.service.ICaptchaService;
 
@@ -65,7 +65,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
     @Override
     public Result<CaptchaLoginDTO> generateLoginCaptcha() {
         String uuid = IdUtil.fastUUID();
-        LineCaptcha lineCaptcha = new LineCaptcha(400, 200);
+        TransparentBackgroundLineCaptcha lineCaptcha = new TransparentBackgroundLineCaptcha(400, 200);
 
         String code = lineCaptcha.getCode();
         String imageBase64 = lineCaptcha.getImageBase64();

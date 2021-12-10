@@ -38,6 +38,7 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.gateway.request.LoginRequest;
 import tech.ordinaryroad.upms.api.ISysApi;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
+import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 
 import java.util.HashMap;
 import java.util.concurrent.*;
@@ -69,7 +70,13 @@ public class AppController {
 
     private final WebClient webClient;
 
-    private final ExecutorService executorService = new ThreadPoolExecutor(2, 4, 12, TimeUnit.HOURS, new ArrayBlockingQueue<>(4), r -> new Thread("AppController异步调用API线程"));
+    private final ExecutorService executorService = new ThreadPoolExecutor(
+            2, 4, 12, TimeUnit.HOURS,
+            new ArrayBlockingQueue<>(4), r -> {
+        Thread thread = new Thread(r);
+        thread.setName("AppController异步调用API线程");
+        return thread;
+    });
 
     /**
      * 登录：https://auth-server.ordinaryroad.tech:8302/oauth2/authorize?response_type=code&client_id=ordinaryroad-gateway&redirect_uri=https://ordinaryroad.tech:8090/authorized&scope=userinfo,openid
@@ -165,8 +172,10 @@ public class AppController {
         String tokenValue = StpUtil.getTokenValue();
         data.put("satoken", tokenValue);
 
-        Future<Result<SysUserInfoDTO>> userInfoFuture = executorService.submit(sysApi::userInfo);
+        SysUserInfoRequest sysUserInfoRequest = new SysUserInfoRequest();
+        sysUserInfoRequest.setSaToken(tokenValue);
         Result<SysUserInfoDTO> sysUserInfoDtoResult;
+        Future<Result<SysUserInfoDTO>> userInfoFuture = executorService.submit(() -> sysApi.userInfo(sysUserInfoRequest));
         try {
             sysUserInfoDtoResult = userInfoFuture.get();
         } catch (InterruptedException | ExecutionException e) {

@@ -21,18 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.facade;
+package tech.ordinaryroad.commons.core.constant;
 
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
-import tech.ordinaryroad.upms.request.SysUserInfoRequest;
+import java.awt.*;
 
 /**
  * @author mjz
- * @date 2021/12/9
+ * @date 2021/12/10
  */
-public interface ISysFacade {
+public class ColorConstants {
 
-    Result<SysUserInfoDTO> userInfo(SysUserInfoRequest request);
+    public static final Color TRANSPARENT = new Color(255, 255, 255, 0);
 
 }

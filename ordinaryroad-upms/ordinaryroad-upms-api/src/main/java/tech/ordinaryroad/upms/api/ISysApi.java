@@ -25,10 +25,13 @@ package tech.ordinaryroad.upms.api;
 
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
+import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 
 /**
  * @author mjz
@@ -41,9 +44,10 @@ public interface ISysApi {
     /**
      * 获取当前请求用户的相关信息，User，Role，Permission，RequestPath
      *
+     * @param request Request
      * @return Result
      */
     @PostMapping(value = "/userinfo")
-    Result<SysUserInfoDTO> userInfo();
+    Result<SysUserInfoDTO> userInfo(@Validated @RequestBody SysUserInfoRequest request);
 
 }

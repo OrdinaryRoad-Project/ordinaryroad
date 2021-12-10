@@ -21,18 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.facade;
+package tech.ordinaryroad.upms.request;
 
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
-import tech.ordinaryroad.upms.request.SysUserInfoRequest;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author mjz
- * @date 2021/12/9
+ * @date 2021/12/10
  */
-public interface ISysFacade {
+@Getter
+@Setter
+@ApiModel
+public class SysUserInfoRequest extends BaseRequest {
 
-    Result<SysUserInfoDTO> userInfo(SysUserInfoRequest request);
+    private static final long serialVersionUID = -715134225379414396L;
+
+    @ApiModelProperty("token")
+    @NotBlank(message = "token不能为空")
+    private String saToken;
 
 }

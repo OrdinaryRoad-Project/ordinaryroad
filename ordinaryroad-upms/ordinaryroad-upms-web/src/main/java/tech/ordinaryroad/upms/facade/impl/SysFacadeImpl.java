@@ -24,6 +24,7 @@
 package tech.ordinaryroad.upms.facade.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
@@ -38,6 +39,7 @@ import tech.ordinaryroad.upms.mapstruct.SysPermissionMapStruct;
 import tech.ordinaryroad.upms.mapstruct.SysRequestPathMapStruct;
 import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
 import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
+import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 import tech.ordinaryroad.upms.service.SysPermissionService;
 import tech.ordinaryroad.upms.service.SysRequestPathService;
 import tech.ordinaryroad.upms.service.SysRoleService;
@@ -65,18 +67,21 @@ public class SysFacadeImpl implements ISysFacade {
     private final SysRequestPathMapStruct sysRequestPathMapStruct;
 
     @Override
-    public Result<SysUserInfoDTO> userinfo() {
-        // 获取当前登录用户
-        String orNumber = StpUtil.getLoginIdAsString();
-        Optional<SysUserDO> byOrNumber = sysUserService.findByOrNumber(orNumber);
-        if (!byOrNumber.isPresent()) {
-            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
-        }
-
+    public Result<SysUserInfoDTO> userInfo(SysUserInfoRequest request) {
         SysUserInfoDTO userInfoDTO = new SysUserInfoDTO();
 
+        String tokenValue = StpUtil.getTokenValue();
+        if (StrUtil.isBlank(tokenValue)) {
+            tokenValue = request.getSaToken();
+        }
+        String orNumber = (String) StpUtil.getLoginIdByToken(tokenValue);
+
         // 获取User
-        SysUserDO sysUserDO = byOrNumber.get();
+        Optional<SysUserDO> optionalSysUserDO = sysUserService.findByOrNumber(orNumber);
+        if (!optionalSysUserDO.isPresent()) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+        SysUserDO sysUserDO = optionalSysUserDO.get();
         SysUserDTO sysUserDTO = sysUserMapStruct.transfer(sysUserDO);
         userInfoDTO.setUser(sysUserDTO);
 
