@@ -21,27 +21,37 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.auth.server.dto;
+package tech.ordinaryroad.upms.dto;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
+
+import java.util.List;
 
 /**
- * 用户相关信息DTO：User
+ * 用户相关信息DTO：User, Role, Permission, RequestPath
  *
  * @author mjz
- * @date 2021/12/1
+ * @date 2021/12/9
  */
 @Data
 @ApiModel
-public class UserInfoDTO extends BaseDTO {
+public class SysUserInfoDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 7129420855456681962L;
+    private static final long serialVersionUID = -2025193752926826624L;
 
     @ApiModelProperty("用户信息")
     private SysUserDTO user;
+
+    @ApiModelProperty("拥有的所有角色")
+    private List<SysRoleDTO> roles;
+
+    @ApiModelProperty("拥有的所有权限")
+    private List<SysPermissionDTO> permissions;
+
+    @ApiModelProperty("可以访问的所有请求路径")
+    private List<SysRequestPathDTO> requestPaths;
 
 }

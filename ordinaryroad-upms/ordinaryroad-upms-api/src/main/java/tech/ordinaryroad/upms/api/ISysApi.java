@@ -21,27 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.auth.server.dto;
+package tech.ordinaryroad.upms.api;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
+import io.swagger.annotations.Api;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constants.ServiceNameCons;
+import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
 
 /**
- * 用户相关信息DTO：User
- *
  * @author mjz
- * @date 2021/12/1
+ * @date 2021/12/10
  */
-@Data
-@ApiModel
-public class UserInfoDTO extends BaseDTO {
+@Api(value = "API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysApi")
+public interface ISysApi {
 
-    private static final long serialVersionUID = 7129420855456681962L;
-
-    @ApiModelProperty("用户信息")
-    private SysUserDTO user;
+    /**
+     * 获取当前请求用户的相关信息，User，Role，Permission，RequestPath
+     *
+     * @return Result
+     */
+    @PostMapping(value = "/userinfo")
+    Result<SysUserInfoDTO> userInfo();
 
 }

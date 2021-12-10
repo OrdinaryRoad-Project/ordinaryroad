@@ -21,27 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.auth.server.dto;
+package tech.ordinaryroad.upms.web.controller;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
+import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.RestController;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.api.ISysApi;
+import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
+import tech.ordinaryroad.upms.facade.ISysFacade;
 
 /**
- * 用户相关信息DTO：User
- *
  * @author mjz
- * @date 2021/12/1
+ * @date 2021/12/10
  */
-@Data
-@ApiModel
-public class UserInfoDTO extends BaseDTO {
+@RequiredArgsConstructor
+@RestController
+public class SysController implements ISysApi {
 
-    private static final long serialVersionUID = 7129420855456681962L;
+    private final ISysFacade sysFacade;
 
-    @ApiModelProperty("用户信息")
-    private SysUserDTO user;
-
+    @Override
+    public Result<SysUserInfoDTO> userInfo() {
+        return sysFacade.userinfo();
+    }
 }

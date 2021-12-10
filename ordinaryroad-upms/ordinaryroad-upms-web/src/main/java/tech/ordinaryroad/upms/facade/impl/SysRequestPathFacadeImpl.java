@@ -37,8 +37,6 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
 import tech.ordinaryroad.upms.entity.SysRequestPathDO;
-import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
-import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.facade.ISysRequestPathFacade;
 import tech.ordinaryroad.upms.mapstruct.SysRequestPathMapStruct;
 import tech.ordinaryroad.upms.request.SysRequestPathQueryRequest;
@@ -193,15 +191,10 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
         if (StrUtil.isBlank(userUuid)) {
             return Result.fail(StatusCode.PARAM_IS_BLANK);
         }
-        // 根据用户uuid查询所有角色uuid
-        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
-        // 根据角色uuid查询角色
-        List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
-        List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(roleUuidList);
-        List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
-        // 根据权限uuid查询所有请求路径
-        List<SysRequestPathDO> all = sysRequestPathService.findAllByPermissionUuids(permissionUuids);
+
+        List<SysRequestPathDO> all = sysRequestPathService.findAllByUserUuid(userUuid);
         List<SysRequestPathDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+
         return Result.success(list);
     }
 }

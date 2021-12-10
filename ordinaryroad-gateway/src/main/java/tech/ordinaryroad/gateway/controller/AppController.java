@@ -36,8 +36,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.gateway.request.LoginRequest;
+import tech.ordinaryroad.upms.api.ISysApi;
+import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
 
 import java.util.HashMap;
+import java.util.concurrent.*;
 
 /**
  * 应用入口
@@ -49,6 +52,8 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @RestController
 public class AppController {
+
+    private final ISysApi sysApi;
 
     /**
      * 应用id
@@ -63,6 +68,8 @@ public class AppController {
     private String serverUrl;
 
     private final WebClient webClient;
+
+    private final ExecutorService executorService = new ThreadPoolExecutor(2, 4, 12, TimeUnit.HOURS, new ArrayBlockingQueue<>(4), r -> new Thread("AppController异步调用API线程"));
 
     /**
      * 登录：https://auth-server.ordinaryroad.tech:8302/oauth2/authorize?response_type=code&client_id=ordinaryroad-gateway&redirect_uri=https://ordinaryroad.tech:8090/authorized&scope=userinfo,openid
@@ -135,7 +142,6 @@ public class AppController {
 
         // 根据openid获取其对应的userId
         JSONObject data = response.getData();
-        String accessToken = data.getString(SaOAuth2Consts.Param.access_token);
         String openid = data.getString("openid");
         String clientId = params.getString(SaOAuth2Consts.Param.client_id);
         HashMap<String, String> orNumberParams = new HashMap<>(2);
@@ -159,18 +165,16 @@ public class AppController {
         String tokenValue = StpUtil.getTokenValue();
         data.put("satoken", tokenValue);
 
-        Result<JSONObject> userInfoResponse = Result.parse(
-                OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/userinfo")
-                        .addBodyPara(SaOAuth2Consts.Param.access_token, accessToken)
-                        .post()
-                        .getBody().toString()
-        );
-        if (userInfoResponse == null) {
-            return Result.fail();
+        Future<Result<SysUserInfoDTO>> userInfoFuture = executorService.submit(sysApi::userInfo);
+        Result<SysUserInfoDTO> sysUserInfoDtoResult;
+        try {
+            sysUserInfoDtoResult = userInfoFuture.get();
+        } catch (InterruptedException | ExecutionException e) {
+            return Result.fail(e.getMessage());
         }
-        data.put("userInfo", userInfoResponse.getData());
+        data.put("userInfo", sysUserInfoDtoResult.getData());
 
-        log.info("Gateway login successfully. OrNumber：{}, Token：{}\nUserInfo: {}", orNumber, tokenValue, userInfoResponse.getData());
+        log.info("Gateway login successfully. OrNumber：{}, Token：{}\nUserInfo: {}", orNumber, tokenValue, sysUserInfoDtoResult.getData());
         return Result.success(data);
     }
 

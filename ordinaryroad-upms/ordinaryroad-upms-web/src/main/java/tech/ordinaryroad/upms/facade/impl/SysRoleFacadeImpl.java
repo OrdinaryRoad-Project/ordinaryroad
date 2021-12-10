@@ -181,13 +181,9 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
         if (StrUtil.isBlank(userUuid)) {
             return Result.fail(StatusCode.PARAM_IS_BLANK);
         }
-        // 根据用户uuid查询所有角色uuid
-        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
-        // 根据角色uuid查询角色
-        List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
-        BaseQueryRequest baseQueryRequest = new BaseQueryRequest();
-        baseQueryRequest.setUuids(roleUuidList);
-        return this.findAllByIds(baseQueryRequest);
+        List<SysRoleDO> all = sysRoleService.findAllByUserUuid(userUuid);
+        List<SysRoleDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+        return Result.success(list);
     }
 
     @Override
