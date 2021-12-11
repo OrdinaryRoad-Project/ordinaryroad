@@ -32,7 +32,7 @@ function getObjectFromCookie (string, key, defaultValue) {
 }
 
 export const actions = {
-  async nuxtServerInit ({ commit }, { $apis, $vuetify, req, app }) {
+  nuxtServerInit ({ commit }, { $vuetify, req, app }) {
     const store = app.store
     // 初始化，可以获取初始值
     if (typeof req !== 'undefined' && req.headers && req.headers.cookie) {
@@ -45,16 +45,7 @@ export const actions = {
       })
 
       commit('user/SET_REMEMBER_ME', getBooleanFromCookie(cookieString, REMEMBER_ME_KEY, store.getters['user/getRememberMe']))
-      const tokenInfo = getObjectFromCookie(cookieString, TOKEN_INFO_KEY, store.getters['user/getTokenInfo'])
-      commit('user/SET_TOKEN_INFO', tokenInfo)
-
-      const userInfo = store.getters['user/getUserInfo']
-      if (tokenInfo && !userInfo) {
-        await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
-          .then(({ data }) => {
-            commit('user/SET_USER_INFO', data)
-          })
-      }
+      commit('user/SET_TOKEN_INFO', getObjectFromCookie(cookieString, TOKEN_INFO_KEY, store.getters['user/getTokenInfo']))
     }
   }
 }

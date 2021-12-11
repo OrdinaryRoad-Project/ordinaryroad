@@ -3,7 +3,7 @@ import zhHans from 'vuetify/lib/locale/zh-Hans'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -69,17 +69,15 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     prefix: '/api',
-    withCredentials: true,
-    timeout: 10000,
     // https://axios.nuxtjs.org/options/#proxy
     proxy: true // Can be also an object with default options
   },
 
   proxy: {
-    '/api/': {
-      target: 'https://ordinaryroad.tech:8090',
+    '/api': {
+      target: process.env.BASE_URL,
       pathRewrite: {
-        '^/api/': ''
+        '^/api': '/'
       }
     }
   },

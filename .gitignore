@@ -79,4 +79,3 @@ logs
 
 docker/**/*.jar
 docker/ordinaryroad-nginx/ssl
-docker/ordinaryroad-nginx/dist
