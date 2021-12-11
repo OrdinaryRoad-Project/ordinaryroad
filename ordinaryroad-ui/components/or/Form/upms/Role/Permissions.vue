@@ -36,7 +36,6 @@
         <v-sheet class="pa-2">
           <or-data-table-upms-permission
             ref="permissionDataTable"
-            single-select
             :preset-selected-items="presetPermissions"
             select-return-object
             show-select
