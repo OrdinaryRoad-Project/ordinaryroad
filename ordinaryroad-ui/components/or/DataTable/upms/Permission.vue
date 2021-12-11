@@ -20,13 +20,13 @@
           md="4"
         >
           <v-text-field
-            v-model="searchParams.path"
+            v-model="searchParams.permissionCode"
             dense
             outlined
             clearable
             hide-details="auto"
             maxlength="200"
-            :label="$t('path')"
+            :label="$t('permissionCode')"
           />
         </v-col>
         <v-col
@@ -35,13 +35,13 @@
           md="4"
         >
           <v-text-field
-            v-model="searchParams.pathName"
+            v-model="searchParams.description"
             dense
             outlined
             clearable
             hide-details="auto"
             maxlength="100"
-            :label="$t('pathName')"
+            :label="$t('description')"
           />
         </v-col>
       </template>
