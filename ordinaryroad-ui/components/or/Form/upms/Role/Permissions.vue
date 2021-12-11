@@ -132,7 +132,7 @@ export default {
           .then(() => {
             this.$emit('finish')
             this.updating = false
-            this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('roleUsers')]))
+            this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('rolePermissions')]))
           })
           .catch(() => {
             this.updating = false

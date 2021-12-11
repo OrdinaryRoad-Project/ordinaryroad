@@ -6,6 +6,7 @@
       :select-return-object="selectReturnObject"
       :show-select="showSelect"
       :show-actions-when-selecting="showActionsWhenSelecting"
+      :preset-selected-items="presetSelectedItems"
       :table-headers="headers"
       @getItems="onGetItems"
       @insertItem="onInsertItem"
@@ -83,6 +84,10 @@ export default {
     showActionsWhenSelecting: {
       type: Boolean,
       default: false
+    },
+    presetSelectedItems: {
+      type: Array,
+      default: () => []
     }
   },
   data () {
@@ -196,6 +201,9 @@ export default {
     },
     onItemsSelected (items) {
       this.$emit('itemsSelected', items)
+    },
+    unSelectItem (item) {
+      this.$refs.dataTable.select({ item, value: false, emit: true })
     }
   }
 }
