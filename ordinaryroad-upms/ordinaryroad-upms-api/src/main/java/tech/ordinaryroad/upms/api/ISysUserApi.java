@@ -67,9 +67,8 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/find/unique")
     Result<SysUserDTO> findByUniqueColumn(@Validated @RequestBody SysUserQueryRequest request);
 
-    // TODO 修改Request和名称 findByForeignColumn
-    @PostMapping(value = "/user/find_all/roleCode")
-    Result<List<SysUserDTO>> findAllByRoleCode(@RequestBody SysUserQueryRequest request);
+    @PostMapping(value = "/user/find_all/foreign")
+    Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request);
 
     /**
      * 根据唯一列查找用户

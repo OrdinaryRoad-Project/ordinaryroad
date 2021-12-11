@@ -23,16 +23,19 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysUserDAO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
+import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author mjz
@@ -40,6 +43,9 @@ import java.util.Optional;
  */
 @Service
 public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
+
+    @Autowired
+    private SysUsersRolesService sysUsersRolesService;
 
     public Optional<SysUserDO> findByEmail(String email) {
         Example example = Example.builder(SysUserDO.class)
@@ -81,6 +87,12 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
         }
 
         return super.dao.selectByExample(Example.builder(SysUserDO.class).where(sqls).build());
+    }
+
+    public List<SysUserDO> findAllByRoleUuid(String roleUuid) {
+        List<SysUsersRolesDO> allByRoleUuid = sysUsersRolesService.findAllByRoleUuid(roleUuid);
+        List<String> userUuids = allByRoleUuid.stream().map(SysUsersRolesDO::getUserUuid).collect(Collectors.toList());
+        return this.findIds(SysUserDO.class, userUuids);
     }
 
     public Integer selectCount() {

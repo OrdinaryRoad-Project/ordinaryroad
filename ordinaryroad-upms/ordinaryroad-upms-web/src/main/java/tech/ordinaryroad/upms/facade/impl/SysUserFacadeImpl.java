@@ -38,9 +38,7 @@ import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
-import tech.ordinaryroad.upms.entity.SysRoleDO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
-import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.facade.ISysUserFacade;
 import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
 import tech.ordinaryroad.upms.request.*;
@@ -302,23 +300,13 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     }
 
     @Override
-    public Result<List<SysUserDTO>> findAllByRoleCode(SysUserQueryRequest request) {
-        String roleCode = request.getRoleCode();
-        if (StrUtil.isBlank(roleCode)) {
-            return Result.success(Collections.emptyList());
+    public Result<List<SysUserDTO>> findAllByForeignColumn(SysUserQueryRequest request) {
+        List<SysUserDO> all = Collections.emptyList();
+        String roleUuid = request.getRoleUuid();
+        if (StrUtil.isNotBlank(roleUuid)) {
+            all = sysUserService.findAllByRoleUuid(roleUuid);
         }
-        Optional<SysRoleDO> byRoleCode = sysRoleService.findByRoleCode(roleCode);
-        if (!byRoleCode.isPresent()) {
-            return Result.success(Collections.emptyList());
-        }
-        SysRoleDO sysRoleDO = byRoleCode.get();
-        // 根据角色uuid查询所有用户uuid
-        List<SysUsersRolesDO> allByRoleUuid = sysUsersRolesService.findAllByRoleUuid(sysRoleDO.getUuid());
-        List<String> userUuids = allByRoleUuid.stream().map(SysUsersRolesDO::getUserUuid).collect(Collectors.toList());
-
-        List<SysUserDO> all = sysUserService.findIds(SysUserDO.class, userUuids);
         List<SysUserDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
-
         return Result.success(list);
     }
 

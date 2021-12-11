@@ -118,7 +118,7 @@ export default {
     },
     initPermissions () {
       // 根据角色code查询permissions
-      this.$apis.upms.permission.findAllByForeignColumn({ roleCode: this.preset.roleCode })
+      this.$apis.upms.permission.findAllByForeignColumn({ roleUuid: this.preset.uuid })
         .then(({ data }) => {
           this.presetPermissions = data
         })

@@ -119,7 +119,7 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
-    public Result<List<SysUserDTO>> findAllByRoleCode(@RequestBody SysUserQueryRequest request) {
-        return sysUserFacade.findAllByRoleCode(request);
+    public Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request) {
+        return sysUserFacade.findAllByForeignColumn(request);
     }
 }

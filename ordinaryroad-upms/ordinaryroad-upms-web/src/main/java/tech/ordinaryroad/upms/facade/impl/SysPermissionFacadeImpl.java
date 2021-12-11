@@ -135,6 +135,23 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     }
 
     @Override
+    public Result<List<SysPermissionDTO>> findAllByForeignColumn(SysPermissionQueryRequest request) {
+        List<SysPermissionDO> all = Collections.emptyList();
+
+        String userUuid = request.getUserUuid();
+        String roleUuid = request.getRoleUuid();
+        if (StrUtil.isNotBlank(userUuid)) {
+            all = sysPermissionService.findAllByUserUuid(userUuid);
+        } else if (StrUtil.isNotBlank(roleUuid)) {
+            all = sysPermissionService.findAllByRoleUuid(roleUuid);
+        }
+
+        List<SysPermissionDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+
+        return Result.success(list);
+    }
+
+    @Override
     public Result<PageInfo<SysPermissionDTO>> list(SysPermissionQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
@@ -144,31 +161,5 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
         PageInfo<SysPermissionDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 
         return Result.success(objectPageInfo);
-    }
-
-    @Override
-    public Result<List<SysPermissionDTO>> findAllByUserUuid(SysPermissionQueryRequest request) {
-        String userUuid = request.getUserUuid();
-        if (StrUtil.isBlank(userUuid)) {
-            return Result.fail(StatusCode.PARAM_IS_BLANK);
-        }
-
-        List<SysPermissionDO> byIds = sysPermissionService.findAllByUserUuid(userUuid);
-        List<SysPermissionDTO> collect = byIds.stream().map(objMapStruct::transfer).collect(Collectors.toList());
-
-        return Result.success(collect);
-    }
-
-    @Override
-    public Result<List<SysPermissionDTO>> findAllByRoleUuid(SysPermissionQueryRequest request) {
-        String roleUuid = request.getRoleUuid();
-        if (StrUtil.isBlank(roleUuid)) {
-            return Result.fail(StatusCode.PARAM_IS_BLANK);
-        }
-
-        List<SysPermissionDO> byIds = sysPermissionService.findAllByRoleUuid(roleUuid);
-        List<SysPermissionDTO> collect = byIds.stream().map(objMapStruct::transfer).collect(Collectors.toList());
-
-        return Result.success(collect);
     }
 }

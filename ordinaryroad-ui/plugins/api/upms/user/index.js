@@ -24,10 +24,9 @@ export default {
     const data = { orNumber, email, username }
     return $axios({ url: '/upms/user/find/unique', method: 'post', data })
   },
-  findAllByForeignColumn: ({ roleCode }) => {
-    const data = { roleCode }
-    // TODO 修改URL
-    return $axios({ url: '/upms/user/find_all/roleCode', method: 'post', data })
+  findAllByForeignColumn: ({ roleUuid }) => {
+    const data = { roleUuid }
+    return $axios({ url: '/upms/user/find_all/foreign', method: 'post', data })
   },
   list: (offset, limit, { email, orNumber, username }) => {
     const data = { offset, limit, email, orNumber, username }

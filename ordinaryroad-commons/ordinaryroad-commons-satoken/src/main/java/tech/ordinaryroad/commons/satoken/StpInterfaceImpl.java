@@ -54,7 +54,7 @@ public class StpInterfaceImpl implements StpInterface {
             String userUuid = byUniqueColumn.getData().getUuid();
             SysPermissionQueryRequest request = new SysPermissionQueryRequest();
             request.setUserUuid(userUuid);
-            Result<List<SysPermissionDTO>> allByUserUuid = sysPermissionApi.findAllByUserUuid(request);
+            Result<List<SysPermissionDTO>> allByUserUuid = sysPermissionApi.findAllByForeignColumn(request);
             return allByUserUuid.getData().stream().map(SysPermissionDTO::getPermissionCode).collect(Collectors.toList());
         } else {
             return Collections.emptyList();

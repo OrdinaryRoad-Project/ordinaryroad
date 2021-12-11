@@ -118,7 +118,7 @@ export default {
     },
     initUsers () {
       // 根据角色code查询users
-      this.$apis.upms.user.findAllByForeignColumn({ roleCode: this.preset.roleCode })
+      this.$apis.upms.user.findAllByForeignColumn({ roleUuid: this.preset.uuid })
         .then(({ data }) => {
           this.presetUsers = data
         })

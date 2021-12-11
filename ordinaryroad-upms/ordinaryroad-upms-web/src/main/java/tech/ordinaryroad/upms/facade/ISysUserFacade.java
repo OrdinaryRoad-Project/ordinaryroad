@@ -136,10 +136,10 @@ public interface ISysUserFacade {
     Result<?> updateEnabled(SysUserUpdateEnabledRequest request);
 
     /**
-     * 根据角色code查询所有用户
+     * 根据关联外键查询所有用户
      *
      * @param request Request
      * @return Result
      */
-    Result<List<SysUserDTO>> findAllByRoleCode(SysUserQueryRequest request);
+    Result<List<SysUserDTO>> findAllByForeignColumn(SysUserQueryRequest request);
 }

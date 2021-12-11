@@ -24,14 +24,12 @@
 package tech.ordinaryroad.upms.facade;
 
 import com.github.pagehelper.PageInfo;
+import org.springframework.transaction.annotation.Transactional;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
-import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
-import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
-import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
-import tech.ordinaryroad.upms.request.SysUserRolesSaveRequest;
+import tech.ordinaryroad.upms.request.*;
 
 import java.util.List;
 
@@ -128,4 +126,7 @@ public interface ISysRoleFacade {
      * @return Result，True表示发生改动
      */
     Result<Boolean> updateRoleUsers(SysRoleUsersSaveRequest request);
+
+    @Transactional(rollbackFor = Exception.class)
+    Result<Boolean> updateRolePermissions(SysRolePermissionsSaveRequest request);
 }

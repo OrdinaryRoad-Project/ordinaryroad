@@ -27,28 +27,31 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 /**
+ * 更新角色权限请求
+ *
  * @author mjz
- * @date 2021/10/28
+ * @date 2021/12/11
  */
 @Getter
 @Setter
 @ApiModel
-public class SysUserQueryRequest extends BaseQueryRequest {
+public class SysRolePermissionsSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = -1990288332342617918L;
-
-    @ApiModelProperty("邮箱")
-    private String email;
-
-    @ApiModelProperty("用户名")
-    private String username;
-
-    @ApiModelProperty("or帐号")
-    private String orNumber;
+    private static final long serialVersionUID = -447792687531930549L;
 
     @ApiModelProperty("角色uuid")
+    @NotBlank(message = "角色uuid不能为空")
+    @Size(max = 32, message = "角色uuid长度不能超过32")
     private String roleUuid;
+
+    @ApiModelProperty("权限uuid列表")
+    private List<String> permissionUuids;
+
 }
