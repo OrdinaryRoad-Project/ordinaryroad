@@ -1,11 +1,21 @@
 package tech.ordinaryroad.gateway.config;
 
+import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.utils.exception.ExceptionUtils;
+import tech.ordinaryroad.upms.api.ISysPermissionApi;
+import tech.ordinaryroad.upms.dto.SysPermissionDTO;
+import tech.ordinaryroad.upms.request.SysPermissionQueryRequest;
+
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * [Sa-Token 权限认证] 配置类
@@ -14,8 +24,20 @@ import tech.ordinaryroad.commons.core.utils.exception.ExceptionUtils;
  *
  * @author kong
  */
+@Slf4j
+@RequiredArgsConstructor
 @Configuration
 public class SaTokenConfigure {
+
+    private final ISysPermissionApi sysPermissionApi;
+
+    private final ExecutorService executorService = new ThreadPoolExecutor(
+            4, 8, 24L,
+            TimeUnit.HOURS, new ArrayBlockingQueue<>(8), r -> {
+        Thread thread = new Thread(r);
+        thread.setName("gateway sa-token拦截器");
+        return thread;
+    });
 
     /**
      * 注册 Sa-Token全局过滤器
@@ -47,10 +69,46 @@ public class SaTokenConfigure {
                 // 鉴权方法：每次访问进入
                 .setAuth(obj -> {
                     // Client校验和登录校验 -- 拦截所有路由
-                    SaRouter.match("/**").check(() -> {
-                        // 需要实现 SaOAuth2Template 接口
-//                        SaOAuth2Util.checkClientSecret("ordinaryroad-gateway", "secret");
+                    SaRouter.match("/**").check((r) -> {
+                        // 0. 校验是否登录
                         StpUtil.checkLogin();
+
+                        String orNumber = StpUtil.getLoginIdAsString();
+                        List<String> roleList = StpUtil.getRoleList();
+                        List<String> permissionList = StpUtil.getPermissionList();
+
+                        log.info("Sa-Token Filter, current user: orNumber:{},\nroles:{},\npermissions:{}", orNumber, roleList, permissionList);
+
+                        // 1. 获取当前路径
+                        String requestPath = SaHolder.getRequest().getRequestPath();
+
+                        log.info("Sa-Token Filter, path:{}", requestPath);
+
+                        // 2. 获取路径所需权限
+                        SysPermissionQueryRequest sysPermissionQueryRequest = new SysPermissionQueryRequest();
+                        sysPermissionQueryRequest.setRequestPath(requestPath);
+                        Future<Result<SysPermissionDTO>> resultFuture = executorService.submit(() -> sysPermissionApi.findByForeignColumn(sysPermissionQueryRequest));
+                        Result<SysPermissionDTO> byRequestPath = null;
+                        try {
+                            byRequestPath = resultFuture.get();
+                        } catch (InterruptedException | ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                        if (byRequestPath == null || !byRequestPath.getSuccess()) {
+                            // 2.1 未查到，不需要权限
+                            return;
+                        }
+
+                        // 2.2 获取Permission Code
+                        SysPermissionDTO sysPermissionDTO = byRequestPath.getData();
+                        String permissionCode = sysPermissionDTO.getPermissionCode();
+
+                        log.info("Sa-Token Filter, path required permission code:{}", permissionCode);
+
+                        // 3. 权限校验
+                        StpUtil.checkPermission(permissionCode);
+
+                        log.info("Sa-Token Filter, path permission matched.");
                     });
                 })
                 // 异常处理方法：每次setAuth函数出现异常时进入

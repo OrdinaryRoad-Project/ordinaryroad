@@ -71,6 +71,14 @@ public interface ISysRequestPathFacade {
     Result<SysRequestPathDTO> findById(SysRequestPathQueryRequest request);
 
     /**
+     * 根据唯一主键查询
+     *
+     * @param request Request
+     * @return Result
+     */
+    Result<SysRequestPathDTO> findByUniqueColumn(SysRequestPathQueryRequest request);
+
+    /**
      * 根据主键列表查询
      *
      * @param request Request

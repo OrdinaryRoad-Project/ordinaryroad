@@ -43,8 +43,6 @@ import tech.ordinaryroad.upms.request.SysRequestPathQueryRequest;
 import tech.ordinaryroad.upms.request.SysRequestPathSaveRequest;
 import tech.ordinaryroad.upms.service.SysPermissionService;
 import tech.ordinaryroad.upms.service.SysRequestPathService;
-import tech.ordinaryroad.upms.service.SysRolesPermissionsService;
-import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
 import java.util.Collections;
 import java.util.List;
@@ -63,8 +61,6 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
     private final SysRequestPathService sysRequestPathService;
     private final SysRequestPathMapStruct objMapStruct;
     private final SysPermissionService sysPermissionService;
-    private final SysUsersRolesService sysUsersRolesService;
-    private final SysRolesPermissionsService sysRolesPermissionsService;
 
     @Override
     public Result<SysRequestPathDTO> create(SysRequestPathSaveRequest request) {
@@ -137,6 +133,20 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
             return Result.success(objMapStruct.transfer(byId));
         }
         return Result.fail(StatusCode.DATA_NOT_EXIST);
+    }
+
+    @Override
+    public Result<SysRequestPathDTO> findByUniqueColumn(SysRequestPathQueryRequest request) {
+        Optional<SysRequestPathDO> optional = Optional.empty();
+        String path = request.getPath();
+        String pathName = request.getPathName();
+        if (StrUtil.isNotBlank(path)) {
+            optional = sysRequestPathService.findByPath(path);
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(pathName)) {
+            optional = sysRequestPathService.findByPathName(pathName);
+        }
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
     }
 
     @Override

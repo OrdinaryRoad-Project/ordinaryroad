@@ -59,6 +59,9 @@ public interface ISysRequestPathApi {
     @PostMapping(value = "/request_path/find/id")
     Result<SysRequestPathDTO> findById(@RequestBody SysRequestPathQueryRequest request);
 
+    @PostMapping(value = "/request_path/find/unique")
+    Result<SysRequestPathDTO> findByUniqueColumn(@RequestBody SysRequestPathQueryRequest request);
+
     @PostMapping(value = "/request_path/find_all/permission_uuids")
     Result<List<SysRequestPathDTO>> findAllByPermissionUuids(@RequestBody SysRequestPathQueryRequest request);
 

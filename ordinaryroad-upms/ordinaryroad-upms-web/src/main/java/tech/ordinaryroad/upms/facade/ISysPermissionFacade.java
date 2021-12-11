@@ -71,6 +71,14 @@ public interface ISysPermissionFacade {
     Result<SysPermissionDTO> findById(SysPermissionQueryRequest request);
 
     /**
+     * 根据一对一外键查询
+     *
+     * @param request Request
+     * @return SysPermissionDTO
+     */
+    Result<SysPermissionDTO> findByForeignColumn(SysPermissionQueryRequest request);
+
+    /**
      * 根据主键列表查询
      *
      * @param request Request

@@ -114,6 +114,21 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     }
 
     @Override
+    public Result<SysPermissionDTO> findByForeignColumn(SysPermissionQueryRequest request) {
+        Optional<SysPermissionDO> optional = Optional.empty();
+        String requestRequestPathUuid = request.getRequestPathUuid();
+        String requestPath = request.getRequestPath();
+
+        if (StrUtil.isNotBlank(requestRequestPathUuid)) {
+            optional = sysPermissionService.findByRequestPathUuid(requestRequestPathUuid);
+        } else if (StrUtil.isNotBlank(requestPath)) {
+            optional = sysPermissionService.findByRequestPath(requestPath);
+        }
+
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+    }
+
+    @Override
     public Result<List<SysPermissionDTO>> findAllByIds(BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {

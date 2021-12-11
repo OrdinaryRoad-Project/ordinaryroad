@@ -59,6 +59,9 @@ public interface ISysPermissionApi {
     @PostMapping(value = "/permission/find/id")
     Result<SysPermissionDTO> findById(@RequestBody SysPermissionQueryRequest request);
 
+    @PostMapping(value = "/permission/find/foreign")
+    Result<SysPermissionDTO> findByForeignColumn(@RequestBody SysPermissionQueryRequest request);
+
     @PostMapping(value = "/permission/find_all/ids")
     Result<List<SysPermissionDTO>> findAllByIds(@RequestBody BaseQueryRequest request);
 

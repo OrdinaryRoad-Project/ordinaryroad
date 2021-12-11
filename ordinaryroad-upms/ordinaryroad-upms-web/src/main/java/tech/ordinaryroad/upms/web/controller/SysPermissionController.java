@@ -70,6 +70,11 @@ public class SysPermissionController implements ISysPermissionApi {
     }
 
     @Override
+    public Result<SysPermissionDTO> findByForeignColumn(@RequestBody SysPermissionQueryRequest request) {
+        return sysPermissionFacade.findByForeignColumn(request);
+    }
+
+    @Override
     public Result<List<SysPermissionDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
         return sysPermissionFacade.findAllByIds(request);
     }

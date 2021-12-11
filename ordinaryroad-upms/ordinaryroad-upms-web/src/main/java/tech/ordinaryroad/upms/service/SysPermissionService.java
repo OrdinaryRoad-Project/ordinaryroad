@@ -29,6 +29,7 @@ import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysPermissionDAO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
+import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
@@ -36,6 +37,7 @@ import tk.mybatis.mapper.util.Sqls;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -50,6 +52,10 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
     private SysUsersRolesService sysUsersRolesService;
     @Autowired
     private SysRolesPermissionsService sysRolesPermissionsService;
+    @Autowired
+    private SysRequestPathService sysRequestPathService;
+    @Autowired
+    private SysPermissionService sysPermissionService;
 
     public Optional<SysPermissionDO> findByPermissionCode(String permissionCode) {
         Example example = Example.builder(SysPermissionDO.class)
@@ -90,6 +96,25 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
         // 根据权限uuid查询所有权限
         return this.findIds(SysPermissionDO.class, permissionUuids);
+    }
+
+    public Optional<SysPermissionDO> findByRequestPath(String path) {
+        Optional<SysRequestPathDO> optional = sysRequestPathService.findByPath(path);
+        if (!optional.isPresent()) {
+            return Optional.empty();
+        }
+        SysRequestPathDO sysRequestPathDO = optional.get();
+        String permissionUuid = sysRequestPathDO.getPermissionUuid();
+        return Optional.ofNullable(sysPermissionService.findById(permissionUuid));
+    }
+
+    public Optional<SysPermissionDO> findByRequestPathUuid(String requestPathUuid) {
+        SysRequestPathDO sysRequestPathDO = sysRequestPathService.findById(requestPathUuid);
+        if (Objects.isNull(sysRequestPathDO)) {
+            return Optional.empty();
+        }
+        String permissionUuid = sysRequestPathDO.getPermissionUuid();
+        return Optional.ofNullable(sysPermissionService.findById(permissionUuid));
     }
 
 }
