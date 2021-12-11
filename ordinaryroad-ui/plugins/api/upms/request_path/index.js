@@ -13,7 +13,7 @@ export default {
     return $axios({ url: '/upms/request_path/delete', method: 'post', data })
   },
   update: ({ uuid, permissionUuid, path, pathName }) => {
-    const data = { uuid, permissionUuid, path, pathName }
+    const data = { uuid, permissionUuid: permissionUuid || '', path, pathName }
     return $axios({ url: '/upms/request_path/update', method: 'post', data })
   },
   list: (offset, limit, { path, pathName }) => {

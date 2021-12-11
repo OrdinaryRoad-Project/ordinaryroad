@@ -6,6 +6,7 @@
       :loading="permissionUuidOption.loading"
       hide-no-data
       hide-selected
+      clearable
       item-text="permissionCode"
       item-value="uuid"
       :label="$t('permission')"
