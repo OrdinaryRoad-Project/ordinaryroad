@@ -23,5 +23,9 @@ export default {
   findAll: ({ permissionCode, description }) => {
     const data = { permissionCode, description }
     return $axios({ url: '/upms/permission/find_all', method: 'post', data })
+  },
+  findAllByForeignColumn: ({ roleCode }) => {
+    const data = { roleCode }
+    return $axios({ url: '/upms/permission/find_all/foreign', method: 'post', data })
   }
 }

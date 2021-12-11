@@ -14,11 +14,11 @@
       >
         <template #activator="{ on, attrs }">
           <v-autocomplete
-            v-model="selectedUsers"
+            v-model="selectedPermissions"
             v-bind="attrs"
-            :items="selectedUsers"
+            :items="selectedPermissions"
             multiple
-            :label="$t('user')"
+            :label="$t('permission')"
             readonly
             hide-spin-buttons
             v-on="on"
@@ -26,20 +26,21 @@
             <template #selection="{item}">
               <v-chip
                 close
-                @click:close="$refs.userDataTable.unSelectItem(item)"
+                @click:close="$refs.permissionDataTable.unSelectItem(item)"
               >
-                {{ item.orNumber }} {{ item.username }}
+                {{ item.permissionCode }} {{ item.description }}
               </v-chip>
             </template>
           </v-autocomplete>
         </template>
         <v-sheet class="pa-2">
-          <or-data-table-upms-user
-            ref="userDataTable"
-            :preset-selected-items="presetUsers"
+          <or-data-table-upms-permission
+            ref="permissionDataTable"
+            single-select
+            :preset-selected-items="presetPermissions"
             select-return-object
             show-select
-            @itemsSelected="onUserSelected"
+            @itemsSelected="onPermissionsSelected"
           />
         </v-sheet>
       </v-menu>
@@ -65,7 +66,7 @@
 </template>
 <script>
 export default {
-  name: 'OrFormUpmsRoleUsers',
+  name: 'OrFormUpmsRolePermissions',
   props: {
     preset: {
       type: Object,
@@ -76,8 +77,8 @@ export default {
     }
   },
   data: () => ({
-    presetUsers: [],
-    selectedUsers: [],
+    presetPermissions: [],
+    selectedPermissions: [],
     model: {},
     updating: false
   }),
@@ -85,9 +86,9 @@ export default {
     preset: {
       handler (val) {
         if (val) {
-          this.model = Object.assign({ userUuids: [] }, val)
-          // 查询关联的用户
-          this.initUsers()
+          this.model = Object.assign({ permissionUuids: [] }, val)
+          // 查询关联的权限
+          this.initPermissions()
         }
       },
       deep: true,
@@ -104,30 +105,30 @@ export default {
   mounted () {
   },
   methods: {
-    onUserSelected (users) {
+    onPermissionsSelected (permissions) {
       // 防止重新选中预选的item
-      this.presetUsers = []
-      this.selectedUsers = users
-      this.model.userUuids = []
-      this.selectedUsers.forEach((user) => {
-        this.model.userUuids.push(user.uuid)
+      this.presetPermissions = []
+      this.selectedPermissions = permissions
+      this.model.permissionUuids = []
+      this.selectedPermissions.forEach((permission) => {
+        this.model.permissionUuids.push(permission.uuid)
       })
     },
     validate () {
       return this.$refs.form.validate()
     },
-    initUsers () {
-      // 根据角色code查询users
-      this.$apis.upms.user.findAllByForeignColumn({ roleCode: this.preset.roleCode })
+    initPermissions () {
+      // 根据角色code查询permissions
+      this.$apis.upms.permission.findAllByForeignColumn({ roleCode: this.preset.roleCode })
         .then(({ data }) => {
-          this.presetUsers = data
+          this.presetPermissions = data
         })
     },
     confirm () {
       if (this.$refs.form.validate()) {
         this.updating = true
-        this.$apis.upms.role.updateRoleUsers({
-          roleUuid: this.model.uuid, userUuids: this.model.userUuids
+        this.$apis.upms.role.updateRolePermissions({
+          roleUuid: this.model.uuid, permissionUuids: this.model.permissionUuids
         })
           .then(() => {
             this.$emit('finish')
