@@ -52,7 +52,7 @@
       :title="$t(action+'What',[$t('permission')])"
       @onConfirm="createOrUpdate"
     >
-      <or-form-upms-request-path-save
+      <or-form-upms-permission-save
         ref="permissionForm"
         :preset="selectedItem"
         @update="onItemUpdate"

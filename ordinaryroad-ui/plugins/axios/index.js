@@ -26,15 +26,19 @@ export default function (context, inject) {
       const msg = errorCode[code] || res.data.msg || errorCode.default
       if (code === 2001) {
         store.commit('user/REMOVE_TOKEN_INFO')
-        process.client && context.$dialog({
-          persistent: true,
-          title: '系统提示',
-          content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
-          confirmText: '重新登录'
-        }).then((value) => {
-          // 跳转登录页面
-          router.push({ path: '/user/login', query: { redirect: route.fullPath } })
-        })
+        if (process.client) {
+          if (route.fullPath !== '/user/login') {
+            context.$dialog({
+              persistent: true,
+              title: '系统提示',
+              content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
+              confirmText: '重新登录'
+            }).then((value) => {
+              // 跳转登录页面
+              router.push({ path: '/user/login', query: { redirect: route.fullPath } })
+            })
+          }
+        }
       } else {
         process.client && context.$snackbar.error(msg)
       }
