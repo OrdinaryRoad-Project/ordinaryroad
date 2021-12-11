@@ -20,7 +20,16 @@ export default {
     permission: permissionApis,
     userInfo: ({ saToken }) => {
       const data = { saToken }
-      return $axios({ url: '/upms/userinfo', method: 'post', data })
+      return $axios({
+        url: '/upms/userinfo',
+        method: 'post',
+        data,
+        // 在server端调用的方法必须手动设置header，因为获取不到client的cookie
+        headers: {
+          satoken: saToken,
+          or_api_name: 'userInfo'
+        }
+      })
     }
   }
 }

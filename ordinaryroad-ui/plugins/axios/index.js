@@ -9,7 +9,8 @@ export default function (context, inject) {
   $axios.onRequest((config) => {
     // 将获取到token加入到请求头中
     const tokenInfo = store.getters['user/getTokenInfo']
-    if (tokenInfo) {
+    // 兼容userInfo方法
+    if (tokenInfo && config.headers.common) {
       config.headers.common.satoken = tokenInfo.satoken
     }
   })
