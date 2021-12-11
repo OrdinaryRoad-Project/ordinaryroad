@@ -121,6 +121,22 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   layout: 'empty',
+  async asyncData (context) {
+    const { store, route, redirect, app } = context
+    const { $apis } = app
+    const redirectPath = route.query.redirect || '/upms/user'
+    const tokenInfo = store.getters['user/getTokenInfo']
+    if (tokenInfo) {
+      try {
+        // 登录页面需要重新调用一下，虽然userInfo中间件调用过了，但是那个无法修改client的cookie
+        await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
+        redirect(redirectPath)
+      } catch (e) {
+        // token可能失效，不做任何操作
+      }
+    }
+    return { redirect: redirectPath }
+  },
   data () {
     return {
       loading: false,
@@ -148,14 +164,10 @@ export default {
       }
     }
   },
+  created () {
+    this.getCaptchaImage()
+  },
   mounted () {
-    this.redirect = this.$route.query.redirect || '/upms/user'
-    if (this.$store.getters['user/getTokenInfo']) {
-      this.$router.replace({ path: this.redirect })
-    } else {
-      this.$store.commit('user/REMOVE_USER_INFO')
-      this.getCaptchaImage()
-    }
   },
   methods: {
     ...mapActions('user', {

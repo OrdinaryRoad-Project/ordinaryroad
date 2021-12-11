@@ -5,8 +5,12 @@ export default async function (context) {
   if (!userInfo) {
     const tokenInfo = store.getters['user/getTokenInfo']
     if (tokenInfo) {
-      const { data } = await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
-      store.commit('user/SET_USER_INFO', data)
+      try {
+        const { data } = await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
+        store.commit('user/SET_USER_INFO', data)
+      } catch (e) {
+        redirect({ path: '/user/login', query: { redirect: route.fullPath } })
+      }
     } else {
       redirect({ path: '/user/login', query: { redirect: route.fullPath } })
     }
