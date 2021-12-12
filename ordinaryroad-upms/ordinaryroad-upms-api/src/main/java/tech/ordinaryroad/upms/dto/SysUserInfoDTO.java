@@ -40,18 +40,18 @@ import java.util.List;
 @ApiModel
 public class SysUserInfoDTO extends BaseDTO {
 
-    private static final long serialVersionUID = -2025193752926826624L;
+    private static final long serialVersionUID = -5772557145099185014L;
 
     @ApiModelProperty("用户信息")
     private SysUserDTO user;
 
-    @ApiModelProperty("拥有的所有角色")
-    private List<SysRoleDTO> roles;
+    @ApiModelProperty("拥有的所有角色code列表")
+    private List<String> roles;
 
-    @ApiModelProperty("拥有的所有权限")
-    private List<SysPermissionDTO> permissions;
+    @ApiModelProperty("拥有的所有权限code列表")
+    private List<String> permissions;
 
-    @ApiModelProperty("可以访问的所有请求路径")
-    private List<SysRequestPathDTO> requestPaths;
+    @ApiModelProperty("可以访问的所有请求路径列表")
+    private List<String> requestPaths;
 
 }

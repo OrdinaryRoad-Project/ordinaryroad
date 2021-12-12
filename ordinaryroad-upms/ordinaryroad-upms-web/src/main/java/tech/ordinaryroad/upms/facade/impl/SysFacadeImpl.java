@@ -29,15 +29,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.dto.*;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
+import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
 import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 import tech.ordinaryroad.upms.facade.ISysFacade;
-import tech.ordinaryroad.upms.mapstruct.SysPermissionMapStruct;
-import tech.ordinaryroad.upms.mapstruct.SysRequestPathMapStruct;
-import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
 import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
 import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 import tech.ordinaryroad.upms.service.SysPermissionService;
@@ -60,11 +58,8 @@ public class SysFacadeImpl implements ISysFacade {
     private final SysUserService sysUserService;
     private final SysUserMapStruct sysUserMapStruct;
     private final SysRoleService sysRoleService;
-    private final SysRoleMapStruct sysRoleMapStruct;
     private final SysPermissionService sysPermissionService;
-    private final SysPermissionMapStruct sysPermissionMapStruct;
     private final SysRequestPathService sysRequestPathService;
-    private final SysRequestPathMapStruct sysRequestPathMapStruct;
 
     @Override
     public Result<SysUserInfoDTO> userInfo(SysUserInfoRequest request) {
@@ -87,19 +82,19 @@ public class SysFacadeImpl implements ISysFacade {
 
         // 获取Roles
         List<SysRoleDO> roleDos = sysRoleService.findAllByUserUuid(sysUserDO.getUuid());
-        List<SysRoleDTO> roleDtos = roleDos.stream().map(sysRoleMapStruct::transfer).collect(Collectors.toList());
-        userInfoDTO.setRoles(roleDtos);
+        List<String> roleCodes = roleDos.stream().map(SysRoleDO::getRoleCode).collect(Collectors.toList());
+        userInfoDTO.setRoles(roleCodes);
 
         // 获取Permission
         List<SysPermissionDO> permissionDos = sysPermissionService.findAllByUserUuid(sysUserDO.getUuid());
-        List<SysPermissionDTO> permissionDtos = permissionDos.stream().map(sysPermissionMapStruct::transfer).collect(Collectors.toList());
-        userInfoDTO.setPermissions(permissionDtos);
+        List<String> permissionCodes = permissionDos.stream().map(SysPermissionDO::getPermissionCode).collect(Collectors.toList());
+        userInfoDTO.setPermissions(permissionCodes);
 
         // 获取RequestPath
-        List<String> permissionUuids = permissionDtos.stream().map(SysPermissionDTO::getUuid).collect(Collectors.toList());
+        List<String> permissionUuids = permissionDos.stream().map(SysPermissionDO::getUuid).collect(Collectors.toList());
         List<SysRequestPathDO> requestPathDos = sysRequestPathService.findAllByPermissionUuids(permissionUuids);
-        List<SysRequestPathDTO> requestPathDtos = requestPathDos.stream().map(sysRequestPathMapStruct::transfer).collect(Collectors.toList());
-        userInfoDTO.setRequestPaths(requestPathDtos);
+        List<String> requestPaths = requestPathDos.stream().map(SysRequestPathDO::getPath).collect(Collectors.toList());
+        userInfoDTO.setRequestPaths(requestPaths);
 
         return Result.success(userInfoDTO);
     }
