@@ -42,7 +42,10 @@ import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.facade.ISysRoleFacade;
 import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
-import tech.ordinaryroad.upms.request.*;
+import tech.ordinaryroad.upms.request.SysRolePermissionsSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
+import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 import tech.ordinaryroad.upms.service.SysRoleService;
 import tech.ordinaryroad.upms.service.SysRolesPermissionsService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
@@ -184,59 +187,6 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
         List<SysRoleDO> all = sysRoleService.findAllByUserUuid(userUuid);
         List<SysRoleDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
         return Result.success(list);
-    }
-
-    @Override
-    @Transactional(rollbackFor = Exception.class)
-    public Result<Boolean> updateUserRoles(SysUserRolesSaveRequest request) {
-        String userUuid = request.getUserUuid();
-
-        // 最新的角色uuids
-        List<String> roleUuids = request.getRoleUuids();
-
-        // 本地的角色uuids
-        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
-
-        // 需要新增的用户角色关联关系实体类
-        List<SysUsersRolesDO> needInsertList = new ArrayList<>();
-        // 需要删除的用户角色关联关系uuids
-        List<String> needDeleteList = new ArrayList<>();
-
-        roleUuids.forEach(roleUuid -> {
-            // 判断是否需要新增
-            boolean find = false;
-            for (SysUsersRolesDO sysUsersRolesDO : allByUserUuid) {
-                if (sysUsersRolesDO.getRoleUuid().equals(roleUuid)) {
-                    find = true;
-                    break;
-                }
-            }
-            if (!find) {
-                SysUsersRolesDO sysUsersRolesDO = new SysUsersRolesDO();
-                sysUsersRolesDO.setUserUuid(userUuid);
-                sysUsersRolesDO.setRoleUuid(roleUuid);
-                needInsertList.add(sysUsersRolesDO);
-            }
-        });
-        allByUserUuid.forEach(sysUsersRolesDO -> {
-            // 最新的不存在，需要删除的
-            if (!roleUuids.contains(sysUsersRolesDO.getRoleUuid())) {
-                needDeleteList.add(sysUsersRolesDO.getUuid());
-            }
-        });
-
-        if (CollUtil.isEmpty(needDeleteList) && CollUtil.isEmpty(needInsertList)) {
-            return Result.success(Boolean.FALSE);
-        } else {
-            if (CollUtil.isNotEmpty(needDeleteList)) {
-                sysUsersRolesService.deleteByIdList(SysUsersRolesDO.class, needDeleteList);
-            }
-            if (CollUtil.isNotEmpty(needInsertList)) {
-                sysUsersRolesService.insertList(needInsertList);
-            }
-        }
-
-        return Result.success(true);
     }
 
     @Override

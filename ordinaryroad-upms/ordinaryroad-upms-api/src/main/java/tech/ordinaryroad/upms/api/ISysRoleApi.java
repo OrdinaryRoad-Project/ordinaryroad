@@ -34,7 +34,10 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
-import tech.ordinaryroad.upms.request.*;
+import tech.ordinaryroad.upms.request.SysRolePermissionsSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
+import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 
 import java.util.List;
 
@@ -72,9 +75,6 @@ public interface ISysRoleApi {
 
     @PostMapping(value = "/role/list")
     Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request);
-
-    @PostMapping(value = "/role/update/user_roles")
-    Result<Boolean> updateUserRoles(@Validated @RequestBody SysUserRolesSaveRequest request);
 
     @PostMapping(value = "/role/update/role_users")
     Result<Boolean> updateRoleUsers(@Validated @RequestBody SysRoleUsersSaveRequest request);

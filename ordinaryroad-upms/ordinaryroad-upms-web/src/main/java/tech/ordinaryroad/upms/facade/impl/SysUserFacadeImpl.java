@@ -24,6 +24,7 @@
 package tech.ordinaryroad.upms.facade.impl;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -39,18 +40,15 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
+import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.facade.ISysUserFacade;
 import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
 import tech.ordinaryroad.upms.request.*;
-import tech.ordinaryroad.upms.service.SysRoleService;
 import tech.ordinaryroad.upms.service.SysUserService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
 import javax.validation.constraints.NotNull;
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -63,7 +61,6 @@ import java.util.stream.Collectors;
 public class SysUserFacadeImpl implements ISysUserFacade {
 
     private final SysUserService sysUserService;
-    private final SysRoleService sysRoleService;
     private final SysUsersRolesService sysUsersRolesService;
     private final SysUserMapStruct objMapStruct;
     private final PasswordEncoder passwordEncoder;
@@ -308,6 +305,59 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         }
         List<SysUserDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
         return Result.success(list);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result<Boolean> updateUserRoles(SysUserRolesSaveRequest request) {
+        String uuid = request.getUuid();
+
+        // 最新的角色uuids
+        List<String> roleUuids = request.getRoleUuids();
+
+        // 本地的角色uuids
+        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(uuid);
+
+        // 需要新增的用户角色关联关系实体类
+        List<SysUsersRolesDO> needInsertList = new ArrayList<>();
+        // 需要删除的用户角色关联关系uuids
+        List<String> needDeleteList = new ArrayList<>();
+
+        roleUuids.forEach(roleUuid -> {
+            // 判断是否需要新增
+            boolean find = false;
+            for (SysUsersRolesDO sysUsersRolesDO : allByUserUuid) {
+                if (sysUsersRolesDO.getRoleUuid().equals(roleUuid)) {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find) {
+                SysUsersRolesDO sysUsersRolesDO = new SysUsersRolesDO();
+                sysUsersRolesDO.setUserUuid(uuid);
+                sysUsersRolesDO.setRoleUuid(roleUuid);
+                needInsertList.add(sysUsersRolesDO);
+            }
+        });
+        allByUserUuid.forEach(sysUsersRolesDO -> {
+            // 最新的不存在，需要删除的
+            if (!roleUuids.contains(sysUsersRolesDO.getRoleUuid())) {
+                needDeleteList.add(sysUsersRolesDO.getUuid());
+            }
+        });
+
+        if (CollUtil.isEmpty(needDeleteList) && CollUtil.isEmpty(needInsertList)) {
+            return Result.success(Boolean.FALSE);
+        } else {
+            if (CollUtil.isNotEmpty(needDeleteList)) {
+                sysUsersRolesService.deleteByIdList(SysUsersRolesDO.class, needDeleteList);
+            }
+            if (CollUtil.isNotEmpty(needInsertList)) {
+                sysUsersRolesService.insertList(needInsertList);
+            }
+        }
+
+        return Result.success(true);
     }
 
     @Nullable

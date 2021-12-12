@@ -32,10 +32,6 @@ export default {
     const data = { userUuid }
     return $axios({ url: '/upms/role/find_all/user_uuid', method: 'post', data })
   },
-  updateUserRoles: ({ userUuid, roleUuids }) => {
-    const data = { userUuid, roleUuids }
-    return $axios({ url: '/upms/role/update/user_roles', method: 'post', data })
-  },
   updateRoleUsers: ({ roleUuid, userUuids }) => {
     const data = { roleUuid, userUuids }
     return $axios({ url: '/upms/role/update/role_users', method: 'post', data })

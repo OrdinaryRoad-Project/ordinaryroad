@@ -44,12 +44,12 @@ import java.util.List;
 @ApiModel
 public class SysUserRolesSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 3675384556752998450L;
+    private static final long serialVersionUID = -3613401589600347626L;
 
-    @ApiModelProperty("用户uuid")
-    @NotBlank(message = "用户uuid不能为空")
-    @Size(max = 32, message = "用户uuid长度不能超过32")
-    private String userUuid;
+    @ApiModelProperty(value = "主键uuid", required = true)
+    @NotBlank(message = "主键uuid不能为空")
+    @Size(max = 32, message = "主键uuid长度不能超过32")
+    private String uuid;
 
     @ApiModelProperty("角色uuid列表")
     private List<String> roleUuids;

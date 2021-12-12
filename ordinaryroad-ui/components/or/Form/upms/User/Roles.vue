@@ -130,9 +130,7 @@ export default {
     confirm () {
       if (this.$refs.form.validate()) {
         this.updating = true
-        this.$apis.upms.role.updateUserRoles({
-          userUuid: this.model.uuid, roleUuids: this.model.roleUuids
-        })
+        this.$apis.upms.user.updateUserRoles(this.model)
           .then(() => {
             this.$emit('finish')
             this.updating = false

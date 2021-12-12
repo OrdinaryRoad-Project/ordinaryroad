@@ -51,5 +51,9 @@ export default {
   updateEnabled: (uuid, enabled) => {
     const data = { uuid, enabled }
     return $axios({ url: '/upms/user/update/enabled', method: 'post', data })
+  },
+  updateUserRoles: ({ uuid, roleUuids }) => {
+    const data = { uuid, roleUuids }
+    return $axios({ url: '/upms/user/update/user_roles', method: 'post', data })
   }
 }

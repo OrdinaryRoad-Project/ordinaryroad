@@ -98,4 +98,7 @@ public interface ISysUserApi {
 
     @PostMapping(value = "/user/update/enabled")
     Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request);
+
+    @PostMapping(value = "/user/update/user_roles")
+    Result<Boolean> updateUserRoles(@Validated @RequestBody SysUserRolesSaveRequest request);
 }

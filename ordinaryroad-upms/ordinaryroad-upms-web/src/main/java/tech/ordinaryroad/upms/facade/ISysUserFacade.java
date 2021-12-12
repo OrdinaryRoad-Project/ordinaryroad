@@ -142,4 +142,12 @@ public interface ISysUserFacade {
      * @return Result
      */
     Result<List<SysUserDTO>> findAllByForeignColumn(SysUserQueryRequest request);
+
+    /**
+     * 更新用户拥有的角色，删除或新增
+     *
+     * @param request Request
+     * @return Result，True表示发生改动
+     */
+    Result<Boolean> updateUserRoles(SysUserRolesSaveRequest request);
 }

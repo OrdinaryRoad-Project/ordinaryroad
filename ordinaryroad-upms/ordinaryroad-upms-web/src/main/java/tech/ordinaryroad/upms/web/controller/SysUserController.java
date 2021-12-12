@@ -122,4 +122,9 @@ public class SysUserController implements ISysUserApi {
     public Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request) {
         return sysUserFacade.findAllByForeignColumn(request);
     }
+
+    @Override
+    public Result<Boolean> updateUserRoles(@RequestBody @Validated SysUserRolesSaveRequest request) {
+        return sysUserFacade.updateUserRoles(request);
+    }
 }
