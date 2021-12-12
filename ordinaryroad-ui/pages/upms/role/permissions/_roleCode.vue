@@ -17,7 +17,7 @@ export default {
   }),
   head () {
     return {
-      title: this.$t('roleUsersManagement')
+      title: this.$t('rolePermissionsManagement')
     }
   },
   created () {

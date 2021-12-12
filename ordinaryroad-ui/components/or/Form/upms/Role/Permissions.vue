@@ -6,10 +6,9 @@
         readonly
         :label="$t('roleCode')"
       />
-      <v-menu
+      <or-base-menu
         min-width="40%"
         eager
-        offset-y
         :close-on-content-click="false"
       >
         <template #activator="{ on, attrs }">
@@ -42,7 +41,7 @@
             @itemsSelected="onPermissionsSelected"
           />
         </v-sheet>
-      </v-menu>
+      </or-base-menu>
     </v-form>
     <v-row>
       <v-spacer />

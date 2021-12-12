@@ -125,7 +125,7 @@
 
         <slot name="actions" :item="item" />
 
-        <v-menu
+        <or-base-menu
           v-if="$scopedSlots.moreActions"
           offset-y
           open-on-hover
@@ -145,7 +145,7 @@
           <v-list dense>
             <slot name="moreActions" :item="item" />
           </v-list>
-        </v-menu>
+        </or-base-menu>
       </div>
     </template>
   </v-data-table>
