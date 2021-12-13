@@ -104,8 +104,6 @@ export default {
   },
   methods: {
     onUserSelected (users) {
-      // 防止重新选中预选的item
-      this.presetUsers = []
       this.selectedUsers = users
       this.model.userUuids = []
       this.selectedUsers.forEach((user) => {

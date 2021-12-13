@@ -104,8 +104,6 @@ export default {
   },
   methods: {
     onPermissionsSelected (permissions) {
-      // 防止重新选中预选的item
-      this.presetPermissions = []
       this.selectedPermissions = permissions
       this.model.permissionUuids = []
       this.selectedPermissions.forEach((permission) => {

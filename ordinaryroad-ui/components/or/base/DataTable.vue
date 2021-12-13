@@ -186,7 +186,6 @@ export default {
   },
   data () {
     return {
-      initialized: false,
       deleteDialog: null,
       options: {},
       dataTableParams: {
@@ -196,7 +195,9 @@ export default {
       },
       selectedItems: [],
       selectedIndex: -1,
-      selectedItem: {}
+      selectedItem: {},
+      // 考虑到需要选中的当前没有加载到的情况，null代表还没初始化，空代表全部加载完了
+      presetSelectedItemsModel: null
     }
   },
   computed: {
@@ -312,11 +313,12 @@ export default {
         return
       }
       if (value) {
-        this.selectedItems.push(this.selectReturnObject ? Object.assign({}, item) : item.uuid)
-      } else if (this.selectReturnObject) {
-        this.selectedItems = this.$util.remove(this.selectedItems, 'uuid', item.uuid)
+        // 防止重复
+        if (!this.$util.query(this.selectedItems, 'uuid', this.selectReturnObject ? item.uuid : item)[0]) {
+          this.selectedItems.push(this.selectReturnObject ? Object.assign({}, item) : item.uuid)
+        }
       } else {
-        this.selectedItems.splice(this.selectedItems.indexOf(item.uuid), 1)
+        this.selectedItems = this.$util.remove(this.selectedItems, 'uuid', this.selectReturnObject ? item.uuid : item)
       }
       this.$emit('itemsSelected', this.selectedItems)
     },
@@ -393,14 +395,33 @@ export default {
      */
     setPresetSelectedItems () {
       setTimeout(() => {
-        this.presetSelectedItems.forEach((presetSelectedItem) => {
+        // 初始化内部的presetSelectedItemsModel
+        if (this.presetSelectedItemsModel === null) {
+          this.presetSelectedItemsModel = [...this.presetSelectedItems]
+        }
+        // 已经更新到UI的，需要从presetSelectedItemsModel中删除掉，防止重新选中
+        const needDelete = []
+        // 遍历更新UI
+        this.presetSelectedItemsModel.forEach((presetSelectedItem) => {
           const selectedItem = this.$util.query(
             this.dataTableParams.items, 'uuid',
             this.selectReturnObject ? presetSelectedItem.uuid : presetSelectedItem
           )[0]
-          if (!this.$refs.table.isSelected(selectedItem)) {
-            this.$refs.table.select(selectedItem)
+          if (selectedItem) {
+            // 已加载，更新UI，触发VDataTable回调
+            if (!this.$refs.table.isSelected(selectedItem)) {
+              this.$refs.table.select(selectedItem)
+            }
+            needDelete.push(selectedItem)
           }
+        })
+        // 删除已经更新到UI上的
+        needDelete.forEach((item) => {
+          this.presetSelectedItemsModel = this.$util.remove(this.presetSelectedItemsModel, 'uuid', item.uuid)
+        })
+        // 剩余选中的，但是VDataTable还没有加载到
+        this.presetSelectedItemsModel.forEach((item) => {
+          this.onItemSelected({ item, value: true })
         })
       }, 200)
     }
