@@ -123,6 +123,8 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         SysUserDO sysUserDO = objMapStruct.transfer(request);
         // 不允许更新密码
         sysUserDO.setPassword(null);
+        // 不允许更新邮箱
+        sysUserDO.setEmail(null);
         return Result.success(objMapStruct.transfer(sysUserService.updateSelective(sysUserDO)));
     }
 

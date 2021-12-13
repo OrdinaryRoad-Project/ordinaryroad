@@ -2,6 +2,7 @@
   <v-form ref="form">
     <v-text-field
       v-model="model.email"
+      disabled
       :rules="[$rules.required,$rules.max100Chars,$rules.email]"
       :label="$t('email')"
     />
