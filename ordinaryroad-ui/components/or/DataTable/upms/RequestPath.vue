@@ -47,6 +47,10 @@
           />
         </v-col>
       </template>
+
+      <template #[`item.permission`]="{item}">
+        {{ item.permission && item.permission.permissionCode }}
+      </template>
     </or-base-data-table>
     <or-base-dialog
       ref="requestPathDialog"
@@ -122,7 +126,7 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: this.$t('permissionUuid'), value: 'permissionUuid', sortable: false, width: '300' },
+        { text: this.$t('permission'), value: 'permission', sortable: false, width: '300' },
         { text: this.$t('path'), value: 'path', sortable: false },
         { text: this.$t('pathName'), value: 'pathName', sortable: false, width: '200' }
       ]

@@ -21,37 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.dto;
+package tech.ordinaryroad.upms.service;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+import cn.hutool.core.util.StrUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
+import tech.ordinaryroad.upms.mapstruct.SysPermissionMapStruct;
+
+import java.util.Objects;
 
 /**
+ * 设置DTO字段服务类
+ *
  * @author mjz
- * @date 2021/11/8
+ * @date 2021/12/13
  */
-@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
-@Data
-@ApiModel
-public class SysRequestPathDTO extends BaseModelDTO {
+@RequiredArgsConstructor
+@Service
+public class SysDtoService {
 
-    private static final long serialVersionUID = -3446058922874347759L;
+    private final SysPermissionService sysPermissionService;
+    private final SysPermissionMapStruct sysPermissionMapStruct;
 
-    @ApiModelProperty("请求路径所需要的权限uuid")
-    private String permissionUuid;
-
-    @EqualsAndHashCode.Include
-    @ApiModelProperty("路径url")
-    private String path;
-
-    @EqualsAndHashCode.Include
-    @ApiModelProperty("路径名称")
-    private String pathName;
-
-    @ApiModelProperty("请求路径所需要的权限DTO")
-    private SysPermissionDTO permission;
+    public void setPermissionDTO(String permissionUuid, SysRequestPathDTO sysRequestPathDto) {
+        if (Objects.isNull(sysRequestPathDto)) {
+            return;
+        }
+        if (StrUtil.isNotBlank(permissionUuid)) {
+            sysRequestPathDto.setPermission(sysPermissionMapStruct.transfer(sysPermissionService.findById(permissionUuid)));
+        }
+    }
 
 }

@@ -41,6 +41,7 @@ import tech.ordinaryroad.upms.facade.ISysRequestPathFacade;
 import tech.ordinaryroad.upms.mapstruct.SysRequestPathMapStruct;
 import tech.ordinaryroad.upms.request.SysRequestPathQueryRequest;
 import tech.ordinaryroad.upms.request.SysRequestPathSaveRequest;
+import tech.ordinaryroad.upms.service.SysDtoService;
 import tech.ordinaryroad.upms.service.SysPermissionService;
 import tech.ordinaryroad.upms.service.SysRequestPathService;
 
@@ -61,6 +62,7 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
     private final SysRequestPathService sysRequestPathService;
     private final SysRequestPathMapStruct objMapStruct;
     private final SysPermissionService sysPermissionService;
+    private final SysDtoService sysDtoService;
 
     @Override
     public Result<SysRequestPathDTO> create(SysRequestPathSaveRequest request) {
@@ -177,7 +179,11 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
         SysRequestPathDO sysRequestPathDO = objMapStruct.transfer(request);
         Page<SysRequestPathDO> all = (Page<SysRequestPathDO>) sysRequestPathService.findAll(sysRequestPathDO);
 
-        PageInfo<SysRequestPathDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
+        PageInfo<SysRequestPathDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, sysUserDO -> {
+            SysRequestPathDTO sysRequestPathDto = objMapStruct.transfer(sysUserDO);
+            sysDtoService.setPermissionDTO(sysUserDO.getPermissionUuid(), sysRequestPathDto);
+            return sysRequestPathDto;
+        });
 
         return Result.success(objectPageInfo);
     }
