@@ -53,14 +53,7 @@ export const actions = {
           commit('user/SET_USER_INFO', data)
 
           // 更新本地可以访问的accessibleMenuItems
-          const menuItems = store.getters['app/getMenuItems']
-          const accessibleMenuItems = []
-          menuItems.forEach((item) => {
-            if ($access.has(item.meta.permission)) {
-              accessibleMenuItems.push(item)
-            }
-          })
-          commit('app/SET_ACCESSIBLE_MENU_ITEMS', accessibleMenuItems)
+          commit('app/UPDATE_ACCESSIBLE_MENU_ITEMS', $access)
         } catch {
           // Token无效或其他异常，不做任何操作
         }

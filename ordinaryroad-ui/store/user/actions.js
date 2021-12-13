@@ -1,5 +1,5 @@
 export default {
-  login ({ commit }, { params, $apis }) {
+  login ({ commit }, { params, $apis, $access, $store }) {
     // TODO 密码非对称加密
     return new Promise((resolve, reject) => {
       $apis.user.login(params)
@@ -8,6 +8,7 @@ export default {
           delete tokenInfo.userInfo
           commit('SET_TOKEN_INFO', tokenInfo)
           commit('SET_USER_INFO', data.userInfo)
+          $store.commit('app/UPDATE_ACCESSIBLE_MENU_ITEMS', $access)
           resolve()
         }).catch((error) => {
           reject(error)

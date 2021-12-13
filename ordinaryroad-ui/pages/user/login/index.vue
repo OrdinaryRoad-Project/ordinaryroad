@@ -181,7 +181,9 @@ export default {
             code: this.code,
             rememberMe: this.rememberMe
           },
-          $apis: this.$apis
+          $apis: this.$apis,
+          $access: this.$access,
+          $store: this.$store
         }).then(() => {
           this.loading = false
           this.$router.replace({ path: this.redirect })
