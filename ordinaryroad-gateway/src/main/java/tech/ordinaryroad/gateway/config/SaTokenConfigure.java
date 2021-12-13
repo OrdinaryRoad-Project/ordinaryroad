@@ -17,7 +17,6 @@ import tech.ordinaryroad.upms.api.ISysPermissionApi;
 import tech.ordinaryroad.upms.dto.SysPermissionDTO;
 import tech.ordinaryroad.upms.request.SysPermissionQueryRequest;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -43,8 +42,7 @@ public class SaTokenConfigure {
         thread.setName("gateway sa-token拦截器");
         return thread;
     });
-    private static final String DEMO_MODE_ALLOWED_PATH_PATTERN = "^(/[^/]+){2}/list$";
-    private static final List<String> DEMO_MODE_ALLOWED_PATH_LIST = Arrays.asList("/upms/userinfo");
+    private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(create|update|delete|reset).*$";
 
     /**
      * 注册 Sa-Token全局过滤器
@@ -92,12 +90,8 @@ public class SaTokenConfigure {
                         log.info("Sa-Token Filter, path:{}", requestPath);
 
                         // 演示模式，并且不是允许的操作，拦截掉
-                        if (properties.getDemoMode()) {
-                            if (!requestPath.matches(DEMO_MODE_ALLOWED_PATH_PATTERN)) {
-                                if (!DEMO_MODE_ALLOWED_PATH_LIST.contains(requestPath)) {
-                                    throw new BaseException(StatusCode.DEMO_MODE_FAIL);
-                                }
-                            }
+                        if (properties.getDemoMode() && requestPath.matches(DEMO_MODE_NOT_ALLOWED_PATH_PATTERN)) {
+                            throw new BaseException(StatusCode.DEMO_MODE_FAIL);
                         }
 
                         // 2. 获取路径所需权限
