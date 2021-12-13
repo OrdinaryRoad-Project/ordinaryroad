@@ -21,34 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.gateway;
+package tech.ordinaryroad.gateway.properties;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
-import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
+import lombok.Data;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
  * @author mjz
- * @date 2021/10/29
+ * @date 2021/12/13
  */
-@Slf4j
-@EnableConfigurationProperties({OrGatewayProperties.class})
-@EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.*.api"})
-@SpringBootApplication
-public class OrdinaryRoadGatewayApp {
+@Data
+@ConfigurationProperties(prefix = "ordinaryroad.gateway")
+public class OrGatewayProperties {
 
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadGatewayApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
-    }
+    @Value("${demoMode:false}")
+    private Boolean demoMode;
 
 }

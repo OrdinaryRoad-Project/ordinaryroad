@@ -15,6 +15,7 @@ public enum StatusCode implements IStatusCode {
     COMMON_EXCEPTION(900, "系统异常"),
     /* 默认失败 */
     COMMON_FAIL(901, "操作失败"),
+    DEMO_MODE_FAIL(902, "演示模式不允许操作"),
 
     /* 参数错误：1000～1999 */
     PARAM_NOT_VALID(1001, "参数无效"),
