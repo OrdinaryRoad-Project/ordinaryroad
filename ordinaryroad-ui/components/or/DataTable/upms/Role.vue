@@ -8,6 +8,7 @@
       :show-actions-when-selecting="showActionsWhenSelecting"
       :preset-selected-items="presetSelectedItems"
       :table-headers="headers"
+      access-key="upms:role"
       @getItems="onGetItems"
       @insertItem="onInsertItem"
       @deleteItem="onDeleteItem"
@@ -47,8 +48,13 @@
         </v-col>
       </template>
 
-      <template #moreActions="{item}">
+      <template
+        v-if="$access.has('upms:role:update:role_permissions')&&$access.has('upms:permission:list')
+          ||($access.has('upms:role:update:role_users')&&$access.has('upms:user:list'))"
+        #moreActions="{item}"
+      >
         <v-list-item
+          v-if="$access.has('upms:role:update:role_permissions')&&$access.has('upms:permission:list')"
           @click="$router.push({ name: 'upms-role-permissions-roleCode', params: { roleCode: item.roleCode, item } })"
         >
           <v-list-item-avatar size="16">
@@ -59,6 +65,7 @@
           <v-list-item-title>{{ $t('rolePermissionsManagement') }}</v-list-item-title>
         </v-list-item>
         <v-list-item
+          v-if="$access.has('upms:role:update:role_users')&&$access.has('upms:user:list')"
           @click="$router.push({ name: 'upms-role-users-roleCode', params: { roleCode: item.roleCode, item } })"
         >
           <v-list-item-avatar size="16">

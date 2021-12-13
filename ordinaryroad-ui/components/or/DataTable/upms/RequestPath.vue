@@ -8,6 +8,7 @@
       :show-actions-when-selecting="showActionsWhenSelecting"
       :preset-selected-items="presetSelectedItems"
       :table-headers="headers"
+      access-key="upms:request_path"
       @getItems="onGetItems"
       @insertItem="onInsertItem"
       @deleteItem="onDeleteItem"

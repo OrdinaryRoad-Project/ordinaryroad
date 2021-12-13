@@ -56,7 +56,7 @@
           md="4"
         >
           <v-btn
-            v-if="!hideActions"
+            v-if="(!accessKey||$access.has(accessKey+':create'))&&!hideActions"
             outlined
             color="primary"
             dark
@@ -108,6 +108,7 @@
             :'v-sheet theme--light elevation-1 d-flex'"
       >
         <v-btn
+          v-if="(!accessKey||$access.has(accessKey+':update'))"
           icon
           color="accent"
           class="mr-2"
@@ -116,6 +117,7 @@
           <v-icon>mdi-pencil</v-icon>
         </v-btn>
         <v-btn
+          v-if="(!accessKey||$access.has(accessKey+':delete'))"
           icon
           color="error"
           @click="deleteItem(item)"
@@ -182,6 +184,13 @@ export default {
     tableHeaders: {
       type: Array,
       required: true
+    },
+    /**
+     *   用于控制编辑和删除按钮是否生效
+     */
+    accessKey: {
+      type: String,
+      default: null
     }
   },
   data () {

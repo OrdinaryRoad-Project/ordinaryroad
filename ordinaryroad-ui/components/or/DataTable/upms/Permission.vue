@@ -8,6 +8,7 @@
       :show-actions-when-selecting="showActionsWhenSelecting"
       :preset-selected-items="presetSelectedItems"
       :table-headers="headers"
+      access-key="upms:permission"
       @getItems="onGetItems"
       @insertItem="onInsertItem"
       @deleteItem="onDeleteItem"

@@ -8,6 +8,7 @@
       :show-actions-when-selecting="showActionsWhenSelecting"
       :preset-selected-items="presetSelectedItems"
       :table-headers="headers"
+      access-key="upms:user"
       @getItems="onGetItems"
       @insertItem="onInsertItem"
       @deleteItem="onDeleteItem"
@@ -66,14 +67,21 @@
         <v-switch
           v-model="item.enabled"
           readonly
-          :disabled="showSelect&&!showActionsWhenSelecting"
+          :disabled="!canUpdateUserEnabled"
           inset
           @click="updateItemEnabled(item)"
         />
       </template>
 
-      <template #moreActions="{item}">
-        <v-list-item @click="resetItemPassword(item)">
+      <template
+        v-if="$access.has('upms:user:reset:password')
+          ||($access.has('upms:user:update:user_roles')&&$access.has('upms:role:list'))"
+        #moreActions="{item}"
+      >
+        <v-list-item
+          v-if="$access.has('upms:user:reset:password')"
+          @click="resetItemPassword(item)"
+        >
           <v-list-item-avatar size="16">
             <v-icon small>
               mdi-lock
@@ -81,7 +89,10 @@
           </v-list-item-avatar>
           <v-list-item-title>{{ $t('resetPassword') }}</v-list-item-title>
         </v-list-item>
-        <v-list-item @click="updateItemRoles(item)">
+        <v-list-item
+          v-if="$access.has('upms:user:update:user_roles')&&$access.has('upms:role:list')"
+          @click="updateItemRoles(item)"
+        >
           <v-list-item-avatar size="16">
             <v-icon small>
               mdi-account-multiple
@@ -189,6 +200,9 @@ export default {
     },
     action () {
       return this.selectedIndex === -1 ? 'create' : 'update'
+    },
+    canUpdateUserEnabled () {
+      return !(!this.$access.has('upms:user:update:enabled') || (this.showSelect && !this.showActionsWhenSelecting))
     }
   },
   watch: {},
@@ -198,7 +212,7 @@ export default {
   },
   methods: {
     updateItemEnabled (item) {
-      if (this.showSelect && !this.showActionsWhenSelecting) {
+      if (!this.canUpdateUserEnabled) {
         return
       }
       const actionKey = item.enabled ? 'disable' : 'enable'
