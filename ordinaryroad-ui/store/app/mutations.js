@@ -20,6 +20,7 @@ export default {
     updateTheme(value, $vuetify)
   },
   SET_MENU_ITEMS: (state, value) => (state.menuItems = value),
+  SET_ACCESSIBLE_MENU_ITEMS: (state, value) => (state.accessibleMenuItems = value),
   TOGGLE_DRAWER_MINI_VARIANT: (state) => {
     state.drawerMiniVariant = !state.drawerMiniVariant
     setDrawerMiniVariant(state.drawerMiniVariant)

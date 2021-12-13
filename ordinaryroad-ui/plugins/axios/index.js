@@ -27,7 +27,7 @@ export default function (context, inject) {
       if (code === 2001) {
         store.commit('user/REMOVE_TOKEN_INFO')
         if (process.client) {
-          if (route.path !== '/user/login') {
+          if (route.path !== '/') {
             context.$dialog({
               persistent: true,
               title: '系统提示',

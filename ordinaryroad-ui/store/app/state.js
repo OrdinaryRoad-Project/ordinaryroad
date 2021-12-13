@@ -16,24 +16,37 @@ export default () => ({
     {
       titleKey: 'menuTitles.userManagement',
       to: '/upms/user',
-      icon: 'mdi-account'
+      icon: 'mdi-account',
+      meta: {
+        permission: 'upms:user:list'
+      }
     },
     {
       titleKey: 'menuTitles.roleManagement',
       to: '/upms/role',
-      icon: 'mdi-account-multiple'
+      icon: 'mdi-account-multiple',
+      meta: {
+        permission: 'upms:role:list'
+      }
     },
     {
       titleKey: 'menuTitles.permissionManagement',
       to: '/upms/permission',
-      icon: 'mdi-lock'
+      icon: 'mdi-lock',
+      meta: {
+        permission: 'upms:permission:list'
+      }
     },
     {
       titleKey: 'menuTitles.requestPathManagement',
       to: '/upms/request_path',
-      icon: 'mdi-menu'
+      icon: 'mdi-menu',
+      meta: {
+        permission: 'upms:request_path:list'
+      }
     }
   ],
+  accessibleMenuItems: [],
   titleKey: null,
   image: 'http://rekryt.ru/files/sidebar-2.32103624.jpg',
   themeOptions: [

@@ -231,7 +231,7 @@ export default {
       drawerClipped: 'getDrawerClipped',
       selectedThemeOption: 'getSelectedThemeOption',
       themeOptions: 'getThemeOptions',
-      menuItems: 'getMenuItems',
+      menuItems: 'getAccessibleMenuItems',
       titleKey: 'getTitleKey',
       userMenuItems: 'getUserMenuItems'
     }),

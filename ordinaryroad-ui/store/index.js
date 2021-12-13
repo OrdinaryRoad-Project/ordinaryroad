@@ -32,7 +32,7 @@ function getObjectFromCookie (string, key, defaultValue) {
 }
 
 export const actions = {
-  async nuxtServerInit ({ commit }, { $vuetify, $apis, req, app }) {
+  async nuxtServerInit ({ commit }, { $vuetify, $apis, $access, req, app }) {
     const store = app.store
     // 初始化，可以获取初始值
     if (typeof req !== 'undefined' && req.headers && req.headers.cookie) {
@@ -51,6 +51,16 @@ export const actions = {
           const { data } = await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
           commit('user/SET_TOKEN_INFO', tokenInfo)
           commit('user/SET_USER_INFO', data)
+
+          // 更新本地可以访问的accessibleMenuItems
+          const menuItems = store.getters['app/getMenuItems']
+          const accessibleMenuItems = []
+          menuItems.forEach((item) => {
+            if ($access.has(item.meta.permission)) {
+              accessibleMenuItems.push(item)
+            }
+          })
+          commit('app/SET_ACCESSIBLE_MENU_ITEMS', accessibleMenuItems)
         } catch {
           // Token无效或其他异常，不做任何操作
         }

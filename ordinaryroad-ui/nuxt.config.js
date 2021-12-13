@@ -29,6 +29,8 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // 权限插件
+    '~/plugins/access/index.js',
     // api插件
     '@/plugins/api/index',
     // axios拦截器等
@@ -42,6 +44,7 @@ export default {
     // 路由插件
     '~/plugins/router/statistics/index.js',
     '~/plugins/router/title.js',
+    { src: '~/plugins/router/access.js', mode: 'client' },
     // vuetify client mode
     { src: '~/plugins/vuetify/index.js', mode: 'client' }
   ],
@@ -104,5 +107,8 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {},
+
+  // https://nuxtjs.org/docs/configuration-glossary/configuration-router
+  router: {}
 }
