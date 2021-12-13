@@ -29,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
@@ -36,6 +37,7 @@ import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 import tech.ordinaryroad.upms.facade.ISysFacade;
+import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
 import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
 import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 import tech.ordinaryroad.upms.service.SysPermissionService;
@@ -58,6 +60,7 @@ public class SysFacadeImpl implements ISysFacade {
     private final SysUserService sysUserService;
     private final SysUserMapStruct sysUserMapStruct;
     private final SysRoleService sysRoleService;
+    private final SysRoleMapStruct sysRoleMapStruct;
     private final SysPermissionService sysPermissionService;
     private final SysRequestPathService sysRequestPathService;
 
@@ -82,8 +85,8 @@ public class SysFacadeImpl implements ISysFacade {
 
         // 获取Roles
         List<SysRoleDO> roleDos = sysRoleService.findAllByUserUuid(sysUserDO.getUuid());
-        List<String> roleCodes = roleDos.stream().map(SysRoleDO::getRoleCode).collect(Collectors.toList());
-        userInfoDTO.setRoles(roleCodes);
+        List<SysRoleDTO> roleDtos = roleDos.stream().map(sysRoleMapStruct::transfer).collect(Collectors.toList());
+        userInfoDTO.setRoles(roleDtos);
 
         // 获取Permission
         List<SysPermissionDO> permissionDos = sysPermissionService.findAllByUserUuid(sysUserDO.getUuid());
