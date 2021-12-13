@@ -15,4 +15,4 @@ spring:
         file-extension: yaml
         shared-configs:
           - ordinaryroad-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
-        group: @profiles.active@
+        namespace: @profiles.active@
