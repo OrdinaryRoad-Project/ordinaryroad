@@ -34,7 +34,7 @@
               small
               color="primary"
               outlined
-              @click="getItems"
+              @click="options={...options,page:1}"
             >
               <v-icon>mdi-magnify</v-icon>
               {{ $t('search') }}
