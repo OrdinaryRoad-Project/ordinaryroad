@@ -134,9 +134,9 @@ export default {
   data () {
     return {
       loading: false,
-      orNumber: '',
+      orNumber: '10001',
       username: '',
-      password: '',
+      password: 'Abc123',
       code: '',
       captchaId: '',
       src: '',
