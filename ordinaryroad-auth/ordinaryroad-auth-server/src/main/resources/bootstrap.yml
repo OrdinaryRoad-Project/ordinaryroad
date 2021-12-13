@@ -1,17 +1,18 @@
-# Spring
+# Tomcat
 server:
-  # Tomcat
   port: 9302
+# Spring
 spring:
+  profiles:
+    active: @profiles.active@
   application:
     # 应用名称
     name: ordinaryroad-auth-server
-  profiles:
-    active: dev
   cloud:
     nacos:
       server-addr: ordinaryroad-nacos:8848
       config:
         file-extension: yaml
         shared-configs:
-          - ordinaryroad-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - ordinaryroad.${spring.cloud.nacos.config.file-extension}
+        group: @profiles.active@

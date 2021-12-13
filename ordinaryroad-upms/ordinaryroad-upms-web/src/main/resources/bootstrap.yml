@@ -4,7 +4,7 @@ server:
 # Spring
 spring:
   profiles:
-    active: dev
+    active: @profiles.active@
   application:
     # 应用名称
     name: ordinaryroad-upms
@@ -14,4 +14,5 @@ spring:
       config:
         file-extension: yaml
         shared-configs:
-          - ordinaryroad-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+          - ordinaryroad.${spring.cloud.nacos.config.file-extension}
+        group: @profiles.active@
