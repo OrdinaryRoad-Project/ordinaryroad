@@ -121,19 +121,12 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   layout: 'empty',
-  async asyncData (context) {
-    const { store, route, redirect, app } = context
-    const { $apis } = app
+  asyncData (context) {
+    const { store, route, redirect } = context
     const redirectPath = route.query.redirect || '/upms/user'
-    const tokenInfo = store.getters['user/getTokenInfo']
-    if (tokenInfo) {
-      try {
-        // 登录页面需要重新调用一下，虽然userInfo中间件调用过了，但是那个无法修改client的cookie
-        await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
-        redirect(redirectPath)
-      } catch (e) {
-        // token可能失效，不做任何操作
-      }
+    const userInfo = store.getters['user/getUserInfo']
+    if (userInfo) {
+      redirect(redirectPath)
     }
     return { redirect: redirectPath }
   },
