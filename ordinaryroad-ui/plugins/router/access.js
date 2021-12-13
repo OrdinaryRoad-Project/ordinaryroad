@@ -17,7 +17,11 @@ export default ({ app, store }) => {
     if (item && item.meta && item.meta.permission) {
       // 判断权限
       if (!$access.has(item.meta.permission)) {
-        next(false)
+        if (from.path === '/user/login') {
+          next('/')
+        } else {
+          next(false)
+        }
       } else {
         next()
       }

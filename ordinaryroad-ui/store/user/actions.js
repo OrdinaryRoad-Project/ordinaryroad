@@ -19,7 +19,7 @@ export default {
     return new Promise((resolve, reject) => {
       $apis.user.logout().then(() => {
         commit('REMOVE_TOKEN_INFO')
-        $router.push({ path: '/user/login', query: { redirect: $route.fullPath } })
+        $router.push({ path: '/user/login' })
         resolve()
       }).catch((error) => {
         reject(error)
