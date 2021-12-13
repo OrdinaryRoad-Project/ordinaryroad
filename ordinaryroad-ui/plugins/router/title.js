@@ -1,7 +1,7 @@
 export default ({ app, store }) => {
   const router = app.router
   // 每次路由变更时更新app bar标题
-  router.afterEach((to, from, next) => {
+  router.beforeEach((to, from, next) => {
     const menuItems = store.getters['app/getMenuItems']
     const userMenuItems = store.getters['app/getUserMenuItems']
     const items = menuItems.concat(userMenuItems)
@@ -15,5 +15,6 @@ export default ({ app, store }) => {
     if (!found) {
       store.commit('app/SET_TITLE_KEY', 'ordinaryroad')
     }
+    next()
   })
 }
