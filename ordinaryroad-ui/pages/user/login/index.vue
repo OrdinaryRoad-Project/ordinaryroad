@@ -125,7 +125,8 @@ export default {
     const { store, route, redirect } = context
     const redirectPath = route.query.redirect || '/upms/user'
     const userInfo = store.getters['user/getUserInfo']
-    if (userInfo) {
+    const tokenInfo = store.getters['user/getTokenInfo']
+    if (tokenInfo && userInfo) {
       redirect(redirectPath)
     }
     return { redirect: redirectPath }
