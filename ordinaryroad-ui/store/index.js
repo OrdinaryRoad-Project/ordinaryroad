@@ -46,10 +46,14 @@ export const actions = {
 
       commit('user/SET_REMEMBER_ME', getBooleanFromCookie(cookieString, REMEMBER_ME_KEY, store.getters['user/getRememberMe']))
       const tokenInfo = getObjectFromCookie(cookieString, TOKEN_INFO_KEY, store.getters['user/getTokenInfo'])
-      commit('user/SET_TOKEN_INFO', tokenInfo)
       if (tokenInfo) {
-        const { data } = await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
-        commit('user/SET_USER_INFO', data)
+        try {
+          const { data } = await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
+          commit('user/SET_TOKEN_INFO', tokenInfo)
+          commit('user/SET_USER_INFO', data)
+        } catch {
+          // Token无效或其他异常，不做任何操作
+        }
       }
     }
   }
