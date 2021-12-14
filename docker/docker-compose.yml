@@ -24,6 +24,9 @@ services:
       - "8090:8090"
       # 认证服务器 https
       - "8302:8302"
+    depends_on:
+      - ordinaryroad-gateway
+      - ordinaryroad-ui
     restart: always
 
   ordinaryroad-redis:
