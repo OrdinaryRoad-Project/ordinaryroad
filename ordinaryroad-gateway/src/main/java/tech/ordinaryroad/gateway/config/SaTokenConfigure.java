@@ -43,6 +43,7 @@ public class SaTokenConfigure {
         return thread;
     });
     private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(create|update|delete|reset).*$";
+    private static final String REGISTER_PATH = "/upms/user/register";
 
     /**
      * 注册 Sa-Token全局过滤器
@@ -65,8 +66,6 @@ public class SaTokenConfigure {
 
                 // 开放地址 登录 登出 登录回调
                 .addExclude("/login", "/logout", "/authorized")
-                // 开放地址 注册
-                .addExclude("/upms/user/register")
 
                 // 开放地址 验证码
                 .addExclude("/captcha/**")
@@ -75,6 +74,16 @@ public class SaTokenConfigure {
                 .setAuth(obj -> {
                     // Client校验和登录校验 -- 拦截所有路由
                     SaRouter.match("/**").check((r) -> {
+                        // 演示模式不允许注册
+                        if (REGISTER_PATH.equals(SaHolder.getRequest().getRequestPath())) {
+                            if (properties.getDemoMode()) {
+                                throw new BaseException(StatusCode.DEMO_MODE_FAIL);
+                            } else {
+                                // 非演示模式注册不需要校验权限
+                                return;
+                            }
+                        }
+
                         // 0. 校验是否登录
                         StpUtil.checkLogin();
 
