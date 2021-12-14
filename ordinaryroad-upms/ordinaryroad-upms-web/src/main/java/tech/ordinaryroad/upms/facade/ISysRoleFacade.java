@@ -24,12 +24,15 @@
 package tech.ordinaryroad.upms.facade;
 
 import com.github.pagehelper.PageInfo;
+import org.springframework.transaction.annotation.Transactional;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
+import tech.ordinaryroad.upms.request.SysRolePermissionsSaveRequest;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 
 import java.util.List;
 
@@ -72,6 +75,14 @@ public interface ISysRoleFacade {
     Result<SysRoleDTO> findById(SysRoleQueryRequest request);
 
     /**
+     * 根据唯一列查询角色
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<SysRoleDTO> findByUniqueColumn(SysRoleQueryRequest request);
+
+    /**
      * 根据主键列表查询
      *
      * @param request Request
@@ -102,4 +113,15 @@ public interface ISysRoleFacade {
      * @return List
      */
     Result<List<SysRoleDTO>> findAllByUserUuid(SysRoleQueryRequest request);
+
+    /**
+     * 更新角色关联的用户，删除或新增
+     *
+     * @param request Request
+     * @return Result，True表示发生改动
+     */
+    Result<Boolean> updateRoleUsers(SysRoleUsersSaveRequest request);
+
+    @Transactional(rollbackFor = Exception.class)
+    Result<Boolean> updateRolePermissions(SysRolePermissionsSaveRequest request);
 }

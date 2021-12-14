@@ -38,7 +38,7 @@ public abstract class BaseRequest implements IBaseRequest {
     private static final long serialVersionUID = 4391603643220298879L;
 
     /**
-     * 用户uuid
+     * 用户uuid，由网关过滤器填充
      */
     @ApiModelProperty(value = "用户uuid", hidden = true)
     private String uid;

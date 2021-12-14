@@ -4,7 +4,7 @@ server:
 # Spring
 spring:
   profiles:
-    active: dev
+    active: @profiles.active@
   application:
     # 应用名称
     name: ordinaryroad-gateway
@@ -15,3 +15,4 @@ spring:
         file-extension: yaml
         shared-configs:
           - ordinaryroad-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        namespace: @profiles.active@

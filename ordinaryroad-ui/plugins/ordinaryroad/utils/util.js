@@ -160,6 +160,96 @@ function uuid () {
   return s.join('')
 }
 
+/**
+ * 对比两个对象的值是否完全相等
+ * @param a 对象A
+ * @param b 对象B
+ * @returns {boolean}
+ */
+function objectEquals (a, b) {
+  // falsy value, return
+  if (!a && !b) {
+    return true
+  } else if ((!a && b) || (!b && a)) {
+    return false
+  }
+  // 取对象a和b的属性名
+  const aProps = Object.keys(a)
+  const bProps = Object.keys(b)
+  // 判断属性名的length是否一致
+  if (aProps.length !== bProps.length) {
+    return false
+  }
+  // 排除这种情况： { a: 1, b: [] }, { a: 1, b: {} }
+  if (aProps.length === 0) {
+    return a === b
+  }
+  aProps.sort()
+  // 循环取出属性名，再判断属性值是否一致
+  for (let i = 0; i < aProps.length; i++) {
+    const propName = aProps[i]
+    if (a[propName] instanceof Array && b[propName] instanceof Array) {
+      if (!arrayEquals(a[propName], b[propName])) {
+        return false
+      }
+    } else if (a[propName] !== b[propName]) {
+      return false
+    }
+  }
+  return true
+}
+
+/**
+ * 比较两个数组内容是否一样，元素顺序无关
+ * @param a Array A
+ * @param b Array B
+ * @returns {boolean}
+ */
+function arrayEquals (a, b) {
+  // falsy value, return
+  if (!a && !b) {
+    return true
+  } else if ((!a && b) || (!b && a)) {
+    return false
+  }
+
+  // compare lengths - can save a lot of time
+  if (a.length !== b.length) {
+    return false
+  }
+
+  a.sort()
+  b.sort()
+
+  for (let i = 0, l = a.length; i < l; i++) {
+    // Check if we have nested arrays
+    if (a[i] instanceof Array && b[i] instanceof Array) {
+      if (!arrayEquals(a[i], b[i])) {
+        return false
+      }
+    } else if (!objectEquals(a[i], b[i])) {
+      return false
+    }
+  }
+  return true
+}
+
+/**
+ * 根据item内容获取index
+ * @param array Array
+ * @param searchItem Item
+ * @returns {number} 下标，不存在返回-1
+ */
+function indexOf (array, searchItem) {
+  for (let i = 0; i < array.length; i++) {
+    const item = array[i]
+    if (objectEquals(item, searchItem)) {
+      return i
+    }
+  }
+  return -1
+}
+
 module.exports = {
   formatSeconds,
   formatTime,
@@ -169,5 +259,8 @@ module.exports = {
   query,
   remove,
   contain,
-  uuid
+  uuid,
+  objectEquals,
+  arrayEquals,
+  indexOf
 }

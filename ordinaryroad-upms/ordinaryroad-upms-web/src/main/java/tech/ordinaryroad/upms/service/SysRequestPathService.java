@@ -24,17 +24,21 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRequestPathDAO;
 import tech.ordinaryroad.upms.entity.SysRequestPathDO;
+import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
+import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author mjz
@@ -42,6 +46,11 @@ import java.util.Optional;
  */
 @Service
 public class SysRequestPathService extends BaseService<SysRequestPathDAO, SysRequestPathDO> {
+
+    @Autowired
+    private SysUsersRolesService sysUsersRolesService;
+    @Autowired
+    private SysRolesPermissionsService sysRolesPermissionsService;
 
     public Optional<SysRequestPathDO> findByPath(String path) {
         Example example = Example.builder(SysRequestPathDO.class)
@@ -80,5 +89,16 @@ public class SysRequestPathService extends BaseService<SysRequestPathDAO, SysReq
                 .where(Sqls.custom().andIn("permissionUuid", permissionUuids))
                 .build();
         return super.dao.selectByExample(example);
+    }
+
+    public List<SysRequestPathDO> findAllByUserUuid(String userUuid) {
+        // 根据用户uuid查询所有角色uuid
+        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
+        // 根据角色uuid查询角色
+        List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
+        List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(roleUuidList);
+        List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
+        // 根据权限uuid查询所有请求路径
+        return this.findAllByPermissionUuids(permissionUuids);
     }
 }

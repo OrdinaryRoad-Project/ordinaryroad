@@ -1,5 +1,12 @@
 <template>
-  <div>角色管理</div>
+  <div>
+    <base-material-card
+      :icon="`mdi-account-multiple`"
+      :title="$t('menuTitles.roleManagement')"
+    >
+      <or-data-table-upms-role />
+    </base-material-card>
+  </div>
 </template>
 
 <script>
@@ -11,7 +18,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

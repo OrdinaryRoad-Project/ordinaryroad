@@ -3,7 +3,7 @@ import { cnzzCountAllCode, cnzzCountCode, cnzzCountMobileArr } from './cnzz'
 
 export default ({ app: { router }, store }) => {
   // 每次路由变更时进行pv统计
-  router.afterEach((to, from, next) => {
+  router.afterEach((to, from) => {
     // 加上try 不然会报错
     try {
       const city = to.params.city

@@ -38,13 +38,19 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 @ApiModel
 public class SysPermissionQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = -3658867021685622856L;
+    private static final long serialVersionUID = -2363540869324359785L;
 
     @ApiModelProperty("权限code")
     private String permissionCode;
 
     @ApiModelProperty("权限描述")
     private String description;
+
+    @ApiModelProperty("请求路径uuid")
+    private String requestPathUuid;
+
+    @ApiModelProperty("请求路径url")
+    private String requestPath;
 
     @ApiModelProperty("用户uuid")
     private String userUuid;

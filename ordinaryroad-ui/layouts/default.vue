@@ -171,7 +171,7 @@
           <div class="text-subtitle-2 font-weight-black">
             {{ $t('theme') }}
           </div>
-          <v-item-group v-model="selectedThemeOption" mandatory>
+          <v-item-group v-model="selectedThemeOptionModel" mandatory>
             <v-container>
               <v-row>
                 <v-col
@@ -231,7 +231,7 @@ export default {
       drawerClipped: 'getDrawerClipped',
       selectedThemeOption: 'getSelectedThemeOption',
       themeOptions: 'getThemeOptions',
-      menuItems: 'getMenuItems',
+      menuItems: 'getAccessibleMenuItems',
       titleKey: 'getTitleKey',
       userMenuItems: 'getUserMenuItems'
     }),
@@ -242,6 +242,15 @@ export default {
     ...mapGetters('user', {
       userInfo: 'getUserInfo'
     }),
+    selectedThemeOptionModel: {
+      get () {
+        return this.selectedThemeOption
+      },
+      set (val) {
+        // ignore
+      }
+    },
+
     drawerLeftModel: {
       get () {
         return this.drawerLeft

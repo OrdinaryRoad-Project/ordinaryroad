@@ -34,8 +34,10 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
+import tech.ordinaryroad.upms.request.SysRolePermissionsSaveRequest;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 
 import java.util.List;
 
@@ -59,6 +61,9 @@ public interface ISysRoleApi {
     @PostMapping(value = "/role/find/id")
     Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request);
 
+    @PostMapping(value = "/role/find/unique")
+    Result<SysRoleDTO> findByUniqueColumn(@RequestBody SysRoleQueryRequest request);
+
     @PostMapping(value = "/role/find_all/user_uuid")
     Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request);
 
@@ -70,5 +75,11 @@ public interface ISysRoleApi {
 
     @PostMapping(value = "/role/list")
     Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request);
+
+    @PostMapping(value = "/role/update/role_users")
+    Result<Boolean> updateRoleUsers(@Validated @RequestBody SysRoleUsersSaveRequest request);
+
+    @PostMapping(value = "/role/update/role_permissions")
+    Result<Boolean> updateRolePermissions(@Validated @RequestBody SysRolePermissionsSaveRequest request);
 
 }

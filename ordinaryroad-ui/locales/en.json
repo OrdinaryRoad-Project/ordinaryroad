@@ -1,4 +1,42 @@
 {
+  "rolePermissions": "Role Permissions",
+  "roleUsers": "Role Users",
+  "roleUsersManagement": "Role Users Management",
+  "rolePermissionsManagement": "Role Permissions Management",
+  "whatSuccessfully": "{0} successfully.",
+  "disable": "Disable",
+  "enable": "Enable",
+  "areYouSureToDoWhat": "Are you sure to {0} ?",
+  "enabled": "Enabled",
+  "back": "Back",
+  "userRoles": "User Roles",
+  "userRolesManagement": "User Roles Management",
+  "resetPassword": "Reset Password",
+  "inputWhatToSearchPlaceHolder": "Enter {0} to search.",
+  "permission": "Permission",
+  "permissionCode": "Permission Code",
+  "description": "Description",
+  "requestPath": "Request Path",
+  "path": "URL",
+  "pathName": "Path Name",
+  "permissionUuid": "Permission UUID",
+  "role": "Role",
+  "roleCode": "Role Code",
+  "roleName": "Role Name",
+  "hints": {
+    "password": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used, the length is between 6-16. if it is empty, the default is 123456."
+  },
+  "user": "User",
+  "updateWhat": "Update {0}",
+  "createWhat": "Create {0}",
+  "oldAndNewPasswordsAreTheSame": "The old and new passwords cannot be the same.",
+  "inconsistentPasswords": "Inconsistent Passwords",
+  "update": "Update",
+  "confirmPassword": "Confirm Password",
+  "newPassword": "New Password",
+  "oldPassword": "Old Password",
+  "basicInformation": "Basic Information",
+  "changePassword": "Change Password",
   "whatUpdateSuccessfully": "{0} updated successfully.",
   "userMenuTitles": {
     "userProfile": "User Profile"
@@ -57,5 +95,6 @@
     "permissionManagement": "Permission Management",
     "requestPathManagement": "RequestPath Management"
   },
-  "settings": "Settings"
+  "settings": "Settings",
+  "ordinaryroad": "Ordinary Road"
 }

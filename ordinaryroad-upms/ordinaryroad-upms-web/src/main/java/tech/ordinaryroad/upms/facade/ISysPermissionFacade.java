@@ -71,6 +71,14 @@ public interface ISysPermissionFacade {
     Result<SysPermissionDTO> findById(SysPermissionQueryRequest request);
 
     /**
+     * 根据一对一外键查询
+     *
+     * @param request Request
+     * @return SysPermissionDTO
+     */
+    Result<SysPermissionDTO> findByForeignColumn(SysPermissionQueryRequest request);
+
+    /**
      * 根据主键列表查询
      *
      * @param request Request
@@ -87,26 +95,18 @@ public interface ISysPermissionFacade {
     Result<List<SysPermissionDTO>> findAll(SysPermissionQueryRequest request);
 
     /**
+     * 根据外键查询所有
+     *
+     * @param request Request
+     * @return List
+     */
+    Result<List<SysPermissionDTO>> findAllByForeignColumn(SysPermissionQueryRequest request);
+
+    /**
      * 分页查询所有
      *
      * @param request Request
      * @return Page
      */
     Result<PageInfo<SysPermissionDTO>> list(SysPermissionQueryRequest request);
-
-    /**
-     * 根据用户uuid查询所有权限
-     *
-     * @param request Request
-     * @return List
-     */
-    Result<List<SysPermissionDTO>> findAllByUserUuid(SysPermissionQueryRequest request);
-
-    /**
-     * 根据角色uuid查询所有权限
-     *
-     * @param request Request
-     * @return List
-     */
-    Result<List<SysPermissionDTO>> findAllByRoleUuid(SysPermissionQueryRequest request);
 }

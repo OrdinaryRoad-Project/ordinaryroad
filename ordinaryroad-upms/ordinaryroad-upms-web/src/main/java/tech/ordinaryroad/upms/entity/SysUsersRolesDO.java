@@ -24,6 +24,7 @@
 package tech.ordinaryroad.upms.entity;
 
 import com.alibaba.fastjson.JSON;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -36,6 +37,7 @@ import javax.persistence.Table;
  * @author mjz
  * @date 2021/11/3
  */
+@EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Getter
 @Setter
 @Table(name = "sys_users_roles")
@@ -46,11 +48,13 @@ public class SysUsersRolesDO extends BaseDO {
     /**
      * 用户uuid
      */
+    @EqualsAndHashCode.Include
     private String userUuid;
 
     /**
      * 角色uuid
      */
+    @EqualsAndHashCode.Include
     private String roleUuid;
 
     @Override

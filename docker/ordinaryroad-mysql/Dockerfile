@@ -11,3 +11,4 @@ COPY ./sql/init.sql /docker-entrypoint-initdb.d
 COPY ./sql/or_config_dev.sql /docker-entrypoint-initdb.d
 COPY ./sql/or_dev.sql /docker-entrypoint-initdb.d
 COPY ./sql/or_oauth2_dev.sql /docker-entrypoint-initdb.d
+COPY ./etc/my.cnf /etc/my.cnf

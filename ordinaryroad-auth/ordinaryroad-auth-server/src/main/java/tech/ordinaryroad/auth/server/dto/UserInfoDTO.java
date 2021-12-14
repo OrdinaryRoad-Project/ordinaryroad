@@ -27,15 +27,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
-import tech.ordinaryroad.upms.dto.SysPermissionDTO;
-import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
-import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 
-import java.util.List;
-
 /**
- * 用户相关信息DTO：User, Role, Permission, RequestPath
+ * 用户相关信息DTO：User
  *
  * @author mjz
  * @date 2021/12/1
@@ -44,18 +39,9 @@ import java.util.List;
 @ApiModel
 public class UserInfoDTO extends BaseDTO {
 
-    private static final long serialVersionUID = -6751413689961969112L;
+    private static final long serialVersionUID = 7129420855456681962L;
 
     @ApiModelProperty("用户信息")
     private SysUserDTO user;
-
-    @ApiModelProperty("拥有的所有角色")
-    private List<SysRoleDTO> roles;
-
-    @ApiModelProperty("拥有的所有权限")
-    private List<SysPermissionDTO> permissions;
-
-    @ApiModelProperty("可以访问的所有请求路径")
-    private List<SysRequestPathDTO> requestPaths;
 
 }

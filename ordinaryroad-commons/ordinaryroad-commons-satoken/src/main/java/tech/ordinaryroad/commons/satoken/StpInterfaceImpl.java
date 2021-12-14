@@ -16,6 +16,7 @@ import tech.ordinaryroad.upms.request.SysUserQueryRequest;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.*;
 import java.util.stream.Collectors;
 
@@ -35,10 +36,10 @@ public class StpInterfaceImpl implements StpInterface {
      * https://blog.csdn.net/qq_33811736/article/details/115865879
      */
     private final ExecutorService executorService = new ThreadPoolExecutor(
-            3, 3, 60L,
-            TimeUnit.SECONDS, new ArrayBlockingQueue<>(2), r -> {
+            4, 8, 24L,
+            TimeUnit.HOURS, new ArrayBlockingQueue<>(8), r -> {
         Thread thread = new Thread(r);
-        thread.setName("sa token获取角色列表线程");
+        thread.setName("commons-satoken 获取用户角色和权限列表线程");
         return thread;
     });
 
@@ -49,16 +50,32 @@ public class StpInterfaceImpl implements StpInterface {
         // 根据or帐号查询用户uuid
         SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
         sysUserQueryRequest.setOrNumber(orNumber);
-        Result<SysUserDTO> byUniqueColumn = iSysUserApi.findByUniqueColumn(sysUserQueryRequest);
-        if (byUniqueColumn.getSuccess()) {
-            String userUuid = byUniqueColumn.getData().getUuid();
-            SysPermissionQueryRequest request = new SysPermissionQueryRequest();
-            request.setUserUuid(userUuid);
-            Result<List<SysPermissionDTO>> allByUserUuid = sysPermissionApi.findAllByUserUuid(request);
-            return allByUserUuid.getData().stream().map(SysPermissionDTO::getPermissionCode).collect(Collectors.toList());
-        } else {
+        Future<Result<SysUserDTO>> future = executorService.submit(() -> iSysUserApi.findByUniqueColumn(sysUserQueryRequest));
+        Result<SysUserDTO> byUniqueColumn = null;
+        try {
+            byUniqueColumn = future.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        if (Objects.isNull(byUniqueColumn) || !byUniqueColumn.getSuccess()) {
             return Collections.emptyList();
         }
+
+        String userUuid = byUniqueColumn.getData().getUuid();
+        SysPermissionQueryRequest request = new SysPermissionQueryRequest();
+        request.setUserUuid(userUuid);
+        Future<Result<List<SysPermissionDTO>>> submit = executorService.submit(() -> sysPermissionApi.findAllByForeignColumn(request));
+        Result<List<SysPermissionDTO>> allByUserUuid = null;
+        try {
+            allByUserUuid = submit.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+        if (Objects.isNull(allByUserUuid) || !allByUserUuid.getSuccess()) {
+            return Collections.emptyList();
+        }
+        List<SysPermissionDTO> all = allByUserUuid.getData();
+        return all.stream().map(SysPermissionDTO::getPermissionCode).collect(Collectors.toList());
     }
 
     @Override

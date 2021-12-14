@@ -1,5 +1,12 @@
 <template>
-  <div>请求路径管理</div>
+  <div>
+    <base-material-card
+      :icon="`mdi-menu`"
+      :title="$t('menuTitles.requestPathManagement')"
+    >
+      <or-data-table-upms-request-path />
+    </base-material-card>
+  </div>
 </template>
 
 <script>
@@ -11,7 +18,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

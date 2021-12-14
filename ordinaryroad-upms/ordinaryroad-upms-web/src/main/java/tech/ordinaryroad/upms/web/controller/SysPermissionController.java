@@ -70,13 +70,8 @@ public class SysPermissionController implements ISysPermissionApi {
     }
 
     @Override
-    public Result<List<SysPermissionDTO>> findAllByUserUuid(@RequestBody SysPermissionQueryRequest request) {
-        return sysPermissionFacade.findAllByUserUuid(request);
-    }
-
-    @Override
-    public Result<List<SysPermissionDTO>> findAllByRoleUuid(@RequestBody SysPermissionQueryRequest request) {
-        return sysPermissionFacade.findAllByRoleUuid(request);
+    public Result<SysPermissionDTO> findByForeignColumn(@RequestBody SysPermissionQueryRequest request) {
+        return sysPermissionFacade.findByForeignColumn(request);
     }
 
     @Override
@@ -87,6 +82,11 @@ public class SysPermissionController implements ISysPermissionApi {
     @Override
     public Result<List<SysPermissionDTO>> findAll(@RequestBody SysPermissionQueryRequest request) {
         return sysPermissionFacade.findAll(request);
+    }
+
+    @Override
+    public Result<List<SysPermissionDTO>> findAllByForeignColumn(@RequestBody SysPermissionQueryRequest request) {
+        return sysPermissionFacade.findAllByForeignColumn(request);
     }
 
     @Override

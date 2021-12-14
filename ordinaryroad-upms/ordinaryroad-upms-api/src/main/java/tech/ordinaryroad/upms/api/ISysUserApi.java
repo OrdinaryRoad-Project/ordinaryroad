@@ -67,6 +67,9 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/find/unique")
     Result<SysUserDTO> findByUniqueColumn(@Validated @RequestBody SysUserQueryRequest request);
 
+    @PostMapping(value = "/user/find_all/foreign")
+    Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request);
+
     /**
      * 根据唯一列查找用户
      *
@@ -81,10 +84,21 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/update/username")
     Result<Boolean> updateUsername(@Validated @RequestBody SysUserUpdateUsernameRequest request);
 
+    @PostMapping(value = "/user/update/email")
+    Result<Boolean> updateEmail(@Validated @RequestBody SysUserUpdateEmailRequest request);
+
     @PostMapping(value = "/user/update/password")
     Result<Boolean> updatePassword(@Validated @RequestBody SysUserUpdatePasswordRequest request);
 
     @PostMapping(value = "/user/register")
     Result<SysUserDTO> register(@Validated @RequestBody SysUserRegisterRequest request);
 
+    @PostMapping(value = "/user/reset/password")
+    Result<?> resetPassword(@Validated @RequestBody SysUserResetPasswordRequest request);
+
+    @PostMapping(value = "/user/update/enabled")
+    Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request);
+
+    @PostMapping(value = "/user/update/user_roles")
+    Result<Boolean> updateUserRoles(@Validated @RequestBody SysUserRolesSaveRequest request);
 }

@@ -1,12 +1,24 @@
 package tech.ordinaryroad.gateway.config;
 
+import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import tech.ordinaryroad.commons.core.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.utils.exception.ExceptionUtils;
+import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
+import tech.ordinaryroad.upms.api.ISysPermissionApi;
+import tech.ordinaryroad.upms.dto.SysPermissionDTO;
+import tech.ordinaryroad.upms.request.SysPermissionQueryRequest;
+
+import java.util.List;
+import java.util.concurrent.*;
 
 /**
  * [Sa-Token 权限认证] 配置类
@@ -15,8 +27,23 @@ import tech.ordinaryroad.commons.core.base.result.Result;
  *
  * @author kong
  */
+@Slf4j
+@RequiredArgsConstructor
 @Configuration
 public class SaTokenConfigure {
+
+    private final OrGatewayProperties properties;
+    private final ISysPermissionApi sysPermissionApi;
+
+    private final ExecutorService executorService = new ThreadPoolExecutor(
+            4, 8, 24L,
+            TimeUnit.HOURS, new ArrayBlockingQueue<>(8), r -> {
+        Thread thread = new Thread(r);
+        thread.setName("gateway sa-token拦截器");
+        return thread;
+    });
+    private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(create|update|delete|reset).*$";
+    private static final String REGISTER_PATH = "/upms/user/register";
 
     /**
      * 注册 Sa-Token全局过滤器
@@ -39,8 +66,6 @@ public class SaTokenConfigure {
 
                 // 开放地址 登录 登出 登录回调
                 .addExclude("/login", "/logout", "/authorized")
-                // 开放地址 注册
-                .addExclude("/upms/user/register")
 
                 // 开放地址 验证码
                 .addExclude("/captcha/**")
@@ -48,14 +73,65 @@ public class SaTokenConfigure {
                 // 鉴权方法：每次访问进入
                 .setAuth(obj -> {
                     // Client校验和登录校验 -- 拦截所有路由
-                    SaRouter.match("/**").check(() -> {
-                        // 需要实现 SaOAuth2Template 接口
-//                        SaOAuth2Util.checkClientSecret("ordinaryroad-gateway", "secret");
+                    SaRouter.match("/**").check((r) -> {
+                        // 演示模式不允许注册
+                        if (REGISTER_PATH.equals(SaHolder.getRequest().getRequestPath())) {
+                            if (properties.getDemoMode()) {
+                                throw new BaseException(StatusCode.DEMO_MODE_FAIL);
+                            } else {
+                                // 非演示模式注册不需要校验权限
+                                return;
+                            }
+                        }
+
+                        // 0. 校验是否登录
                         StpUtil.checkLogin();
+
+                        String orNumber = StpUtil.getLoginIdAsString();
+                        List<String> roleList = StpUtil.getRoleList();
+                        List<String> permissionList = StpUtil.getPermissionList();
+
+                        log.info("Sa-Token Filter, current user: orNumber:{},\nroles:{},\npermissions:{}", orNumber, roleList, permissionList);
+
+                        // 1. 获取当前路径
+                        String requestPath = SaHolder.getRequest().getRequestPath();
+
+                        log.info("Sa-Token Filter, path:{}", requestPath);
+
+                        // 演示模式，并且不是允许的操作，拦截掉
+                        if (properties.getDemoMode() && requestPath.matches(DEMO_MODE_NOT_ALLOWED_PATH_PATTERN)) {
+                            throw new BaseException(StatusCode.DEMO_MODE_FAIL);
+                        }
+
+                        // 2. 获取路径所需权限
+                        SysPermissionQueryRequest sysPermissionQueryRequest = new SysPermissionQueryRequest();
+                        sysPermissionQueryRequest.setRequestPath(requestPath);
+                        Future<Result<SysPermissionDTO>> resultFuture = executorService.submit(() -> sysPermissionApi.findByForeignColumn(sysPermissionQueryRequest));
+                        Result<SysPermissionDTO> byRequestPath = null;
+                        try {
+                            byRequestPath = resultFuture.get();
+                        } catch (InterruptedException | ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                        if (byRequestPath == null || !byRequestPath.getSuccess()) {
+                            // 2.1 未查到，不需要权限
+                            return;
+                        }
+
+                        // 2.2 获取Permission Code
+                        SysPermissionDTO sysPermissionDTO = byRequestPath.getData();
+                        String permissionCode = sysPermissionDTO.getPermissionCode();
+
+                        log.info("Sa-Token Filter, path required permission code:{}", permissionCode);
+
+                        // 3. 权限校验
+                        StpUtil.checkPermission(permissionCode);
+
+                        log.info("Sa-Token Filter, path permission matched.");
                     });
                 })
                 // 异常处理方法：每次setAuth函数出现异常时进入
-                .setError(e -> Result.fail(StatusCode.NO_PERMISSION, e.getMessage()));
+                .setError(ExceptionUtils::getResult);
     }
 
 }

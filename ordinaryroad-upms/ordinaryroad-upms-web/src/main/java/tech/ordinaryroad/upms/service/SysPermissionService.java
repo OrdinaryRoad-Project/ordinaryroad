@@ -23,16 +23,23 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysPermissionDAO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
+import tech.ordinaryroad.upms.entity.SysRequestPathDO;
+import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
+import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author mjz
@@ -40,6 +47,15 @@ import java.util.Optional;
  */
 @Service
 public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermissionDO> {
+
+    @Autowired
+    private SysUsersRolesService sysUsersRolesService;
+    @Autowired
+    private SysRolesPermissionsService sysRolesPermissionsService;
+    @Autowired
+    private SysRequestPathService sysRequestPathService;
+    @Autowired
+    private SysPermissionService sysPermissionService;
 
     public Optional<SysPermissionDO> findByPermissionCode(String permissionCode) {
         Example example = Example.builder(SysPermissionDO.class)
@@ -61,6 +77,44 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         }
 
         return super.dao.selectByExample(Example.builder(SysPermissionDO.class).where(sqls).build());
+    }
+
+    public List<SysPermissionDO> findAllByUserUuid(String userUuid) {
+        // 根据用户uuid查询所有角色uuid
+        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
+        // 根据角色uuid查询角色
+        List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
+        List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(roleUuidList);
+        List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
+        // 根据权限uuid查询所有权限
+        return this.findIds(SysPermissionDO.class, permissionUuids);
+    }
+
+    public List<SysPermissionDO> findAllByRoleUuid(String roleUuid) {
+        // 根据角色uuid查询所有权限
+        List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(Collections.singletonList(roleUuid));
+        List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
+        // 根据权限uuid查询所有权限
+        return this.findIds(SysPermissionDO.class, permissionUuids);
+    }
+
+    public Optional<SysPermissionDO> findByRequestPath(String path) {
+        Optional<SysRequestPathDO> optional = sysRequestPathService.findByPath(path);
+        if (!optional.isPresent()) {
+            return Optional.empty();
+        }
+        SysRequestPathDO sysRequestPathDO = optional.get();
+        String permissionUuid = sysRequestPathDO.getPermissionUuid();
+        return Optional.ofNullable(sysPermissionService.findById(permissionUuid));
+    }
+
+    public Optional<SysPermissionDO> findByRequestPathUuid(String requestPathUuid) {
+        SysRequestPathDO sysRequestPathDO = sysRequestPathService.findById(requestPathUuid);
+        if (Objects.isNull(sysRequestPathDO)) {
+            return Optional.empty();
+        }
+        String permissionUuid = sysRequestPathDO.getPermissionUuid();
+        return Optional.ofNullable(sysPermissionService.findById(permissionUuid));
     }
 
 }

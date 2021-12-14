@@ -27,9 +27,10 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 /**
@@ -39,18 +40,20 @@ import javax.validation.constraints.Size;
 @Getter
 @Setter
 @ApiModel
-public class SysUserUpdatePasswordRequest extends BaseSaveRequest {
+public class SysUserUpdatePasswordRequest extends BaseRequest {
 
     private static final long serialVersionUID = -4860381285231585328L;
 
-    @ApiModelProperty("密码")
+    @ApiModelProperty(value = "密码", required = true)
     @NotBlank(message = "密码不能为空")
     @Size(min = 6, max = 16, message = "密码长度 6-16")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$", message = "必须包含大小写字母和数字的组合，可以使用特殊字符")
     private String password;
 
-    @ApiModelProperty("新密码")
+    @ApiModelProperty(value = "新密码", required = true)
     @NotBlank(message = "新密码不能为空")
     @Size(min = 6, max = 16, message = "新密码长度 6-16")
+    @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$", message = "必须包含大小写字母和数字的组合，可以使用特殊字符")
     private String newPassword;
 
 }

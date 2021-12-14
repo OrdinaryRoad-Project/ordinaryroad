@@ -30,7 +30,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.transaction.annotation.Transactional;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
@@ -38,18 +38,19 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
+import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.facade.ISysRoleFacade;
 import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
+import tech.ordinaryroad.upms.request.SysRolePermissionsSaveRequest;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 import tech.ordinaryroad.upms.service.SysRoleService;
+import tech.ordinaryroad.upms.service.SysRolesPermissionsService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -63,6 +64,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     private final SysRoleService sysRoleService;
     private final SysRoleMapStruct objMapStruct;
     private final SysUsersRolesService sysUsersRolesService;
+    private final SysRolesPermissionsService sysRolesPermissionsService;
 
     @Override
     public Result<SysRoleDTO> create(SysRoleSaveRequest request) {
@@ -107,7 +109,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
                 return Result.fail(StatusCode.NAME_ALREADY_EXIST);
             }
         }
-        String newRoleCode = request.getRoleName();
+        String newRoleCode = request.getRoleCode();
         String roleCode = byId.getRoleCode();
         if (!Objects.equals(newRoleCode, roleCode)) {
             if (sysRoleService.findByRoleCode(newRoleCode).isPresent()) {
@@ -127,6 +129,20 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
             return Result.success(objMapStruct.transfer(byId));
         }
         return Result.fail(StatusCode.DATA_NOT_EXIST);
+    }
+
+    @Override
+    public Result<SysRoleDTO> findByUniqueColumn(SysRoleQueryRequest request) {
+        Optional<SysRoleDO> optional = Optional.empty();
+        String roleCode = request.getRoleCode();
+        String roleName = request.getRoleName();
+        if (StrUtil.isNotBlank(roleCode)) {
+            optional = sysRoleService.findByRoleCode(roleCode);
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(roleName)) {
+            optional = sysRoleService.findByRoleName(roleName);
+        }
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
     }
 
     @Override
@@ -163,18 +179,119 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     }
 
     @Override
-    public Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request) {
+    public Result<List<SysRoleDTO>> findAllByUserUuid(SysRoleQueryRequest request) {
         String userUuid = request.getUserUuid();
         if (StrUtil.isBlank(userUuid)) {
             return Result.fail(StatusCode.PARAM_IS_BLANK);
         }
-        // 根据用户uuid查询所有角色uuid
-        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
-        // 根据角色uuid查询角色
-        List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
-        BaseQueryRequest baseQueryRequest = new BaseQueryRequest();
-        baseQueryRequest.setUuids(roleUuidList);
-        return this.findAllByIds(baseQueryRequest);
+        List<SysRoleDO> all = sysRoleService.findAllByUserUuid(userUuid);
+        List<SysRoleDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+        return Result.success(list);
     }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result<Boolean> updateRoleUsers(SysRoleUsersSaveRequest request) {
+        String roleUuid = request.getRoleUuid();
+
+        // 最新的用户uuids
+        List<String> userUuids = request.getUserUuids();
+
+        // 本地的用户uuids
+        List<SysUsersRolesDO> allByRoleUuid = sysUsersRolesService.findAllByRoleUuid(roleUuid);
+
+        // 需要新增的用户角色关联关系实体类
+        List<SysUsersRolesDO> needInsertList = new ArrayList<>();
+        // 需要删除的用户角色关联关系uuids
+        List<String> needDeleteList = new ArrayList<>();
+
+        userUuids.forEach(userUuid -> {
+            // 判断是否需要新增
+            boolean find = false;
+            for (SysUsersRolesDO sysUsersRolesDO : allByRoleUuid) {
+                if (sysUsersRolesDO.getUserUuid().equals(userUuid)) {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find) {
+                SysUsersRolesDO sysUsersRolesDO = new SysUsersRolesDO();
+                sysUsersRolesDO.setUserUuid(userUuid);
+                sysUsersRolesDO.setRoleUuid(roleUuid);
+                needInsertList.add(sysUsersRolesDO);
+            }
+        });
+        allByRoleUuid.forEach(sysUsersRolesDO -> {
+            // 最新的不存在，需要删除的
+            if (!userUuids.contains(sysUsersRolesDO.getUserUuid())) {
+                needDeleteList.add(sysUsersRolesDO.getUuid());
+            }
+        });
+
+        if (CollUtil.isEmpty(needDeleteList) && CollUtil.isEmpty(needInsertList)) {
+            return Result.success(Boolean.FALSE);
+        } else {
+            if (CollUtil.isNotEmpty(needDeleteList)) {
+                sysUsersRolesService.deleteByIdList(SysUsersRolesDO.class, needDeleteList);
+            }
+            if (CollUtil.isNotEmpty(needInsertList)) {
+                sysUsersRolesService.insertList(needInsertList);
+            }
+        }
+
+        return Result.success(Boolean.TRUE);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Result<Boolean> updateRolePermissions(SysRolePermissionsSaveRequest request) {
+        String roleUuid = request.getRoleUuid();
+
+        // 最新的权限uuids
+        List<String> permissionUuids = request.getPermissionUuids();
+
+        // 本地的权限uuids
+        List<SysRolesPermissionsDO> allByRoleUuid = sysRolesPermissionsService.findAllByRoleUuids(Collections.singletonList(roleUuid));
+
+        // 需要新增的角色权限关联关系实体类
+        List<SysRolesPermissionsDO> needInsertList = new ArrayList<>();
+        // 需要删除的角色权限关联关系uuids
+        List<String> needDeleteList = new ArrayList<>();
+
+        permissionUuids.forEach(permissionUuid -> {
+            // 判断是否需要新增
+            boolean find = false;
+            for (SysRolesPermissionsDO sysRolesPermissionsDO : allByRoleUuid) {
+                if (sysRolesPermissionsDO.getPermissionUuid().equals(permissionUuid)) {
+                    find = true;
+                    break;
+                }
+            }
+            if (!find) {
+                SysRolesPermissionsDO sysRolesPermissionsDO = new SysRolesPermissionsDO();
+                sysRolesPermissionsDO.setPermissionUuid(permissionUuid);
+                sysRolesPermissionsDO.setRoleUuid(roleUuid);
+                needInsertList.add(sysRolesPermissionsDO);
+            }
+        });
+        allByRoleUuid.forEach(sysRolesPermissionsDO -> {
+            // 最新的不存在，需要删除的
+            if (!permissionUuids.contains(sysRolesPermissionsDO.getPermissionUuid())) {
+                needDeleteList.add(sysRolesPermissionsDO.getUuid());
+            }
+        });
+
+        if (CollUtil.isEmpty(needDeleteList) && CollUtil.isEmpty(needInsertList)) {
+            return Result.success(Boolean.FALSE);
+        } else {
+            if (CollUtil.isNotEmpty(needDeleteList)) {
+                sysRolesPermissionsService.deleteByIdList(SysRolesPermissionsDO.class, needDeleteList);
+            }
+            if (CollUtil.isNotEmpty(needInsertList)) {
+                sysRolesPermissionsService.insertList(needInsertList);
+            }
+        }
+
+        return Result.success(Boolean.TRUE);
+    }
 }

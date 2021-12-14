@@ -26,15 +26,18 @@ package tech.ordinaryroad.gateway;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.util.StopWatch;
+import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
 
 /**
  * @author mjz
  * @date 2021/10/29
  */
 @Slf4j
+@EnableConfigurationProperties({OrGatewayProperties.class})
 @EnableDiscoveryClient
 @EnableFeignClients({"tech.ordinaryroad.*.api"})
 @SpringBootApplication

@@ -23,16 +23,19 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRoleDAO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
+import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author mjz
@@ -40,6 +43,9 @@ import java.util.Optional;
  */
 @Service
 public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
+
+    @Autowired
+    private SysUsersRolesService sysUsersRolesService;
 
     public Optional<SysRoleDO> findByRoleName(String roleName) {
         Example example = Example.builder(SysRoleDO.class)
@@ -68,6 +74,14 @@ public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
         }
 
         return super.dao.selectByExample(Example.builder(SysRoleDO.class).where(sqls).build());
+    }
+
+    public List<SysRoleDO> findAllByUserUuid(String userUuid) {
+        // 根据用户uuid查询所有角色uuid
+        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
+        // 根据角色uuid查询角色
+        List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
+        return this.findIds(SysRoleDO.class, roleUuidList);
     }
 
 }

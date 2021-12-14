@@ -36,8 +36,12 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.gateway.request.LoginRequest;
+import tech.ordinaryroad.upms.api.ISysApi;
+import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
+import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 
 import java.util.HashMap;
+import java.util.concurrent.*;
 
 /**
  * 应用入口
@@ -49,6 +53,8 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @RestController
 public class AppController {
+
+    private final ISysApi sysApi;
 
     /**
      * 应用id
@@ -64,11 +70,19 @@ public class AppController {
 
     private final WebClient webClient;
 
+    private final ExecutorService executorService = new ThreadPoolExecutor(
+            2, 4, 12, TimeUnit.HOURS,
+            new ArrayBlockingQueue<>(4), r -> {
+        Thread thread = new Thread(r);
+        thread.setName("AppController异步调用API线程");
+        return thread;
+    });
+
     /**
-     * 登录：http://auth-server:9302/oauth2/authorize?response_type=code&client_id=1001&redirect_uri=http://localhost:9090/authorized&scope=userinfo
+     * 登录：https://auth-server.ordinaryroad.tech:8302/oauth2/authorize?response_type=code&client_id=ordinaryroad-gateway&redirect_uri=https://ordinaryroad.tech:8090/authorized&scope=userinfo,openid
      * 登录成功后的回调，设置为已登录状态
      * <p>
-     * 回调示例：http://localhost:9090/authorized?code=8mVExAojCrZN10HmozB4QtV1KS8z8NNEN2CIWVKuAzy7lmWLUHDfIEhZZ5Ys
+     * 回调示例：https://ordinaryroad.tech:8090/authorized?code=WqgMfxtmJKVjzX9RHswCcgR4FsZyUtmcjnYEcVWqlIARl2zSgHH6c6UKAzvf
      *
      * @return Result
      */
@@ -93,7 +107,7 @@ public class AppController {
         JSONObject params = new JSONObject();
         params.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);
         params.put(SaOAuth2Consts.Param.client_id, clientId);
-        params.put(SaOAuth2Consts.Param.scope, "openid,userinfo");
+        params.put(SaOAuth2Consts.Param.scope, "userinfo");
         params.put(SaOAuth2Consts.Param.username, orNumber);
         params.put(SaOAuth2Consts.Param.password, request.getPassword());
         return exchangeToken(params, request.getRememberMe());
@@ -135,7 +149,6 @@ public class AppController {
 
         // 根据openid获取其对应的userId
         JSONObject data = response.getData();
-        String accessToken = data.getString(SaOAuth2Consts.Param.access_token);
         String openid = data.getString("openid");
         String clientId = params.getString(SaOAuth2Consts.Param.client_id);
         HashMap<String, String> orNumberParams = new HashMap<>(2);
@@ -159,18 +172,18 @@ public class AppController {
         String tokenValue = StpUtil.getTokenValue();
         data.put("satoken", tokenValue);
 
-        Result<JSONObject> userInfoResponse = Result.parse(
-                OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/userinfo")
-                        .addBodyPara(SaOAuth2Consts.Param.access_token, accessToken)
-                        .post()
-                        .getBody().toString()
-        );
-        if (userInfoResponse == null) {
-            return Result.fail();
+        SysUserInfoRequest sysUserInfoRequest = new SysUserInfoRequest();
+        sysUserInfoRequest.setSaToken(tokenValue);
+        Result<SysUserInfoDTO> sysUserInfoDtoResult;
+        Future<Result<SysUserInfoDTO>> userInfoFuture = executorService.submit(() -> sysApi.userInfo(sysUserInfoRequest));
+        try {
+            sysUserInfoDtoResult = userInfoFuture.get();
+        } catch (InterruptedException | ExecutionException e) {
+            return Result.fail(e.getMessage());
         }
-        data.put("userInfo", userInfoResponse.getData());
+        data.put("userInfo", sysUserInfoDtoResult.getData());
 
-        log.info("Gateway login successfully. OrNumber：{}, Token：{}\nUserInfo: {}", orNumber, tokenValue, userInfoResponse.getData());
+        log.info("Gateway login successfully. OrNumber：{}, Token：{}\nUserInfo: {}", orNumber, tokenValue, sysUserInfoDtoResult.getData());
         return Result.success(data);
     }
 

@@ -20,6 +20,17 @@ export default {
     updateTheme(value, $vuetify)
   },
   SET_MENU_ITEMS: (state, value) => (state.menuItems = value),
+  SET_ACCESSIBLE_MENU_ITEMS: (state, value) => (state.accessibleMenuItems = value),
+  UPDATE_ACCESSIBLE_MENU_ITEMS: (state, $access) => {
+    const menuItems = state.menuItems
+    const accessibleMenuItems = []
+    menuItems.forEach((item) => {
+      if ($access.has(item.meta.permission)) {
+        accessibleMenuItems.push(item)
+      }
+    })
+    state.accessibleMenuItems = accessibleMenuItems
+  },
   TOGGLE_DRAWER_MINI_VARIANT: (state) => {
     state.drawerMiniVariant = !state.drawerMiniVariant
     setDrawerMiniVariant(state.drawerMiniVariant)

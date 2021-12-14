@@ -6,7 +6,7 @@
     content-class="rounded-0"
     :dark="params.dark"
     :light="params.light"
-    :persistent="params.persistent===undefined?params.loading:params.persistent"
+    :persistent="params.persistent==null?params.loading:params.persistent"
     :internal-activator="params.internalActivator"
     :overlay-color="params.overlayColor"
     :overlay-opacity="params.overlayOpacity"
@@ -26,6 +26,7 @@
         <v-spacer />
         <v-btn
           v-show="!params.hideCancel"
+          :disabled="loading"
           :color="params.cancelColor||'grey'"
           text
           @click="cancel"
@@ -48,7 +49,6 @@
 
 <script>
 export default {
-  name: 'Dialog',
   data () {
     return {
       dialog: false,

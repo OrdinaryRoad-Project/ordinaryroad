@@ -3,7 +3,7 @@ import zhHans from 'vuetify/lib/locale/zh-Hans'
 
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: 'static',
+  target: 'server',
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -23,14 +23,20 @@ export default {
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [],
+  css: [
+    '@/assets/css/ordinaryroad.css'
+  ],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    // 权限插件
+    '~/plugins/access/index.js',
     // api插件
     '@/plugins/api/index',
     // axios拦截器等
     '~/plugins/axios/index.js',
+    // dayjs
+    '~/plugins/dayjs/index.js',
     // 国际化插件
     '~/plugins/i18n/index.js',
     // 自定义常量 工具类等
@@ -38,6 +44,7 @@ export default {
     // 路由插件
     '~/plugins/router/statistics/index.js',
     '~/plugins/router/title.js',
+    { src: '~/plugins/router/access.js', mode: 'client' },
     // vuetify client mode
     { src: '~/plugins/vuetify/index.js', mode: 'client' }
   ],
@@ -64,9 +71,18 @@ export default {
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
-    baseURL: 'https://ordinaryroad.tech:8090',
-    withCredentials: true,
-    timeout: 10000
+    prefix: '/api',
+    // https://axios.nuxtjs.org/options/#proxy
+    proxy: true // Can be also an object with default options
+  },
+
+  proxy: {
+    '/api': {
+      target: process.env.BASE_URL,
+      pathRewrite: {
+        '^/api': '/'
+      }
+    }
   },
 
   // PWA module configuration: https://go.nuxtjs.dev/pwa
@@ -91,5 +107,8 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {}
+  build: {},
+
+  // https://nuxtjs.org/docs/configuration-glossary/configuration-router
+  router: {}
 }

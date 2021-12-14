@@ -154,6 +154,9 @@ export default {
             this.code = ''
             this.$snackbar.success(this.$t('captchaSendSuccess', [this.email]))
           })
+          .catch(() => {
+            this.codeLoading = false
+          })
       }
     },
     codeKeydown (res) {

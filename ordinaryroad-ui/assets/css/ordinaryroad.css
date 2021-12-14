@@ -1,0 +1,33 @@
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.1s;
+}
+
+.page-enter,
+.page-leave-active {
+  opacity: 0;
+}
+
+.sticky-top {
+  position: sticky !important;
+  top: 0 !important;
+}
+
+.sticky-bottom {
+  position: sticky !important;
+  bottom: 0 !important;
+}
+
+.sticky-right {
+  position: sticky !important;
+  right: 0 !important;
+  padding: 0 !important;
+}
+
+.sticky-right > div {
+  padding: 10px !important;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}

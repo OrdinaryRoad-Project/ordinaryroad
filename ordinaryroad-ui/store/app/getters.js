@@ -34,6 +34,10 @@ export default {
     return state.menuItems
   },
 
+  getAccessibleMenuItems (state) {
+    return state.accessibleMenuItems
+  },
+
   getUserMenuItems (state) {
     return state.userMenuItems
   }

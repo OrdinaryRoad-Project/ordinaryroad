@@ -15,6 +15,7 @@ public enum StatusCode implements IStatusCode {
     COMMON_EXCEPTION(900, "系统异常"),
     /* 默认失败 */
     COMMON_FAIL(901, "操作失败"),
+    DEMO_MODE_FAIL(902, "演示模式不允许操作"),
 
     /* 参数错误：1000～1999 */
     PARAM_NOT_VALID(1001, "参数无效"),
@@ -52,6 +53,7 @@ public enum StatusCode implements IStatusCode {
     ROLE_NOT_EXIST(4010, "角色不存在"),
     PATH_ALREADY_EXIST(4011, "路径已存在"),
     PERMISSION_NOT_EXIST(4012, "权限不存在"),
+    PATH_NAME_ALREADY_EXIST(4013, "路径名称已存在"),
     ;
 
     /**

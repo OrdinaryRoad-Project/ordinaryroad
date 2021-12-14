@@ -34,8 +34,10 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.api.ISysRoleApi;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.facade.ISysRoleFacade;
+import tech.ordinaryroad.upms.request.SysRolePermissionsSaveRequest;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
 import tech.ordinaryroad.upms.request.SysRoleSaveRequest;
+import tech.ordinaryroad.upms.request.SysRoleUsersSaveRequest;
 
 import java.util.List;
 
@@ -70,6 +72,11 @@ public class SysRoleController implements ISysRoleApi {
     }
 
     @Override
+    public Result<SysRoleDTO> findByUniqueColumn(@RequestBody SysRoleQueryRequest request) {
+        return sysRoleFacade.findByUniqueColumn(request);
+    }
+
+    @Override
     public Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request) {
         return sysRoleFacade.findAllByUserUuid(request);
     }
@@ -87,5 +94,15 @@ public class SysRoleController implements ISysRoleApi {
     @Override
     public Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request) {
         return sysRoleFacade.list(request);
+    }
+
+    @Override
+    public Result<Boolean> updateRoleUsers(@RequestBody @Validated SysRoleUsersSaveRequest request) {
+        return sysRoleFacade.updateRoleUsers(request);
+    }
+
+    @Override
+    public Result<Boolean> updateRolePermissions(@RequestBody @Validated SysRolePermissionsSaveRequest request) {
+        return sysRoleFacade.updateRolePermissions(request);
     }
 }

@@ -9,7 +9,8 @@ export default function (context, inject) {
   $axios.onRequest((config) => {
     // 将获取到token加入到请求头中
     const tokenInfo = store.getters['user/getTokenInfo']
-    if (tokenInfo) {
+    // 兼容userInfo方法
+    if (tokenInfo && config.headers.common) {
       config.headers.common.satoken = tokenInfo.satoken
     }
   })
@@ -23,25 +24,28 @@ export default function (context, inject) {
     } else {
       // 获取错误信息
       const msg = errorCode[code] || res.data.msg || errorCode.default
-      if (code === 3001) {
+      if (code === 2001) {
         store.commit('user/REMOVE_TOKEN_INFO')
-        context.$dialog({
-          persistent: true,
-          title: '系统提示',
-          content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
-          confirmText: '重新登录'
-        }).then((value) => {
-          // 跳转登录页面
-          router.push({ path: '/user/login', query: { redirect: route.fullPath } })
-        })
+        if (process.client) {
+          if (route.path !== '/') {
+            context.$dialog({
+              persistent: true,
+              title: '系统提示',
+              content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
+              confirmText: '重新登录'
+            }).then((value) => {
+              // 跳转登录页面
+              router.push({ path: '/user/login', query: { redirect: route.fullPath } })
+            })
+          }
+        }
       } else {
-        context.$snackbar.error(msg)
+        process.client && context.$snackbar.error(msg)
       }
       return Promise.reject(msg)
     }
   },
   (error) => {
-    console.log('err' + error)
     let { message } = error
     if (message === 'Network Error') {
       message = '后端接口连接异常'
@@ -50,7 +54,7 @@ export default function (context, inject) {
     } else if (message.includes('Request failed with status code')) {
       message = '系统接口' + message.substr(message.length - 3) + '异常'
     }
-    context.$snackbar.error(message)
+    process.client && context.$snackbar.error(message)
     return Promise.reject(error)
   }
   )

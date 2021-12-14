@@ -94,6 +94,11 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
+    public Result<Boolean> updateEmail(@RequestBody @Validated SysUserUpdateEmailRequest request) {
+        return sysUserFacade.updateEmail(request);
+    }
+
+    @Override
     public Result<Boolean> updatePassword(@RequestBody @Validated SysUserUpdatePasswordRequest request) {
         return sysUserFacade.updatePassword(request);
     }
@@ -103,4 +108,23 @@ public class SysUserController implements ISysUserApi {
         return sysUserFacade.register(request);
     }
 
+    @Override
+    public Result<?> resetPassword(@Validated @RequestBody SysUserResetPasswordRequest request) {
+        return sysUserFacade.resetPassword(request);
+    }
+
+    @Override
+    public Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request) {
+        return sysUserFacade.updateEnabled(request);
+    }
+
+    @Override
+    public Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request) {
+        return sysUserFacade.findAllByForeignColumn(request);
+    }
+
+    @Override
+    public Result<Boolean> updateUserRoles(@RequestBody @Validated SysUserRolesSaveRequest request) {
+        return sysUserFacade.updateUserRoles(request);
+    }
 }

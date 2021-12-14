@@ -50,8 +50,7 @@ public class SysUserSaveRequest extends BaseSaveRequest {
     @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
     private String email;
 
-    @ApiModelProperty(value = "用户名", required = true)
-    @NotBlank(message = "用户名不能为空")
+    @ApiModelProperty(value = "用户名")
     @Size(max = 10, message = "用户名长度不能超过10")
     private String username;
 

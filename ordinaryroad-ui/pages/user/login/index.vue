@@ -42,12 +42,14 @@
         <v-form class="mt-10">
           <v-text-field
             v-model="orNumber"
+            messages="10001"
             :label="$t('orNumber')"
             prepend-icon="mdi-account"
             type="text"
           />
           <v-text-field
             v-model="password"
+            messages="Abc123"
             :label="$t('password')"
             prepend-icon="mdi-lock"
             type="password"
@@ -95,7 +97,7 @@
             v-model="rememberMeModel"
             label="记住我"
             hide-details="auto"
-            :messages="rememberMeModel?'不要在非自己电脑上勾选哦':null"
+            :messages="rememberMeModel?'不要在非自己设备上勾选哦':null"
           />
           <div class="text-center mt-10">
             <v-btn
@@ -121,12 +123,22 @@ import { mapActions, mapGetters } from 'vuex'
 
 export default {
   layout: 'empty',
+  asyncData (context) {
+    const { store, route, redirect } = context
+    const redirectPath = route.query.redirect || '/upms/user'
+    const userInfo = store.getters['user/getUserInfo']
+    const tokenInfo = store.getters['user/getTokenInfo']
+    if (tokenInfo && userInfo) {
+      redirect(redirectPath)
+    }
+    return { redirect: redirectPath }
+  },
   data () {
     return {
       loading: false,
-      orNumber: '',
+      orNumber: '10001',
       username: '',
-      password: '',
+      password: 'Abc123',
       code: '',
       captchaId: '',
       src: '',
@@ -148,13 +160,10 @@ export default {
       }
     }
   },
+  created () {
+    this.getCaptchaImage()
+  },
   mounted () {
-    this.redirect = this.$route.query.redirect || '/upms/user'
-    if (this.$store.getters['user/getTokenInfo']) {
-      this.$router.replace({ path: this.redirect })
-    } else {
-      this.getCaptchaImage()
-    }
   },
   methods: {
     ...mapActions('user', {
@@ -174,18 +183,19 @@ export default {
             code: this.code,
             rememberMe: this.rememberMe
           },
-          $apis: this.$apis
+          $apis: this.$apis,
+          $access: this.$access,
+          $store: this.$store
         }).then(() => {
           this.loading = false
           this.$router.replace({ path: this.redirect })
-        }).catch((reason) => {
-          this.getCaptchaImage()
+        }).catch(() => {
           this.loading = false
         })
       }
     },
     getCaptchaImage () {
-      this.$apis.user.getLoginCaptcha(this.orNumber)
+      this.$apis.user.getLoginCaptcha()
         .then((value) => {
           this.code = ''
           const data = value.data

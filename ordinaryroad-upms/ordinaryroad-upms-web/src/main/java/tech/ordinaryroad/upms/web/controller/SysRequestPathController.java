@@ -70,6 +70,11 @@ public class SysRequestPathController implements ISysRequestPathApi {
     }
 
     @Override
+    public Result<SysRequestPathDTO> findByUniqueColumn(@RequestBody SysRequestPathQueryRequest request) {
+        return sysRequestPathFacade.findByUniqueColumn(request);
+    }
+
+    @Override
     public Result<List<SysRequestPathDTO>> findAllByPermissionUuids(@RequestBody SysRequestPathQueryRequest request) {
         return sysRequestPathFacade.findAllByPermissionUuids(request);
     }

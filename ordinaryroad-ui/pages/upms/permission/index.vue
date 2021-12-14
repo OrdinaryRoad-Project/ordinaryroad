@@ -1,5 +1,12 @@
 <template>
-  <div>权限管理</div>
+  <div>
+    <base-material-card
+      :icon="`mdi-lock`"
+      :title="$t('menuTitles.permissionManagement')"
+    >
+      <or-data-table-upms-permission />
+    </base-material-card>
+  </div>
 </template>
 
 <script>
@@ -11,7 +18,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

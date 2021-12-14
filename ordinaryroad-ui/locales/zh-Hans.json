@@ -1,4 +1,42 @@
 {
+  "rolePermissions": "角色权限",
+  "roleUsers": "角色用户",
+  "roleUsersManagement": "角色用户管理",
+  "rolePermissionsManagement": "角色权限管理",
+  "whatSuccessfully": "{0}成功",
+  "disable": "禁用",
+  "enable": "启用",
+  "areYouSureToDoWhat": "确定{0}？",
+  "enabled": "启用",
+  "back": "返回",
+  "userRoles": "用户角色",
+  "userRolesManagement": "用户角色管理",
+  "resetPassword": "重置密码",
+  "inputWhatToSearchPlaceHolder": "输入{0}进行搜索",
+  "permission": "权限",
+  "permissionCode": "权限code",
+  "description": "描述",
+  "requestPath": "请求路径",
+  "path": "路径url",
+  "pathName": "路径名称",
+  "permissionUuid": "请求路径所需要的权限uuid",
+  "role": "角色",
+  "roleCode": "角色code",
+  "roleName": "角色名称",
+  "hints": {
+    "password": "必须包含大小写字母和数字的组合，可以使用特殊字符，长度6-16，为空则默认123456"
+  },
+  "user": "用户",
+  "updateWhat": "更新{0}",
+  "createWhat": "创建{0}",
+  "oldAndNewPasswordsAreTheSame": "新旧密码不能相同",
+  "inconsistentPasswords": "密码不一致",
+  "update": "更新",
+  "confirmPassword": "确认密码",
+  "newPassword": "新密码",
+  "oldPassword": "旧密码",
+  "basicInformation": "基本资料",
+  "changePassword": "密码修改",
   "whatUpdateSuccessfully": "{0}更新成功",
   "userMenuTitles": {
     "userProfile": "个人中心"
@@ -57,5 +95,6 @@
     "permissionManagement": "权限管理",
     "requestPathManagement": "请求路径管理"
   },
-  "settings": "设置"
+  "settings": "设置",
+  "ordinaryroad": "Ordinary Road"
 }

@@ -12,9 +12,8 @@ export default {
     logout: () => {
       return $axios({ url: '/logout', method: 'get' })
     },
-    getLoginCaptcha: (orNumber) => {
-      const params = { orNumber }
-      return $axios({ url: '/captcha/login', method: 'get', params })
+    getLoginCaptcha: () => {
+      return $axios({ url: '/captcha/login', method: 'get' })
     },
     getRegisterCaptcha: (email) => {
       const params = { email }

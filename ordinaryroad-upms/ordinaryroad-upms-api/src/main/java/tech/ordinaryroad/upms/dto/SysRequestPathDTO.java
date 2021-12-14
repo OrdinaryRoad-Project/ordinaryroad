@@ -38,7 +38,7 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 @ApiModel
 public class SysRequestPathDTO extends BaseModelDTO {
 
-    private static final long serialVersionUID = -7506769423673444795L;
+    private static final long serialVersionUID = -3446058922874347759L;
 
     @ApiModelProperty("请求路径所需要的权限uuid")
     private String permissionUuid;
@@ -50,4 +50,8 @@ public class SysRequestPathDTO extends BaseModelDTO {
     @EqualsAndHashCode.Include
     @ApiModelProperty("路径名称")
     private String pathName;
+
+    @ApiModelProperty("请求路径所需要的权限DTO")
+    private SysPermissionDTO permission;
+
 }

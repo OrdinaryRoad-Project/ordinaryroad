@@ -49,4 +49,6 @@ public class SysUserQueryRequest extends BaseQueryRequest {
     @ApiModelProperty("or帐号")
     private String orNumber;
 
+    @ApiModelProperty("角色uuid")
+    private String roleUuid;
 }

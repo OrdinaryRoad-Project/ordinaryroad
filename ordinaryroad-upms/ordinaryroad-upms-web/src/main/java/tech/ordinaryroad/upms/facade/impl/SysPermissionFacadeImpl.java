@@ -37,15 +37,11 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.SysPermissionDTO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
-import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
-import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.facade.ISysPermissionFacade;
 import tech.ordinaryroad.upms.mapstruct.SysPermissionMapStruct;
 import tech.ordinaryroad.upms.request.SysPermissionQueryRequest;
 import tech.ordinaryroad.upms.request.SysPermissionSaveRequest;
 import tech.ordinaryroad.upms.service.SysPermissionService;
-import tech.ordinaryroad.upms.service.SysRolesPermissionsService;
-import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
 import java.util.Collections;
 import java.util.List;
@@ -63,8 +59,6 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
 
     private final SysPermissionService sysPermissionService;
     private final SysPermissionMapStruct objMapStruct;
-    private final SysUsersRolesService sysUsersRolesService;
-    private final SysRolesPermissionsService sysRolesPermissionsService;
 
     @Override
     public Result<SysPermissionDTO> create(SysPermissionSaveRequest request) {
@@ -120,6 +114,21 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     }
 
     @Override
+    public Result<SysPermissionDTO> findByForeignColumn(SysPermissionQueryRequest request) {
+        Optional<SysPermissionDO> optional = Optional.empty();
+        String requestRequestPathUuid = request.getRequestPathUuid();
+        String requestPath = request.getRequestPath();
+
+        if (StrUtil.isNotBlank(requestRequestPathUuid)) {
+            optional = sysPermissionService.findByRequestPathUuid(requestRequestPathUuid);
+        } else if (StrUtil.isNotBlank(requestPath)) {
+            optional = sysPermissionService.findByRequestPath(requestPath);
+        }
+
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+    }
+
+    @Override
     public Result<List<SysPermissionDTO>> findAllByIds(BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {
@@ -141,6 +150,23 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     }
 
     @Override
+    public Result<List<SysPermissionDTO>> findAllByForeignColumn(SysPermissionQueryRequest request) {
+        List<SysPermissionDO> all = Collections.emptyList();
+
+        String userUuid = request.getUserUuid();
+        String roleUuid = request.getRoleUuid();
+        if (StrUtil.isNotBlank(userUuid)) {
+            all = sysPermissionService.findAllByUserUuid(userUuid);
+        } else if (StrUtil.isNotBlank(roleUuid)) {
+            all = sysPermissionService.findAllByRoleUuid(roleUuid);
+        }
+
+        List<SysPermissionDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+
+        return Result.success(list);
+    }
+
+    @Override
     public Result<PageInfo<SysPermissionDTO>> list(SysPermissionQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
@@ -150,38 +176,5 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
         PageInfo<SysPermissionDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 
         return Result.success(objectPageInfo);
-    }
-
-    @Override
-    public Result<List<SysPermissionDTO>> findAllByUserUuid(SysPermissionQueryRequest request) {
-        String userUuid = request.getUserUuid();
-        if (StrUtil.isBlank(userUuid)) {
-            return Result.fail(StatusCode.PARAM_IS_BLANK);
-        }
-        // 根据用户uuid查询所有角色uuid
-        List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
-        // 根据角色uuid查询角色
-        List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
-        List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(roleUuidList);
-        List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
-        // 根据权限uuid查询所有权限
-        List<SysPermissionDO> byIds = sysPermissionService.findIds(SysPermissionDO.class, permissionUuids);
-        List<SysPermissionDTO> collect = byIds.stream().map(objMapStruct::transfer).collect(Collectors.toList());
-        return Result.success(collect);
-    }
-
-    @Override
-    public Result<List<SysPermissionDTO>> findAllByRoleUuid(SysPermissionQueryRequest request) {
-        String roleUuid = request.getRoleUuid();
-        if (StrUtil.isBlank(roleUuid)) {
-            return Result.fail(StatusCode.PARAM_IS_BLANK);
-        }
-        // 根据角色uuid查询所有权限
-        List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(Collections.singletonList(roleUuid));
-        List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
-        // 根据权限uuid查询所有权限
-        List<SysPermissionDO> byIds = sysPermissionService.findIds(SysPermissionDO.class, permissionUuids);
-        List<SysPermissionDTO> collect = byIds.stream().map(objMapStruct::transfer).collect(Collectors.toList());
-        return Result.success(collect);
     }
 }

@@ -94,6 +94,14 @@ public interface ISysUserFacade {
     Result<Boolean> updateUsername(SysUserUpdateUsernameRequest request);
 
     /**
+     * 更新邮箱
+     *
+     * @param request Request
+     * @return Boolean
+     */
+    Result<Boolean> updateEmail(SysUserUpdateEmailRequest request);
+
+    /**
      * 更新密码
      *
      * @param request Request
@@ -116,4 +124,30 @@ public interface ISysUserFacade {
      * @return DTO
      */
     Result<SysUserDTO> register(SysUserRegisterRequest request);
+
+    /**
+     * 重置密码
+     *
+     * @param request Request
+     * @return Boolean
+     */
+    Result<?> resetPassword(SysUserResetPasswordRequest request);
+
+    Result<?> updateEnabled(SysUserUpdateEnabledRequest request);
+
+    /**
+     * 根据关联外键查询所有用户
+     *
+     * @param request Request
+     * @return Result
+     */
+    Result<List<SysUserDTO>> findAllByForeignColumn(SysUserQueryRequest request);
+
+    /**
+     * 更新用户拥有的角色，删除或新增
+     *
+     * @param request Request
+     * @return Result，True表示发生改动
+     */
+    Result<Boolean> updateUserRoles(SysUserRolesSaveRequest request);
 }
