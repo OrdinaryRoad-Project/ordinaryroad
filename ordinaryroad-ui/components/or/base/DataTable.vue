@@ -244,7 +244,6 @@ export default {
         )
       } else {
         headers.push(
-          { text: 'UUID', value: 'uuid', sortable: false },
           ...this.tableHeaders,
           { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
           { text: this.$t('createBy'), value: 'createBy', sortable: false },
