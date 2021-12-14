@@ -42,12 +42,14 @@
         <v-form class="mt-10">
           <v-text-field
             v-model="orNumber"
+            messages="10001"
             :label="$t('orNumber')"
             prepend-icon="mdi-account"
             type="text"
           />
           <v-text-field
             v-model="password"
+            messages="Abc123"
             :label="$t('password')"
             prepend-icon="mdi-lock"
             type="password"
