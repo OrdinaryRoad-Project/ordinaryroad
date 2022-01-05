@@ -21,11 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.facade;
+package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysDictDTO;
 import tech.ordinaryroad.upms.request.SysDictQueryRequest;
 import tech.ordinaryroad.upms.request.SysDictSaveRequest;
@@ -36,61 +42,28 @@ import java.util.List;
  * @author mjz
  * @date 2022/1/5
  */
-public interface ISysDictFacade {
+@Api(value = "字典API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysDictApi")
+public interface ISysDictApi {
 
-    /**
-     * 创建
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysDictDTO> create(SysDictSaveRequest request);
+    @PostMapping(value = "/dict/create")
+    Result<SysDictDTO> create(@Validated @RequestBody SysDictSaveRequest request);
 
-    /**
-     * 删除
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<Boolean> delete(BaseDeleteRequest request);
+    @PostMapping(value = "/dict/delete")
+    Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    /**
-     * 更新
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysDictDTO> update(SysDictSaveRequest request);
+    @PostMapping(value = "/dict/update")
+    Result<SysDictDTO> update(@Validated @RequestBody SysDictSaveRequest request);
 
-    /**
-     * 查询
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysDictDTO> findById(SysDictQueryRequest request);
+    @PostMapping(value = "/dict/find/id")
+    Result<SysDictDTO> findById(@RequestBody SysDictQueryRequest request);
 
-    /**
-     * 根据唯一列查询字典
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<SysDictDTO> findByUniqueColumn(SysDictQueryRequest request);
+    @PostMapping(value = "/dict/find/unique")
+    Result<SysDictDTO> findByUniqueColumn(@RequestBody SysDictQueryRequest request);
 
-    /**
-     * 查询所有
-     *
-     * @param request Request
-     * @return List
-     */
-    Result<List<SysDictDTO>> findAll(SysDictQueryRequest request);
+    @PostMapping(value = "/dict/find_all")
+    Result<List<SysDictDTO>> findAll(@RequestBody SysDictQueryRequest request);
 
-    /**
-     * 分页查询所有
-     *
-     * @param request Request
-     * @return Page
-     */
-    Result<PageInfo<SysDictDTO>> list(SysDictQueryRequest request);
+    @PostMapping(value = "/dict/list")
+    Result<PageInfo<SysDictDTO>> list(@RequestBody SysDictQueryRequest request);
 }

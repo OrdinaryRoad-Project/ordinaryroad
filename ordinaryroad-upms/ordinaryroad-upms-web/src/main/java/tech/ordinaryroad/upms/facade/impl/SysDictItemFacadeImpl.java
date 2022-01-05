@@ -157,7 +157,16 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
 
     @Override
     public Result<List<SysDictItemDTO>> findAllByForeignColumn(SysDictItemQueryRequest request) {
-        return null;
+        List<SysDictItemDO> all = Collections.emptyList();
+
+        String dictUuid = request.getDictUuid();
+        if (StrUtil.isNotBlank(dictUuid)) {
+            all = sysDictItemService.findAllByDictUuid(dictUuid);
+        }
+
+        List<SysDictItemDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+
+        return Result.success(list);
     }
 
     @Override

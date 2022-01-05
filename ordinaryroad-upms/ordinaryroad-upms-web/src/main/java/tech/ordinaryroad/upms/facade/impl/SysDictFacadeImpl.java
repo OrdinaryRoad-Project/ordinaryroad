@@ -122,6 +122,20 @@ public class SysDictFacadeImpl implements ISysDictFacade {
     }
 
     @Override
+    public Result<SysDictDTO> findByUniqueColumn(SysDictQueryRequest request) {
+        Optional<SysDictDO> optional = Optional.empty();
+        String dictCode = request.getDictCode();
+        String dictName = request.getDictName();
+        if (StrUtil.isNotBlank(dictCode)) {
+            optional = sysDictService.findByDictCode(dictCode);
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(dictName)) {
+            optional = sysDictService.findByDictName(dictName);
+        }
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+    }
+
+    @Override
     public Result<List<SysDictDTO>> findAll(SysDictQueryRequest request) {
         SysDictDO sysDictDO = objMapStruct.transfer(request);
 
