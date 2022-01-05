@@ -54,6 +54,9 @@ public enum StatusCode implements IStatusCode {
     PATH_ALREADY_EXIST(4011, "路径已存在"),
     PERMISSION_NOT_EXIST(4012, "权限不存在"),
     PATH_NAME_ALREADY_EXIST(4013, "路径名称已存在"),
+    DICT_NOT_EXIST(4014, "字典不存在"),
+    LABEL_ALREADY_EXIST(4015, "标签已存在"),
+    VALUE_ALREADY_EXIST(4016, "值已存在"),
     ;
 
     /**
