@@ -68,7 +68,7 @@ public class SysDictService extends BaseService<SysDictDAO, SysDictDO> {
         }
         String remark = sysDictDO.getRemark();
         if (Argument.isNotBlank(remark)) {
-            sqls.andLike("remark", "%" + dictCode + "%");
+            sqls.andLike("remark", "%" + remark + "%");
         }
 
         return super.dao.selectByExample(Example.builder(SysDictDO.class).where(sqls).build());
