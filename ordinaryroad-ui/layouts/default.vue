@@ -12,7 +12,7 @@
       app
     >
       <v-list>
-        <v-list-item>
+        <v-list-item @click="$router.push('/')">
           <v-list-item-avatar>OR</v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-h6">
