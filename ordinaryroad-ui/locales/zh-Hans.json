@@ -1,4 +1,8 @@
 {
+  "dict": "字典",
+  "dictName": "字典名称",
+  "dictCode": "字典code",
+  "remark": "备注",
   "rolePermissions": "角色权限",
   "roleUsers": "角色用户",
   "roleUsersManagement": "角色用户管理",
@@ -93,7 +97,8 @@
     "userManagement": "用户管理",
     "roleManagement": "角色管理",
     "permissionManagement": "权限管理",
-    "requestPathManagement": "请求路径管理"
+    "requestPathManagement": "请求路径管理",
+    "dictManagement": "字典管理"
   },
   "settings": "设置",
   "ordinaryroad": "Ordinary Road"

@@ -1,4 +1,8 @@
 {
+  "dict": "Dict",
+  "dictName": "Dict Name",
+  "dictCode": "Dict Code",
+  "remark": "Remark",
   "rolePermissions": "Role Permissions",
   "roleUsers": "Role Users",
   "roleUsersManagement": "Role Users Management",
@@ -93,7 +97,8 @@
     "userManagement": "User Management",
     "roleManagement": "Role Management",
     "permissionManagement": "Permission Management",
-    "requestPathManagement": "RequestPath Management"
+    "requestPathManagement": "RequestPath Management",
+    "dictManagement": "Dict Management"
   },
   "settings": "Settings",
   "ordinaryroad": "Ordinary Road"
