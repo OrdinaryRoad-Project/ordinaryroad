@@ -107,6 +107,8 @@
           :$vuetify.theme.dark ?'v-sheet theme--dark elevation-1 d-flex'
             :'v-sheet theme--light elevation-1 d-flex'"
       >
+        <slot name="actionsBefore" :item="item" />
+
         <v-btn
           v-if="(!accessKey||$access.has(accessKey+':update'))"
           icon
@@ -125,7 +127,7 @@
           <v-icon>mdi-delete-forever</v-icon>
         </v-btn>
 
-        <slot name="actions" :item="item" />
+        <slot name="actionsAfter" :item="item" />
 
         <or-base-menu
           v-if="$scopedSlots.moreActions"
