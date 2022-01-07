@@ -22,7 +22,7 @@ CREATE TABLE `sys_permission`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_permission_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 23
+  AUTO_INCREMENT = 31
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '权限表'
   ROW_FORMAT = Dynamic;
@@ -87,6 +87,26 @@ VALUES (21, '6f5a8a73c13b4005942fbf4dc2e36973', '2021-12-12 12:16:50', NULL, NUL
 INSERT INTO `sys_permission`
 VALUES (22, '73da3231b3164f05bf27625747138cc8', '2021-12-12 12:17:47', NULL, NULL, NULL, 'upms:permission:list',
         '查询权限列表');
+INSERT INTO `sys_permission`
+VALUES (23, '140462770d2945da85ed6f17863e4a64', '2022-01-06 18:03:20', NULL, NULL, NULL, 'upms:dict:create', '创建字典');
+INSERT INTO `sys_permission`
+VALUES (24, 'a2ef2a0497b54016b546478c05edde87', '2022-01-06 18:04:32', NULL, NULL, NULL, 'upms:dict:delete', '删除字典');
+INSERT INTO `sys_permission`
+VALUES (25, '45e7cc43256b4d17a62b6ece7828d090', '2022-01-06 18:04:53', NULL, NULL, NULL, 'upms:dict:update', '更新字典');
+INSERT INTO `sys_permission`
+VALUES (26, '5f4666f586d34509bfd55a3baa8da9fa', '2022-01-06 18:05:07', NULL, NULL, NULL, 'upms:dict:list', '查询字典列表');
+INSERT INTO `sys_permission`
+VALUES (27, '88ec00ed22044e2bbe8edfa7fc2ba30f', '2022-01-06 18:03:20', NULL, NULL, NULL, 'upms:dict_item:create',
+        '创建字典项');
+INSERT INTO `sys_permission`
+VALUES (28, '299eaee1ff694be2a843499ec9d2a6bd', '2022-01-06 18:04:32', NULL, NULL, NULL, 'upms:dict_item:delete',
+        '删除字典项');
+INSERT INTO `sys_permission`
+VALUES (29, 'efb03858340c4614aea79b4ad8dd08ed', '2022-01-06 18:04:53', NULL, NULL, NULL, 'upms:dict_item:update',
+        '更新字典项');
+INSERT INTO `sys_permission`
+VALUES (30, 'e1adfb6d17bf4353a0786d0ff49a1c95', '2022-01-06 18:05:07', NULL, NULL, NULL, 'upms:dict_item:list',
+        '查询字典项列表');
 
 -- ----------------------------
 -- Table structure for sys_request_path
@@ -106,7 +126,7 @@ CREATE TABLE `sys_request_path`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_request_path_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 23
+  AUTO_INCREMENT = 31
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '请求路径表'
   ROW_FORMAT = Dynamic;
@@ -177,6 +197,30 @@ VALUES (21, '4d8ece0129e34c6693d5d7f8a71ea80d', '2021-12-12 12:14:08', NULL, '20
 INSERT INTO `sys_request_path`
 VALUES (22, '6281a48c06094afdb475c73ee9079d73', '2021-12-12 12:14:59', NULL, '2021-12-12 13:14:28', NULL,
         '/upms/permission/list', '查询权限列表', '73da3231b3164f05bf27625747138cc8');
+INSERT INTO `sys_request_path`
+VALUES (23, '908f6eca4d4e4f3790d19cab653d3d4f', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/create', '创建字典',
+        '140462770d2945da85ed6f17863e4a64');
+INSERT INTO `sys_request_path`
+VALUES (24, 'a22760555af74d53b111e725508fa4a0', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/delete', '删除字典',
+        'a2ef2a0497b54016b546478c05edde87');
+INSERT INTO `sys_request_path`
+VALUES (25, '4ec456f9767c47379204efc5a563b2d1', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/update', '更新字典',
+        '45e7cc43256b4d17a62b6ece7828d090');
+INSERT INTO `sys_request_path`
+VALUES (26, 'f303717162f244329a748ef30f5243cf', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/list', '查询字典列表',
+        '5f4666f586d34509bfd55a3baa8da9fa');
+INSERT INTO `sys_request_path`
+VALUES (27, '8e96f6ca2641463da37062709df40180', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict_item/create',
+        '创建字典项', '88ec00ed22044e2bbe8edfa7fc2ba30f');
+INSERT INTO `sys_request_path`
+VALUES (28, 'a6d790ed75e3424b8e8149e41d730f98', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict_item/delete',
+        '删除字典项', '299eaee1ff694be2a843499ec9d2a6bd');
+INSERT INTO `sys_request_path`
+VALUES (29, 'e58f7be01c9c46229c8da4a9da408f21', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict_item/update',
+        '更新字典项', 'efb03858340c4614aea79b4ad8dd08ed');
+INSERT INTO `sys_request_path`
+VALUES (30, 'bfba6860e1a240888fde856dab2565fb', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict_item/list',
+        '查询字典项列表', 'e1adfb6d17bf4353a0786d0ff49a1c95');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -230,7 +274,7 @@ CREATE TABLE `sys_roles_permissions`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_roles_permissions_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 52
+  AUTO_INCREMENT = 66
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '角色权限关联关系表'
   ROW_FORMAT = Dynamic;
@@ -337,6 +381,48 @@ VALUES (50, '8c9760736a9f48cfacb81ffcf7d3443e', '2021-12-13 20:40:10', NULL, NUL
 INSERT INTO `sys_roles_permissions`
 VALUES (51, 'c9805e01f6b34a3190d400b89b993d4f', '2021-12-13 20:40:10', NULL, NULL, NULL,
         '11aa7ccc1d194afabb7a303d48b07683', '6f5a8a73c13b4005942fbf4dc2e36973');
+INSERT INTO `sys_roles_permissions`
+VALUES (52, 'a8af7cae29604e2da9244a141612ed52', '2022-01-06 18:12:40', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '140462770d2945da85ed6f17863e4a64');
+INSERT INTO `sys_roles_permissions`
+VALUES (53, '163092a9f59b4430bf31f5b2b2d45767', '2022-01-06 18:12:40', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', 'a2ef2a0497b54016b546478c05edde87');
+INSERT INTO `sys_roles_permissions`
+VALUES (54, '1ddbec68b77a4e1fa9088fa7f31c9ef4', '2022-01-06 18:12:40', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '45e7cc43256b4d17a62b6ece7828d090');
+INSERT INTO `sys_roles_permissions`
+VALUES (55, '40b3a18ac75b42f38a36383d493408ad', '2022-01-06 18:12:40', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '5f4666f586d34509bfd55a3baa8da9fa');
+INSERT INTO `sys_roles_permissions`
+VALUES (56, 'dfd3feaae4bf470fb09eabad6873b976', '2022-01-06 18:12:40', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '88ec00ed22044e2bbe8edfa7fc2ba30f');
+INSERT INTO `sys_roles_permissions`
+VALUES (57, '4ad6156937dd472f87b2a78d28779a96', '2022-01-06 18:12:40', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '299eaee1ff694be2a843499ec9d2a6bd');
+INSERT INTO `sys_roles_permissions`
+VALUES (58, 'b497404c0859447daf024cf60facf6db', '2022-01-06 18:12:40', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', 'efb03858340c4614aea79b4ad8dd08ed');
+INSERT INTO `sys_roles_permissions`
+VALUES (59, '6e5bce5f23fa482dad18f8089d700e35', '2022-01-06 18:12:40', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', 'e1adfb6d17bf4353a0786d0ff49a1c95');
+INSERT INTO `sys_roles_permissions`
+VALUES (60, '66e0478bbf5345f49989dab21ed90755', '2022-01-06 18:13:09', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '140462770d2945da85ed6f17863e4a64');
+INSERT INTO `sys_roles_permissions`
+VALUES (61, '16f50731aef94951bcc3dba46c65f8f6', '2022-01-06 18:13:09', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '5f4666f586d34509bfd55a3baa8da9fa');
+INSERT INTO `sys_roles_permissions`
+VALUES (62, '1fe4f50546f94adfb4938d48f576209f', '2022-01-06 18:13:09', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '88ec00ed22044e2bbe8edfa7fc2ba30f');
+INSERT INTO `sys_roles_permissions`
+VALUES (63, 'cf9c1ad8720145dd84c108e9a234b76a', '2022-01-06 18:13:09', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', 'e1adfb6d17bf4353a0786d0ff49a1c95');
+INSERT INTO `sys_roles_permissions`
+VALUES (64, 'f4ee11f652ee49a7b6805be2ac284751', '2022-01-06 18:13:25', NULL, NULL, NULL,
+        '63b55b8be8fe49af82a822aa9aa57868', '5f4666f586d34509bfd55a3baa8da9fa');
+INSERT INTO `sys_roles_permissions`
+VALUES (65, '3ff9cf02b72d46dabdd8595ba0da9b8a', '2022-01-06 18:13:25', NULL, NULL, NULL,
+        '63b55b8be8fe49af82a822aa9aa57868', 'e1adfb6d17bf4353a0786d0ff49a1c95');
 
 -- ----------------------------
 -- Table structure for sys_user
