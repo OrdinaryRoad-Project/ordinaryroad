@@ -12,7 +12,7 @@
       app
     >
       <v-list>
-        <v-list-item>
+        <v-list-item @click="$router.push('/')">
           <v-list-item-avatar>OR</v-list-item-avatar>
           <v-list-item-content>
             <v-list-item-title class="text-h6">
@@ -113,6 +113,13 @@
       </v-btn>
       <v-toolbar-title>{{ $t(titleKey) }}</v-toolbar-title>
       <v-spacer />
+      <v-autocomplete
+        flat
+        hide-no-data
+        hide-details
+        label="What state are you from?"
+        solo-inverted
+      />
       <v-menu offset-y open-on-hover>
         <template #activator="{ on, attrs }">
           <v-btn

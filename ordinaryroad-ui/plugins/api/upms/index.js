@@ -2,6 +2,8 @@ import roleApis from './role'
 import userApis from './user'
 import requestPathApis from './request_path'
 import permissionApis from './permission'
+import dictApis from './dict'
+import dictItemApis from './dict_item'
 
 let $axios = null
 
@@ -12,12 +14,16 @@ export default {
     roleApis.initAxios(axios)
     requestPathApis.initAxios(axios)
     permissionApis.initAxios(axios)
+    dictApis.initAxios(axios)
+    dictItemApis.initAxios(axios)
   },
   apis: {
     role: roleApis,
     user: userApis,
     request_path: requestPathApis,
     permission: permissionApis,
+    dict: dictApis,
+    dict_item: dictItemApis,
     userInfo: ({ saToken }) => {
       const data = { saToken }
       return $axios({

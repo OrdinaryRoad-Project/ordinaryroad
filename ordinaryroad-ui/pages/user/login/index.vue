@@ -125,7 +125,7 @@ export default {
   layout: 'empty',
   asyncData (context) {
     const { store, route, redirect } = context
-    const redirectPath = route.query.redirect || '/upms/user'
+    const redirectPath = route.query.redirect || '/'
     const userInfo = store.getters['user/getUserInfo']
     const tokenInfo = store.getters['user/getTokenInfo']
     if (tokenInfo && userInfo) {

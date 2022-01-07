@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     ref="table"
+    :sort-by="sortBy"
     :height="showSelect?'50vh':null"
     :single-select="singleSelect"
     :show-select="showSelect"
@@ -22,6 +23,7 @@
     @toggle-select-all="onToggleSelectAll"
   >
     <template #top>
+      <slot name="searchFormBefore" />
       <v-form ref="searchForm">
         <v-row align="center">
           <slot name="searchFormBody" />
@@ -74,6 +76,7 @@
             <v-icon>mdi-reload</v-icon>
             {{ $t('refresh') }}
           </v-btn>
+          <slot name="topButtonsAfter" />
         </v-col>
       </v-row>
       <v-divider class="mt-2" />
@@ -107,6 +110,8 @@
           :$vuetify.theme.dark ?'v-sheet theme--dark elevation-1 d-flex'
             :'v-sheet theme--light elevation-1 d-flex'"
       >
+        <slot name="actionsBefore" :item="item" />
+
         <v-btn
           v-if="(!accessKey||$access.has(accessKey+':update'))"
           icon
@@ -125,7 +130,7 @@
           <v-icon>mdi-delete-forever</v-icon>
         </v-btn>
 
-        <slot name="actions" :item="item" />
+        <slot name="actionsAfter" :item="item" />
 
         <or-base-menu
           v-if="$scopedSlots.moreActions"
@@ -177,6 +182,10 @@ export default {
       default: false
     },
     presetSelectedItems: {
+      type: Array,
+      default: () => []
+    },
+    sortBy: {
       type: Array,
       default: () => []
     },
@@ -280,6 +289,7 @@ export default {
     },
     resetSearch () {
       this.$refs.searchForm.reset()
+      this.$emit('resetSearch')
       const options = Object.assign({}, this.options)
       options.page = 1
       this.options = options

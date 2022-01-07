@@ -44,6 +44,14 @@ export default () => ({
       meta: {
         permission: 'upms:request_path:list'
       }
+    },
+    {
+      titleKey: 'menuTitles.dictManagement',
+      to: '/upms/dict',
+      icon: 'mdi-book-cog',
+      meta: {
+        permission: 'upms:dict:list'
+      }
     }
   ],
   accessibleMenuItems: [],

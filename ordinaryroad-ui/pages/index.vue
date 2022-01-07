@@ -67,23 +67,6 @@
             Nuxt GitHub
           </a>
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="primary"
-            nuxt
-            to="/user/register"
-          >
-            注册
-          </v-btn>
-          <v-btn
-            color="primary"
-            nuxt
-            to="/user/login"
-          >
-            登录
-          </v-btn>
-        </v-card-actions>
       </v-card>
     </v-col>
   </v-row>
@@ -97,7 +80,6 @@ export default {
   components: {
     Logo,
     VuetifyLogo
-  },
-  layout: 'empty'
+  }
 }
 </script>

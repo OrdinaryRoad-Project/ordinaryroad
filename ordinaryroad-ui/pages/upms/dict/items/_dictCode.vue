@@ -1,35 +1,37 @@
 <template>
   <base-material-card
-    icon="mdi-account"
-    :title="$t('rolePermissionsManagement')"
+    icon="mdi-book-open"
+    :title="$t('dictItemsManagement')"
   >
-    <or-form-upms-role-permissions :preset="presetModel" />
+    <or-data-table-upms-dict-item :default-dict-uuid="presetModel.uuid" />
   </base-material-card>
 </template>
 <script>
 export default {
   validate ({ params }) {
     // 必填
-    return !!params.roleCode
+    return !!params.dictCode
   },
   async asyncData ({ route, $apis }) {
     let presetModel
     if (route.params.item) {
       presetModel = route.params.item
     } else {
-      // 加载角色
-      presetModel = (await $apis.upms.role.findByUniqueColumn({
-        roleCode: route.params.roleCode
+      // 服务端渲染，先从服务器获取dict的uuid
+      presetModel = (await $apis.upms.dict.findByUniqueColumn({
+        dictCode: route.params.dictCode
       })).data
     }
     return { presetModel }
   },
   data: () => ({
-    presetModel: null
+    presetModel: {
+      uuid: null
+    }
   }),
   head () {
     return {
-      title: this.$t('rolePermissionsManagement')
+      title: this.$t('dictItemsManagement')
     }
   },
   created () {
