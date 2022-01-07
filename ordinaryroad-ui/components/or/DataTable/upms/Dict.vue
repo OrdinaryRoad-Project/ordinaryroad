@@ -66,10 +66,10 @@
       <template #actionsBefore="{item}">
         <v-btn
           v-if="$access.has('upms:dict_item:list')"
-          :to="'/upms/dict/items/'+item.dictCode"
           icon
           color="accent"
           class="mr-2"
+          @click="goToDictItem(item)"
         >
           <v-icon>mdi-book-open</v-icon>
         </v-btn>
@@ -165,6 +165,9 @@ export default {
   mounted () {
   },
   methods: {
+    goToDictItem (item) {
+      this.$router.push({ name: 'upms-dict-items-dictCode', params: { dictCode: item.dictCode, item } })
+    },
     onItemUpdate (item) {
       this.editedItem = item
     },
