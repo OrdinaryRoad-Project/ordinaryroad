@@ -23,6 +23,7 @@
     @toggle-select-all="onToggleSelectAll"
   >
     <template #top>
+      <slot name="searchFormBefore" />
       <v-form ref="searchForm">
         <v-row align="center">
           <slot name="searchFormBody" />
