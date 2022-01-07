@@ -12,6 +12,18 @@ export default {
     // 必填
     return !!params.roleCode
   },
+  async asyncData ({ route, $apis }) {
+    let presetModel
+    if (route.params.item) {
+      presetModel = route.params.item
+    } else {
+      // 加载角色
+      presetModel = (await $apis.upms.role.findByUniqueColumn({
+        roleCode: route.params.roleCode
+      })).data
+    }
+    return { presetModel }
+  },
   data: () => ({
     presetModel: null
   }),
@@ -21,17 +33,6 @@ export default {
     }
   },
   created () {
-    if (this.$route.params.item) {
-      this.presetModel = this.$route.params.item
-    } else {
-      // 加载角色
-      this.$apis.upms.role.findByUniqueColumn({
-        roleCode: this.$route.params.roleCode
-      })
-        .then((value) => {
-          this.presetModel = value.data
-        })
-    }
   },
   mounted () {
   },

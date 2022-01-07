@@ -3,7 +3,7 @@
     icon="mdi-book-open"
     :title="$t('dictItemsManagement')"
   >
-    <or-form-upms-dict-items :preset="presetModel" />
+    <or-data-table-upms-dict-item :default-dict-uuid="presetModel.uuid" />
   </base-material-card>
 </template>
 <script>
@@ -12,8 +12,22 @@ export default {
     // 必填
     return !!params.dictCode
   },
+  async asyncData ({ route, $apis }) {
+    let presetModel
+    if (route.params.item) {
+      presetModel = route.params.item
+    } else {
+      // 服务端渲染，先从服务器获取dict的uuid
+      presetModel = (await $apis.upms.dict.findByUniqueColumn({
+        dictCode: route.params.dictCode
+      })).data
+    }
+    return { presetModel }
+  },
   data: () => ({
-    presetModel: null
+    presetModel: {
+      uuid: null
+    }
   }),
   head () {
     return {
@@ -21,17 +35,6 @@ export default {
     }
   },
   created () {
-    if (this.$route.params.item) {
-      this.presetModel = this.$route.params.item
-    } else {
-      // 加载字典
-      this.$apis.upms.dict.findByUniqueColumn({
-        dictCode: this.$route.params.dictCode
-      })
-        .then((value) => {
-          this.presetModel = value.data
-        })
-    }
   },
   mounted () {
   },

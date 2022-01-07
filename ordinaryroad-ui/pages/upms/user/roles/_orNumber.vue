@@ -15,6 +15,18 @@ export default {
     // 必填
     return !!params.orNumber
   },
+  async asyncData ({ route, $apis }) {
+    let presetModel
+    if (route.params.item) {
+      presetModel = route.params.item
+    } else {
+      // 加载用户
+      presetModel = (await $apis.upms.user.findByUniqueColumn({
+        orNumber: route.params.orNumber
+      })).data
+    }
+    return { presetModel }
+  },
   data: () => ({
     presetModel: null
   }),
@@ -24,17 +36,6 @@ export default {
     }
   },
   created () {
-    if (this.$route.params.item) {
-      this.presetModel = this.$route.params.item
-    } else {
-      // 加载用户
-      this.$apis.upms.user.findByUniqueColumn({
-        orNumber: this.$route.params.orNumber
-      })
-        .then((value) => {
-          this.presetModel = value.data
-        })
-    }
   },
   mounted () {
   },
