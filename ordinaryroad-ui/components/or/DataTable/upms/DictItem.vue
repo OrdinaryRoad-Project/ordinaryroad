@@ -17,13 +17,13 @@
       @itemsSelected="onItemsSelected"
       @resetSearch="onResetSearch"
     >
-      <template #searchFormBody>
-        <v-col
-          cols="6"
-          lg="3"
-          md="4"
-        >
-          <v-form>
+      <template #searchFormBefore>
+        <v-row align="center">
+          <v-col
+            cols="6"
+            lg="3"
+            md="4"
+          >
             <v-autocomplete
               v-model="searchParams.dictUuid"
               dense
@@ -41,8 +41,11 @@
               @update:search-input="searchDicts"
               @input="onSelectedDictUuidChange"
             />
-          </v-form>
-        </v-col>
+          </v-col>
+        </v-row>
+      </template>
+
+      <template #searchFormBody>
         <v-col
           cols="6"
           lg="3"
@@ -207,9 +210,9 @@ export default {
       handler (val) {
         if (val) {
           this.searchParams.dictUuid = val
-          this.$refs.dataTable.getItems()
         }
       },
+      deep: true,
       immediate: true
     }
   },
