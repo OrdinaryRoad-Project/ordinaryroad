@@ -113,6 +113,13 @@
       </v-btn>
       <v-toolbar-title>{{ $t(titleKey) }}</v-toolbar-title>
       <v-spacer />
+      <v-autocomplete
+        flat
+        hide-no-data
+        hide-details
+        label="What state are you from?"
+        solo-inverted
+      />
       <v-menu offset-y open-on-hover>
         <template #activator="{ on, attrs }">
           <v-btn

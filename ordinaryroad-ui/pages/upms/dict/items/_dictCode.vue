@@ -1,35 +1,32 @@
 <template>
   <base-material-card
-    icon="mdi-account-multiple"
-    :title="$t('userRolesManagement')"
+    icon="mdi-book-open"
+    :title="$t('dictItemsManagement')"
   >
-    <or-form-upms-user-roles
-      :preset="presetModel"
-    />
+    <or-form-upms-dict-items :preset="presetModel" />
   </base-material-card>
 </template>
-
 <script>
 export default {
   validate ({ params }) {
     // 必填
-    return !!params.orNumber
+    return !!params.dictCode
   },
   data: () => ({
     presetModel: null
   }),
   head () {
     return {
-      title: this.$t('userRolesManagement')
+      title: this.$t('dictItemsManagement')
     }
   },
   created () {
     if (this.$route.params.item) {
       this.presetModel = this.$route.params.item
     } else {
-      // 加载用户
-      this.$apis.upms.user.findByUniqueColumn({
-        orNumber: this.$route.params.orNumber
+      // 加载字典
+      this.$apis.upms.dict.findByUniqueColumn({
+        dictCode: this.$route.params.dictCode
       })
         .then((value) => {
           this.presetModel = value.data

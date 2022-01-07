@@ -46,6 +46,10 @@ public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemD
     public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO) {
         Sqls sqls = Sqls.custom();
 
+        String dictUuid = sysDictItemDO.getDictUuid();
+        if (Argument.isNotBlank(dictUuid)) {
+            sqls.andEqualTo("dictUuid", dictUuid);
+        }
         String label = sysDictItemDO.getLabel();
         if (Argument.isNotBlank(label)) {
             sqls.andLike("label", "%" + label + "%");

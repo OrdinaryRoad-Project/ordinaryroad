@@ -1,4 +1,9 @@
 {
+  "sort": "显示排序",
+  "label": "显示标签",
+  "value": "值",
+  "dictItem": "字典项",
+  "dictItemsManagement": "字典项管理",
   "dict": "字典",
   "dictName": "字典名称",
   "dictCode": "字典code",

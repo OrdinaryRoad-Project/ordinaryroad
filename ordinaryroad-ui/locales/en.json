@@ -1,4 +1,9 @@
 {
+  "sort": "Display Sort",
+  "label": "Display Label",
+  "value": "Value",
+  "dictItem": "Dict Item",
+  "dictItemsManagement": "Dict Items Management",
   "dict": "Dict",
   "dictName": "Dict Name",
   "dictCode": "Dict Code",
