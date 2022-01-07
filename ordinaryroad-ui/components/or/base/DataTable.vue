@@ -282,6 +282,7 @@ export default {
     },
     resetSearch () {
       this.$refs.searchForm.reset()
+      this.$emit('resetSearch')
       const options = Object.assign({}, this.options)
       options.page = 1
       this.options = options
