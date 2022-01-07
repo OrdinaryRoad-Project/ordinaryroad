@@ -1,6 +1,7 @@
 <template>
   <v-data-table
     ref="table"
+    :sort-by="sortBy"
     :height="showSelect?'50vh':null"
     :single-select="singleSelect"
     :show-select="showSelect"
@@ -74,6 +75,7 @@
             <v-icon>mdi-reload</v-icon>
             {{ $t('refresh') }}
           </v-btn>
+          <slot name="topButtonsAfter" />
         </v-col>
       </v-row>
       <v-divider class="mt-2" />
@@ -179,6 +181,10 @@ export default {
       default: false
     },
     presetSelectedItems: {
+      type: Array,
+      default: () => []
+    },
+    sortBy: {
       type: Array,
       default: () => []
     },
