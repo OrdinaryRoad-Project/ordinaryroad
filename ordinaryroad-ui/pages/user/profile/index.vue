@@ -130,10 +130,7 @@
         :avatar="avatarPath"
       >
         <template #avatar>
-          <v-hover
-            :disabled="avatarOptions.uploading"
-            :value="!avatarOptions.uploading"
-          >
+          <v-hover>
             <template #default="{ hover }">
               <v-avatar
                 size="128"
@@ -142,17 +139,19 @@
               >
                 <v-img :src="avatarPath">
                   <template #default>
-                    <v-overlay
-                      v-if="avatarOptions.uploading"
-                      absolute
-                    >
-                      <v-progress-circular indeterminate />
-                    </v-overlay>
+                    <v-fade-transition>
+                      <v-overlay
+                        v-if="avatarOptions.uploading"
+                        absolute
+                      >
+                        <v-progress-circular indeterminate />
+                      </v-overlay>
+                    </v-fade-transition>
                   </template>
                 </v-img>
                 <v-fade-transition>
                   <v-overlay
-                    v-if="hover"
+                    v-if="!avatarOptions.uploading&&hover"
                     absolute
                   >
                     <v-file-input
