@@ -376,6 +376,9 @@ export default {
               this.avatarOptions.uploading = false
             })
         })
+        .catch(() => {
+          this.avatarOptions.uploading = false
+        })
     }
   }
 }
