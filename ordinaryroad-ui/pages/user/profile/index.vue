@@ -29,8 +29,7 @@
             >
               <div class="d-flex align-center">
                 <v-text-field
-                  v-model="usernameTextField.value"
-                  clearable
+                  v-model="usernameTextField.input"
                   :rules="[$rules.required,$rules.max10Chars]"
                   :loading="usernameTextField.loading"
                   :disabled="usernameTextField.disabled"
@@ -38,7 +37,13 @@
                   :label="$t('username')"
                 />
                 <v-btn class="ms-3" icon @click="usernameClick">
-                  <v-icon>mdi-{{ usernameTextField.disabled ? 'pencil' : 'check' }}</v-icon>
+                  <v-icon>
+                    mdi-{{
+                      usernameTextField.disabled ? 'pencil'
+                      : usernameTextField.input === usernameTextField.value ? 'close'
+                        : 'check'
+                    }}
+                  </v-icon>
                 </v-btn>
               </div>
             </v-form>
@@ -191,6 +196,7 @@ export default {
     tab: null,
     usernameTextField: {
       value: '',
+      input: '',
       disabled: true,
       loading: false
     },
@@ -230,6 +236,7 @@ export default {
   },
   mounted () {
     this.usernameTextField.value = this.userInfo.user.username
+    this.usernameTextField.input = this.userInfo.user.username
     this.emailTextField.value = this.userInfo.user.email
   },
   methods: {
@@ -241,22 +248,21 @@ export default {
     usernameClick () {
       if (this.usernameTextField.disabled) {
         this.usernameTextField.disabled = false
+      } else if (this.usernameTextField.input === this.usernameTextField.value) {
+        this.usernameTextField.disabled = true
       } else if (this.$refs.usernameForm.validate()) {
-        if (this.usernameTextField.value === this.userInfo.user.username) {
+        this.usernameTextField.loading = true
+        this.updateUsername({
+          username: this.usernameTextField.input,
+          $apis: this.$apis
+        }).then(() => {
+          this.usernameTextField.loading = false
+          this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('username')]))
+          this.usernameTextField.value = this.usernameTextField.input
           this.usernameTextField.disabled = true
-        } else {
-          this.usernameTextField.loading = true
-          this.updateUsername({
-            username: this.usernameTextField.value,
-            $apis: this.$apis
-          }).then(() => {
-            this.usernameTextField.loading = false
-            this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('username')]))
-            this.usernameTextField.disabled = true
-          }).catch(() => {
-            this.usernameTextField.loading = false
-          })
-        }
+        }).catch(() => {
+          this.usernameTextField.loading = false
+        })
       }
     },
 
