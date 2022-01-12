@@ -50,6 +50,10 @@ public class SysUserDO extends BaseDO {
     @KeySql(genId = OrNumberGen.class)
     private String orNumber;
     /**
+     * 头像地址
+     */
+    private String avatar;
+    /**
      * 邮箱
      */
     private String email;

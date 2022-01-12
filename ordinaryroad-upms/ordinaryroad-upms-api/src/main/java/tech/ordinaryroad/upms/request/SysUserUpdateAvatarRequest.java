@@ -21,50 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.dto;
+package tech.ordinaryroad.upms.request;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
+
+import javax.validation.constraints.Size;
 
 /**
- * TODO 测试BaseDTO
- *
  * @author mjz
- * @date 2021/10/27
+ * @date 2022/1/12
  */
-@Data
+@Getter
+@Setter
 @ApiModel
-public class SysUserDTO extends BaseModelDTO {
+public class SysUserUpdateAvatarRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 7832921378107878184L;
+    private static final long serialVersionUID = -3503599410583172261L;
 
-    @ApiModelProperty("or帐号")
-    private String orNumber;
-
-    @ApiModelProperty("头像地址")
+    @ApiModelProperty(value = "头像地址")
+    @Size(max = 255, message = "头像地址长度不能超过255")
     private String avatar;
-
-    @ApiModelProperty("邮箱")
-    private String email;
-
-    @ApiModelProperty("用户名")
-    private String username;
-
-    @ApiModelProperty("用户密码")
-    private String password;
-
-    @ApiModelProperty("账号是否可用。默认为1（可用）")
-    private Boolean enabled;
-
-    @ApiModelProperty("是否过期。默认为1（没有过期）")
-    private Boolean notExpired;
-
-    @ApiModelProperty("账号是否锁定。默认为1（没有锁定）")
-    private Boolean notLocked;
-
-    @ApiModelProperty("密码是否过期。默认为1（没有过期）")
-    private Boolean passwordNotExpired;
 
 }

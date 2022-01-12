@@ -86,6 +86,14 @@ public interface ISysUserFacade {
     Result<Boolean> delete(BaseDeleteRequest request);
 
     /**
+     * 更新头像地址
+     *
+     * @param request Request
+     * @return Boolean
+     */
+    Result<Boolean> updateAvatar(SysUserUpdateAvatarRequest request);
+
+    /**
      * 更新用户名
      *
      * @param request Request
