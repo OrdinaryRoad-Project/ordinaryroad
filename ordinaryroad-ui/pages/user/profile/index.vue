@@ -127,8 +127,48 @@
       order-md="2"
     >
       <base-material-card
-        :avatar="require('static/vuetify-logo.svg')"
+        :avatar="avatarPath"
       >
+        <template #avatar>
+          <v-hover
+            :disabled="avatarOptions.uploading"
+            :value="!avatarOptions.uploading"
+          >
+            <template #default="{ hover }">
+              <v-avatar
+                size="128"
+                class="v-card--material__avatar elevation-6"
+                color="grey"
+              >
+                <v-img :src="avatarPath">
+                  <template #default>
+                    <v-overlay
+                      v-if="avatarOptions.uploading"
+                      absolute
+                    >
+                      <v-progress-circular indeterminate />
+                    </v-overlay>
+                  </template>
+                </v-img>
+                <v-fade-transition>
+                  <v-overlay
+                    v-if="hover"
+                    absolute
+                  >
+                    <v-file-input
+                      class="py-5"
+                      prepend-icon="mdi-pencil"
+                      hide-input
+                      accept="image/*"
+                      @change="onAvatarSelect"
+                    />
+                  </v-overlay>
+                </v-fade-transition>
+              </v-avatar>
+            </template>
+          </v-hover>
+        </template>
+
         <v-list two-line>
           <v-list-item>
             <v-list-item-icon>
@@ -194,6 +234,9 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data: () => ({
     tab: null,
+    avatarOptions: {
+      uploading: false
+    },
     usernameTextField: {
       value: '',
       input: '',
@@ -231,7 +274,8 @@ export default {
   computed: {
     ...mapGetters('user', {
       userInfo: 'getUserInfo',
-      userRolesNameString: 'getUserRolesNameString'
+      userRolesNameString: 'getUserRolesNameString',
+      avatarPath: 'getAvatarPath'
     })
   },
   mounted () {
@@ -241,6 +285,7 @@ export default {
   },
   methods: {
     ...mapActions('user', {
+      updateAvatar: 'updateAvatar',
       updateUsername: 'updateUsername',
       updateEmail: 'updateEmail'
     }),
@@ -309,6 +354,28 @@ export default {
           this.passwordForm.confirmPassword.errorMessageKey = 'inconsistentPasswords'
         }
       }
+    },
+
+    onAvatarSelect (file) {
+      if (file.size > 50 * 1024 * 1024) {
+        this.$snackbar.error(this.$t('whatCannotGreaterThan', [this.$t('avatar'), '50MB']))
+        return
+      }
+      this.avatarOptions.uploading = true
+      this.$apis.upms.file.upload({ bucketName: 'avatar', file })
+        .then(({ data }) => {
+          this.updateAvatar({
+            avatar: data,
+            $apis: this.$apis
+          })
+            .then(() => {
+              this.avatarOptions.uploading = false
+              this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('avatar')]))
+            })
+            .catch(() => {
+              this.avatarOptions.uploading = false
+            })
+        })
     }
   }
 }

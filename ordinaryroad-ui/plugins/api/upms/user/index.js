@@ -32,6 +32,10 @@ export default {
     const data = { offset, limit, email, orNumber, username }
     return $axios({ url: '/upms/user/list', method: 'post', data })
   },
+  updateAvatar: (avatar) => {
+    const data = { avatar }
+    return $axios({ url: '/upms/user/update/avatar', method: 'post', data })
+  },
   updateUsername: (username) => {
     const data = { username }
     return $axios({ url: '/upms/user/update/username', method: 'post', data })

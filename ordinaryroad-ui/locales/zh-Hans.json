@@ -1,4 +1,6 @@
 {
+  "whatCannotGreaterThan": "{0}不能大于{1}",
+  "avatar": "头像",
   "sort": "显示排序",
   "label": "显示标签",
   "value": "值",

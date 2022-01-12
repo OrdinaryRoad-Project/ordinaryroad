@@ -1,4 +1,6 @@
 {
+  "whatCannotGreaterThan": "{0} cannot be greater than {1}",
+  "avatar": "Avatar",
   "sort": "Display Sort",
   "label": "Display Label",
   "value": "Value",

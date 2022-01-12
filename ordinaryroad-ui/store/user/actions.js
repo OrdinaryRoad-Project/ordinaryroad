@@ -26,6 +26,16 @@ export default {
       })
     })
   },
+  updateAvatar ({ commit }, { avatar, $apis }) {
+    return new Promise((resolve, reject) => {
+      $apis.upms.user.updateAvatar(avatar).then(() => {
+        commit('UPDATE_USER_INFO_AVATAR', avatar)
+        resolve()
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
   updateUsername ({ commit }, { username, $apis }) {
     return new Promise((resolve, reject) => {
       $apis.upms.user.updateUsername(username).then(() => {

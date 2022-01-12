@@ -26,7 +26,7 @@
         <v-list-group>
           <template #activator>
             <v-list-item-avatar>
-              <v-img :src="require('static/vuetify-logo.svg')" />
+              <v-img :src="avatarPath" />
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>
@@ -247,7 +247,8 @@ export default {
       locales: 'getLocales'
     }),
     ...mapGetters('user', {
-      userInfo: 'getUserInfo'
+      userInfo: 'getUserInfo',
+      avatarPath: 'getAvatarPath'
     }),
     selectedThemeOptionModel: {
       get () {
