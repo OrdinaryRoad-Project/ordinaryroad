@@ -70,6 +70,9 @@ public class SaTokenConfigure {
                 // 开放地址 验证码
                 .addExclude("/captcha/**")
 
+                // 开放地址 图片下载
+                .addExclude("/upms/file/download/**")
+
                 // 鉴权方法：每次访问进入
                 .setAuth(obj -> {
                     // Client校验和登录校验 -- 拦截所有路由
