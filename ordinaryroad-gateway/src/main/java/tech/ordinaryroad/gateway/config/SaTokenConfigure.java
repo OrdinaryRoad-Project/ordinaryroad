@@ -42,7 +42,7 @@ public class SaTokenConfigure {
         thread.setName("gateway sa-token拦截器");
         return thread;
     });
-    private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(create|update|delete|reset).*$";
+    private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(upload|create|update|delete|reset).*$";
     private static final String REGISTER_PATH = "/upms/user/register";
 
     /**
