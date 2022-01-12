@@ -24,10 +24,7 @@
 package tech.ordinaryroad.commons.minio.service;
 
 import cn.hutool.core.util.StrUtil;
-import io.minio.GetObjectArgs;
-import io.minio.MinioClient;
-import io.minio.PutObjectArgs;
-import io.minio.StatObjectArgs;
+import io.minio.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
@@ -52,10 +49,10 @@ public class OrMinioService {
     public static final String METADATA_KEY_ORIGINAL_FILENAME = "original-filename";
 
     public void upload(@NotNull String bucketName, @NotNull String filename, @NotNull String originalFilename, @NotNull InputStream inputStream) throws Exception {
+        makeBucketIfNotExists(bucketName);
         HashMap<String, String> userMetadata = new HashMap<>(1);
         userMetadata.put(METADATA_KEY_ORIGINAL_FILENAME, originalFilename);
         PutObjectArgs putObjectArgs = PutObjectArgs.builder()
-//                .contentType(MediaType.APPLICATION_OCTET_STREAM_VALUE)
                 .bucket(bucketName)
                 .object(filename)
                 .userMetadata(userMetadata)
@@ -77,6 +74,19 @@ public class OrMinioService {
                 .build();
         downloadResponses.setStatObjectResponse(minioClient.statObject(statObjectArgs));
         return downloadResponses;
+    }
+
+    /**
+     * 不存在则创建存储桶
+     *
+     * @param bucketName 桶名称
+     * @throws Exception Exception
+     */
+    public void makeBucketIfNotExists(String bucketName) throws Exception {
+        boolean bucketExists = minioClient.bucketExists(BucketExistsArgs.builder().bucket(bucketName).build());
+        if (!bucketExists) {
+            minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
+        }
     }
 
     /**
