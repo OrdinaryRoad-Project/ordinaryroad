@@ -45,8 +45,11 @@
         <spring-cloud-starter-loadbalancer.version>3.0.4</spring-cloud-starter-loadbalancer.version>
         <fastjson.version>1.2.75</fastjson.version>
         <pagehelper.version>5.2.1</pagehelper.version>
+        <minio.version>8.0.0</minio.version>
+        <thumbnailator.version>0.4.16</thumbnailator.version>
 
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
+        <metadata-extractor.version>2.16.0</metadata-extractor.version>
     </properties>
 
     <modules>
@@ -182,6 +185,13 @@
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
+            <!-- ordinaryroad-commons-minio -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-commons-minio</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
             <!-- ordinaryroad-upms-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
@@ -254,6 +264,27 @@
                 <groupId>org.mapstruct</groupId>
                 <artifactId>mapstruct-processor</artifactId>
                 <version>${mapstruct.version}</version>
+            </dependency>
+
+            <!-- MinIO文件系统 -->
+            <dependency>
+                <groupId>io.minio</groupId>
+                <artifactId>minio</artifactId>
+                <version>${minio.version}</version>
+            </dependency>
+
+            <!-- 图片压缩 -->
+            <dependency>
+                <groupId>net.coobird</groupId>
+                <artifactId>thumbnailator</artifactId>
+                <version>${thumbnailator.version}</version>
+            </dependency>
+
+            <!-- 文件metadata -->
+            <dependency>
+                <groupId>com.drewnoakes</groupId>
+                <artifactId>metadata-extractor</artifactId>
+                <version>${metadata-extractor.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
