@@ -7,6 +7,7 @@
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-auth/ordinaryroad-auth-server/ordinaryroad-auth-server.iml" filepath="$PROJECT_DIR$/ordinaryroad-auth/ordinaryroad-auth-server/ordinaryroad-auth-server.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-core/ordinaryroad-commons-core.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-core/ordinaryroad-commons-core.iml" />
+      <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-minio/ordinaryroad-commons-minio.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-minio/ordinaryroad-commons-minio.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-mybatis/ordinaryroad-commons-mybatis.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-mybatis/ordinaryroad-commons-mybatis.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-satoken/ordinaryroad-commons-satoken.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-satoken/ordinaryroad-commons-satoken.iml" />
       <module fileurl="file://$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-swagger/ordinaryroad-commons-swagger.iml" filepath="$PROJECT_DIR$/ordinaryroad-commons/ordinaryroad-commons-swagger/ordinaryroad-commons-swagger.iml" />
