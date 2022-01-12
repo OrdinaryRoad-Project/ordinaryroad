@@ -26,8 +26,10 @@ package tech.ordinaryroad.upms;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.util.StopWatch;
+import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -35,6 +37,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @date 2021/10/27
  */
 @Slf4j
+@EnableConfigurationProperties({OrMinioProperties.class})
 @EnableDiscoveryClient
 @MapperScan({"tech.ordinaryroad.upms.dao"})
 @SpringBootApplication
