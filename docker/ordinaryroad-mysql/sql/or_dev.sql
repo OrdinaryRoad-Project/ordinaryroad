@@ -437,6 +437,7 @@ CREATE TABLE `sys_user`
     `update_time`          datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
     `update_by`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
     `or_number`            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'or帐号',
+    `avatar`               varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '头像地址',
     `email`                varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '邮箱',
     `username`             varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '用户名',
     `password`             varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户密码',
@@ -456,19 +457,19 @@ CREATE TABLE `sys_user`
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user`
-VALUES (1, '76a8133381924e23a9172dac75100047', '2021-11-15 10:08:36', NULL, '2021-12-13 19:44:37', NULL, '10001',
+VALUES (1, '76a8133381924e23a9172dac75100047', '2021-11-15 10:08:36', NULL, '2021-12-13 19:44:37', NULL, '10001', null,
         '1962247851@qq.com', 'mjz', '{bcrypt}$2a$10$Kn6IdZZ4sJYmI0IHB8zY.OoVrGiO3BHd7CPpCl8ayrgwOiiM0pKJe', b'1', b'1',
         b'1', b'1');
 INSERT INTO `sys_user`
-VALUES (2, '24f14f1a400b4bed9caa8d698b33d49a', '2021-11-15 16:07:41', NULL, '2021-12-14 09:47:10', NULL, '10002',
+VALUES (2, '24f14f1a400b4bed9caa8d698b33d49a', '2021-11-15 16:07:41', NULL, '2021-12-14 09:47:10', NULL, '10002', null,
         '1781422987@qq.com', 'zjy', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'0', b'1',
         b'1', b'1');
 INSERT INTO `sys_user`
-VALUES (3, 'c8e93fc029d445119e0c0215ea5ee4b7', '2021-11-29 19:25:26', NULL, '2021-12-14 09:47:11', NULL, '10003',
+VALUES (3, 'c8e93fc029d445119e0c0215ea5ee4b7', '2021-11-29 19:25:26', NULL, '2021-12-14 09:47:11', NULL, '10003', null,
         '204879304@qq.com', 'admin', '{bcrypt}$2a$10$AIMOVvFfXC5JAUASl74x9OpnMw2fsgifLl/dJqQr5lN56HtrkQYeq', b'0', b'1',
         b'1', b'1');
 INSERT INTO `sys_user`
-VALUES (4, '50b4a8fd617b48babb9342bf51ae0822', '2021-12-06 21:46:17', NULL, '2021-12-14 09:47:13', NULL, '10004',
+VALUES (4, '50b4a8fd617b48babb9342bf51ae0822', '2021-12-06 21:46:17', NULL, '2021-12-14 09:47:13', NULL, '10004', null,
         '452259370@qq.com', 'test', '{bcrypt}$2a$10$Kn6IdZZ4sJYmI0IHB8zY.OoVrGiO3BHd7CPpCl8ayrgwOiiM0pKJe', b'0', b'1',
         b'1', b'1');
 
