@@ -4,7 +4,10 @@
     height="100vh"
     src="https://api.dujin.org/bing/1920.php"
   >
-    <base-material-card width="400">
+    <base-material-card
+      style="opacity:0.85"
+      width="400"
+    >
       <template #heading>
         <div class="text-center">
           <h2 class="font-weight-bold mb-2">
