@@ -110,5 +110,11 @@ export default {
   build: {},
 
   // https://nuxtjs.org/docs/configuration-glossary/configuration-router
-  router: {}
+  router: {},
+
+  // https://www.nuxtjs.cn/guide/runtime-config#runtime-config-213
+  publicRuntimeConfig: {
+    BASE_URL: process.env.BASE_URL
+  },
+  privateRuntimeConfig: {}
 }
