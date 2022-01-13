@@ -155,15 +155,24 @@
                 <v-fade-transition>
                   <v-overlay
                     v-if="!avatarOptions.uploading&&hover"
+                    v-ripple
                     absolute
+                    style="cursor: pointer"
+                    @click="$refs.fileInput.$refs.input.click()"
                   >
                     <v-file-input
-                      class="py-5"
-                      prepend-icon="mdi-pencil"
-                      hide-input
+                      v-show="false"
+                      ref="fileInput"
                       accept="image/*"
                       @change="onAvatarSelect"
                     />
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-row>
                   </v-overlay>
                 </v-fade-transition>
               </v-avatar>
