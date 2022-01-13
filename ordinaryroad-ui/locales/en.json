@@ -1,4 +1,9 @@
 {
+  "fileSize": "File Size",
+  "bucketName": "Bucket Name",
+  "objectName": "Object Name",
+  "originalFilename": "Original Filename",
+  "upload": "Upload",
   "whatCannotGreaterThan": "{0} cannot be greater than {1}",
   "avatar": "Avatar",
   "sort": "Display Sort",
@@ -105,7 +110,8 @@
     "roleManagement": "Role Management",
     "permissionManagement": "Permission Management",
     "requestPathManagement": "RequestPath Management",
-    "dictManagement": "Dict Management"
+    "dictManagement": "Dict Management",
+    "fileManagement": "File Management"
   },
   "settings": "Settings",
   "ordinaryroad": "Ordinary Road"

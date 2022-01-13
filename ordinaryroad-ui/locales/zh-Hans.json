@@ -1,4 +1,9 @@
 {
+  "fileSize": "文件大小",
+  "bucketName": "桶名称",
+  "objectName": "对象名称",
+  "originalFilename": "原文件名",
+  "upload": "上传",
   "whatCannotGreaterThan": "{0}不能大于{1}",
   "avatar": "头像",
   "sort": "显示排序",
@@ -105,7 +110,8 @@
     "roleManagement": "角色管理",
     "permissionManagement": "权限管理",
     "requestPathManagement": "请求路径管理",
-    "dictManagement": "字典管理"
+    "dictManagement": "字典管理",
+    "fileManagement": "文件管理"
   },
   "settings": "设置",
   "ordinaryroad": "Ordinary Road"
