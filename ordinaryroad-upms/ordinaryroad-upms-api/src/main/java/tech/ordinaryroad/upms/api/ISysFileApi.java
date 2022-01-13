@@ -23,16 +23,16 @@
  */
 package tech.ordinaryroad.upms.api;
 
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
+import tech.ordinaryroad.upms.dto.SysFileDTO;
+import tech.ordinaryroad.upms.request.SysFileQueryRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,5 +64,8 @@ public interface ISysFileApi {
      */
     @GetMapping(value = "/file/download/**", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false, defaultValue = "false") Boolean showInline);
+
+    @PostMapping(value = "/file/list")
+    Result<PageInfo<SysFileDTO>> list(@RequestBody SysFileQueryRequest request);
 
 }

@@ -591,3 +591,31 @@ VALUES (3, '369e43d45b2a4b98ac1ac00d7aa01bd2', '2022-01-05 21:20:41', NULL, NULL
         '96bf1b7a62f942988f289b2d022d6b85', '保密', '2', 0, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Table structure for sys_file
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_file`;
+CREATE TABLE `sys_file`
+(
+    `id`                bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `uuid`              varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
+    `created_time`      datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_by`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `update_time`       datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    `update_by`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `bucket_name`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '桶名称',
+    `object_name`       varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '对象名称',
+    `original_filename` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '原文件名',
+    `size`              bigint(20)                                                    NULL DEFAULT NULL COMMENT '文件大小（byte）',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `sys_file_uuid_uindex` (`uuid`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件表'
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_file
+-- ----------------------------

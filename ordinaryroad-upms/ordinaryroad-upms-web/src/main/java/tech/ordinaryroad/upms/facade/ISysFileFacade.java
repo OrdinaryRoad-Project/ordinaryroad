@@ -21,19 +21,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.web.controller;
+package tech.ordinaryroad.upms.facade;
 
 import com.github.pagehelper.PageInfo;
-import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.api.ISysFileApi;
 import tech.ordinaryroad.upms.dto.SysFileDTO;
-import tech.ordinaryroad.upms.facade.ISysFileFacade;
 import tech.ordinaryroad.upms.request.SysFileQueryRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -41,27 +34,19 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author mjz
- * @date 2022/1/11
+ * @date 2022/1/13
  */
-@RequiredArgsConstructor
-@RestController
-public class SysFileController implements ISysFileApi {
+public interface ISysFileFacade {
 
-    private final ISysFileFacade sysFileFacade;
+    Result<String> upload(String bucketName, MultipartFile file);
 
-    @Override
-    public Result<String> upload(@RequestParam(value = "bucketName", required = false) String bucketName, @RequestPart("file") MultipartFile file) {
-        return sysFileFacade.upload(bucketName, file);
-    }
+    void download(HttpServletRequest request, HttpServletResponse response, Boolean showInline);
 
-    @Override
-    public void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false, defaultValue = "false") Boolean showInline) {
-        sysFileFacade.download(request, response, showInline);
-    }
-
-    @Override
-    public Result<PageInfo<SysFileDTO>> list(@RequestBody SysFileQueryRequest request) {
-        return sysFileFacade.list(request);
-    }
-
+    /**
+     * 分页查询所有
+     *
+     * @param request Request
+     * @return Page
+     */
+    Result<PageInfo<SysFileDTO>> list(SysFileQueryRequest request);
 }
