@@ -87,8 +87,9 @@ services:
     build:
       context: ./ordinaryroad-gateway
     depends_on:
-      - ordinaryroad-nacos
-      - ordinaryroad-redis
+      - ordinaryroad-auth-server
+      - ordinaryroad-upms
+      - ordinaryroad-push
     hostname: ordinaryroad-gateway
     restart: always
 
@@ -101,6 +102,7 @@ services:
       - ordinaryroad-mysql
       - ordinaryroad-redis
       - ordinaryroad-nacos
+      - ordinaryroad-upms
     hostname: ordinaryroad-auth-server
     restart: always
 
@@ -113,6 +115,7 @@ services:
       - ordinaryroad-mysql
       - ordinaryroad-redis
       - ordinaryroad-nacos
+      - ordinaryroad-push
     hostname: ordinaryroad-upms
     restart: always
 
