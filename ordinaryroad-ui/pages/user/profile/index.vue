@@ -148,6 +148,9 @@
                       </v-overlay>
                     </v-fade-transition>
                   </template>
+                  <template #placeholder>
+                    <v-skeleton-loader type="image" />
+                  </template>
                 </v-img>
                 <v-fade-transition>
                   <v-overlay

@@ -26,7 +26,11 @@
         <v-list-group>
           <template #activator>
             <v-list-item-avatar>
-              <v-img :src="avatarPath" />
+              <v-img :src="avatarPath" style="border: 1px solid">
+                <template #placeholder>
+                  <v-skeleton-loader type="image" />
+                </template>
+              </v-img>
             </v-list-item-avatar>
             <v-list-item-content>
               <v-list-item-title>
