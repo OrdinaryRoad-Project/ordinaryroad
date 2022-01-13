@@ -22,7 +22,7 @@ CREATE TABLE `sys_permission`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_permission_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 31
+  AUTO_INCREMENT = 33
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '权限表'
   ROW_FORMAT = Dynamic;
@@ -107,6 +107,12 @@ VALUES (29, 'efb03858340c4614aea79b4ad8dd08ed', '2022-01-06 18:04:53', NULL, NUL
 INSERT INTO `sys_permission`
 VALUES (30, 'e1adfb6d17bf4353a0786d0ff49a1c95', '2022-01-06 18:05:07', NULL, NULL, NULL, 'upms:dict_item:list',
         '查询字典项列表');
+INSERT INTO `sys_permission`
+VALUES (31, '5d0e9159aa79431f9ef679bcd868c0ae', '2022-01-13 12:45:07', NULL, NULL, NULL, 'upms:file:upload',
+        '上传文件');
+INSERT INTO `sys_permission`
+VALUES (32, '4d8ebd5a16cf431387a8c94025a9f3ee', '2022-01-13 12:45:07', NULL, NULL, NULL, 'upms:file:list',
+        '查询文件列表');
 
 -- ----------------------------
 -- Table structure for sys_request_path
@@ -126,7 +132,7 @@ CREATE TABLE `sys_request_path`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_request_path_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 31
+  AUTO_INCREMENT = 33
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '请求路径表'
   ROW_FORMAT = Dynamic;
@@ -221,6 +227,12 @@ VALUES (29, 'e58f7be01c9c46229c8da4a9da408f21', '2022-01-06 18:09:24', NULL, NUL
 INSERT INTO `sys_request_path`
 VALUES (30, 'bfba6860e1a240888fde856dab2565fb', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict_item/list',
         '查询字典项列表', 'e1adfb6d17bf4353a0786d0ff49a1c95');
+INSERT INTO `sys_request_path`
+VALUES (31, '1076e1b7d9e34a5a9556a9ae2159f062', '2022-01-13 12:44:24', NULL, NULL, NULL, '/upms/file/upload',
+        '上传文件', '5d0e9159aa79431f9ef679bcd868c0ae');
+INSERT INTO `sys_request_path`
+VALUES (32, 'd46f134babc34c3e93a02fd3eac043c0', '2022-01-13 12:44:24', NULL, NULL, NULL, '/upms/file/list',
+        '查询文件列表', '4d8ebd5a16cf431387a8c94025a9f3ee');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -274,7 +286,7 @@ CREATE TABLE `sys_roles_permissions`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_roles_permissions_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 66
+  AUTO_INCREMENT = 71
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '角色权限关联关系表'
   ROW_FORMAT = Dynamic;
@@ -423,6 +435,21 @@ VALUES (64, 'f4ee11f652ee49a7b6805be2ac284751', '2022-01-06 18:13:25', NULL, NUL
 INSERT INTO `sys_roles_permissions`
 VALUES (65, '3ff9cf02b72d46dabdd8595ba0da9b8a', '2022-01-06 18:13:25', NULL, NULL, NULL,
         '63b55b8be8fe49af82a822aa9aa57868', 'e1adfb6d17bf4353a0786d0ff49a1c95');
+INSERT INTO `sys_roles_permissions`
+VALUES (66, 'af23e5a82c6b416585da6184ef235e12', '2022-01-13 12:50:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '5d0e9159aa79431f9ef679bcd868c0ae');
+INSERT INTO `sys_roles_permissions`
+VALUES (67, 'a254e1421b7445c0afd2eb54def80417', '2022-01-13 12:50:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '4d8ebd5a16cf431387a8c94025a9f3ee');
+INSERT INTO `sys_roles_permissions`
+VALUES (68, 'c33357f073784b568cefa25f22fe962b', '2022-01-13 12:51:04', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '4d8ebd5a16cf431387a8c94025a9f3ee');
+INSERT INTO `sys_roles_permissions`
+VALUES (69, '5dedf9ec8c494eb3937bb8af5443dfde', '2022-01-13 12:51:04', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '5d0e9159aa79431f9ef679bcd868c0ae');
+INSERT INTO `sys_roles_permissions`
+VALUES (70, 'adf7f14f90eb4847830218a50eedf2a6', '2022-01-13 12:51:20', NULL, NULL, NULL,
+        '63b55b8be8fe49af82a822aa9aa57868', '4d8ebd5a16cf431387a8c94025a9f3ee');
 
 -- ----------------------------
 -- Table structure for sys_user
