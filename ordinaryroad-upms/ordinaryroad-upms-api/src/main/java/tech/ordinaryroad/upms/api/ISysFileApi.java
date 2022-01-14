@@ -48,12 +48,13 @@ public interface ISysFileApi {
     /**
      * 上传文件
      *
-     * @param bucketName 桶名称
-     * @param file       资源
+     * @param clientId     clientId
+     * @param clientSecret clientSecret
+     * @param file         文件
      * @return Result
      */
     @PostMapping(value = "/file/upload")
-    Result<String> upload(@RequestParam(value = "bucketName", required = false) String bucketName, @RequestPart("file") MultipartFile file);
+    Result<String> upload(@RequestParam String clientId, @RequestParam String clientSecret, @RequestPart MultipartFile file);
 
     /**
      * 下载文件

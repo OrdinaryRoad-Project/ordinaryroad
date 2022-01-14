@@ -50,8 +50,8 @@ public class SysFileController implements ISysFileApi {
     private final ISysFileFacade sysFileFacade;
 
     @Override
-    public Result<String> upload(@RequestParam(value = "bucketName", required = false) String bucketName, @RequestPart("file") MultipartFile file) {
-        return sysFileFacade.upload(bucketName, file);
+    public Result<String> upload(@RequestParam String clientId, @RequestParam String clientSecret, @RequestPart MultipartFile file) {
+        return sysFileFacade.upload(clientId, clientSecret, file);
     }
 
     @Override

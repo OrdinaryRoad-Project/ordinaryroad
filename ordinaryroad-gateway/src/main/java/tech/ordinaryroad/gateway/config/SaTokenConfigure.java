@@ -1,6 +1,7 @@
 package tech.ordinaryroad.gateway.config;
 
 import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
@@ -42,8 +43,9 @@ public class SaTokenConfigure {
         thread.setName("gateway sa-token拦截器");
         return thread;
     });
-    private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(upload|create|update|delete|reset).*$";
+    private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(create|update|delete|reset).*$";
     private static final String REGISTER_PATH = "/upms/user/register";
+    private static final String FILE_UPLOAD_PATH = "/upms/file/upload";
 
     /**
      * 注册 Sa-Token全局过滤器
@@ -75,18 +77,33 @@ public class SaTokenConfigure {
 
                 // 鉴权方法：每次访问进入
                 .setAuth(obj -> {
+                    // 文件上传校验：演示模式、client_id和client_secret
+                    SaRouter.match(FILE_UPLOAD_PATH).check((r) -> {
+                        // 1. 演示模式校验
+                        if (properties.getDemoMode()) {
+                            throw new BaseException(StatusCode.DEMO_MODE_FAIL);
+                        }
+                        // 2. 校验client_id和client_secret
+                        SaOAuth2Util.checkClientSecret("ordinaryroad-upms", "secret");
+                        // 因为请求体是 multipart-form-data，SaHolder.getRequest().getParam()获取不到
+                        // 所以需要在controller中校验
+                        // 进入controller
+                        r.stop();
+                    });
+
+                    // 注册校验：演示模式
+                    SaRouter.match(REGISTER_PATH).check((r) -> {
+                        // 演示模式不允许注册
+                        if (properties.getDemoMode()) {
+                            throw new BaseException(StatusCode.DEMO_MODE_FAIL);
+                        } else {
+                            // 非演示模式注册不需要校验权限
+                            r.stop();
+                        }
+                    });
+
                     // Client校验和登录校验 -- 拦截所有路由
                     SaRouter.match("/**").check((r) -> {
-                        // 演示模式不允许注册
-                        if (REGISTER_PATH.equals(SaHolder.getRequest().getRequestPath())) {
-                            if (properties.getDemoMode()) {
-                                throw new BaseException(StatusCode.DEMO_MODE_FAIL);
-                            } else {
-                                // 非演示模式注册不需要校验权限
-                                return;
-                            }
-                        }
-
                         // 0. 校验是否登录
                         StpUtil.checkLogin();
 

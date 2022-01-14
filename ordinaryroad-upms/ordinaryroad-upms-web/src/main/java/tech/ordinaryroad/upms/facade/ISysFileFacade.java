@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public interface ISysFileFacade {
 
-    Result<String> upload(String bucketName, MultipartFile file);
+    Result<String> upload(String clientId, String clientSecret, MultipartFile file);
 
     void download(HttpServletRequest request, HttpServletResponse response, Boolean showInline);
 

@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.upms.facade.impl;
 
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
 import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
@@ -76,8 +77,10 @@ public class SysFileFacadeImpl implements ISysFileFacade {
 
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public Result<String> upload(String bucketName, MultipartFile file) {
-        String realBucketName = orMinioService.getBucketName(bucketName);
+    public Result<String> upload(String clientId, String clientSecret, MultipartFile file) {
+        // Client校验
+        SaOAuth2Util.checkClientSecret(clientId, clientSecret);
+
         String originalFilename = file.getOriginalFilename();
         String prefix = IdUtil.fastSimpleUUID();
         String extName = FileUtil.extName(originalFilename);
@@ -104,7 +107,7 @@ public class SysFileFacadeImpl implements ISysFileFacade {
                 // 保存缩略图
                 String realTempFilename = String.format("/%s/thumbnail/%s", dateString, filename);
                 @Cleanup FileInputStream tempFileInputStream = new FileInputStream(tempFile);
-                doUpload(tempFileInputStream, realBucketName, realTempFilename, originalFilename, tempFile.length());
+                doUpload(tempFileInputStream, clientId, realTempFilename, originalFilename, tempFile.length());
             } catch (Exception e) {
                 e.printStackTrace();
                 // 图片创建缩略图报错
@@ -117,7 +120,7 @@ public class SysFileFacadeImpl implements ISysFileFacade {
             // 文件名改为UUID.扩展名
             String realFilename = String.format("/%s/%s", dateString, filename);
             @Cleanup InputStream inputStream = file.getInputStream();
-            doUpload(inputStream, realBucketName, realFilename, originalFilename, file.getSize());
+            doUpload(inputStream, clientId, realFilename, originalFilename, file.getSize());
         } catch (Exception e) {
             e.printStackTrace();
             log.error("file {} upload failed.", filename);
@@ -127,9 +130,9 @@ public class SysFileFacadeImpl implements ISysFileFacade {
         // 下载路径/{bucketName}/{objectName}
         String path;
         if (needCompress) {
-            path = String.format("/%s/%s/thumbnail/%s", realBucketName, dateString, filename);
+            path = String.format("/%s/%s/thumbnail/%s", clientId, dateString, filename);
         } else {
-            path = String.format("/%s/%s/%s", realBucketName, dateString, filename);
+            path = String.format("/%s/%s/%s", clientId, dateString, filename);
         }
         return Result.success(path);
     }
