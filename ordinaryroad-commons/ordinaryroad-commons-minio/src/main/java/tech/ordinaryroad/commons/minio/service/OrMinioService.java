@@ -23,11 +23,9 @@
  */
 package tech.ordinaryroad.commons.minio.service;
 
-import cn.hutool.core.util.StrUtil;
 import io.minio.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
 import tech.ordinaryroad.commons.minio.response.DownloadResponses;
 
 import javax.validation.constraints.NotNull;
@@ -44,7 +42,6 @@ import java.util.HashMap;
 @Component
 public class OrMinioService {
 
-    private final OrMinioProperties minioProperties;
     private final MinioClient minioClient;
     public static final String METADATA_KEY_ORIGINAL_FILENAME = "original-filename";
 
@@ -87,16 +84,6 @@ public class OrMinioService {
         if (!bucketExists) {
             minioClient.makeBucket(MakeBucketArgs.builder().bucket(bucketName).build());
         }
-    }
-
-    /**
-     * 获取桶名称，传入的优先，没传则使用配置文件中的桶名称{@link OrMinioProperties#getBucketName()}
-     *
-     * @param bucketName 桶名称
-     * @return String
-     */
-    public String getBucketName(String bucketName) {
-        return StrUtil.blankToDefault(bucketName, minioProperties.getBucketName());
     }
 
 }

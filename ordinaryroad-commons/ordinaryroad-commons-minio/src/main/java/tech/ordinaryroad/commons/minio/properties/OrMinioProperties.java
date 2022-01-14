@@ -42,6 +42,4 @@ public class OrMinioProperties {
 
     private String secretKey;
 
-    private String bucketName;
-
 }

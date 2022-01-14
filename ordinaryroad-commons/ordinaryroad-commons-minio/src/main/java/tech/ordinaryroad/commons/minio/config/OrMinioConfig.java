@@ -23,8 +23,6 @@
  */
 package tech.ordinaryroad.commons.minio.config;
 
-import io.minio.BucketExistsArgs;
-import io.minio.MakeBucketArgs;
 import io.minio.MinioClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -42,24 +40,11 @@ public class OrMinioConfig {
     private final OrMinioProperties minioProperties;
 
     @Bean
-    public MinioClient minioClient() throws Exception {
-        MinioClient minioClient = MinioClient.builder()
+    public MinioClient minioClient() {
+        return MinioClient.builder()
                 .endpoint(minioProperties.getEndpoint())
                 .credentials(minioProperties.getAccessKey(), minioProperties.getSecretKey())
                 .build();
-        // 判断Bucket是否存在
-        BucketExistsArgs bucketExistsArgs = BucketExistsArgs.builder()
-                .bucket(minioProperties.getBucketName())
-                .build();
-        boolean isExist = minioClient.bucketExists(bucketExistsArgs);
-        if (!isExist) {
-            // 不存在则创建一个新的Bucket
-            MakeBucketArgs makeBucketArgs = MakeBucketArgs.builder()
-                    .bucket(minioProperties.getBucketName())
-                    .build();
-            minioClient.makeBucket(makeBucketArgs);
-        }
-        return minioClient;
     }
 
 }
