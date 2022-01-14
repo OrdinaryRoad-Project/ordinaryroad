@@ -55,7 +55,7 @@
     <modules>
         <module>ordinaryroad-upms</module>
         <module>ordinaryroad-commons</module>
-        <module>ordinaryroad-auth</module>
+        <module>ordinaryroad-auth-server</module>
         <module>ordinaryroad-gateway</module>
         <module>ordinaryroad-push</module>
     </modules>
@@ -189,6 +189,13 @@
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-minio</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
+            <!-- ordinaryroad-auth-server-api -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-auth-server-api</artifactId>
                 <version>${ordinaryroad.version}</version>
             </dependency>
 

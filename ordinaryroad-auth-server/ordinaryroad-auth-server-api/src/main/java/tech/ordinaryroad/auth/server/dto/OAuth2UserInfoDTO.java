@@ -21,31 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push;
+package tech.ordinaryroad.auth.server.dto;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
 
 /**
+ * 用户相关信息DTO：User
+ *
  * @author mjz
- * @date 2021/10/27
+ * @date 2021/12/1
  */
-@Slf4j
-@EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@SpringBootApplication
-public class OrdinaryRoadPushApp {
+@Data
+@ApiModel
+public class OAuth2UserInfoDTO extends BaseDTO {
 
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadPushApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
-    }
+    private static final long serialVersionUID = 7129420855456681962L;
+
+    @ApiModelProperty("用户信息")
+    private SysUserDTO user;
 
 }

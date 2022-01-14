@@ -32,13 +32,10 @@ public class SwaggerResourceConfig implements SwaggerResourcesProvider {
                     .filter(predicateDefinition -> ("Path").equalsIgnoreCase(predicateDefinition.getName()))
                     .forEach(predicateDefinition -> {
                         String id = route.getId();
-                        // 跳过 ordinaryroad-auth-server
-                        if (!"ordinaryroad-auth-server".equals(id)) {
-                            resources.add(swaggerResource(id,
-                                    predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
-                                            .replace("**", "v2/api-docs"))
-                            );
-                        }
+                        resources.add(swaggerResource(id,
+                                predicateDefinition.getArgs().get(NameUtils.GENERATED_NAME_PREFIX + "0")
+                                        .replace("**", "v2/api-docs"))
+                        );
                     });
         });
         resources.add(swaggerResource("ordinaryroad-gateway", "/v2/api-docs"));

@@ -1,2 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  tech.ordinaryroad.commons.satoken.StpInterfaceImpl
+  tech.ordinaryroad.commons.satoken.config.SaOAuth2Configuration, \
+  tech.ordinaryroad.commons.satoken.config.SaOAuth2TemplateImpl, \
+  tech.ordinaryroad.commons.satoken.config.StpInterfaceImpl

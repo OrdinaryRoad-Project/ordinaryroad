@@ -22,6 +22,11 @@
             <artifactId>ordinaryroad-upms-api</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>tech.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-auth-server-api</artifactId>
+        </dependency>
+
         <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
         <dependency>
             <groupId>cn.dev33</groupId>
@@ -32,6 +37,12 @@
         <dependency>
             <groupId>cn.dev33</groupId>
             <artifactId>sa-token-dao-redis-jackson</artifactId>
+        </dependency>
+
+        <!-- Sa-Token-OAuth2.0 模块 -->
+        <dependency>
+            <groupId>cn.dev33</groupId>
+            <artifactId>sa-token-oauth2</artifactId>
         </dependency>
     </dependencies>
 

@@ -21,31 +21,41 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push;
+package tech.ordinaryroad.auth.server.request;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2021/10/27
+ * @date 2022/1/14
  */
-@Slf4j
-@EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@SpringBootApplication
-public class OrdinaryRoadPushApp {
+@Getter
+@Setter
+@ApiModel
+public class OAuth2OpenidSaveRequest extends BaseSaveRequest {
 
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadPushApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
-    }
+    private static final long serialVersionUID = 883534349322415339L;
+
+    @ApiModelProperty("OR帐号")
+    @NotBlank(message = "OR帐号不能为空")
+    @Size(max = 11, message = "or帐号长度不能超过11")
+    private String orNumber;
+
+    @ApiModelProperty("clientId")
+    @NotBlank(message = "clientId不能为空")
+    @Size(max = 20, message = "clientId长度不能超过20")
+    private String clientId;
+
+    @ApiModelProperty("openid")
+    @NotBlank(message = "openid不能为空")
+    @Size(max = 50, message = "openid长度不能超过50")
+    private String openid;
 
 }

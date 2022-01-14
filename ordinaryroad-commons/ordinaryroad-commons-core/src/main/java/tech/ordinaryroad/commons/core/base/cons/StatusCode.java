@@ -57,6 +57,9 @@ public enum StatusCode implements IStatusCode {
     DICT_NOT_EXIST(4014, "字典不存在"),
     LABEL_ALREADY_EXIST(4015, "标签已存在"),
     VALUE_ALREADY_EXIST(4016, "值已存在"),
+    OPENID_ALREADY_EXIST(4017, "openid已存在"),
+    CLIENT_ID_ALREADY_EXIST(4018, "clientId已存在"),
+    CLIENT_NAME_ALREADY_EXIST(4019, "clientName已存在"),
     ;
 
     /**

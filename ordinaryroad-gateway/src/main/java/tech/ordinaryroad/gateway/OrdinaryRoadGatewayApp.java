@@ -39,7 +39,7 @@ import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
 @Slf4j
 @EnableConfigurationProperties({OrGatewayProperties.class})
 @EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.*.api"})
+@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
 @SpringBootApplication
 public class OrdinaryRoadGatewayApp {
 

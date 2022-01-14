@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>ordinaryroad</artifactId>
+        <artifactId>ordinaryroad-auth-server</artifactId>
         <groupId>tech.ordinaryroad</groupId>
         <version>1.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>ordinaryroad-gateway</artifactId>
+    <artifactId>ordinaryroad-auth-server-web</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+        <!-- ordinaryroad-auth-server-api -->
+        <dependency>
+            <groupId>tech.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-auth-server-api</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -27,64 +33,28 @@
             <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-gateway</artifactId>
-        </dependency>
-
-        <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：http://sa-token.dev33.cn/ -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
-        </dependency>
-
-        <!-- OkHttps网络请求库： http://okhttps.ejlchina.com/ -->
-        <dependency>
-            <groupId>com.ejlchina</groupId>
-            <artifactId>okhttps</artifactId>
-            <version>3.1.1</version>
-        </dependency>
-
-        <!--        <dependency>-->
-        <!--            <groupId>com.github.xiaoymin</groupId>-->
-        <!--            <artifactId>knife4j-spring-ui</artifactId>-->
-        <!--        </dependency>-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-        </dependency>
-
+        <!-- ordinaryroad-commons-mybatis -->
         <dependency>
             <groupId>tech.ordinaryroad</groupId>
-            <artifactId>ordinaryroad-commons-satoken</artifactId>
-            <exclusions>
-                <!-- 和网关有冲突 -->
-                <exclusion>
-                    <groupId>cn.dev33</groupId>
-                    <artifactId>sa-token-spring-boot-starter</artifactId>
-                </exclusion>
-                <exclusion>
-                    <artifactId>spring-webmvc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
+            <artifactId>ordinaryroad-commons-mybatis</artifactId>
         </dependency>
 
+        <!-- ordinaryroad-commons-swagger -->
         <dependency>
             <groupId>tech.ordinaryroad</groupId>
             <artifactId>ordinaryroad-commons-swagger</artifactId>
         </dependency>
 
+        <!-- ordinaryroad-commons-satoken -->
         <dependency>
             <groupId>tech.ordinaryroad</groupId>
-            <artifactId>ordinaryroad-push-api</artifactId>
-            <exclusions>
-                <!-- 和网关有冲突 -->
-                <exclusion>
-                    <artifactId>spring-webmvc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
+            <artifactId>ordinaryroad-commons-satoken</artifactId>
+        </dependency>
+
+        <!-- thymeleaf 视图引擎 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
         <dependency>
@@ -95,7 +65,7 @@
     </dependencies>
 
     <build>
-        <finalName>ordinaryroad-gateway</finalName>
+        <finalName>ordinaryroad-auth-server</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -120,12 +90,12 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>../docker/ordinaryroad-gateway/app</outputDirectory>
+                            <outputDirectory>../../docker/ordinaryroad-auth-server/app</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>${basedir}/target</directory>
                                     <includes>
-                                        <include>ordinaryroad-gateway.jar</include>
+                                        <include>ordinaryroad-auth-server.jar</include>
                                     </includes>
                                 </resource>
                             </resources>

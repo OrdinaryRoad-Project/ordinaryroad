@@ -21,31 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push;
+package tech.ordinaryroad.auth.server.dto;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 
 /**
+ * 注册的客户端表
+ *
  * @author mjz
- * @date 2021/10/27
+ * @date 2022/1/14
  */
-@Slf4j
-@EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@SpringBootApplication
-public class OrdinaryRoadPushApp {
+@Data
+@ApiModel
+public class OAuth2RegisteredClientDTO extends BaseDTO {
 
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadPushApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
-    }
+    private static final long serialVersionUID = -1346752899244320291L;
+
+    @ApiModelProperty("clientId")
+    private String clientId;
+
+    @ApiModelProperty("clientSecret")
+    private String clientSecret;
+
+    @ApiModelProperty("clientName")
+    private String clientName;
+
+    @ApiModelProperty("重定向链接")
+    private String redirectUris;
+
+    @ApiModelProperty("授权范围")
+    private String scopes;
 
 }

@@ -21,31 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push;
+package tech.ordinaryroad.auth.server.mapstruct;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
+import org.mapstruct.Mapper;
+import tech.ordinaryroad.auth.server.dto.OAuth2OpenidDTO;
+import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
+import tech.ordinaryroad.auth.server.request.OAuth2OpenidQueryRequest;
+import tech.ordinaryroad.auth.server.request.OAuth2OpenidSaveRequest;
 
 /**
  * @author mjz
- * @date 2021/10/27
+ * @date 2022/1/14
  */
-@Slf4j
-@EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@SpringBootApplication
-public class OrdinaryRoadPushApp {
+@Mapper(componentModel = "spring")
+public interface OAuth2OpenidMapStruct {
 
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadPushApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
-    }
+    OAuth2OpenidDO transfer(OAuth2OpenidSaveRequest request);
 
+    OAuth2OpenidDTO transfer(OAuth2OpenidDO sysUserDO);
+
+    OAuth2OpenidDO transfer(OAuth2OpenidQueryRequest request);
 }

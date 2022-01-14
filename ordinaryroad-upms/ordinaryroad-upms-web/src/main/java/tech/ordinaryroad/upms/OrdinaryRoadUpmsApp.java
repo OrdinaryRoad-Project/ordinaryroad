@@ -28,6 +28,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.util.StopWatch;
 import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
 import tk.mybatis.spring.annotation.MapperScan;
@@ -39,6 +40,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @Slf4j
 @EnableConfigurationProperties({OrMinioProperties.class})
 @EnableDiscoveryClient
+@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
 @MapperScan({"tech.ordinaryroad.upms.dao"})
 @SpringBootApplication
 public class OrdinaryRoadUpmsApp {
