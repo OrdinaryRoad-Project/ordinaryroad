@@ -92,13 +92,6 @@ public class OAuth2RegisteredClientFacadeImpl implements IOAuth2RegisteredClient
             return Result.fail(StatusCode.DATA_NOT_EXIST);
         }
 
-        String newClientId = request.getClientId();
-        String clientId = byId.getClientId();
-        if (!Objects.equals(newClientId, clientId)) {
-            if (oAuth2RegisteredClientService.findByClientId(newClientId).isPresent()) {
-                return Result.fail(StatusCode.CLIENT_ID_ALREADY_EXIST);
-            }
-        }
         String newClientName = request.getClientName();
         String clientName = byId.getClientName();
         if (!Objects.equals(newClientName, clientName)) {
@@ -108,6 +101,10 @@ public class OAuth2RegisteredClientFacadeImpl implements IOAuth2RegisteredClient
         }
 
         OAuth2RegisteredClientDO transfer = objMapStruct.transfer(request);
+
+        // 不允许更新clientId
+        transfer.setClientId(null);
+
         return Result.success(objMapStruct.transfer(oAuth2RegisteredClientService.updateSelective(transfer)));
     }
 
