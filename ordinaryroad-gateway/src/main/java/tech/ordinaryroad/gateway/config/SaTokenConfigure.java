@@ -1,7 +1,6 @@
 package tech.ordinaryroad.gateway.config;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
 import cn.dev33.satoken.reactor.filter.SaReactorFilter;
 import cn.dev33.satoken.router.SaRouter;
 import cn.dev33.satoken.stp.StpUtil;
@@ -84,7 +83,6 @@ public class SaTokenConfigure {
                             throw new BaseException(StatusCode.DEMO_MODE_FAIL);
                         }
                         // 2. 校验client_id和client_secret
-                        SaOAuth2Util.checkClientSecret("ordinaryroad-upms", "secret");
                         // 因为请求体是 multipart-form-data，SaHolder.getRequest().getParam()获取不到
                         // 所以需要在controller中校验
                         // 进入controller
