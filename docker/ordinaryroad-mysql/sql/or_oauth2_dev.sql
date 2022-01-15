@@ -59,7 +59,7 @@ CREATE TABLE `oauth2_registered_client`
     UNIQUE INDEX `oauth2_registered_client_client_id_uindex` (`client_id`) USING BTREE,
     UNIQUE INDEX `oauth2_registered_client_client_name_uindex` (`client_name`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 2
+  AUTO_INCREMENT = 4
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_ai_ci COMMENT = '注册的客户端表'
   ROW_FORMAT = Dynamic;
@@ -73,5 +73,8 @@ VALUES (1, '0df05654c005443ba18566b9aa98499f', '2021-11-15 10:56:25', NULL, NULL
 INSERT INTO `oauth2_registered_client`
 VALUES (2, '65454fd95c3940a1a03acbe7f0cf4d42', '2021-11-15 12:09:51', NULL, NULL, NULL, 'ordinaryroad-knife', 'secret',
         'Knife', 'https://ordinaryroad.tech:8090/webjars/oauth/oauth2.html', 'read,write,reads,writes');
+INSERT INTO `oauth2_registered_client`
+VALUES (3, '7f878a8a05034292a04dab0ecab87a21', '2022-01-14 17:49:35', NULL, NULL, NULL, 'ordinaryroad-upms', 'secret',
+        'upms模块', '', '');
 
 SET FOREIGN_KEY_CHECKS = 1;
