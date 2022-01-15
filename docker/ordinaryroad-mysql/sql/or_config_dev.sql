@@ -30,7 +30,7 @@ CREATE TABLE `config_info`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `uk_configinfo_datagrouptenant` (`data_id`, `group_id`, `tenant_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 98
+  AUTO_INCREMENT = 11
   CHARACTER SET = utf8
   COLLATE = utf8_bin COMMENT = 'config_info'
   ROW_FORMAT = Dynamic;
@@ -39,80 +39,55 @@ CREATE TABLE `config_info`
 -- Records of config_info
 -- ----------------------------
 INSERT INTO `config_info`
-VALUES (61, 'ordinaryroad-auth-server-dev.yaml', 'DEFAULT_GROUP',
+VALUES (1, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP',
         'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 23:58:01', '2021-12-13 23:58:01', NULL, '122.193.199.20', '',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39', '', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (62, 'ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 23:58:01', '2021-12-13 23:58:01', NULL, '122.193.199.20', '',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39', '', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (63, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-13 23:58:01', '2021-12-13 23:58:01', NULL, '122.193.199.20', '',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39', '', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (64, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 23:58:01', '2021-12-13 23:58:01', NULL, '122.193.199.20', '',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39', NULL, NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (65, 'ordinaryroad-dev.yaml', 'DEFAULT_GROUP',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:58:01', '2021-12-13 23:58:01', NULL, '122.193.199.20', '',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39', '', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (76, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', '',
-        'demo', '', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (77, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', '',
-        'demo', '', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (78, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:36:20', '2021-12-14 09:47:20', 'nacos', '202.195.159.158',
+        '4df68b481fc564de14c4e22e4ee956b2', '2021-12-14 00:36:20', '2022-01-11 14:45:03', 'nacos', '0:0:0:0:0:0:0:1',
         '', 'demo', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
-VALUES (79, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP',
+VALUES (2, 'ordinaryroad-auth-server-dev.yaml', 'DEFAULT_GROUP',
+        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root',
+        '4df68b481fc564de14c4e22e4ee956b2', '2021-12-14 00:36:55', '2022-01-05 13:05:41', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'dev', '', '', '', 'yaml', '');
+INSERT INTO `config_info`
+VALUES (3, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP',
+        'ordinaryroad:\n  minio:\n    endpoint: http://ordinaryroad-minio:9000\n    accessKey: minio\n    secretKey: ${MINIO_ROOT_PASSWORD}\n\nfeign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  servlet:\n    multipart:\n      # 单文件限制大小\n      max-file-size: 100MB\n      # 总文件限制的大小\n      max-request-size: 100MB\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
+        '3ca7e0c4cfbbf01165b1ee280cc86f77', '2021-12-14 00:36:20', '2022-01-14 09:42:40', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'demo', '', '', '', 'yaml', '');
+INSERT INTO `config_info`
+VALUES (4, 'ordinaryroad-dev.yaml', 'DEFAULT_GROUP',
+        'ordinaryroad:\n  minio:\n    endpoint: http://play.min.io\n    accessKey: Q3AM3UQ867SPQQA43P2F\n    secretKey: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG\n\nfeign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  servlet:\n    multipart:\n      # 单文件限制大小\n      max-file-size: 100MB\n      # 总文件限制的大小\n      max-request-size: 100MB\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
+        '3ca7e0c4cfbbf01165b1ee280cc86f77', '2021-12-14 00:36:55', '2022-01-14 09:42:51', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'dev', '', '', '', 'yaml', '');
+INSERT INTO `config_info`
+VALUES (5, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP',
+        'ordinaryroad:\n  gateway:\n    demoMode: true\n    authServerHost: https://auth-server.ordinaryroad.tech:8302\n\nsatoken:\n  client:\n    clientId: ${spring.application.name}\n    clientSecret: secret\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
+        'b733200e58f30c8ba93bd932af2e084b', '2021-12-14 00:36:20', '2022-01-15 04:58:25', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'demo', '', '', '', 'yaml', '');
+INSERT INTO `config_info`
+VALUES (6, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP',
+        'ordinaryroad:\n  gateway:\n    demoMode: false\n    authServerHost: https://auth-server.ordinaryroad.tech:8302\n\nsatoken:\n  client:\n    clientId: ${spring.application.name}\n    clientSecret: secret\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
+        'b733200e58f30c8ba93bd932af2e084b', '2021-12-14 00:36:55', '2022-01-15 04:58:41', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'dev', '', '', '', 'yaml', '');
+INSERT INTO `config_info`
+VALUES (7, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP',
         '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', '',
-        'demo', NULL, NULL, NULL, 'yaml', NULL);
+        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:20', '2021-12-14 00:36:20', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'demo', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
-VALUES (80, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', '',
-        'demo', '', NULL, NULL, 'yaml', NULL);
+VALUES (8, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP',
+        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
+        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:55', '2021-12-14 00:36:55', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'dev', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
-VALUES (86, 'ordinaryroad-auth-server-dev.yaml', 'DEFAULT_GROUP',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', '',
-        'dev', '', NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (87, 'ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP',
+VALUES (9, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP',
         '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', '',
-        'dev', '', NULL, NULL, 'yaml', NULL);
+        '5f1fdd9004c3b00eb19cda7a6c220f91', '2021-12-14 00:36:20', '2022-01-11 14:44:51', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'demo', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
-VALUES (88, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-14 00:36:55', '2021-12-14 00:37:06', 'nacos', '122.193.199.20', '',
-        'dev', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (89, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', '',
-        'dev', NULL, NULL, NULL, 'yaml', NULL);
-INSERT INTO `config_info`
-VALUES (90, 'ordinaryroad-dev.yaml', 'DEFAULT_GROUP',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', '',
-        'dev', '', NULL, NULL, 'yaml', NULL);
+VALUES (10, 'ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP',
+        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
+        '5f1fdd9004c3b00eb19cda7a6c220f91', '2021-12-14 00:36:55', '2022-01-05 13:05:20', 'nacos', '0:0:0:0:0:0:0:1',
+        '', 'dev', '', '', '', 'yaml', '');
 
 -- ----------------------------
 -- Table structure for config_info_aggr
@@ -278,7 +253,7 @@ CREATE TABLE `his_config_info`
     INDEX `idx_gmt_modified` (`gmt_modified`) USING BTREE,
     INDEX `idx_did` (`data_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 145
+  AUTO_INCREMENT = 1
   CHARACTER SET = utf8
   COLLATE = utf8_bin COMMENT = '多租户改造'
   ROW_FORMAT = Dynamic;
@@ -286,566 +261,6 @@ CREATE TABLE `his_config_info`
 -- ----------------------------
 -- Records of his_config_info
 -- ----------------------------
-INSERT INTO `his_config_info`
-VALUES (4, 33, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP', '',
-        'sa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        '3869433fa17df354d211e0a5ac11760c', '2021-12-13 21:29:53', '2021-12-13 21:29:53', 'nacos', '61.177.142.234',
-        'U', '');
-INSERT INTO `his_config_info`
-VALUES (4, 34, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 22:27:44', '2021-12-13 22:27:45', 'nacos', '61.177.142.234',
-        'U', '');
-INSERT INTO `his_config_info`
-VALUES (4, 35, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-13 22:28:08', '2021-12-13 22:28:08', 'nacos', '61.177.142.234',
-        'U', '');
-INSERT INTO `his_config_info`
-VALUES (0, 36, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 22:41:14', '2021-12-13 22:41:14', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 37, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 22:41:14', '2021-12-13 22:41:14', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 38, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 22:41:14', '2021-12-13 22:41:14', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 39, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 22:41:14', '2021-12-13 22:41:14', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 40, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 22:41:14', '2021-12-13 22:41:14', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 41, 'ordinaryroad-auth-server.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 22:43:22', '2021-12-13 22:43:23', NULL, '61.177.142.234', 'I',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (0, 42, 'ordinaryroad-upms.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 22:43:22', '2021-12-13 22:43:23', NULL, '61.177.142.234', 'I',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (0, 43, 'ordinaryroad-gateway.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 22:43:22', '2021-12-13 22:43:23', NULL, '61.177.142.234', 'I',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (0, 44, 'ordinaryroad.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 22:43:22', '2021-12-13 22:43:23', NULL, '61.177.142.234', 'I',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (0, 45, 'ordinaryroad-push.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 22:43:23', '2021-12-13 22:43:23', NULL, '61.177.142.234', 'I',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (32, 46, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 22:43:35', '2021-12-13 22:43:35', NULL, '61.177.142.234', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (33, 47, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 22:43:35', '2021-12-13 22:43:35', NULL, '61.177.142.234', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (34, 48, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 22:43:35', '2021-12-13 22:43:35', NULL, '61.177.142.234', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (35, 49, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 22:43:35', '2021-12-13 22:43:35', NULL, '61.177.142.234', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (36, 50, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 22:43:35', '2021-12-13 22:43:35', NULL, '61.177.142.234', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 51, 'ordinaryroad-auth-server.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 22:43:41', '2021-12-13 22:43:42', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 52, 'ordinaryroad-upms.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 22:43:41', '2021-12-13 22:43:42', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 53, 'ordinaryroad-gateway.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 22:43:41', '2021-12-13 22:43:42', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 54, 'ordinaryroad.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 22:43:41', '2021-12-13 22:43:42', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 55, 'ordinaryroad-push.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 22:43:41', '2021-12-13 22:43:42', NULL, '61.177.142.234', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (39, 56, 'ordinaryroad-gateway.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 22:43:55', '2021-12-13 22:43:55', 'nacos', '61.177.142.234',
-        'U', '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (0, 57, 'ordinaryroad-auth-server.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 22:44:32', '2021-12-13 22:44:32', NULL, '61.177.142.234', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 58, 'ordinaryroad-upms.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 22:44:32', '2021-12-13 22:44:32', NULL, '61.177.142.234', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 59, 'ordinaryroad-gateway.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-13 22:44:32', '2021-12-13 22:44:32', NULL, '61.177.142.234', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 60, 'ordinaryroad.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 22:44:32', '2021-12-13 22:44:32', NULL, '61.177.142.234', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 61, 'ordinaryroad-push.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 22:44:32', '2021-12-13 22:44:32', NULL, '61.177.142.234', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (1, 62, 'ordinaryroad-auth-server-dev.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 22:44:50', '2021-12-13 22:44:51', NULL, '61.177.142.234', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (2, 63, 'ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 22:44:50', '2021-12-13 22:44:51', NULL, '61.177.142.234', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (4, 64, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 22:44:50', '2021-12-13 22:44:51', NULL, '61.177.142.234', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (5, 65, 'ordinaryroad-dev.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 22:44:50', '2021-12-13 22:44:51', NULL, '61.177.142.234', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (22, 66, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 22:44:50', '2021-12-13 22:44:51', NULL, '61.177.142.234', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (42, 67, 'ordinaryroad-auth-server.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 23:53:06', '2021-12-13 23:53:06', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (43, 68, 'ordinaryroad-upms.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 23:53:06', '2021-12-13 23:53:06', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (44, 69, 'ordinaryroad-gateway.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 23:53:06', '2021-12-13 23:53:06', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (45, 70, 'ordinaryroad.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:53:06', '2021-12-13 23:53:06', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (46, 71, 'ordinaryroad-push.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 23:53:06', '2021-12-13 23:53:06', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 72, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 23:53:31', '2021-12-13 23:53:32', NULL, '122.193.199.20', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 73, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 23:53:31', '2021-12-13 23:53:32', NULL, '122.193.199.20', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 74, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-13 23:53:31', '2021-12-13 23:53:32', NULL, '122.193.199.20', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 75, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:53:31', '2021-12-13 23:53:32', NULL, '122.193.199.20', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 76, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 23:53:31', '2021-12-13 23:53:32', NULL, '122.193.199.20', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (50, 77, 'ordinaryroad-gateway.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-13 23:53:39', '2021-12-13 23:53:40', 'nacos', '122.193.199.20',
-        'U', '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 78, 'ordinaryroad.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:55:05', '2021-12-13 23:55:05', NULL, '122.193.199.20', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (56, 79, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:55:10', '2021-12-13 23:55:10', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 80, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:57:12', '2021-12-13 23:57:12', NULL, '122.193.199.20', 'I',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (59, 81, 'ordinaryroad.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:57:17', '2021-12-13 23:57:17', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (37, 82, 'ordinaryroad-auth-server.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 23:57:25', '2021-12-13 23:57:25', NULL, '122.193.199.20', 'D',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (38, 83, 'ordinaryroad-upms.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 23:57:25', '2021-12-13 23:57:25', NULL, '122.193.199.20', 'D',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (39, 84, 'ordinaryroad-gateway.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-13 23:57:25', '2021-12-13 23:57:25', NULL, '122.193.199.20', 'D',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (40, 85, 'ordinaryroad.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:57:25', '2021-12-13 23:57:25', NULL, '122.193.199.20', 'D',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (41, 86, 'ordinaryroad-push.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 23:57:25', '2021-12-13 23:57:25', NULL, '122.193.199.20', 'D',
-        '30aeb4a5-554f-4eaf-855b-95b56c7fea3d');
-INSERT INTO `his_config_info`
-VALUES (48, 87, 'ordinaryroad-auth-server.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 23:57:33', '2021-12-13 23:57:33', NULL, '122.193.199.20', 'D',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (49, 88, 'ordinaryroad-upms.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 23:57:33', '2021-12-13 23:57:33', NULL, '122.193.199.20', 'D',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (50, 89, 'ordinaryroad-gateway.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-13 23:57:33', '2021-12-13 23:57:33', NULL, '122.193.199.20', 'D',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (51, 90, 'ordinaryroad.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:57:33', '2021-12-13 23:57:33', NULL, '122.193.199.20', 'D',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (52, 91, 'ordinaryroad-push.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 23:57:33', '2021-12-13 23:57:33', NULL, '122.193.199.20', 'D',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 92, 'ordinaryroad-auth-server-dev.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-13 23:58:00', '2021-12-13 23:58:01', NULL, '122.193.199.20', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 93, 'ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-13 23:58:00', '2021-12-13 23:58:01', NULL, '122.193.199.20', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 94, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-13 23:58:00', '2021-12-13 23:58:01', NULL, '122.193.199.20', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 95, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-13 23:58:00', '2021-12-13 23:58:01', NULL, '122.193.199.20', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (0, 96, 'ordinaryroad-dev.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-13 23:58:00', '2021-12-13 23:58:01', NULL, '122.193.199.20', 'I',
-        '689f8f73-7657-4175-9a0b-2d0b88147e39');
-INSERT INTO `his_config_info`
-VALUES (55, 97, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-13 23:58:17', '2021-12-13 23:58:18', 'nacos', '122.193.199.20',
-        'U', '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (55, 98, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:08:44', '2021-12-14 00:08:44', 'nacos', '122.193.199.20',
-        'U', '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (0, 99, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:13:47', '2021-12-14 00:13:47', NULL, '122.193.199.20', 'I',
-        '');
-INSERT INTO `his_config_info`
-VALUES (68, 100, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:14:03', '2021-12-14 00:14:03', NULL, '122.193.199.20', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (0, 101, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:14:11', '2021-12-14 00:14:11', NULL, '122.193.199.20', 'I',
-        '');
-INSERT INTO `his_config_info`
-VALUES (70, 102, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:16:42', '2021-12-14 00:16:42', NULL, '122.193.199.20', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (0, 103, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:35:18', '2021-12-14 00:35:18', NULL, '122.193.199.20', 'I',
-        '');
-INSERT INTO `his_config_info`
-VALUES (0, 104, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:35:18', '2021-12-14 00:35:18', NULL, '122.193.199.20', 'I',
-        '');
-INSERT INTO `his_config_info`
-VALUES (0, 105, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:35:18', '2021-12-14 00:35:18', NULL, '122.193.199.20', 'I',
-        '');
-INSERT INTO `his_config_info`
-VALUES (0, 106, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:35:18', '2021-12-14 00:35:18', NULL, '122.193.199.20', 'I',
-        '');
-INSERT INTO `his_config_info`
-VALUES (0, 107, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:35:18', '2021-12-14 00:35:18', NULL, '122.193.199.20', 'I',
-        '');
-INSERT INTO `his_config_info`
-VALUES (0, 108, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', 'I',
-        'demo');
-INSERT INTO `his_config_info`
-VALUES (0, 109, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', 'I',
-        'demo');
-INSERT INTO `his_config_info`
-VALUES (0, 110, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', 'I',
-        'demo');
-INSERT INTO `his_config_info`
-VALUES (0, 111, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', 'I',
-        'demo');
-INSERT INTO `his_config_info`
-VALUES (0, 112, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:36:20', '2021-12-14 00:36:20', NULL, '122.193.199.20', 'I',
-        'demo');
-INSERT INTO `his_config_info`
-VALUES (53, 113, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:36:25', '2021-12-14 00:36:25', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (54, 114, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:36:25', '2021-12-14 00:36:25', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (55, 115, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:36:25', '2021-12-14 00:36:25', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (57, 116, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:25', '2021-12-14 00:36:25', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (60, 117, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:36:25', '2021-12-14 00:36:25', NULL, '122.193.199.20', 'D',
-        '3cf178f6-6c9e-4907-a032-4899d1563ebf');
-INSERT INTO `his_config_info`
-VALUES (71, 118, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:36:31', '2021-12-14 00:36:32', NULL, '122.193.199.20', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (72, 119, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:36:31', '2021-12-14 00:36:32', NULL, '122.193.199.20', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (73, 120, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:36:31', '2021-12-14 00:36:32', NULL, '122.193.199.20', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (74, 121, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:31', '2021-12-14 00:36:32', NULL, '122.193.199.20', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (75, 122, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:36:31', '2021-12-14 00:36:32', NULL, '122.193.199.20', 'D',
-        '');
-INSERT INTO `his_config_info`
-VALUES (0, 123, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:36:40', '2021-12-14 00:36:41', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 124, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:36:40', '2021-12-14 00:36:41', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 125, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:36:40', '2021-12-14 00:36:41', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 126, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:40', '2021-12-14 00:36:41', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 127, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:36:40', '2021-12-14 00:36:41', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (81, 128, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:36:44', '2021-12-14 00:36:44', NULL, '122.193.199.20', 'D',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (82, 129, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:36:44', '2021-12-14 00:36:44', NULL, '122.193.199.20', 'D',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (83, 130, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:36:44', '2021-12-14 00:36:44', NULL, '122.193.199.20', 'D',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (84, 131, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:44', '2021-12-14 00:36:44', NULL, '122.193.199.20', 'D',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (85, 132, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:36:44', '2021-12-14 00:36:44', NULL, '122.193.199.20', 'D',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 133, 'ordinaryroad-auth-server-dev.yaml', 'DEFAULT_GROUP', '',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy',
-        'c1fdbb9eba34b52ac25e57a84b948857', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 134, 'ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '36eb94c90b0e5dea328c620c4913d87b', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 135, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 136, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP', '',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (0, 137, 'ordinaryroad-dev.yaml', 'DEFAULT_GROUP', '',
-        'feign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0',
-        '72a3495913db6d4a6e469ab992d24243', '2021-12-14 00:36:55', '2021-12-14 00:36:55', NULL, '122.193.199.20', 'I',
-        'dev');
-INSERT INTO `his_config_info`
-VALUES (88, 138, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 00:37:06', '2021-12-14 00:37:06', 'nacos', '122.193.199.20',
-        'U', 'dev');
-INSERT INTO `his_config_info`
-VALUES (78, 139, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 09:28:54', '2021-12-14 09:28:54', 'nacos', '202.195.159.158',
-        'U', 'demo');
-INSERT INTO `his_config_info`
-VALUES (78, 140, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-14 09:30:50', '2021-12-14 09:30:50', 'nacos', '202.195.159.158',
-        'U', 'demo');
-INSERT INTO `his_config_info`
-VALUES (78, 141, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 09:31:15', '2021-12-14 09:31:16', 'nacos', '202.195.159.158',
-        'U', 'demo');
-INSERT INTO `his_config_info`
-VALUES (78, 142, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-14 09:32:22', '2021-12-14 09:32:22', 'nacos', '202.195.159.158',
-        'U', 'demo');
-INSERT INTO `his_config_info`
-VALUES (78, 143, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'acc6b00f80dc76b3d1799f1181972064', '2021-12-14 09:47:03', '2021-12-14 09:47:03', 'nacos', '202.195.159.158',
-        'U', 'demo');
-INSERT INTO `his_config_info`
-VALUES (78, 144, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', '',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n\nsa-token:\n  oauth2:\n    auth-server-host: lb://ordinaryroad-auth-server/oauth2\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1',
-        'c6ffc7132258ed76631653e37636010f', '2021-12-14 09:47:19', '2021-12-14 09:47:20', 'nacos', '202.195.159.158',
-        'U', 'demo');
 
 -- ----------------------------
 -- Table structure for permissions
@@ -932,7 +347,7 @@ CREATE TABLE `tenant_info`
     UNIQUE INDEX `uk_tenant_info_kptenantid` (`kp`, `tenant_id`) USING BTREE,
     INDEX `idx_tenant_id` (`tenant_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 7
+  AUTO_INCREMENT = 4
   CHARACTER SET = utf8
   COLLATE = utf8_bin COMMENT = 'tenant_info'
   ROW_FORMAT = Dynamic;
@@ -941,11 +356,11 @@ CREATE TABLE `tenant_info`
 -- Records of tenant_info
 -- ----------------------------
 INSERT INTO `tenant_info`
-VALUES (4, '1', 'demo', 'demo', '演示环境', 'nacos', 1639413350299, 1639413350299);
+VALUES (1, '1', 'demo', 'demo', '演示环境', 'nacos', 1639413350299, 1639413350299);
 INSERT INTO `tenant_info`
-VALUES (5, '1', 'dev', 'dev', '开发环境', 'nacos', 1639413364335, 1639413364335);
+VALUES (2, '1', 'dev', 'dev', '开发环境', 'nacos', 1639413364335, 1639413364335);
 INSERT INTO `tenant_info`
-VALUES (6, '1', 'pro', 'pro', '生产环境', 'nacos', 1639413372280, 1639413372280);
+VALUES (3, '1', 'pro', 'pro', '生产环境', 'nacos', 1639413372280, 1639413372280);
 
 -- ----------------------------
 -- Table structure for users
