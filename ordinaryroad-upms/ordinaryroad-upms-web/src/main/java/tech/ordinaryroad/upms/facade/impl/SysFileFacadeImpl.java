@@ -157,6 +157,10 @@ public class SysFileFacadeImpl implements ISysFileFacade {
                 if (!showInline) {
                     showType = "inline";
                 }
+            } else {
+                if (showInline) {
+                    showType = "inline";
+                }
             }
 
             response.setHeader(
