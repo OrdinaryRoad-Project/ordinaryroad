@@ -39,7 +39,7 @@ public class BaseDO implements Serializable {
     private LocalDateTime createdTime;
 
     /**
-     * 创建者uuid
+     * 创建者OR账号
      */
     private String createBy;
 
@@ -49,7 +49,7 @@ public class BaseDO implements Serializable {
     private LocalDateTime updateTime;
 
     /**
-     * 更新者uuid
+     * 更新者OR账号
      */
     private String updateBy;
 

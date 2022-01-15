@@ -17,11 +17,7 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>tech.ordinaryroad</groupId>
-            <artifactId>ordinaryroad-upms-api</artifactId>
-        </dependency>
-
+        <!-- ordinaryroad-auth-server-api -->
         <dependency>
             <groupId>tech.ordinaryroad</groupId>
             <artifactId>ordinaryroad-auth-server-api</artifactId>

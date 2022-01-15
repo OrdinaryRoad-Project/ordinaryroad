@@ -1,11 +1,14 @@
 package tech.ordinaryroad.commons.mybatis.service;
 
+import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 import tk.mybatis.mapper.entity.Example;
@@ -159,6 +162,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         Assert.notNull(t.getUuid(), "uuid不能为空");
 
         t.setUpdateTime(LocalDateTime.now());
+        t.setUpdateBy(StpUtil.getLoginIdAsString());
 
         if (isSelective) {
             return dao.updateByPrimaryKeySelective(t) > 0;
@@ -324,6 +328,19 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             String uuid = IdUtil.fastSimpleUUID();
             log.debug("生成UUID：{}", uuid);
             t.setUuid(uuid);
+        }
+        // 填充createBy字段，跳过免登接口
+        String requestPath = SaHolder.getRequest().getRequestPath();
+        if (PathConstants.NO_LOGIN_PATHS.contains(requestPath)) {
+            // ignore
+            return;
+        }
+        try {
+            t.setCreateBy(StpUtil.getLoginIdAsString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            // TODO 如果有报错需要处理
+            log.error("fillMetaFields createBy failed", e);
         }
     }
 
