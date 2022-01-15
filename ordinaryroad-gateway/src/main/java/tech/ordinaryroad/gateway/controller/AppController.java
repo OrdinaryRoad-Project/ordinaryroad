@@ -34,13 +34,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
+import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.gateway.request.LoginRequest;
 import tech.ordinaryroad.upms.api.ISysApi;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
 import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 
-import java.util.HashMap;
 import java.util.concurrent.*;
 
 /**
@@ -55,6 +55,7 @@ import java.util.concurrent.*;
 public class AppController {
 
     private final ISysApi sysApi;
+    private final IOAuth2Api oAuth2Api;
 
     /**
      * 应用id
@@ -151,22 +152,17 @@ public class AppController {
         JSONObject data = response.getData();
         String openid = data.getString("openid");
         String clientId = params.getString(SaOAuth2Consts.Param.client_id);
-        HashMap<String, String> orNumberParams = new HashMap<>(2);
-        orNumberParams.put(SaOAuth2Consts.Param.client_id, clientId);
-        orNumberParams.put("openid", openid);
-        Result<String> orNumberResponse = Result.parse(
-                OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/getOrNumber")
-                        .addBodyPara(orNumberParams)
-                        .post()
-                        .getBody().toString()
-        );
-        if (orNumberResponse == null) {
-            return Result.fail();
+        Result<String> orNumberResult;
+        Future<Result<String>> orNumberFuture = executorService.submit(() -> oAuth2Api.getOrNumber(clientId, openid));
+        try {
+            orNumberResult = orNumberFuture.get();
+        } catch (InterruptedException | ExecutionException e) {
+            return Result.fail(e.getMessage());
         }
         if (!response.getSuccess()) {
             return response;
         }
-        String orNumber = orNumberResponse.getData();
+        String orNumber = orNumberResult.getData();
         // 返回相关参数
         StpUtil.login(orNumber, BooleanUtil.isTrue(rememberMe));
         String tokenValue = StpUtil.getTokenValue();
