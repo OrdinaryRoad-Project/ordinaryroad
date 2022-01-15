@@ -74,7 +74,7 @@ INSERT INTO `oauth2_registered_client`
 VALUES (2, '65454fd95c3940a1a03acbe7f0cf4d42', '2021-11-15 12:09:51', NULL, NULL, NULL, 'ordinaryroad-knife', 'secret',
         'Knife', 'https://ordinaryroad.tech:8090/webjars/oauth/oauth2.html', 'read,write,reads,writes');
 INSERT INTO `oauth2_registered_client`
-VALUES (3, '7f878a8a05034292a04dab0ecab87a21', '2022-01-14 17:49:35', NULL, NULL, NULL, 'ordinaryroad-upms', 'secret',
-        'upms模块', '', '');
+VALUES (3, 'de9fac5117b34778a8ee8039dc296c09', '2022-01-15 15:49:35', NULL, NULL, NULL, 'ordinaryroad-ui', 'secret',
+        'ui模块', '', '');
 
 SET FOREIGN_KEY_CHECKS = 1;
