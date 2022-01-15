@@ -177,6 +177,9 @@ export default {
   },
   methods: {
     onFileSelect (file) {
+      if (!file) {
+        return
+      }
       if (file.size > 50 * 1024 * 1024) {
         this.$snackbar.error(this.$t('whatCannotGreaterThan', [this.$t('file'), '50MB']))
         return

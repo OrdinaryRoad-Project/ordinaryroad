@@ -368,12 +368,15 @@ export default {
     },
 
     onAvatarSelect (file) {
+      if (!file) {
+        return
+      }
       if (file.size > 50 * 1024 * 1024) {
         this.$snackbar.error(this.$t('whatCannotGreaterThan', [this.$t('avatar'), '50MB']))
         return
       }
       this.avatarOptions.uploading = true
-      this.$apis.upms.file.upload({ bucketName: 'avatar', file })
+      this.$apis.upms.file.upload({ file })
         .then(({ data }) => {
           this.updateAvatar({
             avatar: data,
