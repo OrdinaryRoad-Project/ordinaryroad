@@ -116,5 +116,11 @@ export default {
   publicRuntimeConfig: {
     BASE_URL: process.env.BASE_URL
   },
-  privateRuntimeConfig: {}
+  privateRuntimeConfig: {},
+
+  // https://www.nuxtjs.cn/api/configuration-env
+  env: {
+    CLIENT_ID: 'ordinaryroad-ui',
+    CLIENT_SECRET: 'secret'
+  }
 }

@@ -4,14 +4,19 @@ export default {
   initAxios (axios) {
     $axios = $axios || axios
   },
-  upload: ({ bucketName, file }) => {
+  upload: ({ file }) => {
     const data = new FormData()
-    bucketName && data.append('bucketName', bucketName)
+    data.append('clientId', process.env.CLIENT_ID)
+    data.append('clientSecret', process.env.CLIENT_SECRET)
     data.append('file', file)
     return $axios({ url: '/upms/file/upload', method: 'post', data })
   },
-  getFileDownloadPath: (bucketAndObjectName) => {
-    return '/api/upms/file/download' + bucketAndObjectName
+  getFileDownloadPath: ({ bucketAndObjectName, showInLine }) => {
+    let path = '/api/upms/file/download' + bucketAndObjectName
+    path += (showInLine !== null && typeof showInLine !== 'undefined')
+      ? ('?showInline=' + showInLine)
+      : ''
+    return path
   },
   list: (offset, limit, { bucketName, objectName, originalFilename }) => {
     const data = { limit, offset, bucketName, objectName, originalFilename }
