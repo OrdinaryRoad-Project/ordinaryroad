@@ -19,6 +19,9 @@ export default {
   SET_USER_INFO (state, userInfo) {
     state.userInfo = userInfo
   },
+  UPDATE_USER_INFO_AVATAR (state, avatar) {
+    state.userInfo.user.avatar = avatar
+  },
   UPDATE_USER_INFO_USERNAME (state, username) {
     state.userInfo.user.username = username
   },

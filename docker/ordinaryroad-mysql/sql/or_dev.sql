@@ -22,7 +22,7 @@ CREATE TABLE `sys_permission`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_permission_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 31
+  AUTO_INCREMENT = 33
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '权限表'
   ROW_FORMAT = Dynamic;
@@ -107,6 +107,12 @@ VALUES (29, 'efb03858340c4614aea79b4ad8dd08ed', '2022-01-06 18:04:53', NULL, NUL
 INSERT INTO `sys_permission`
 VALUES (30, 'e1adfb6d17bf4353a0786d0ff49a1c95', '2022-01-06 18:05:07', NULL, NULL, NULL, 'upms:dict_item:list',
         '查询字典项列表');
+INSERT INTO `sys_permission`
+VALUES (31, '5d0e9159aa79431f9ef679bcd868c0ae', '2022-01-13 12:45:07', NULL, NULL, NULL, 'upms:file:upload',
+        '上传文件');
+INSERT INTO `sys_permission`
+VALUES (32, '4d8ebd5a16cf431387a8c94025a9f3ee', '2022-01-13 12:45:07', NULL, NULL, NULL, 'upms:file:list',
+        '查询文件列表');
 
 -- ----------------------------
 -- Table structure for sys_request_path
@@ -126,7 +132,7 @@ CREATE TABLE `sys_request_path`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_request_path_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 31
+  AUTO_INCREMENT = 33
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '请求路径表'
   ROW_FORMAT = Dynamic;
@@ -221,6 +227,12 @@ VALUES (29, 'e58f7be01c9c46229c8da4a9da408f21', '2022-01-06 18:09:24', NULL, NUL
 INSERT INTO `sys_request_path`
 VALUES (30, 'bfba6860e1a240888fde856dab2565fb', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict_item/list',
         '查询字典项列表', 'e1adfb6d17bf4353a0786d0ff49a1c95');
+INSERT INTO `sys_request_path`
+VALUES (31, '1076e1b7d9e34a5a9556a9ae2159f062', '2022-01-13 12:44:24', NULL, NULL, NULL, '/upms/file/upload',
+        '上传文件', '5d0e9159aa79431f9ef679bcd868c0ae');
+INSERT INTO `sys_request_path`
+VALUES (32, 'd46f134babc34c3e93a02fd3eac043c0', '2022-01-13 12:44:24', NULL, NULL, NULL, '/upms/file/list',
+        '查询文件列表', '4d8ebd5a16cf431387a8c94025a9f3ee');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -274,7 +286,7 @@ CREATE TABLE `sys_roles_permissions`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_roles_permissions_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 66
+  AUTO_INCREMENT = 71
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '角色权限关联关系表'
   ROW_FORMAT = Dynamic;
@@ -423,6 +435,21 @@ VALUES (64, 'f4ee11f652ee49a7b6805be2ac284751', '2022-01-06 18:13:25', NULL, NUL
 INSERT INTO `sys_roles_permissions`
 VALUES (65, '3ff9cf02b72d46dabdd8595ba0da9b8a', '2022-01-06 18:13:25', NULL, NULL, NULL,
         '63b55b8be8fe49af82a822aa9aa57868', 'e1adfb6d17bf4353a0786d0ff49a1c95');
+INSERT INTO `sys_roles_permissions`
+VALUES (66, 'af23e5a82c6b416585da6184ef235e12', '2022-01-13 12:50:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '5d0e9159aa79431f9ef679bcd868c0ae');
+INSERT INTO `sys_roles_permissions`
+VALUES (67, 'a254e1421b7445c0afd2eb54def80417', '2022-01-13 12:50:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '4d8ebd5a16cf431387a8c94025a9f3ee');
+INSERT INTO `sys_roles_permissions`
+VALUES (68, 'c33357f073784b568cefa25f22fe962b', '2022-01-13 12:51:04', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '4d8ebd5a16cf431387a8c94025a9f3ee');
+INSERT INTO `sys_roles_permissions`
+VALUES (69, '5dedf9ec8c494eb3937bb8af5443dfde', '2022-01-13 12:51:04', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '5d0e9159aa79431f9ef679bcd868c0ae');
+INSERT INTO `sys_roles_permissions`
+VALUES (70, 'adf7f14f90eb4847830218a50eedf2a6', '2022-01-13 12:51:20', NULL, NULL, NULL,
+        '63b55b8be8fe49af82a822aa9aa57868', '4d8ebd5a16cf431387a8c94025a9f3ee');
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -437,6 +464,7 @@ CREATE TABLE `sys_user`
     `update_time`          datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
     `update_by`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
     `or_number`            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'or帐号',
+    `avatar`               varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '头像地址',
     `email`                varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '邮箱',
     `username`             varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '用户名',
     `password`             varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '用户密码',
@@ -456,19 +484,19 @@ CREATE TABLE `sys_user`
 -- Records of sys_user
 -- ----------------------------
 INSERT INTO `sys_user`
-VALUES (1, '76a8133381924e23a9172dac75100047', '2021-11-15 10:08:36', NULL, '2021-12-13 19:44:37', NULL, '10001',
+VALUES (1, '76a8133381924e23a9172dac75100047', '2021-11-15 10:08:36', NULL, '2021-12-13 19:44:37', NULL, '10001', null,
         '1962247851@qq.com', 'mjz', '{bcrypt}$2a$10$Kn6IdZZ4sJYmI0IHB8zY.OoVrGiO3BHd7CPpCl8ayrgwOiiM0pKJe', b'1', b'1',
         b'1', b'1');
 INSERT INTO `sys_user`
-VALUES (2, '24f14f1a400b4bed9caa8d698b33d49a', '2021-11-15 16:07:41', NULL, '2021-12-14 09:47:10', NULL, '10002',
+VALUES (2, '24f14f1a400b4bed9caa8d698b33d49a', '2021-11-15 16:07:41', NULL, '2021-12-14 09:47:10', NULL, '10002', null,
         '1781422987@qq.com', 'zjy', '{bcrypt}$2a$10$uATrbKq6RFqkCzRrH81mQ.BdhUpw9ssXjjy4znGeItuh/ed6fvyam', b'0', b'1',
         b'1', b'1');
 INSERT INTO `sys_user`
-VALUES (3, 'c8e93fc029d445119e0c0215ea5ee4b7', '2021-11-29 19:25:26', NULL, '2021-12-14 09:47:11', NULL, '10003',
+VALUES (3, 'c8e93fc029d445119e0c0215ea5ee4b7', '2021-11-29 19:25:26', NULL, '2021-12-14 09:47:11', NULL, '10003', null,
         '204879304@qq.com', 'admin', '{bcrypt}$2a$10$AIMOVvFfXC5JAUASl74x9OpnMw2fsgifLl/dJqQr5lN56HtrkQYeq', b'0', b'1',
         b'1', b'1');
 INSERT INTO `sys_user`
-VALUES (4, '50b4a8fd617b48babb9342bf51ae0822', '2021-12-06 21:46:17', NULL, '2021-12-14 09:47:13', NULL, '10004',
+VALUES (4, '50b4a8fd617b48babb9342bf51ae0822', '2021-12-06 21:46:17', NULL, '2021-12-14 09:47:13', NULL, '10004', null,
         '452259370@qq.com', 'test', '{bcrypt}$2a$10$Kn6IdZZ4sJYmI0IHB8zY.OoVrGiO3BHd7CPpCl8ayrgwOiiM0pKJe', b'0', b'1',
         b'1', b'1');
 
@@ -590,3 +618,31 @@ VALUES (3, '369e43d45b2a4b98ac1ac00d7aa01bd2', '2022-01-05 21:20:41', NULL, NULL
         '96bf1b7a62f942988f289b2d022d6b85', '保密', '2', 0, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;
+
+-- ----------------------------
+-- Table structure for sys_file
+-- ----------------------------
+DROP TABLE IF EXISTS `sys_file`;
+CREATE TABLE `sys_file`
+(
+    `id`                bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+    `uuid`              varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
+    `created_time`      datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+    `create_by`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `update_time`       datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
+    `update_by`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `bucket_name`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '桶名称',
+    `object_name`       varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '对象名称',
+    `original_filename` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '原文件名',
+    `size`              bigint(20)                                                    NULL DEFAULT NULL COMMENT '文件大小（byte）',
+    PRIMARY KEY (`id`) USING BTREE,
+    UNIQUE INDEX `sys_file_uuid_uindex` (`uuid`) USING BTREE
+) ENGINE = InnoDB
+  AUTO_INCREMENT = 1
+  CHARACTER SET = utf8mb4
+  COLLATE = utf8mb4_0900_ai_ci COMMENT = '文件表'
+  ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of sys_file
+-- ----------------------------

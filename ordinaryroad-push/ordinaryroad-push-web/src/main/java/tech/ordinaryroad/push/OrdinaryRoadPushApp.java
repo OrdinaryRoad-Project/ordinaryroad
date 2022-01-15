@@ -36,7 +36,7 @@ import org.springframework.util.StopWatch;
  */
 @Slf4j
 @EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.*.api"})
+@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
 @SpringBootApplication
 public class OrdinaryRoadPushApp {
 

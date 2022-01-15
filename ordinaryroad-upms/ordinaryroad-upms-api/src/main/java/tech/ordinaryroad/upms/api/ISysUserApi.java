@@ -81,6 +81,9 @@ public interface ISysUserApi {
     @PostMapping(value = "/user/find/unique/async")
     Mono<Result<SysUserDTO>> findByUniqueColumnAsync(@Validated @RequestBody SysUserQueryRequest request);
 
+    @PostMapping(value = "/user/update/avatar")
+    Result<Boolean> updateAvatar(@Validated @RequestBody SysUserUpdateAvatarRequest request);
+
     @PostMapping(value = "/user/update/username")
     Result<Boolean> updateUsername(@Validated @RequestBody SysUserUpdateUsernameRequest request);
 

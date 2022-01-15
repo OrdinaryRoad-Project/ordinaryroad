@@ -24,9 +24,14 @@ services:
       - "8090:8090"
       # 认证服务器 https
       - "8302:8302"
+      # nacos https
+      - "9848:9848"
+      # minio console https
+      - "9001:9001"
     depends_on:
       - ordinaryroad-gateway
       - ordinaryroad-ui
+      - ordinaryroad-minio
     restart: always
 
   ordinaryroad-redis:
@@ -59,14 +64,22 @@ services:
       context: ./ordinaryroad-nacos
     volumes:
       - $PWD/ordinaryroad-nacos/standalone-logs:/home/nacos/logs
-    ports:
-      - "8848:8848"
-      - "9848:9848"
-      - "9555:9555"
     depends_on:
       - ordinaryroad-mysql
     hostname: ordinaryroad-nacos
     restart: always
+
+  ordinaryroad-minio:
+    image: ordinaryroad-minio
+    container_name: ordinaryroad-minio
+    build:
+      context: ./ordinaryroad-minio
+    volumes:
+      - $PWD/ordinaryroad-minio/data:/data
+      - $PWD/ordinaryroad-minio/config:/root/.minio
+    hostname: ordinaryroad-minio
+    restart: always
+    command: server /data --console-address ":9999"
 
   ordinaryroad-gateway:
     image: ordinaryroad-gateway
@@ -74,8 +87,9 @@ services:
     build:
       context: ./ordinaryroad-gateway
     depends_on:
-      - ordinaryroad-nacos
-      - ordinaryroad-redis
+      - ordinaryroad-auth-server
+      - ordinaryroad-upms
+      - ordinaryroad-push
     hostname: ordinaryroad-gateway
     restart: always
 
@@ -88,6 +102,7 @@ services:
       - ordinaryroad-mysql
       - ordinaryroad-redis
       - ordinaryroad-nacos
+      - ordinaryroad-upms
     hostname: ordinaryroad-auth-server
     restart: always
 
@@ -100,6 +115,7 @@ services:
       - ordinaryroad-mysql
       - ordinaryroad-redis
       - ordinaryroad-nacos
+      - ordinaryroad-push
     hostname: ordinaryroad-upms
     restart: always
 

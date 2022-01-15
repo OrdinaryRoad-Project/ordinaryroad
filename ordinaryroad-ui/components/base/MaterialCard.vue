@@ -5,15 +5,17 @@
     class="v-card--material pa-5 mt-8 mx-auto"
   >
     <div class="d-flex grow flex-wrap">
-      <v-avatar
-        v-if="avatar"
-        size="128"
-        class="mx-auto v-card--material__avatar elevation-6"
-        color="grey"
-      >
-        <v-img :src="avatar" />
-      </v-avatar>
-
+      <div v-if="avatar" class="mx-auto">
+        <slot name="avatar">
+          <v-avatar
+            size="128"
+            class="v-card--material__avatar elevation-6"
+            color="grey"
+          >
+            <v-img :src="avatar" />
+          </v-avatar>
+        </slot>
+      </div>
       <v-sheet
         v-else
         rounded

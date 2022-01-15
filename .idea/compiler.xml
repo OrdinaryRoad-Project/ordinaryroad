@@ -16,21 +16,26 @@
         <module name="ordinaryroad-gateway" />
         <module name="ordinaryroad-upms-web" />
         <module name="ordinaryroad-commons-mybatis" />
+        <module name="ordinaryroad-auth-server-api" />
         <module name="ordinaryroad-commons-core" />
         <module name="ordinaryroad-commons-satoken" />
         <module name="ordinaryroad-upms-api" />
+        <module name="ordinaryroad-auth-server-web" />
         <module name="ordinaryroad-commons-swagger" />
-        <module name="ordinaryroad-auth-server" />
         <module name="ordinaryroad-push-api" />
+        <module name="ordinaryroad-commons-minio" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="8">
       <module name="ordinaryroad" target="8" />
       <module name="ordinaryroad-auth" target="8" />
       <module name="ordinaryroad-auth-server" target="8" />
+      <module name="ordinaryroad-auth-server-api" target="8" />
+      <module name="ordinaryroad-auth-server-web" target="8" />
       <module name="ordinaryroad-commons" target="8" />
       <module name="ordinaryroad-commons-core" target="8" />
       <module name="ordinaryroad-commons-knife" target="8" />
+      <module name="ordinaryroad-commons-minio" target="8" />
       <module name="ordinaryroad-commons-mybatis" target="8" />
       <module name="ordinaryroad-commons-satoken" target="8" />
       <module name="ordinaryroad-commons-swagger" target="8" />

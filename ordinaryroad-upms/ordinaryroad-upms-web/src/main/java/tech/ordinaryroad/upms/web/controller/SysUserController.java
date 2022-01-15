@@ -89,6 +89,11 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
+    public Result<Boolean> updateAvatar(@RequestBody @Validated SysUserUpdateAvatarRequest request) {
+        return sysUserFacade.updateAvatar(request);
+    }
+
+    @Override
     public Result<Boolean> updateUsername(@RequestBody @Validated SysUserUpdateUsernameRequest request) {
         return sysUserFacade.updateUsername(request);
     }

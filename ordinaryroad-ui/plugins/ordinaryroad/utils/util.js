@@ -250,6 +250,30 @@ function indexOf (array, searchItem) {
   return -1
 }
 
+function getFileSizeString (size) {
+  if (size < 1024) {
+    return size + ' BYTE'
+  } else {
+    size /= 1024
+  }
+  if (size < 1024) {
+    return size.toFixed(2) + ' KB'
+  } else {
+    size /= 1024
+  }
+  if (size < 1024) {
+    return size.toFixed(2) + ' MB'
+  } else {
+    size /= 1024
+  }
+  if (size < 1024) {
+    return size.toFixed(2) + ' GB'
+  } else {
+    size /= 1024
+  }
+  return size.toFixed(2) + ' TB'
+}
+
 module.exports = {
   formatSeconds,
   formatTime,
@@ -262,5 +286,6 @@ module.exports = {
   uuid,
   objectEquals,
   arrayEquals,
-  indexOf
+  indexOf,
+  getFileSizeString
 }

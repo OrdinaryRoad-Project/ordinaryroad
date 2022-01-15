@@ -57,16 +57,19 @@
           cols="12"
           md="4"
         >
-          <v-btn
-            v-if="(!accessKey||$access.has(accessKey+':create'))&&!hideActions"
-            outlined
-            color="primary"
-            dark
-            @click="insertItem"
-          >
-            <v-icon>mdi-plus</v-icon>
-            {{ $t('insert') }}
-          </v-btn>
+          <slot name="actionsTop">
+            <v-btn
+              v-if="(!accessKey||$access.has(accessKey+':create'))&&!hideActions"
+              outlined
+              color="primary"
+              dark
+              @click="insertItem"
+            >
+              <v-icon>mdi-plus</v-icon>
+              {{ $t('insert') }}
+            </v-btn>
+          </slot>
+
           <v-btn
             outlined
             color="success"
@@ -76,7 +79,8 @@
             <v-icon>mdi-reload</v-icon>
             {{ $t('refresh') }}
           </v-btn>
-          <slot name="topButtonsAfter" />
+
+          <slot name="actionsTopAfter" />
         </v-col>
       </v-row>
       <v-divider class="mt-2" />
@@ -112,23 +116,25 @@
       >
         <slot name="actionsBefore" :item="item" />
 
-        <v-btn
-          v-if="(!accessKey||$access.has(accessKey+':update'))"
-          icon
-          color="accent"
-          class="mr-2"
-          @click="editItem(item)"
-        >
-          <v-icon>mdi-pencil</v-icon>
-        </v-btn>
-        <v-btn
-          v-if="(!accessKey||$access.has(accessKey+':delete'))"
-          icon
-          color="error"
-          @click="deleteItem(item)"
-        >
-          <v-icon>mdi-delete-forever</v-icon>
-        </v-btn>
+        <slot name="actions" :item="item">
+          <v-btn
+            v-if="(!accessKey||$access.has(accessKey+':update'))"
+            icon
+            color="accent"
+            class="mr-2"
+            @click="editItem(item)"
+          >
+            <v-icon>mdi-pencil</v-icon>
+          </v-btn>
+          <v-btn
+            v-if="(!accessKey||$access.has(accessKey+':delete'))"
+            icon
+            color="error"
+            @click="deleteItem(item)"
+          >
+            <v-icon>mdi-delete-forever</v-icon>
+          </v-btn>
+        </slot>
 
         <slot name="actionsAfter" :item="item" />
 
@@ -195,7 +201,7 @@ export default {
       required: true
     },
     /**
-     *   用于控制编辑和删除按钮是否生效
+     * 用于控制创建、编辑和删除按钮是否生效
      */
     accessKey: {
       type: String,

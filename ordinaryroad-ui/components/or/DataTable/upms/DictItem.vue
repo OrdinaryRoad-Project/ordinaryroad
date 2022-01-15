@@ -93,7 +93,7 @@
         </v-col>
       </template>
 
-      <template #topButtonsAfter>
+      <template #actionsTopAfter>
         <v-btn
           outlined
           @click="$router.push({path:'/upms/dict'})"

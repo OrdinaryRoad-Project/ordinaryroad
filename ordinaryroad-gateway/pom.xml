@@ -38,12 +38,6 @@
             <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- Sa-Token-OAuth2.0 模块 -->
-        <dependency>
-            <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-oauth2</artifactId>
-        </dependency>
-
         <!-- OkHttps网络请求库： http://okhttps.ejlchina.com/ -->
         <dependency>
             <groupId>com.ejlchina</groupId>

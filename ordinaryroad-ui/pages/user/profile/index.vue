@@ -29,8 +29,7 @@
             >
               <div class="d-flex align-center">
                 <v-text-field
-                  v-model="usernameTextField.value"
-                  clearable
+                  v-model="usernameTextField.input"
                   :rules="[$rules.required,$rules.max10Chars]"
                   :loading="usernameTextField.loading"
                   :disabled="usernameTextField.disabled"
@@ -38,7 +37,13 @@
                   :label="$t('username')"
                 />
                 <v-btn class="ms-3" icon @click="usernameClick">
-                  <v-icon>mdi-{{ usernameTextField.disabled ? 'pencil' : 'check' }}</v-icon>
+                  <v-icon>
+                    mdi-{{
+                      usernameTextField.disabled ? 'pencil'
+                      : usernameTextField.input === usernameTextField.value ? 'close'
+                        : 'check'
+                    }}
+                  </v-icon>
                 </v-btn>
               </div>
             </v-form>
@@ -122,8 +127,59 @@
       order-md="2"
     >
       <base-material-card
-        :avatar="require('static/vuetify-logo.svg')"
+        :avatar="avatarPath"
       >
+        <template #avatar>
+          <v-hover>
+            <template #default="{ hover }">
+              <v-avatar
+                size="128"
+                class="v-card--material__avatar elevation-6"
+                color="grey"
+              >
+                <v-img :src="avatarPath">
+                  <template #default>
+                    <v-fade-transition>
+                      <v-overlay
+                        v-if="avatarOptions.uploading"
+                        absolute
+                      >
+                        <v-progress-circular indeterminate />
+                      </v-overlay>
+                    </v-fade-transition>
+                  </template>
+                  <template #placeholder>
+                    <v-skeleton-loader type="image" />
+                  </template>
+                </v-img>
+                <v-fade-transition>
+                  <v-overlay
+                    v-if="!avatarOptions.uploading&&hover"
+                    v-ripple
+                    absolute
+                    style="cursor: pointer"
+                    @click="$refs.fileInput.$refs.input.click()"
+                  >
+                    <v-file-input
+                      v-show="false"
+                      ref="fileInput"
+                      accept="image/*"
+                      @change="onAvatarSelect"
+                    />
+                    <v-row
+                      class="fill-height ma-0"
+                      align="center"
+                      justify="center"
+                    >
+                      <v-icon>mdi-pencil</v-icon>
+                    </v-row>
+                  </v-overlay>
+                </v-fade-transition>
+              </v-avatar>
+            </template>
+          </v-hover>
+        </template>
+
         <v-list two-line>
           <v-list-item>
             <v-list-item-icon>
@@ -189,8 +245,12 @@ import { mapActions, mapGetters } from 'vuex'
 export default {
   data: () => ({
     tab: null,
+    avatarOptions: {
+      uploading: false
+    },
     usernameTextField: {
       value: '',
+      input: '',
       disabled: true,
       loading: false
     },
@@ -225,15 +285,18 @@ export default {
   computed: {
     ...mapGetters('user', {
       userInfo: 'getUserInfo',
-      userRolesNameString: 'getUserRolesNameString'
+      userRolesNameString: 'getUserRolesNameString',
+      avatarPath: 'getAvatarPath'
     })
   },
   mounted () {
     this.usernameTextField.value = this.userInfo.user.username
+    this.usernameTextField.input = this.userInfo.user.username
     this.emailTextField.value = this.userInfo.user.email
   },
   methods: {
     ...mapActions('user', {
+      updateAvatar: 'updateAvatar',
       updateUsername: 'updateUsername',
       updateEmail: 'updateEmail'
     }),
@@ -241,22 +304,21 @@ export default {
     usernameClick () {
       if (this.usernameTextField.disabled) {
         this.usernameTextField.disabled = false
+      } else if (this.usernameTextField.input === this.usernameTextField.value) {
+        this.usernameTextField.disabled = true
       } else if (this.$refs.usernameForm.validate()) {
-        if (this.usernameTextField.value === this.userInfo.user.username) {
+        this.usernameTextField.loading = true
+        this.updateUsername({
+          username: this.usernameTextField.input,
+          $apis: this.$apis
+        }).then(() => {
+          this.usernameTextField.loading = false
+          this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('username')]))
+          this.usernameTextField.value = this.usernameTextField.input
           this.usernameTextField.disabled = true
-        } else {
-          this.usernameTextField.loading = true
-          this.updateUsername({
-            username: this.usernameTextField.value,
-            $apis: this.$apis
-          }).then(() => {
-            this.usernameTextField.loading = false
-            this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('username')]))
-            this.usernameTextField.disabled = true
-          }).catch(() => {
-            this.usernameTextField.loading = false
-          })
-        }
+        }).catch(() => {
+          this.usernameTextField.loading = false
+        })
       }
     },
 
@@ -303,6 +365,31 @@ export default {
           this.passwordForm.confirmPassword.errorMessageKey = 'inconsistentPasswords'
         }
       }
+    },
+
+    onAvatarSelect (file) {
+      if (file.size > 50 * 1024 * 1024) {
+        this.$snackbar.error(this.$t('whatCannotGreaterThan', [this.$t('avatar'), '50MB']))
+        return
+      }
+      this.avatarOptions.uploading = true
+      this.$apis.upms.file.upload({ bucketName: 'avatar', file })
+        .then(({ data }) => {
+          this.updateAvatar({
+            avatar: data,
+            $apis: this.$apis
+          })
+            .then(() => {
+              this.avatarOptions.uploading = false
+              this.$snackbar.success(this.$t('whatUpdateSuccessfully', [this.$t('avatar')]))
+            })
+            .catch(() => {
+              this.avatarOptions.uploading = false
+            })
+        })
+        .catch(() => {
+          this.avatarOptions.uploading = false
+        })
     }
   }
 }

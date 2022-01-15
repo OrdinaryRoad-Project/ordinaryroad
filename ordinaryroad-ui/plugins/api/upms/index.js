@@ -4,6 +4,7 @@ import requestPathApis from './request_path'
 import permissionApis from './permission'
 import dictApis from './dict'
 import dictItemApis from './dict_item'
+import fileApis from './file'
 
 let $axios = null
 
@@ -16,6 +17,7 @@ export default {
     permissionApis.initAxios(axios)
     dictApis.initAxios(axios)
     dictItemApis.initAxios(axios)
+    fileApis.initAxios(axios)
   },
   apis: {
     role: roleApis,
@@ -24,6 +26,7 @@ export default {
     permission: permissionApis,
     dict: dictApis,
     dict_item: dictItemApis,
+    file: fileApis,
     userInfo: ({ saToken }) => {
       const data = { saToken }
       return $axios({

@@ -136,6 +136,31 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     }
 
     @Override
+    public Result<Boolean> updateAvatar(SysUserUpdateAvatarRequest request) {
+        // 获取当前登录用户
+        String orNumber = StpUtil.getLoginIdAsString();
+        Optional<SysUserDO> byOrNumber = sysUserService.findByOrNumber(orNumber);
+        if (!byOrNumber.isPresent()) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+        String newAvatar = request.getAvatar();
+        SysUserDO sysUserDO = byOrNumber.get();
+        String username = sysUserDO.getUsername();
+        if (newAvatar.equals(username)) {
+            return Result.success(false);
+        }
+
+        SysUserDO newSysUserDO = new SysUserDO();
+        newSysUserDO.setUuid(sysUserDO.getUuid());
+        newSysUserDO.setAvatar(StrUtil.blankToDefault(newAvatar, ""));
+        if (sysUserService.doUpdateSelective(newSysUserDO)) {
+            return Result.success(true);
+        } else {
+            return Result.fail();
+        }
+    }
+
+    @Override
     public Result<Boolean> updateUsername(SysUserUpdateUsernameRequest request) {
         // 获取当前登录用户
         String orNumber = StpUtil.getLoginIdAsString();

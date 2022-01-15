@@ -43,6 +43,9 @@ public class SysUserDTO extends BaseModelDTO {
     @ApiModelProperty("or帐号")
     private String orNumber;
 
+    @ApiModelProperty("头像地址")
+    private String avatar;
+
     @ApiModelProperty("邮箱")
     private String email;
 

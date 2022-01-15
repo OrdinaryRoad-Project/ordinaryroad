@@ -7,5 +7,11 @@ export default {
       return ''
     }
     return state.userInfo.roles.map(role => role.roleName).join('，')
+  },
+  getAvatarPath: (state) => {
+    if (!state.userInfo.user.avatar) {
+      return require('static/vuetify-logo.svg')
+    }
+    return '/api/upms/file/download' + state.userInfo.user.avatar
   }
 }

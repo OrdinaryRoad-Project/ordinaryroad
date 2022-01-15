@@ -52,6 +52,14 @@ export default () => ({
       meta: {
         permission: 'upms:dict:list'
       }
+    },
+    {
+      titleKey: 'menuTitles.fileManagement',
+      to: '/upms/file',
+      icon: 'mdi-file-multiple',
+      meta: {
+        permission: 'upms:file:list'
+      }
     }
   ],
   accessibleMenuItems: [],
