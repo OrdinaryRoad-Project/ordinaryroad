@@ -28,6 +28,7 @@ import cn.hutool.core.date.DatePattern;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
@@ -144,7 +145,7 @@ public class SysFileFacadeImpl implements ISysFileFacade {
         String bucketName = fullPath.substring(0, indexBetweenBucketAndFilename);
         String filename = fullPath.substring(indexBetweenBucketAndFilename);
         // 图片默认inline，其它默认attachment
-        String showType = "attachment";
+        String showType;
 
         try {
             DownloadResponses downloadResponses = orMinioService.download(bucketName, filename);
@@ -153,12 +154,15 @@ public class SysFileFacadeImpl implements ISysFileFacade {
 
             String extName = FileUtil.extName(originalFilename);
             if (ThumbnailatorUtils.isSupportedOutputFormat(extName)) {
-                response.setContentType(String.format("image/%s", extName));
-                if (!showInline) {
-                    showType = "inline";
+                showType = "inline";
+                if (BooleanUtil.isFalse(showInline)) {
+                    showType = "attachment";
                 }
+
+                response.setContentType(String.format("image/%s", extName));
             } else {
-                if (showInline) {
+                showType = "attachment";
+                if (BooleanUtil.isTrue(showInline)) {
                     showType = "inline";
                 }
             }

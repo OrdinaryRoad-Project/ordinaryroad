@@ -65,7 +65,7 @@ public interface ISysFileApi {
      * @param showInline 是否直接在网页中显示而不是直接下载
      */
     @GetMapping(value = "/file/download/**", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false, defaultValue = "false") Boolean showInline);
+    void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) Boolean showInline);
 
     @PostMapping(value = "/file/list")
     Result<PageInfo<SysFileDTO>> list(@RequestBody SysFileQueryRequest request);
