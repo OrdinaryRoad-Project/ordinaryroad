@@ -30,12 +30,14 @@ import com.alibaba.fastjson.JSONObject;
 import com.ejlchina.okhttps.OkHttps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import tech.ordinaryroad.auth.server.api.IOAuth2Api;
+import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.satoken.properties.OAuth2ClientProperties;
+import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
 import tech.ordinaryroad.gateway.request.LoginRequest;
 import tech.ordinaryroad.upms.api.ISysApi;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
@@ -56,18 +58,8 @@ public class AppController {
 
     private final ISysApi sysApi;
     private final IOAuth2Api oAuth2Api;
-
-    /**
-     * 应用id
-     */
-    private String clientId = "ordinaryroad-gateway";
-    /**
-     * 应用秘钥
-     */
-    private String clientSecret = "secret";
-
-    @Value("${sa-token.oauth2.auth-server-host}")
-    private String serverUrl;
+    private final OrGatewayProperties gatewayProperties;
+    private final OAuth2ClientProperties oAuth2ClientProperties;
 
     private final WebClient webClient;
 
@@ -95,8 +87,8 @@ public class AppController {
         JSONObject params = new JSONObject();
         params.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.authorization_code);
         params.put(SaOAuth2Consts.Param.code, code);
-        params.put(SaOAuth2Consts.Param.client_id, clientId);
-        params.put(SaOAuth2Consts.Param.client_secret, clientSecret);
+        params.put(SaOAuth2Consts.Param.client_id, oAuth2ClientProperties.getClientId());
+        params.put(SaOAuth2Consts.Param.client_secret, oAuth2ClientProperties.getClientSecret());
         return exchangeToken(params, true);
     }
 
@@ -107,7 +99,7 @@ public class AppController {
         // 用帐号密码直接获取token
         JSONObject params = new JSONObject();
         params.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);
-        params.put(SaOAuth2Consts.Param.client_id, clientId);
+        params.put(SaOAuth2Consts.Param.client_id, oAuth2ClientProperties.getClientId());
         params.put(SaOAuth2Consts.Param.scope, "userinfo");
         params.put(SaOAuth2Consts.Param.username, orNumber);
         params.put(SaOAuth2Consts.Param.password, request.getPassword());
@@ -135,9 +127,9 @@ public class AppController {
         // 需要将结果封装
         params.put("wrapped", true);
         Result<JSONObject> response = Result.parse(
-                OkHttps.sync("http://ordinaryroad-auth-server:9302/oauth2/token")
-                        .addBodyPara(params)
-                        .post()
+                OkHttps.sync(gatewayProperties.getAuthServerHost() + SaOAuth2Consts.Api.token)
+                        .addUrlPara(params)
+                        .get()
                         .getBody().toString()
         );
         // code不等于200  代表请求失败
@@ -153,7 +145,12 @@ public class AppController {
         String openid = data.getString("openid");
         String clientId = params.getString(SaOAuth2Consts.Param.client_id);
         Result<String> orNumberResult;
-        Future<Result<String>> orNumberFuture = executorService.submit(() -> oAuth2Api.getOrNumber(clientId, openid));
+        Future<Result<String>> orNumberFuture = executorService.submit(() -> {
+            OAuth2GetOrNumberRequest request = new OAuth2GetOrNumberRequest();
+            request.setClientId(clientId);
+            request.setOpenid(openid);
+            return oAuth2Api.getOrNumber(request);
+        });
         try {
             orNumberResult = orNumberFuture.get();
         } catch (InterruptedException | ExecutionException e) {

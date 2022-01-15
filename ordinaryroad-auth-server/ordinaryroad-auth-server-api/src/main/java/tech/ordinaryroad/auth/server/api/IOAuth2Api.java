@@ -25,10 +25,13 @@ package tech.ordinaryroad.auth.server.api;
 
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.auth.server.constants.ServiceNameCons;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
+import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
+import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 
 /**
@@ -42,20 +45,19 @@ public interface IOAuth2Api {
     /**
      * 根据clientId和openid获取or帐号
      *
-     * @param clientId clientId
-     * @param openid   openid
+     * @param request Request
      * @return Result
      */
-    @RequestMapping("/oauth2/getOrNumber")
-    Result<String> getOrNumber(@RequestParam("client_id") String clientId, @RequestParam String openid);
+    @PostMapping("/oauth2/getOrNumber")
+    Result<String> getOrNumber(@Validated @RequestBody OAuth2GetOrNumberRequest request);
 
     /**
      * Client端根据 Access-Token 置换用户信息
      *
-     * @param accessToken Access Token
+     * @param request Request
      * @return OAuth2UserInfoDTO
      */
-    @RequestMapping("/oauth2/userinfo")
-    Result<OAuth2UserInfoDTO> userinfo(@RequestParam("access_token") String accessToken);
+    @PostMapping("/oauth2/userinfo")
+    Result<OAuth2UserInfoDTO> userinfo(@Validated @RequestBody OAuth2UserinfoRequest request);
 
 }

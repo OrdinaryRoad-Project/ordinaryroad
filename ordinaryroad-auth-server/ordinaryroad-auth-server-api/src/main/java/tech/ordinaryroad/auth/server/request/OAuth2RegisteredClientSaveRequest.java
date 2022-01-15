@@ -45,7 +45,7 @@ public class OAuth2RegisteredClientSaveRequest extends BaseQueryRequest {
 
     @ApiModelProperty("clientId")
     @NotBlank(message = "clientId不能为空")
-    @Size(max = 100, message = "clientId长度不能超过100")
+    @Size(max = 20, message = "clientId长度不能超过20")
     private String clientId;
 
     @ApiModelProperty("clientSecret")

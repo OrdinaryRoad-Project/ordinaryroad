@@ -21,24 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.gateway.properties;
+package tech.ordinaryroad.auth.server.request;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2021/12/13
+ * @date 2022/1/15
  */
-@Data
-@ConfigurationProperties(prefix = "ordinaryroad.gateway")
-public class OrGatewayProperties {
+@Getter
+@Setter
+@ApiModel
+public class OAuth2UserinfoRequest extends BaseRequest {
 
-    private Boolean demoMode = Boolean.FALSE;
+    private static final long serialVersionUID = 1431101250416068893L;
 
-    /**
-     * OAuth2认证服务器地址
-     */
-    private String authServerHost = "https://auth-server.ordinaryroad.tech";
+    @JsonAlias("access_token")
+    @ApiModelProperty(value = "accessToken", name = "access_token")
+    @NotBlank(message = "accessToken不能为空")
+    @Size(max = 100, message = "accessToken长度不能超过100")
+    private String accessToken;
 
 }

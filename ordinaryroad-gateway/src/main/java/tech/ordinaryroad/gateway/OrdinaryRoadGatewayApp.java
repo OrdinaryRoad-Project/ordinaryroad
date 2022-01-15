@@ -30,6 +30,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.util.StopWatch;
+import tech.ordinaryroad.commons.satoken.properties.OAuth2ClientProperties;
 import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
 
 /**
@@ -37,7 +38,7 @@ import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
  * @date 2021/10/29
  */
 @Slf4j
-@EnableConfigurationProperties({OrGatewayProperties.class})
+@EnableConfigurationProperties({OrGatewayProperties.class, OAuth2ClientProperties.class})
 @EnableDiscoveryClient
 @EnableFeignClients({"tech.ordinaryroad.**.**.api"})
 @SpringBootApplication

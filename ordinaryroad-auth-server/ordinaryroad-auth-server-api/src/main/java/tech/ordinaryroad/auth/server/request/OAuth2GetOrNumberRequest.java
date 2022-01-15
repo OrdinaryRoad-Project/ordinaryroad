@@ -21,24 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.gateway.properties;
+package tech.ordinaryroad.auth.server.request;
 
-import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2021/12/13
+ * @date 2022/1/15
  */
-@Data
-@ConfigurationProperties(prefix = "ordinaryroad.gateway")
-public class OrGatewayProperties {
+@Getter
+@Setter
+@ApiModel
+public class OAuth2GetOrNumberRequest extends BaseRequest {
 
-    private Boolean demoMode = Boolean.FALSE;
+    private static final long serialVersionUID = -2665442559698333038L;
 
-    /**
-     * OAuth2认证服务器地址
-     */
-    private String authServerHost = "https://auth-server.ordinaryroad.tech";
+    @JsonAlias("client_id")
+    @ApiModelProperty(value = "clientId", name = "client_id")
+    @NotBlank(message = "clientId不能为空")
+    @Size(max = 20, message = "clientId长度不能超过20")
+    private String clientId;
+
+    @ApiModelProperty("openid")
+    @NotBlank(message = "openid不能为空")
+    @Size(max = 50, message = "openid长度不能超过50")
+    private String openid;
 
 }

@@ -24,6 +24,8 @@
 package tech.ordinaryroad.auth.server.facade;
 
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
+import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
+import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 
 /**
@@ -35,17 +37,16 @@ public interface IOAuth2Facade {
     /**
      * 根据clientId和openid获取or帐号
      *
-     * @param clientId clientId
-     * @param openid   openid
+     * @param request Request
      * @return Result
      */
-    Result<String> getOrNumber(String clientId, String openid);
+    Result<String> getOrNumber(OAuth2GetOrNumberRequest request);
 
     /**
      * Client端根据 Access-Token 置换用户信息
      *
-     * @param accessToken Access Token
+     * @param request Request
      * @return OAuth2UserInfoDTO
      */
-    Result<OAuth2UserInfoDTO> userinfo(String accessToken);
+    Result<OAuth2UserInfoDTO> userinfo(OAuth2UserinfoRequest request);
 }

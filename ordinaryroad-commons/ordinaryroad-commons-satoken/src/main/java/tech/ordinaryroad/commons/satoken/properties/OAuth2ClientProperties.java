@@ -21,24 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.gateway.properties;
+package tech.ordinaryroad.commons.satoken.properties;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * 第三方Client属性，需要注册到oauth2_registered_client表
+ *
  * @author mjz
- * @date 2021/12/13
+ * @date 2022/1/15
  */
 @Data
-@ConfigurationProperties(prefix = "ordinaryroad.gateway")
-public class OrGatewayProperties {
-
-    private Boolean demoMode = Boolean.FALSE;
+@ConfigurationProperties(prefix = "satoken.client")
+public class OAuth2ClientProperties {
 
     /**
-     * OAuth2认证服务器地址
+     * 应用id
      */
-    private String authServerHost = "https://auth-server.ordinaryroad.tech";
+    private String clientId;
+
+    /**
+     * 应用秘钥
+     */
+    private String clientSecret;
 
 }

@@ -29,6 +29,8 @@ import org.springframework.stereotype.Component;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
 import tech.ordinaryroad.auth.server.facade.IOAuth2Facade;
+import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
+import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.auth.server.service.OAuth2OpenidService;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.api.ISysUserApi;
@@ -49,13 +51,14 @@ public class OAuth2FacadeImpl implements IOAuth2Facade {
     private final ISysUserApi userApi;
 
     @Override
-    public Result<String> getOrNumber(String clientId, String openid) {
-        Optional<OAuth2OpenidDO> byClientIdAndOpenid = oAuth2OpenidService.findByClientIdAndOpenid(clientId, openid);
+    public Result<String> getOrNumber(OAuth2GetOrNumberRequest request) {
+        Optional<OAuth2OpenidDO> byClientIdAndOpenid = oAuth2OpenidService.findByClientIdAndOpenid(request.getClientId(), request.getOpenid());
         return byClientIdAndOpenid.map(oAuth2OpenidDO -> Result.success(oAuth2OpenidDO.getOrNumber())).orElseGet(Result::fail);
     }
 
     @Override
-    public Result<OAuth2UserInfoDTO> userinfo(String accessToken) {
+    public Result<OAuth2UserInfoDTO> userinfo(OAuth2UserinfoRequest request) {
+        String accessToken = request.getAccessToken();
         // 获取 Access-Token 对应的账号id
         String orNumber = (String) SaOAuth2Util.getLoginIdByAccessToken(accessToken);
         // 校验 Access-Token 是否具有权限: userinfo

@@ -57,6 +57,9 @@ public class SaTokenConfigure {
                 // 拦截地址
                 .addInclude("/**")
 
+                // 开放地址 认证服务器OAuth2.0
+                .addExclude("/auth/oauth2/*")
+
                 // 开放地址
                 .addExclude("/webjars/**", "/favicon.ico", "/error")
                 //                .addExclude("*.html", "*.css", "*.js", "*.ico")
