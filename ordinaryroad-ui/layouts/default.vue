@@ -4,96 +4,56 @@
       v-model="drawerLeftModel"
       width="280"
       :temporary="$vuetify.breakpoint.smAndDown"
-      mini-variant-width="90"
       :expand-on-hover="!$vuetify.breakpoint.smAndDown&&drawerMiniVariant"
       :mini-variant="!$vuetify.breakpoint.smAndDown&&drawerMiniVariant"
       :clipped="!$vuetify.breakpoint.smAndDown&&drawerClipped"
       fixed
       app
     >
-      <v-list>
-        <v-list-item @click="$router.push('/')">
+      <OrBaseTreeList
+        :nav="false"
+        :items="[{}]"
+        @clickListItem="$router.push('/')"
+      >
+        <template #item_0>
           <v-list-item-avatar>OR</v-list-item-avatar>
-          <v-list-item-content>
-            <v-list-item-title class="text-h6">
-              OrdinaryRoad
+          <v-list-item-title class="text-h6" style="height:24px;line-height:24px">
+            OrdinaryRoad
+          </v-list-item-title>
+        </template>
+      </OrBaseTreeList>
+      <v-divider />
+      <OrBaseTreeList
+        :items="userMenuItems"
+        @clickListItem="logout"
+      >
+        <template #prependIcon_0>
+          <v-list-item-avatar class="pa-0 ma-0" size="26">
+            <v-img :src="avatarPath" style="border: 1px solid">
+              <template #placeholder>
+                <v-skeleton-loader type="image" />
+              </template>
+            </v-img>
+          </v-list-item-avatar>
+        </template>
+        <template #activator_0>
+          <v-list-item-content class="pa-0">
+            <v-list-item-title>
+              {{ userInfo.user.username || '暂未设置用户名' }}
             </v-list-item-title>
+            <v-list-item-subtitle>
+              {{ userInfo.user.email }}
+            </v-list-item-subtitle>
           </v-list-item-content>
-        </v-list-item>
-      </v-list>
-      <v-divider />
-      <v-list nav>
-        <v-list-group>
-          <template #activator>
-            <v-list-item-avatar>
-              <v-img :src="avatarPath" style="border: 1px solid">
-                <template #placeholder>
-                  <v-skeleton-loader type="image" />
-                </template>
-              </v-img>
-            </v-list-item-avatar>
-            <v-list-item-content>
-              <v-list-item-title>
-                {{ userInfo.user.username || '暂未设置用户名' }}
-              </v-list-item-title>
-              <v-list-item-subtitle class="text-caption">
-                {{ userInfo.user.email }}
-              </v-list-item-subtitle>
-            </v-list-item-content>
-          </template>
-
-          <template #appendIcon>
-            <v-list-item-action class="ms-0 me-0">
-              <v-icon>mdi-chevron-down</v-icon>
-            </v-list-item-action>
-          </template>
-
-          <v-list-item
-            v-for="(item, i) in userMenuItems"
-            :key="i"
-            :to="item.to"
-            router
-            exact
-            active-class="primary white--text"
-          >
-            <v-list-item-action>
-              <v-icon>{{ item.icon }}</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t(item.titleKey) }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-
-          <v-list-item
-            @click="logout"
-          >
-            <v-list-item-action>
-              <v-icon>mdi-logout</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title>{{ $t('logout') }}</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </v-list-group>
-      </v-list>
-      <v-divider />
-      <v-list nav>
-        <v-list-item
-          v-for="(item, i) in menuItems"
-          :key="i"
-          :to="item.to"
-          router
-          exact
-          active-class="primary white--text elevation-4"
-        >
-          <v-list-item-action>
-            <v-icon>{{ item.icon }}</v-icon>
+        </template>
+        <template #appendIcon_0>
+          <v-list-item-action class="ms-0 me-0">
+            <v-icon>mdi-chevron-down</v-icon>
           </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title>{{ $t(item.titleKey) }}</v-list-item-title>
-          </v-list-item-content>
-        </v-list-item>
-      </v-list>
+        </template>
+      </OrBaseTreeList>
+      <v-divider />
+      <OrBaseTreeList :items="menuItems" />
     </v-navigation-drawer>
     <v-app-bar
       :clipped-left="drawerClipped"
