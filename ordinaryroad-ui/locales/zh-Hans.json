@@ -1,4 +1,6 @@
 {
+  "clientId": "Client Id",
+  "openid": "Openid",
   "showType": "展示方式",
   "fileSize": "文件大小",
   "bucketName": "桶名称",
@@ -107,16 +109,16 @@
     "system": "深色猛男"
   },
   "menuTitles": {
-    "auth": "认证授权",
+    "systemManagement": "系统管理",
+    "dictManagement": "字典管理",
+    "fileManagement": "文件管理",
     "registeredClientManagement": "第三方客户端管理",
     "openidManagement": "openid管理",
-    "upms": "UPMS",
+    "accessControl": "权限控制",
     "userManagement": "用户管理",
     "roleManagement": "角色管理",
     "permissionManagement": "权限管理",
-    "requestPathManagement": "请求路径管理",
-    "dictManagement": "字典管理",
-    "fileManagement": "文件管理"
+    "requestPathManagement": "请求路径管理"
   },
   "settings": "设置",
   "ordinaryroad": "Ordinary Road"

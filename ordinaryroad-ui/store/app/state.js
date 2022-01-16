@@ -25,30 +25,8 @@ export default () => ({
    */
   menuItems: [
     {
-      titleKey: 'menuTitles.auth',
-      icon: 'mdi-cog',
-      children: [
-        {
-          titleKey: 'menuTitles.registeredClientManagement',
-          to: '/auth/registered_client',
-          icon: 'mdi-account-multiple',
-          meta: {
-            permission: 'auth:registered_client:list'
-          }
-        },
-        {
-          titleKey: 'menuTitles.openidManagement',
-          to: '/auth/openid',
-          icon: 'mdi-account-multiple',
-          meta: {
-            permission: 'auth:openid:list'
-          }
-        }
-      ]
-    },
-    {
-      titleKey: 'menuTitles.upms',
-      icon: 'mdi-cog',
+      titleKey: 'menuTitles.accessControl',
+      icon: 'mdi-key',
       children: [
         {
           titleKey: 'menuTitles.userManagement',
@@ -81,7 +59,13 @@ export default () => ({
           meta: {
             permission: 'upms:request_path:list'
           }
-        },
+        }
+      ]
+    },
+    {
+      titleKey: 'menuTitles.systemManagement',
+      icon: 'mdi-cog',
+      children: [
         {
           titleKey: 'menuTitles.dictManagement',
           to: '/upms/dict',
@@ -96,6 +80,22 @@ export default () => ({
           icon: 'mdi-file-multiple',
           meta: {
             permission: 'upms:file:list'
+          }
+        },
+        {
+          titleKey: 'menuTitles.registeredClientManagement',
+          to: '/auth/registered_client',
+          icon: 'mdi-web',
+          meta: {
+            permission: 'auth:registered_client:list'
+          }
+        },
+        {
+          titleKey: 'menuTitles.openidManagement',
+          to: '/auth/openid',
+          icon: 'mdi-identifier',
+          meta: {
+            permission: 'auth:openid:list'
           }
         }
       ]

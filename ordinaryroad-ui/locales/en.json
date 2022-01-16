@@ -1,4 +1,6 @@
 {
+  "clientId": "Client Id",
+  "openid": "Openid",
   "showType": "Show Type",
   "fileSize": "File Size",
   "bucketName": "Bucket Name",
@@ -107,16 +109,16 @@
     "system": "Dark Hunk"
   },
   "menuTitles": {
-    "auth": "Auth Server",
+    "systemManagement": "System Management",
+    "dictManagement": "Dict Management",
+    "fileManagement": "File Management",
     "registeredClientManagement": "Client Management",
     "openidManagement": "Openid Management",
-    "upms": "UPMS",
+    "accessControl": "Access Control",
     "userManagement": "User Management",
     "roleManagement": "Role Management",
     "permissionManagement": "Permission Management",
-    "requestPathManagement": "RequestPath Management",
-    "dictManagement": "Dict Management",
-    "fileManagement": "File Management"
+    "requestPathManagement": "RequestPath Management"
   },
   "settings": "Settings",
   "ordinaryroad": "Ordinary Road"
