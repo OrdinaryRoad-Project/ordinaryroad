@@ -15,6 +15,7 @@ export default {
   max50Chars: value => (!value || String(value).length <= 50) || $t('maxNChars', [50]),
   max100Chars: value => (!value || String(value).length <= 100) || $t('maxNChars', [100]),
   max200Chars: value => (!value || String(value).length <= 200) || $t('maxNChars', [200]),
+  max1000Chars: value => (!value || String(value).length <= 1000) || $t('maxNChars', [1000]),
   email: (value) => {
     const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
     return pattern.test(value) || $t('invalidEmail')
