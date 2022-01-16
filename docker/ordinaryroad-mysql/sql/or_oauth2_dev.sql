@@ -12,14 +12,14 @@ DROP TABLE IF EXISTS `oauth2_openid`;
 CREATE TABLE `oauth2_openid`
 (
     `id`           bigint(20)                                                    NOT NULL AUTO_INCREMENT,
-    `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT '主键UUID',
+    `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time` datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '创建者uuid',
     `update_time`  datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
     `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT '更新者uuid',
     `or_number`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT 'or帐号',
-    `client_id`    varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT 'clientId',
-    `openid`       varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT 'openid',
+    `client_id`    varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT 'clientId',
+    `openid`       varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT 'openid',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `oauth2_openid_openid_uindex` (`openid`) USING BTREE
 ) ENGINE = InnoDB
@@ -45,16 +45,16 @@ DROP TABLE IF EXISTS `oauth2_registered_client`;
 CREATE TABLE `oauth2_registered_client`
 (
     `id`            bigint(20)                                                     NOT NULL AUTO_INCREMENT,
-    `uuid`          varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci   NOT NULL COMMENT '主键UUID',
+    `uuid`          varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs   NOT NULL COMMENT '主键UUID',
     `created_time`  datetime                                                       NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
     `create_by`     varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci   NULL DEFAULT NULL COMMENT '创建者uuid',
     `update_time`   datetime                                                       NULL DEFAULT NULL COMMENT '更新时间',
     `update_by`     varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci   NULL DEFAULT NULL COMMENT '更新者uuid',
-    `client_id`     varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT 'clientId',
-    `client_secret` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NULL DEFAULT NULL COMMENT 'clientSecret',
-    `client_name`   varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci  NOT NULL COMMENT 'clientName',
-    `redirect_uris` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT '重定向链接',
-    `scopes`        varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL COMMENT '授权范围',
+    `client_id`     varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs   NOT NULL COMMENT 'clientId',
+    `client_secret` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT 'clientSecret',
+    `client_name`   varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT 'clientName',
+    `redirect_uris` varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '重定向链接',
+    `scopes`        varchar(1000) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '授权范围',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `oauth2_registered_client_client_id_uindex` (`client_id`) USING BTREE,
     UNIQUE INDEX `oauth2_registered_client_client_name_uindex` (`client_name`) USING BTREE
