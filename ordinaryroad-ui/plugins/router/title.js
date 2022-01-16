@@ -6,12 +6,18 @@ export default ({ app, store }) => {
     const userMenuItems = store.getters['app/getUserMenuItems']
     const items = menuItems.concat(userMenuItems)
     let found = false
-    items.forEach((item) => {
-      if (!found && item.to === to.path) {
+    let item = items.shift()
+    while (item) {
+      if (!found && item.to && item.to === to.path) {
         store.commit('app/SET_TITLE_KEY', item.titleKey)
         found = true
+        break
       }
-    })
+      if (item.children && item.children.length > 0) {
+        items.unshift(...item.children)
+      }
+      item = items.shift()
+    }
     if (!found) {
       store.commit('app/SET_TITLE_KEY', 'ordinaryroad')
     }
