@@ -107,6 +107,10 @@
     "system": "Dark Hunk"
   },
   "menuTitles": {
+    "auth": "Auth Server",
+    "registeredClientManagement": "Client Management",
+    "openidManagement": "Openid Management",
+    "upms": "UPMS",
     "userManagement": "User Management",
     "roleManagement": "Role Management",
     "permissionManagement": "Permission Management",

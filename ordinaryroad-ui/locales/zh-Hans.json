@@ -107,6 +107,10 @@
     "system": "深色猛男"
   },
   "menuTitles": {
+    "auth": "认证授权",
+    "registeredClientManagement": "第三方客户端管理",
+    "openidManagement": "openid管理",
+    "upms": "UPMS",
     "userManagement": "用户管理",
     "roleManagement": "角色管理",
     "permissionManagement": "权限管理",
