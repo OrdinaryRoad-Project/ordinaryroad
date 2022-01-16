@@ -59,9 +59,11 @@ public class OAuth2RegisteredClientSaveRequest extends BaseQueryRequest {
     private String clientName;
 
     @ApiModelProperty("重定向链接")
+    @Size(max = 1000, message = "重定向链接长度不能超过1000")
     private String redirectUris;
 
     @ApiModelProperty("授权范围")
+    @Size(max = 1000, message = "授权范围长度不能超过1000")
     private String scopes;
 
 }
