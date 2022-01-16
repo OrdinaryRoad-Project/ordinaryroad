@@ -26,7 +26,7 @@ package tech.ordinaryroad.auth.server.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 
 /**
  * 注册的客户端表
@@ -36,9 +36,9 @@ import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
  */
 @Data
 @ApiModel
-public class OAuth2RegisteredClientDTO extends BaseDTO {
+public class OAuth2RegisteredClientDTO extends BaseModelDTO {
 
-    private static final long serialVersionUID = -1346752899244320291L;
+    private static final long serialVersionUID = 1521366983325255029L;
 
     @ApiModelProperty("clientId")
     private String clientId;

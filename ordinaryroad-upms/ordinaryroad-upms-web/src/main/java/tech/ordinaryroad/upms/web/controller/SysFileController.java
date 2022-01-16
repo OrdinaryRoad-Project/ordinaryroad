@@ -55,7 +55,7 @@ public class SysFileController implements ISysFileApi {
     }
 
     @Override
-    public void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false, defaultValue = "false") Boolean showInline) {
+    public void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) Boolean showInline) {
         sysFileFacade.download(request, response, showInline);
     }
 

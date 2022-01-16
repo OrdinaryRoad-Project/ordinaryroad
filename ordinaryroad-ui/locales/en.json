@@ -1,4 +1,11 @@
 {
+  "scopes": "Scopes",
+  "redirectUris": "Redirect Uris",
+  "clientName": "Client Name",
+  "clientSecret": "Client Secret",
+  "clientId": "Client Id",
+  "openid": "OpenID",
+  "showType": "Show Type",
   "fileSize": "File Size",
   "bucketName": "Bucket Name",
   "objectName": "Object Name",
@@ -106,12 +113,16 @@
     "system": "Dark Hunk"
   },
   "menuTitles": {
+    "systemManagement": "System Management",
+    "dictManagement": "Dict Management",
+    "fileManagement": "File Management",
+    "registeredClientManagement": "Client Management",
+    "openidManagement": "OpenID Management",
+    "accessControl": "Access Control",
     "userManagement": "User Management",
     "roleManagement": "Role Management",
     "permissionManagement": "Permission Management",
-    "requestPathManagement": "RequestPath Management",
-    "dictManagement": "Dict Management",
-    "fileManagement": "File Management"
+    "requestPathManagement": "RequestPath Management"
   },
   "settings": "Settings",
   "ordinaryroad": "Ordinary Road"

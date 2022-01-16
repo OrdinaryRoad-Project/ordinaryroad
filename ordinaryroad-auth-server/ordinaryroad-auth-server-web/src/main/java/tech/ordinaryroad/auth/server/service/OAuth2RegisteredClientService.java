@@ -66,6 +66,14 @@ public class OAuth2RegisteredClientService extends BaseService<OAuth2RegisteredC
         if (Argument.isNotBlank(clientName)) {
             sqls.andLike("clientName", "%" + clientName + "%");
         }
+        String redirectUris = oAuth2RegisteredClientDO.getRedirectUris();
+        if (Argument.isNotBlank(redirectUris)) {
+            sqls.andLike("redirectUris", "%" + redirectUris + "%");
+        }
+        String scopes = oAuth2RegisteredClientDO.getScopes();
+        if (Argument.isNotBlank(scopes)) {
+            sqls.andLike("scopes", "%" + scopes + "%");
+        }
 
         return super.dao.selectByExample(Example.builder(OAuth2RegisteredClientDO.class).where(sqls).build());
     }

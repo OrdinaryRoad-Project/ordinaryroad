@@ -1,4 +1,11 @@
 {
+  "scopes": "授权范围",
+  "redirectUris": "重定向链接",
+  "clientName": "客户端名称",
+  "clientSecret": "客户端密钥",
+  "clientId": "客户端Id",
+  "openid": "OpenID",
+  "showType": "展示方式",
   "fileSize": "文件大小",
   "bucketName": "桶名称",
   "objectName": "对象名称",
@@ -106,12 +113,16 @@
     "system": "深色猛男"
   },
   "menuTitles": {
+    "systemManagement": "系统管理",
+    "dictManagement": "字典管理",
+    "fileManagement": "文件管理",
+    "registeredClientManagement": "第三方客户端管理",
+    "openidManagement": "OpenID管理",
+    "accessControl": "权限控制",
     "userManagement": "用户管理",
     "roleManagement": "角色管理",
     "permissionManagement": "权限管理",
-    "requestPathManagement": "请求路径管理",
-    "dictManagement": "字典管理",
-    "fileManagement": "文件管理"
+    "requestPathManagement": "请求路径管理"
   },
   "settings": "设置",
   "ordinaryroad": "Ordinary Road"

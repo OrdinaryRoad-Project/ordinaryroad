@@ -13,6 +13,36 @@
       @deleteItem="onDeleteItem"
       @itemsSelected="onItemsSelected"
     >
+      <template #searchFormBefore>
+        <v-row align="center">
+          <v-col
+            cols="6"
+            lg="3"
+            md="4"
+          >
+            <v-select
+              v-model="showTypeOptions.item"
+              :items="showTypeOptions.items"
+              dense
+              outlined
+              item-text="label"
+              item-value="value"
+              hide-details="auto"
+              :label="$t('showType')"
+            >
+              <template #item="{item}">
+                <div>
+                  <v-list-item-title>{{ item.label }}</v-list-item-title>
+                  <v-list-item-subtitle v-if="item.remark">
+                    {{ item.remark }}
+                  </v-list-item-subtitle>
+                </div>
+              </template>
+            </v-select>
+          </v-col>
+        </v-row>
+      </template>
+
       <template #searchFormBody>
         <v-col
           cols="6"
@@ -88,7 +118,10 @@
         <v-btn
           icon
           target="_blank"
-          :to="$apis.upms.file.getFileDownloadPath('/'+item.bucketName+item.objectName)"
+          :to="$apis.upms.file.getFileDownloadPath({
+            bucketAndObjectName: '/'+item.bucketName+item.objectName,
+            showInLine: showTypeOptions.item
+          })"
         >
           <v-icon>mdi-link</v-icon>
         </v-btn>
@@ -127,6 +160,26 @@ export default {
   },
   data () {
     return {
+      showTypeOptions: {
+        item: null,
+        items: [
+          {
+            label: '自动',
+            value: null,
+            remark: '图片inline，其它attachment'
+          },
+          {
+            label: 'inline',
+            value: true,
+            remark: null
+          },
+          {
+            label: 'attachment',
+            value: false,
+            remark: null
+          }
+        ]
+      },
       fileOptions: {
         uploading: false
       },
@@ -177,6 +230,9 @@ export default {
   },
   methods: {
     onFileSelect (file) {
+      if (!file) {
+        return
+      }
       if (file.size > 50 * 1024 * 1024) {
         this.$snackbar.error(this.$t('whatCannotGreaterThan', [this.$t('file'), '50MB']))
         return

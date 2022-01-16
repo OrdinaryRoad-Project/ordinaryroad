@@ -21,32 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.auth.server.dto;
+package tech.ordinaryroad.commons.core.constant;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+import java.util.Arrays;
+import java.util.List;
 
 /**
- * 不同客户端下用户openid表
- *
  * @author mjz
- * @date 2022/1/14
+ * @date 2022/1/15
  */
-@Data
-@ApiModel
-public class OAuth2OpenidDTO extends BaseModelDTO {
+public class PathConstants {
 
-    private static final long serialVersionUID = 8182350675758442755L;
-
-    @ApiModelProperty("or帐号")
-    private String orNumber;
-
-    @ApiModelProperty("clientId")
-    private String clientId;
-
-    @ApiModelProperty("openid")
-    private String openid;
-
+    public static final String FILE_UPLOAD = "/file/upload";
+    
+    /**
+     * 免登接口地址
+     */
+    public static final List<String> NO_LOGIN_PATHS = Arrays.asList(FILE_UPLOAD);
 }

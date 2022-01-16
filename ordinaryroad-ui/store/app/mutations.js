@@ -25,7 +25,29 @@ export default {
     const menuItems = state.menuItems
     const accessibleMenuItems = []
     menuItems.forEach((item) => {
-      if ($access.has(item.meta.permission)) {
+      if (item.children && item.children.length > 0) {
+        const menuItems1 = []
+        item.children.forEach((item1) => {
+          if (item1.children && item1.children.length > 0) {
+            const menuItems2 = []
+            item1.children.forEach((item2) => {
+              if (!item2.meta || !item2.meta.permission || $access.has(item2.meta.permission)) {
+                menuItems2.push(item2)
+              }
+            })
+            if (menuItems2.length > 0) {
+              item1.children = menuItems2
+              menuItems1.push(item1)
+            }
+          } else if (!item1.meta || !item1.meta.permission || $access.has(item1.meta.permission)) {
+            menuItems1.push(item1)
+          }
+        })
+        if (menuItems1.length > 0) {
+          item.children = menuItems1
+          accessibleMenuItems.push(item)
+        }
+      } else if (!item.meta || !item.meta.permission || $access.has(item.meta.permission)) {
         accessibleMenuItems.push(item)
       }
     })

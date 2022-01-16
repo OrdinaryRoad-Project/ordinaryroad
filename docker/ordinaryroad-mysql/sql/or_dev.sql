@@ -14,15 +14,15 @@ CREATE TABLE `sys_permission`
     `id`              bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time`    datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`       varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`     datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`       varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '更新者OR账号',
     `permission_code` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '权限code',
     `description`     varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '权限描述',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_permission_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 33
+  AUTO_INCREMENT = 41
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '权限表'
   ROW_FORMAT = Dynamic;
@@ -113,6 +113,33 @@ VALUES (31, '5d0e9159aa79431f9ef679bcd868c0ae', '2022-01-13 12:45:07', NULL, NUL
 INSERT INTO `sys_permission`
 VALUES (32, '4d8ebd5a16cf431387a8c94025a9f3ee', '2022-01-13 12:45:07', NULL, NULL, NULL, 'upms:file:list',
         '查询文件列表');
+INSERT INTO `sys_permission`
+VALUES (33, '469c85bf86c74680a0172c4716757380', '2022-01-16 17:13:20', NULL, NULL, NULL,
+        'auth:registered_client:create',
+        '创建第三方客户端');
+INSERT INTO `sys_permission`
+VALUES (34, '3aaf6092b6ce4b27b660fd53091bb53e', '2022-01-16 17:14:32', NULL, NULL, NULL,
+        'auth:registered_client:delete',
+        '删除第三方客户端');
+INSERT INTO `sys_permission`
+VALUES (35, 'bf4efb7fb64243cf95e416f9cba605f5', '2022-01-16 17:14:53', NULL, NULL, NULL,
+        'auth:registered_client:update',
+        '更新第三方客户端');
+INSERT INTO `sys_permission`
+VALUES (36, '7579461d1b8b43ff82d60c2e6fe60428', '2022-01-16 17:15:07', NULL, NULL, NULL, 'auth:registered_client:list',
+        '查询第三方客户端列表');
+INSERT INTO `sys_permission`
+VALUES (37, '4ed51491a1354b7883282e30dff1cd82', '2022-01-16 17:13:20', NULL, NULL, NULL, 'auth:openid:create',
+        '创建openid');
+INSERT INTO `sys_permission`
+VALUES (38, 'e0ac457fcf4b4be6ab4ceaacf7de8914', '2022-01-16 17:14:32', NULL, NULL, NULL, 'auth:openid:delete',
+        '删除openid');
+INSERT INTO `sys_permission`
+VALUES (39, 'bbcceb6df8ae414f9eec932efb850417', '2022-01-16 17:14:53', NULL, NULL, NULL, 'auth:openid:update',
+        '更新openid');
+INSERT INTO `sys_permission`
+VALUES (40, '4e8a32bfc8434d2d99ba62e39796e949', '2022-01-16 17:15:07', NULL, NULL, NULL, 'auth:openid:list',
+        '查询openid列表');
 
 -- ----------------------------
 -- Table structure for sys_request_path
@@ -123,16 +150,16 @@ CREATE TABLE `sys_request_path`
     `id`              bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time`    datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`       varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`     datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`       varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '更新者OR账号',
     `path`            varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '路径url',
     `path_name`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '路径名称',
     `permission_uuid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '请求路径所需要的权限uuid',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_request_path_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 33
+  AUTO_INCREMENT = 41
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '请求路径表'
   ROW_FORMAT = Dynamic;
@@ -233,6 +260,31 @@ VALUES (31, '1076e1b7d9e34a5a9556a9ae2159f062', '2022-01-13 12:44:24', NULL, NUL
 INSERT INTO `sys_request_path`
 VALUES (32, 'd46f134babc34c3e93a02fd3eac043c0', '2022-01-13 12:44:24', NULL, NULL, NULL, '/upms/file/list',
         '查询文件列表', '4d8ebd5a16cf431387a8c94025a9f3ee');
+INSERT INTO `sys_request_path`
+VALUES (33, '95e741e99d2b4a95b0a881a4c7f90067', '2022-01-16 17:09:24', NULL, NULL, NULL,
+        '/auth/registered_client/create',
+        '创建第三方客户端', '469c85bf86c74680a0172c4716757380');
+INSERT INTO `sys_request_path`
+VALUES (34, 'd5524b71ee9f4d1d91ecdfb8f92e93f4', '2022-01-16 17:09:24', NULL, NULL, NULL,
+        '/auth/registered_client/delete', '删除第三方客户端', '3aaf6092b6ce4b27b660fd53091bb53e');
+INSERT INTO `sys_request_path`
+VALUES (35, '8659fc504411498ebc318fd5cf606995', '2022-01-16 17:09:24', NULL, NULL, NULL,
+        '/auth/registered_client/update', '更新第三方客户端', 'bf4efb7fb64243cf95e416f9cba605f5');
+INSERT INTO `sys_request_path`
+VALUES (36, '85b084799b9f4decaad7e40971e7545c', '2022-01-16 17:09:24', NULL, NULL, NULL,
+        '/auth/registered_client/list', '查询第三方客户端列表', '7579461d1b8b43ff82d60c2e6fe60428');
+INSERT INTO `sys_request_path`
+VALUES (37, 'baee2c43d2ca494085bec01a74fcaec2', '2022-01-16 17:09:24', NULL, NULL, NULL,
+        '/auth/openid/create', '创建openid', '4ed51491a1354b7883282e30dff1cd82');
+INSERT INTO `sys_request_path`
+VALUES (38, '377201cb4211488ea76e550c88243b18', '2022-01-16 17:09:24', NULL, NULL, NULL,
+        '/auth/openid/delete', '删除openid', 'e0ac457fcf4b4be6ab4ceaacf7de8914');
+INSERT INTO `sys_request_path`
+VALUES (39, '0e3c374445ac41af92d8bf667bcb2132', '2022-01-16 17:09:24', NULL, NULL, NULL,
+        '/auth/openid/update', '更新openid', 'bbcceb6df8ae414f9eec932efb850417');
+INSERT INTO `sys_request_path`
+VALUES (40, '5d671bcae0b64b26991351822acb75d5', '2022-01-16 17:09:24', NULL, NULL, NULL, '/auth/openid/list',
+        '查询openid列表', '4e8a32bfc8434d2d99ba62e39796e949');
 
 -- ----------------------------
 -- Table structure for sys_role
@@ -243,9 +295,9 @@ CREATE TABLE `sys_role`
     `id`           bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time` datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`    varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`  datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`    varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '更新者OR账号',
     `role_name`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '角色名称',
     `role_code`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '角色code',
     `enabled`      bit(1)                                                        NULL DEFAULT b'1' COMMENT '角色是否可用',
@@ -278,15 +330,15 @@ CREATE TABLE `sys_roles_permissions`
     `id`              bigint(20)                                                   NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '主键UUID',
     `created_time`    datetime                                                     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`       varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`     datetime                                                     NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`       varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci NULL DEFAULT NULL COMMENT '更新者OR账号',
     `role_uuid`       varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '角色uuid',
     `permission_uuid` varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '权限uuid',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `sys_roles_permissions_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 71
+  AUTO_INCREMENT = 85
   CHARACTER SET = utf8mb4
   COLLATE = utf8mb4_0900_as_cs COMMENT = '角色权限关联关系表'
   ROW_FORMAT = Dynamic;
@@ -450,6 +502,49 @@ VALUES (69, '5dedf9ec8c494eb3937bb8af5443dfde', '2022-01-13 12:51:04', NULL, NUL
 INSERT INTO `sys_roles_permissions`
 VALUES (70, 'adf7f14f90eb4847830218a50eedf2a6', '2022-01-13 12:51:20', NULL, NULL, NULL,
         '63b55b8be8fe49af82a822aa9aa57868', '4d8ebd5a16cf431387a8c94025a9f3ee');
+INSERT INTO `sys_roles_permissions`
+VALUES (71, '6744b9c7704444f2aac1db3a702a9307', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '469c85bf86c74680a0172c4716757380');
+INSERT INTO `sys_roles_permissions`
+VALUES (72, '87c68db23f6e45d09aefdb6d05d9db79', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '3aaf6092b6ce4b27b660fd53091bb53e');
+INSERT INTO `sys_roles_permissions`
+VALUES (73, 'e2e930e93a5c4903ad21a2dd336dedb2', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', 'bf4efb7fb64243cf95e416f9cba605f5');
+INSERT INTO `sys_roles_permissions`
+VALUES (74, '913d645b8adc48119747ec988b835e8f', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '7579461d1b8b43ff82d60c2e6fe60428');
+INSERT INTO `sys_roles_permissions`
+VALUES (75, 'c2371d21f6d845dea0eaf6a4744937d8', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '4ed51491a1354b7883282e30dff1cd82');
+INSERT INTO `sys_roles_permissions`
+VALUES (76, '09b8d65c27ff4ff286b1060f4902a9e0', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', 'e0ac457fcf4b4be6ab4ceaacf7de8914');
+INSERT INTO `sys_roles_permissions`
+VALUES (77, '8eed04e0fe1045d494ecbca4da15b0f2', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', 'bbcceb6df8ae414f9eec932efb850417');
+INSERT INTO `sys_roles_permissions`
+VALUES (78, 'e3532f2601e9412cb13bb5733ae3830d', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '1a18d9a41ff34abfa07b73340779d63e', '4e8a32bfc8434d2d99ba62e39796e949');
+INSERT INTO `sys_roles_permissions`
+VALUES (79, '1f01097cd74045489baabcc2743abf86', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '469c85bf86c74680a0172c4716757380');
+INSERT INTO `sys_roles_permissions`
+VALUES (80, '1e8963ebed5144528aaeb23a7ec4d632', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '7579461d1b8b43ff82d60c2e6fe60428');
+INSERT INTO `sys_roles_permissions`
+VALUES (81, '4c3ec06821ea496c8c9cd6f4d3c7c0ef', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '4ed51491a1354b7883282e30dff1cd82');
+INSERT INTO `sys_roles_permissions`
+VALUES (82, '8e3a77cb1d2f4b4183c69d340aa963d1', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '11aa7ccc1d194afabb7a303d48b07683', '4e8a32bfc8434d2d99ba62e39796e949');
+INSERT INTO `sys_roles_permissions`
+VALUES (83, '7ffd809ca8c14b6dbaffa098d929d761', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '63b55b8be8fe49af82a822aa9aa57868', '7579461d1b8b43ff82d60c2e6fe60428');
+INSERT INTO `sys_roles_permissions`
+VALUES (84, 'b087db0917a94e2482a26c44b32698d8', '2022-01-16 17:19:44', NULL, NULL, NULL,
+        '63b55b8be8fe49af82a822aa9aa57868', '4e8a32bfc8434d2d99ba62e39796e949');
+
 
 -- ----------------------------
 -- Table structure for sys_user
@@ -460,9 +555,9 @@ CREATE TABLE `sys_user`
     `id`                   bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`                 varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time`         datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`            varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`          datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`            varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`            varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '更新者OR账号',
     `or_number`            varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL COMMENT 'or帐号',
     `avatar`               varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '头像地址',
     `email`                varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '邮箱',
@@ -509,9 +604,9 @@ CREATE TABLE `sys_users_roles`
     `id`           bigint(20)                                                   NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '主键UUID',
     `created_time` datetime                                                     NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`    varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`  datetime                                                     NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`    varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci NULL DEFAULT NULL COMMENT '更新者OR账号',
     `user_uuid`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '用户uuid',
     `role_uuid`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '角色uuid',
     PRIMARY KEY (`id`) USING BTREE,
@@ -559,9 +654,9 @@ CREATE TABLE `sys_dict`
     `id`           bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time` datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`    varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`  datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`    varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '更新者OR账号',
     `dict_name`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '字典名称',
     `dict_code`    varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '字典code',
     `remark`       varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci NULL DEFAULT NULL COMMENT '备注',
@@ -588,9 +683,9 @@ CREATE TABLE `sys_dict_item`
     `id`           bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time` datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`    varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`  datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`    varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '更新者OR账号',
     `dict_uuid`    varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '字典uuid',
     `label`        varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT '显示标签',
     `value`        varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '值',
@@ -628,9 +723,9 @@ CREATE TABLE `sys_file`
     `id`                bigint(20)                                                    NOT NULL AUTO_INCREMENT COMMENT '主键ID',
     `uuid`              varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NOT NULL COMMENT '主键UUID',
     `created_time`      datetime                                                      NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
-    `create_by`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '创建者uuid',
+    `create_by`         varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '创建者OR账号',
     `update_time`       datetime                                                      NULL DEFAULT NULL COMMENT '更新时间',
-    `update_by`         varchar(32) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs  NULL DEFAULT NULL COMMENT '更新者uuid',
+    `update_by`         varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci  NULL DEFAULT NULL COMMENT '更新者OR账号',
     `bucket_name`       varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '桶名称',
     `object_name`       varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '对象名称',
     `original_filename` varchar(500) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NOT NULL COMMENT '原文件名',

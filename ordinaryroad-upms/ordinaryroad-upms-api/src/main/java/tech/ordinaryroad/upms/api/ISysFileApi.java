@@ -30,6 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysFileDTO;
 import tech.ordinaryroad.upms.request.SysFileQueryRequest;
@@ -53,7 +54,7 @@ public interface ISysFileApi {
      * @param file         文件
      * @return Result
      */
-    @PostMapping(value = "/file/upload")
+    @PostMapping(value = PathConstants.FILE_UPLOAD)
     Result<String> upload(@RequestParam String clientId, @RequestParam String clientSecret, @RequestPart MultipartFile file);
 
     /**
@@ -64,7 +65,7 @@ public interface ISysFileApi {
      * @param showInline 是否直接在网页中显示而不是直接下载
      */
     @GetMapping(value = "/file/download/**", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-    void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false, defaultValue = "false") Boolean showInline);
+    void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) Boolean showInline);
 
     @PostMapping(value = "/file/list")
     Result<PageInfo<SysFileDTO>> list(@RequestBody SysFileQueryRequest request);
