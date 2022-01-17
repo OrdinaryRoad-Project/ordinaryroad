@@ -39,6 +39,6 @@ public class OrGatewayProperties {
     /**
      * OAuth2认证服务器地址
      */
-    private String authServerHost = "https://auth-server.ordinaryroad.tech";
+    private String authServerHost = "http://ordinaryroad-auth-server:9302";
 
 }
