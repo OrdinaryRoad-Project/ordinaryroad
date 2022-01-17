@@ -1,6 +1,7 @@
 package tech.ordinaryroad.commons.swagger.config;
 
 import com.github.xiaoymin.knife4j.core.util.CollectionUtils;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -14,26 +15,37 @@ import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+import tech.ordinaryroad.commons.swagger.properties.OrSwaggerProperties;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * TODO OAuth2认证
+ * OAuth2认证
  */
+@RequiredArgsConstructor
 @Configuration
 @EnableSwagger2
 @Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 
-    @Bean(value = "defaultApi")
+    private final OrSwaggerProperties swaggerProperties;
+
+    @Bean("defaultApi")
     public Docket defaultApi() {
+        OrSwaggerProperties.EndpointsProperties endpointsProperties = swaggerProperties.getEndpoints();
         // schema
         List<GrantType> grantTypes = new ArrayList<>();
 
         // 授权码模式AuthorizationCodeGrant
-        TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint("https://auth-server.ordinaryroad.tech:8302/oauth2/authorize", "ordinaryroad-knife", "secret");
-        TokenEndpoint tokenEndpoint = new TokenEndpoint("https://auth-server.ordinaryroad.tech:8302/oauth2/token", "access_token");
+        OrSwaggerProperties.TokenRequestEndpointProperties tokenRequestEndpointProperties = endpointsProperties.getTokenRequest();
+        TokenRequestEndpoint tokenRequestEndpoint = new TokenRequestEndpoint(
+                tokenRequestEndpointProperties.getUrl(),
+                tokenRequestEndpointProperties.getClientId(),
+                tokenRequestEndpointProperties.getClientSecret()
+        );
+        OrSwaggerProperties.TokenEndpointProperties tokenEndpointProperties = endpointsProperties.getToken();
+        TokenEndpoint tokenEndpoint = new TokenEndpoint(tokenEndpointProperties.getUrl(), tokenEndpointProperties.getTokenName());
         AuthorizationCodeGrant authorizationCodeGrant = new AuthorizationCodeGrant(tokenRequestEndpoint, tokenEndpoint);
         grantTypes.add(authorizationCodeGrant);
 
@@ -71,11 +83,13 @@ public class SwaggerConfiguration {
 
     private ApiInfo groupApiInfo() {
         return new ApiInfoBuilder()
-                .title("OrdinaryRoad接口文档")
-                .description("<div style='font-size:14px;color:red;'>OrdinaryRoad APIs</div>")
-                .termsOfServiceUrl("https://ordinaryroad.top")
-//                .contact("group@qq.com")
-                .version("1.0")
+                .title(swaggerProperties.getTitle())
+                .description(swaggerProperties.getDescription())
+                .termsOfServiceUrl(swaggerProperties.getTermsOfServiceUrl())
+                .contact(swaggerProperties.getContact())
+                .version(swaggerProperties.getVersion())
+                .license(swaggerProperties.getLicense())
+                .licenseUrl(swaggerProperties.getLicenseUrl())
                 .build();
     }
 
