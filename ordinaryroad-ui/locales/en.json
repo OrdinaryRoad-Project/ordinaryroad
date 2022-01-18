@@ -1,4 +1,5 @@
 {
+  "document": "Document",
   "scopes": "Scopes",
   "redirectUris": "Redirect Uris",
   "clientName": "Client Name",

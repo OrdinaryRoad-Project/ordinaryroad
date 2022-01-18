@@ -77,13 +77,27 @@
       </v-btn>
       <v-toolbar-title>{{ $t(titleKey) }}</v-toolbar-title>
       <v-spacer />
-      <v-autocomplete
-        flat
-        hide-no-data
-        hide-details
-        label="What state are you from?"
-        solo-inverted
-      />
+      <v-btn
+        icon
+        href="https://github.com/1962247851/ordinaryroad"
+        target="_blank"
+      >
+        <v-icon>mdi-github</v-icon>
+      </v-btn>
+      <v-tooltip bottom>
+        {{ $t('document') }}
+        <template #activator="{ on, attrs }">
+          <v-btn
+            icon
+            href="https://1962247851.github.io/ordinaryroad"
+            target="_blank"
+            v-bind="attrs"
+            v-on="on"
+          >
+            <v-icon>mdi-help-circle</v-icon>
+          </v-btn>
+        </template>
+      </v-tooltip>
       <v-menu offset-y open-on-hover>
         <template #activator="{ on, attrs }">
           <v-btn
