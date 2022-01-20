@@ -68,11 +68,16 @@ public class SysFacadeImpl implements ISysFacade {
     public Result<SysUserInfoDTO> userInfo(SysUserInfoRequest request) {
         SysUserInfoDTO userInfoDTO = new SysUserInfoDTO();
 
-        String tokenValue = StpUtil.getTokenValue();
-        if (StrUtil.isBlank(tokenValue)) {
-            tokenValue = request.getSaToken();
+        // 优先根据传过来的orNumber查询
+        String orNumber = request.getOrNumber();
+        if (StrUtil.isBlank(orNumber)) {
+            // 优先获取已经登录系统的tokenValue
+            String tokenValue = StpUtil.getTokenValue();
+            if (StrUtil.isBlank(tokenValue)) {
+                tokenValue = request.getSaToken();
+            }
+            orNumber = (String) StpUtil.getLoginIdByToken(tokenValue);
         }
-        String orNumber = (String) StpUtil.getLoginIdByToken(tokenValue);
 
         // 获取User
         Optional<SysUserDO> optionalSysUserDO = sysUserService.findByOrNumber(orNumber);
