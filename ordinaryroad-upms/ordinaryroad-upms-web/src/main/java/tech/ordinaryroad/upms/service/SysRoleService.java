@@ -23,9 +23,9 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRoleDAO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
@@ -65,11 +65,11 @@ public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
         Sqls sqls = Sqls.custom();
 
         String roleName = sysRoleDO.getRoleName();
-        if (Argument.isNotBlank(roleName)) {
+        if (StrUtil.isNotBlank(roleName)) {
             sqls.andLike("roleName", "%" + roleName + "%");
         }
         String roleCode = sysRoleDO.getRoleCode();
-        if (Argument.isNotBlank(roleCode)) {
+        if (StrUtil.isNotBlank(roleCode)) {
             sqls.andLike("roleCode", "%" + roleCode + "%");
         }
 

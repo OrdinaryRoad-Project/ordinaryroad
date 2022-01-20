@@ -23,9 +23,9 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysUserDAO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
@@ -72,17 +72,17 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
         Sqls sqls = Sqls.custom();
 
         String email = sysUserDO.getEmail();
-        if (Argument.isNotBlank(email)) {
+        if (StrUtil.isNotBlank(email)) {
             sqls.andLike("email", "%" + email + "%");
         }
 
         String username = sysUserDO.getUsername();
-        if (Argument.isNotBlank(username)) {
+        if (StrUtil.isNotBlank(username)) {
             sqls.andLike("username", "%" + username + "%");
         }
 
         String orNumber = sysUserDO.getOrNumber();
-        if (Argument.isNotBlank(orNumber)) {
+        if (StrUtil.isNotBlank(orNumber)) {
             sqls.andLike("orNumber", "%" + orNumber + "%");
         }
 

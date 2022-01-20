@@ -23,8 +23,8 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysFileDAO;
 import tech.ordinaryroad.upms.entity.SysFileDO;
@@ -44,15 +44,15 @@ public class SysFileService extends BaseService<SysFileDAO, SysFileDO> {
         Sqls sqls = Sqls.custom();
 
         String bucketName = sysFileDO.getBucketName();
-        if (Argument.isNotBlank(bucketName)) {
+        if (StrUtil.isNotBlank(bucketName)) {
             sqls.andLike("bucketName", "%" + bucketName + "%");
         }
         String objectName = sysFileDO.getObjectName();
-        if (Argument.isNotBlank(objectName)) {
+        if (StrUtil.isNotBlank(objectName)) {
             sqls.andLike("objectName", "%" + objectName + "%");
         }
         String originalFilename = sysFileDO.getOriginalFilename();
-        if (Argument.isNotBlank(originalFilename)) {
+        if (StrUtil.isNotBlank(originalFilename)) {
             sqls.andLike("originalFilename", "%" + originalFilename + "%");
         }
 

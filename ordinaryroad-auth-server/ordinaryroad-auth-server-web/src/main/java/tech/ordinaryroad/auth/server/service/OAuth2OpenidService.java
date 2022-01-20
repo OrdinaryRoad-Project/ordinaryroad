@@ -23,10 +23,10 @@
  */
 package tech.ordinaryroad.auth.server.service;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2OpenidDAO;
 import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
@@ -78,15 +78,15 @@ public class OAuth2OpenidService extends BaseService<OAuth2OpenidDAO, OAuth2Open
         Sqls sqls = Sqls.custom();
 
         String orNumber = oAuth2OpenidDO.getOrNumber();
-        if (Argument.isNotBlank(orNumber)) {
+        if (StrUtil.isNotBlank(orNumber)) {
             sqls.andLike("orNumber", "%" + orNumber + "%");
         }
         String clientId = oAuth2OpenidDO.getClientId();
-        if (Argument.isNotBlank(clientId)) {
+        if (StrUtil.isNotBlank(clientId)) {
             sqls.andLike("clientId", "%" + clientId + "%");
         }
         String openid = oAuth2OpenidDO.getOpenid();
-        if (Argument.isNotBlank(openid)) {
+        if (StrUtil.isNotBlank(openid)) {
             sqls.andLike("openid", "%" + openid + "%");
         }
 

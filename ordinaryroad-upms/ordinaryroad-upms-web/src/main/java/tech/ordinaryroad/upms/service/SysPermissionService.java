@@ -23,9 +23,9 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysPermissionDAO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
@@ -68,11 +68,11 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         Sqls sqls = Sqls.custom();
 
         String permissionCode = sysPermissionDO.getPermissionCode();
-        if (Argument.isNotBlank(permissionCode)) {
+        if (StrUtil.isNotBlank(permissionCode)) {
             sqls.andLike("permissionCode", "%" + permissionCode + "%");
         }
         String description = sysPermissionDO.getDescription();
-        if (Argument.isNotBlank(description)) {
+        if (StrUtil.isNotBlank(description)) {
             sqls.andLike("description", "%" + description + "%");
         }
 

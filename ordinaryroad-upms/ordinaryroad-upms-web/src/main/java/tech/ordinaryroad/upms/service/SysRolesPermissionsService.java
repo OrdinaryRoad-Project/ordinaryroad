@@ -24,8 +24,8 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRolesPermissionsDAO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
@@ -75,11 +75,11 @@ public class SysRolesPermissionsService extends BaseService<SysRolesPermissionsD
         Sqls sqls = Sqls.custom();
 
         String roleUuid = sysRolesPermissionsDO.getRoleUuid();
-        if (Argument.isNotBlank(roleUuid)) {
+        if (StrUtil.isNotBlank(roleUuid)) {
             sqls.andEqualTo("roleUuid", roleUuid);
         }
         String permissionUuid = sysRolesPermissionsDO.getPermissionUuid();
-        if (Argument.isNotBlank(permissionUuid)) {
+        if (StrUtil.isNotBlank(permissionUuid)) {
             sqls.andEqualTo("permissionUuid", permissionUuid);
         }
 

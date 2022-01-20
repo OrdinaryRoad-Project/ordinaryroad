@@ -24,9 +24,9 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRequestPathDAO;
 import tech.ordinaryroad.upms.entity.SysRequestPathDO;
@@ -70,11 +70,11 @@ public class SysRequestPathService extends BaseService<SysRequestPathDAO, SysReq
         Sqls sqls = Sqls.custom();
 
         String path = sysRequestPathDO.getPath();
-        if (Argument.isNotBlank(path)) {
+        if (StrUtil.isNotBlank(path)) {
             sqls.andLike("path", "%" + path + "%");
         }
         String pathName = sysRequestPathDO.getPathName();
-        if (Argument.isNotBlank(pathName)) {
+        if (StrUtil.isNotBlank(pathName)) {
             sqls.andLike("pathName", "%" + pathName + "%");
         }
 

@@ -23,10 +23,10 @@
  */
 package tech.ordinaryroad.auth.server.service;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2RegisteredClientDAO;
 import tech.ordinaryroad.auth.server.entity.OAuth2RegisteredClientDO;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
@@ -59,19 +59,19 @@ public class OAuth2RegisteredClientService extends BaseService<OAuth2RegisteredC
         Sqls sqls = Sqls.custom();
 
         String clientId = oAuth2RegisteredClientDO.getClientId();
-        if (Argument.isNotBlank(clientId)) {
+        if (StrUtil.isNotBlank(clientId)) {
             sqls.andLike("clientId", "%" + clientId + "%");
         }
         String clientName = oAuth2RegisteredClientDO.getClientName();
-        if (Argument.isNotBlank(clientName)) {
+        if (StrUtil.isNotBlank(clientName)) {
             sqls.andLike("clientName", "%" + clientName + "%");
         }
         String redirectUris = oAuth2RegisteredClientDO.getRedirectUris();
-        if (Argument.isNotBlank(redirectUris)) {
+        if (StrUtil.isNotBlank(redirectUris)) {
             sqls.andLike("redirectUris", "%" + redirectUris + "%");
         }
         String scopes = oAuth2RegisteredClientDO.getScopes();
-        if (Argument.isNotBlank(scopes)) {
+        if (StrUtil.isNotBlank(scopes)) {
             sqls.andLike("scopes", "%" + scopes + "%");
         }
 
