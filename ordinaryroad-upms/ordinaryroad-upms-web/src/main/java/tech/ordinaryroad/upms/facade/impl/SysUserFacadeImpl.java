@@ -145,8 +145,8 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         }
         String newAvatar = request.getAvatar();
         SysUserDO sysUserDO = byOrNumber.get();
-        String username = sysUserDO.getUsername();
-        if (newAvatar.equals(username)) {
+        String avatar = sysUserDO.getAvatar();
+        if (newAvatar.equals(avatar)) {
             return Result.success(false);
         }
 
