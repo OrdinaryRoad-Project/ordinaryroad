@@ -26,6 +26,7 @@ package tech.ordinaryroad.commons.core.base.result;
 
 
 import com.alibaba.fastjson.JSON;
+import tech.ordinaryroad.commons.core.base.cons.IStatusCode;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 
 /**
@@ -58,7 +59,7 @@ public class Result<T> implements IBaseResult<T> {
         this.msg = success ? StatusCode.SUCCESS.getMessage() : StatusCode.COMMON_FAIL.getMessage();
     }
 
-    public Result(boolean success, StatusCode statusCode) {
+    public Result(boolean success, IStatusCode statusCode) {
         this.success = success;
         this.code = success ? StatusCode.SUCCESS.getCode() : (statusCode == null ? StatusCode.COMMON_FAIL.getCode() : statusCode.getCode());
         this.msg = success ? StatusCode.SUCCESS.getMessage() : (statusCode == null ? StatusCode.COMMON_FAIL.getMessage() : statusCode.getMessage());
@@ -71,7 +72,7 @@ public class Result<T> implements IBaseResult<T> {
         this.data = data;
     }
 
-    public Result(boolean success, StatusCode statusCode, T data) {
+    public Result(boolean success, IStatusCode statusCode, T data) {
         this.success = success;
         this.code = success ? StatusCode.SUCCESS.getCode() : (statusCode == null ? StatusCode.COMMON_FAIL.getCode() : statusCode.getCode());
         this.msg = success ? StatusCode.SUCCESS.getMessage() : (statusCode == null ? StatusCode.COMMON_FAIL.getMessage() : statusCode.getMessage());
@@ -140,7 +141,7 @@ public class Result<T> implements IBaseResult<T> {
         return new Result<>(false);
     }
 
-    public static <T> Result<T> fail(StatusCode statusCode) {
+    public static <T> Result<T> fail(IStatusCode statusCode) {
         return new Result<>(false, statusCode);
     }
 
@@ -161,7 +162,7 @@ public class Result<T> implements IBaseResult<T> {
         return result;
     }
 
-    public static <T> Result<T> fail(StatusCode statusCode, String details) {
+    public static <T> Result<T> fail(IStatusCode statusCode, String details) {
         Result<T> result = new Result<>();
         result.setSuccess(false);
         result.setCode(statusCode.getCode());
