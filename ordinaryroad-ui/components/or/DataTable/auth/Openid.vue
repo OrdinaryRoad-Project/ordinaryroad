@@ -162,9 +162,9 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: this.$t('orNumber'), value: 'orNumber', sortable: false },
-        { text: this.$t('clientId'), value: 'clientId', sortable: false },
-        { text: this.$t('openid'), value: 'openid', sortable: false }
+        { text: this.$t('orNumber'), value: 'orNumber' },
+        { text: this.$t('clientId'), value: 'clientId' },
+        { text: this.$t('openid'), value: 'openid' }
       ]
     },
     action () {
@@ -221,8 +221,8 @@ export default {
       this.selectedItem = Object.assign({}, item)
       this.$refs.openidDialog.show()
     },
-    onGetItems ({ options, offset, limit }) {
-      /* TODO 排序支持
+    onGetItems ({ options, offset, limit, orderBy, orderByDesc }) {
+      /* 支持排序
       options:
         groupBy: Array(0)
         groupDesc: Array(0)
@@ -233,10 +233,11 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      this.$apis.auth.openid.list(offset, limit, this.searchParams)
+      this.$apis.auth.openid.list(offset, limit, orderBy, orderByDesc, this.searchParams)
         .then(({ data }) => {
           this.$refs.dataTable.loadSuccessfully(data.list, data.total)
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$refs.dataTable.loadFinish()
         })
     },

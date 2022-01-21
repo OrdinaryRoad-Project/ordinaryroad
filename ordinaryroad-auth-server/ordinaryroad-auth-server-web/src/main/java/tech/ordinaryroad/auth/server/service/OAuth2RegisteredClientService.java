@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.auth.server.service;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2RegisteredClientDAO;
@@ -55,7 +56,7 @@ public class OAuth2RegisteredClientService extends BaseService<OAuth2RegisteredC
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<OAuth2RegisteredClientDO> findAll(OAuth2RegisteredClientDO oAuth2RegisteredClientDO) {
+    public List<OAuth2RegisteredClientDO> findAll(OAuth2RegisteredClientDO oAuth2RegisteredClientDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String clientId = oAuth2RegisteredClientDO.getClientId();
@@ -75,7 +76,16 @@ public class OAuth2RegisteredClientService extends BaseService<OAuth2RegisteredC
             sqls.andLike("scopes", "%" + scopes + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(OAuth2RegisteredClientDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(OAuth2RegisteredClientDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
 }

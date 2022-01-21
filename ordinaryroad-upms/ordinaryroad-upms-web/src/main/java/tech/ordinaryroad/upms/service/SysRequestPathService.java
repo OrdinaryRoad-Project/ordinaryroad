@@ -24,6 +24,7 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -66,7 +67,7 @@ public class SysRequestPathService extends BaseService<SysRequestPathDAO, SysReq
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysRequestPathDO> findAll(SysRequestPathDO sysRequestPathDO) {
+    public List<SysRequestPathDO> findAll(SysRequestPathDO sysRequestPathDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String path = sysRequestPathDO.getPath();
@@ -78,7 +79,16 @@ public class SysRequestPathService extends BaseService<SysRequestPathDAO, SysReq
             sqls.andLike("pathName", "%" + pathName + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(SysRequestPathDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysRequestPathDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
     public List<SysRequestPathDO> findAllByPermissionUuids(List<String> permissionUuids) {

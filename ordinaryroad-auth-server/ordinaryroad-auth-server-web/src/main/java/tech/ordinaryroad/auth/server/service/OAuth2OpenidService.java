@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.auth.server.service;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2OpenidDAO;
@@ -74,7 +75,7 @@ public class OAuth2OpenidService extends BaseService<OAuth2OpenidDAO, OAuth2Open
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<OAuth2OpenidDO> findAll(OAuth2OpenidDO oAuth2OpenidDO) {
+    public List<OAuth2OpenidDO> findAll(OAuth2OpenidDO oAuth2OpenidDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String orNumber = oAuth2OpenidDO.getOrNumber();
@@ -90,7 +91,16 @@ public class OAuth2OpenidService extends BaseService<OAuth2OpenidDAO, OAuth2Open
             sqls.andLike("openid", "%" + openid + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(OAuth2OpenidDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(OAuth2OpenidDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
 }

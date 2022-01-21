@@ -44,8 +44,8 @@ export default {
     const data = { dictName, dictCode }
     return $axios({ url: '/upms/dict/find/unique', method: 'post', data })
   },
-  list: (offset, limit, { dictName, dictCode, remark }) => {
-    const data = { limit, offset, dictName, dictCode, remark }
+  list: (offset, limit, orderBy, orderByDesc, { dictName, dictCode, remark }) => {
+    const data = { offset, limit, orderBy, orderByDesc, dictName, dictCode, remark }
     return $axios({ url: '/upms/dict/list', method: 'post', data })
   },
   findAll: ({ dictName, dictCode, remark }) => {

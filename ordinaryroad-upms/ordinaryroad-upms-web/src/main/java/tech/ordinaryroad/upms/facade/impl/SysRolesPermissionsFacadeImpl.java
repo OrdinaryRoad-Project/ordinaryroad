@@ -120,7 +120,7 @@ public class SysRolesPermissionsFacadeImpl implements ISysRolesPermissionsFacade
     public Result<List<SysRolesPermissionsDTO>> findAll(SysRolesPermissionsQueryRequest request) {
         SysRolesPermissionsDO sysSysRolesPermissionsDO = objMapStruct.transfer(request);
 
-        List<SysRolesPermissionsDO> all = sysSysRolesPermissionsService.findAll(sysSysRolesPermissionsDO);
+        List<SysRolesPermissionsDO> all = sysSysRolesPermissionsService.findAll(sysSysRolesPermissionsDO, request.getOrderBy(), request.getOrderByDesc());
         List<SysRolesPermissionsDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -131,7 +131,7 @@ public class SysRolesPermissionsFacadeImpl implements ISysRolesPermissionsFacade
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysRolesPermissionsDO sysSysRolesPermissionsDO = objMapStruct.transfer(request);
-        Page<SysRolesPermissionsDO> all = (Page<SysRolesPermissionsDO>) sysSysRolesPermissionsService.findAll(sysSysRolesPermissionsDO);
+        Page<SysRolesPermissionsDO> all = (Page<SysRolesPermissionsDO>) sysSysRolesPermissionsService.findAll(sysSysRolesPermissionsDO, request.getOrderBy(), request.getOrderByDesc());
 
         PageInfo<SysRolesPermissionsDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

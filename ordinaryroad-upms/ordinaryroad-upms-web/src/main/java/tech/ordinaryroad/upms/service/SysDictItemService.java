@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
@@ -42,7 +43,7 @@ import java.util.Optional;
 @Service
 public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemDO> {
 
-    public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO) {
+    public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String dictUuid = sysDictItemDO.getDictUuid();
@@ -62,7 +63,16 @@ public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemD
             sqls.andLike("remark", "%" + value + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(SysDictItemDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysDictItemDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
     public List<SysDictItemDO> findAllByDictUuid(String dictUuid) {

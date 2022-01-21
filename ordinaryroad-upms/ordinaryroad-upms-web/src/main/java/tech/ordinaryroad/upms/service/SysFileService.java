@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
@@ -40,7 +41,7 @@ import java.util.List;
 @Service
 public class SysFileService extends BaseService<SysFileDAO, SysFileDO> {
 
-    public List<SysFileDO> findAll(SysFileDO sysFileDO) {
+    public List<SysFileDO> findAll(SysFileDO sysFileDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String bucketName = sysFileDO.getBucketName();
@@ -56,7 +57,16 @@ public class SysFileService extends BaseService<SysFileDAO, SysFileDO> {
             sqls.andLike("originalFilename", "%" + originalFilename + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(SysFileDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysFileDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
 }

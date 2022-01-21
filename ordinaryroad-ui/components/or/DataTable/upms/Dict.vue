@@ -174,9 +174,9 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: this.$t('dictName'), value: 'dictName', sortable: false },
-        { text: this.$t('dictCode'), value: 'dictCode', sortable: false },
-        { text: this.$t('remark'), value: 'remark', sortable: false, width: '200' }
+        { text: this.$t('dictName'), value: 'dictName' },
+        { text: this.$t('dictCode'), value: 'dictCode' },
+        { text: this.$t('remark'), value: 'remark', width: '200' }
       ]
     },
     action () {
@@ -236,8 +236,8 @@ export default {
       this.selectedItem = Object.assign({}, item)
       this.$refs.dictDialog.show()
     },
-    onGetItems ({ options, offset, limit }) {
-      /* TODO 排序支持
+    onGetItems ({ options, offset, limit, orderBy, orderByDesc }) {
+      /* 支持排序
       options:
         groupBy: Array(0)
         groupDesc: Array(0)
@@ -248,10 +248,11 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      this.$apis.upms.dict.list(offset, limit, this.searchParams)
+      this.$apis.upms.dict.list(offset, limit, orderBy, orderByDesc, this.searchParams)
         .then(({ data }) => {
           this.$refs.dataTable.loadSuccessfully(data.list, data.total)
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$refs.dataTable.loadFinish()
         })
     },

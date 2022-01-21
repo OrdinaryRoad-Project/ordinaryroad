@@ -40,8 +40,8 @@ export default {
     const data = { uuid, dictUuid, label, value, sort, remark }
     return $axios({ url: '/upms/dict_item/update', method: 'post', data })
   },
-  list: (offset, limit, { dictUuid, label, value, remark }) => {
-    const data = { limit, offset, dictUuid, label, value, remark }
+  list: (offset, limit, orderBy, orderByDesc, { dictUuid, label, value, remark }) => {
+    const data = { offset, limit, orderBy, orderByDesc, dictUuid, label, value, remark }
     return $axios({ url: '/upms/dict_item/list', method: 'post', data })
   },
   findAllByForeignColumn: ({ dictUuid }) => {

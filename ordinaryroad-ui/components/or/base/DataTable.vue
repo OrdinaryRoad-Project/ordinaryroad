@@ -25,7 +25,9 @@
 <template>
   <v-data-table
     ref="table"
+    multi-sort
     :sort-by="sortBy"
+    :sort-desc="sortDesc"
     :height="showSelect?'50vh':null"
     :single-select="singleSelect"
     :show-select="showSelect"
@@ -219,6 +221,10 @@ export default {
       type: Array,
       default: () => []
     },
+    sortDesc: {
+      type: Array,
+      default: () => []
+    },
 
     tableHeaders: {
       type: Array,
@@ -284,10 +290,10 @@ export default {
       } else {
         headers.push(
           ...this.tableHeaders,
-          { text: this.$t('createdTime'), value: 'createdTime', sortable: false, width: '220' },
-          { text: this.$t('createBy'), value: 'createBy', sortable: false },
-          { text: this.$t('updateTime'), value: 'updateTime', sortable: false, width: '220' },
-          { text: this.$t('updateBy'), value: 'updateBy', sortable: false },
+          { text: this.$t('createdTime'), value: 'createdTime', width: '220' },
+          { text: this.$t('createBy'), value: 'createBy' },
+          { text: this.$t('updateTime'), value: 'updateTime', width: '220' },
+          { text: this.$t('updateBy'), value: 'updateBy' },
           {
             text: this.$t('dataTable.actions'),
             value: 'actions',
@@ -350,10 +356,22 @@ export default {
     },
     getItems () {
       this.dataTableParams.loading = true
+
+      const sortBy = this.options.sortBy
+      const sortDesc = this.options.sortDesc
+      const orderBy = []
+      const orderByDesc = []
+      for (let i = 0; i < sortDesc.length; i++) {
+        const name = sortBy[i]
+        sortDesc[i] ? orderByDesc.push(name) : orderBy.push(name)
+      }
+
       this.$emit('getItems', {
         options: this.options,
         offset: (this.options.page - 1) * this.options.itemsPerPage,
-        limit: this.options.itemsPerPage
+        limit: this.options.itemsPerPage,
+        orderBy,
+        orderByDesc
       })
     },
     onItemSelected ({ item, value }) {

@@ -44,8 +44,8 @@ export default {
     const data = { roleCode, roleName }
     return $axios({ url: '/upms/role/find/unique', method: 'post', data })
   },
-  list: (offset, limit, { roleName, roleCode }) => {
-    const data = { limit, offset, roleName, roleCode }
+  list: (offset, limit, orderBy, orderByDesc, { roleName, roleCode }) => {
+    const data = { offset, limit, orderBy, orderByDesc, roleName, roleCode }
     return $axios({ url: '/upms/role/list', method: 'post', data })
   },
   findAll: ({ roleCode, roleName }) => {

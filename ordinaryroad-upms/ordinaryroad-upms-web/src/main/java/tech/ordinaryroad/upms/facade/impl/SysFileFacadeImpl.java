@@ -185,7 +185,7 @@ public class SysFileFacadeImpl implements ISysFileFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysFileDO sysFileDO = objMapStruct.transfer(request);
-        Page<SysFileDO> all = (Page<SysFileDO>) sysFileService.findAll(sysFileDO);
+        Page<SysFileDO> all = (Page<SysFileDO>) sysFileService.findAll(sysFileDO, request.getOrderBy(), request.getOrderByDesc());
 
         PageInfo<SysFileDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

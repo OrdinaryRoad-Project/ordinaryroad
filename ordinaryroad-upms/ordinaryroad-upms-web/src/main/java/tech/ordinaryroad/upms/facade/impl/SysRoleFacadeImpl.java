@@ -160,7 +160,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
     public Result<List<SysRoleDTO>> findAll(SysRoleQueryRequest request) {
         SysRoleDO sysRoleDO = objMapStruct.transfer(request);
 
-        List<SysRoleDO> all = sysRoleService.findAll(sysRoleDO);
+        List<SysRoleDO> all = sysRoleService.findAll(sysRoleDO, request.getOrderBy(), request.getOrderByDesc());
         List<SysRoleDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -171,7 +171,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysRoleDO sysRoleDO = objMapStruct.transfer(request);
-        Page<SysRoleDO> all = (Page<SysRoleDO>) sysRoleService.findAll(sysRoleDO);
+        Page<SysRoleDO> all = (Page<SysRoleDO>) sysRoleService.findAll(sysRoleDO, request.getOrderBy(), request.getOrderByDesc());
 
         PageInfo<SysRoleDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

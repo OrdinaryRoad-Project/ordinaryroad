@@ -27,6 +27,7 @@
     <or-base-data-table
       ref="dataTable"
       :sort-by="['sort']"
+      :sort-desc="[false]"
       :single-select="singleSelect"
       :select-return-object="selectReturnObject"
       :show-select="showSelect"
@@ -219,10 +220,10 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: this.$t('label'), value: 'label', sortable: false },
-        { text: this.$t('value'), value: 'value', sortable: false },
-        { text: this.$t('sort'), value: 'sort', sortable: false },
-        { text: this.$t('remark'), value: 'remark', sortable: false, width: '200' }
+        { text: this.$t('label'), value: 'label' },
+        { text: this.$t('value'), value: 'value' },
+        { text: this.$t('sort'), value: 'sort' },
+        { text: this.$t('remark'), value: 'remark', width: '200' }
       ]
     },
     action () {
@@ -306,8 +307,8 @@ export default {
       this.selectedItem = Object.assign({}, item)
       this.$refs.dictItemDialog.show()
     },
-    onGetItems ({ options, offset, limit }) {
-      /* TODO 排序支持
+    onGetItems ({ options, offset, limit, orderBy, orderByDesc }) {
+      /* 支持排序
       options:
         groupBy: Array(0)
         groupDesc: Array(0)
@@ -318,10 +319,11 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      this.$apis.upms.dict_item.list(offset, limit, this.searchParams)
+      this.$apis.upms.dict_item.list(offset, limit, orderBy, orderByDesc, this.searchParams)
         .then(({ data }) => {
           this.$refs.dataTable.loadSuccessfully(data.list, data.total)
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$refs.dataTable.loadFinish()
         })
     },

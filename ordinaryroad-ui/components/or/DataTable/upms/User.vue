@@ -216,10 +216,10 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: this.$t('email'), value: 'email', sortable: false },
-        { text: this.$t('orNumber'), value: 'orNumber', sortable: false },
-        { text: this.$t('username'), value: 'username', sortable: false },
-        { text: this.$t('enabled'), value: 'enabled', sortable: false }
+        { text: this.$t('email'), value: 'email' },
+        { text: this.$t('orNumber'), value: 'orNumber' },
+        { text: this.$t('username'), value: 'username' },
+        { text: this.$t('enabled'), value: 'enabled' }
       ]
     },
     action () {
@@ -324,8 +324,8 @@ export default {
       this.selectedItem = Object.assign({}, item)
       this.$refs.userDialog.show()
     },
-    onGetItems ({ options, offset, limit }) {
-      /* TODO 排序支持
+    onGetItems ({ options, offset, limit, orderBy, orderByDesc }) {
+      /* 支持排序
       options:
         groupBy: Array(0)
         groupDesc: Array(0)
@@ -336,12 +336,13 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      this.$apis.upms.user.list(offset, limit, this.searchParams
-      ).then(({ data }) => {
-        this.$refs.dataTable.loadSuccessfully(data.list, data.total)
-      }).catch(() => {
-        this.$refs.dataTable.loadFinish()
-      })
+      this.$apis.upms.user.list(offset, limit, orderBy, orderByDesc, this.searchParams)
+        .then(({ data }) => {
+          this.$refs.dataTable.loadSuccessfully(data.list, data.total)
+        })
+        .catch(() => {
+          this.$refs.dataTable.loadFinish()
+        })
     },
     onItemsSelected (items) {
       this.$emit('itemsSelected', items)

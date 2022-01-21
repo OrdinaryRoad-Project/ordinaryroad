@@ -139,7 +139,7 @@ public class SysDictFacadeImpl implements ISysDictFacade {
     public Result<List<SysDictDTO>> findAll(SysDictQueryRequest request) {
         SysDictDO sysDictDO = objMapStruct.transfer(request);
 
-        List<SysDictDO> all = sysDictService.findAll(sysDictDO);
+        List<SysDictDO> all = sysDictService.findAll(sysDictDO, request.getOrderBy(), request.getOrderByDesc());
         List<SysDictDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -150,7 +150,7 @@ public class SysDictFacadeImpl implements ISysDictFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysDictDO sysDictDO = objMapStruct.transfer(request);
-        Page<SysDictDO> all = (Page<SysDictDO>) sysDictService.findAll(sysDictDO);
+        Page<SysDictDO> all = (Page<SysDictDO>) sysDictService.findAll(sysDictDO, request.getOrderBy(), request.getOrderByDesc());
 
         PageInfo<SysDictDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

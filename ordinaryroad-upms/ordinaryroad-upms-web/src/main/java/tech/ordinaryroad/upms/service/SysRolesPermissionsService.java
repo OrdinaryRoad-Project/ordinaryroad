@@ -24,6 +24,7 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
@@ -71,7 +72,7 @@ public class SysRolesPermissionsService extends BaseService<SysRolesPermissionsD
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysRolesPermissionsDO> findAll(SysRolesPermissionsDO sysRolesPermissionsDO) {
+    public List<SysRolesPermissionsDO> findAll(SysRolesPermissionsDO sysRolesPermissionsDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String roleUuid = sysRolesPermissionsDO.getRoleUuid();
@@ -83,7 +84,16 @@ public class SysRolesPermissionsService extends BaseService<SysRolesPermissionsD
             sqls.andEqualTo("permissionUuid", permissionUuid);
         }
 
-        return super.dao.selectByExample(Example.builder(SysRolesPermissionsDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysRolesPermissionsDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
 }

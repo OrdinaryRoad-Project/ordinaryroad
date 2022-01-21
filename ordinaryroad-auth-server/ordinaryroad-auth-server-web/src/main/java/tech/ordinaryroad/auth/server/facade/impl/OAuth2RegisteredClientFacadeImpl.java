@@ -135,7 +135,7 @@ public class OAuth2RegisteredClientFacadeImpl implements IOAuth2RegisteredClient
     public Result<List<OAuth2RegisteredClientDTO>> findAll(OAuth2RegisteredClientQueryRequest request) {
         OAuth2RegisteredClientDO oAuth2RegisteredClientDO = objMapStruct.transfer(request);
 
-        List<OAuth2RegisteredClientDO> all = oAuth2RegisteredClientService.findAll(oAuth2RegisteredClientDO);
+        List<OAuth2RegisteredClientDO> all = oAuth2RegisteredClientService.findAll(oAuth2RegisteredClientDO, request.getOrderBy(), request.getOrderByDesc());
         List<OAuth2RegisteredClientDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -146,7 +146,7 @@ public class OAuth2RegisteredClientFacadeImpl implements IOAuth2RegisteredClient
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         OAuth2RegisteredClientDO oAuth2RegisteredClientDO = objMapStruct.transfer(request);
-        Page<OAuth2RegisteredClientDO> all = (Page<OAuth2RegisteredClientDO>) oAuth2RegisteredClientService.findAll(oAuth2RegisteredClientDO);
+        Page<OAuth2RegisteredClientDO> all = (Page<OAuth2RegisteredClientDO>) oAuth2RegisteredClientService.findAll(oAuth2RegisteredClientDO, request.getOrderBy(), request.getOrderByDesc());
 
         PageInfo<OAuth2RegisteredClientDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

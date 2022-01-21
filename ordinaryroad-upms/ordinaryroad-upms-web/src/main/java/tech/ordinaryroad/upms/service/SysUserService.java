@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -68,7 +69,7 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysUserDO> findAll(SysUserDO sysUserDO) {
+    public List<SysUserDO> findAll(SysUserDO sysUserDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String email = sysUserDO.getEmail();
@@ -86,7 +87,16 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
             sqls.andLike("orNumber", "%" + orNumber + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(SysUserDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysUserDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
     public List<SysUserDO> findAllByRoleUuid(String roleUuid) {

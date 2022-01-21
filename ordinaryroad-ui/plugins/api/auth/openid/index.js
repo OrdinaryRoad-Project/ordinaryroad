@@ -48,8 +48,8 @@ export default {
     const data = { clientId, openid }
     return $axios({ url: '/auth/openid/find/clientIdAndOpenid', method: 'post', data })
   },
-  list: (offset, limit, { orNumber, clientId, openid }) => {
-    const data = { limit, offset, orNumber, clientId, openid }
+  list: (offset, limit, orderBy, orderByDesc, { orNumber, clientId, openid }) => {
+    const data = { offset, limit, orderBy, orderByDesc, orNumber, clientId, openid }
     return $axios({ url: '/auth/openid/list', method: 'post', data })
   },
   findAll: ({ orNumber, clientId, openid }) => {

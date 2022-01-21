@@ -237,10 +237,10 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: this.$t('bucketName'), value: 'bucketName', sortable: false },
-        { text: this.$t('objectName'), value: 'objectName', sortable: false },
-        { text: this.$t('originalFilename'), value: 'originalFilename', sortable: false },
-        { text: this.$t('fileSize'), value: 'size', sortable: false }
+        { text: this.$t('bucketName'), value: 'bucketName' },
+        { text: this.$t('objectName'), value: 'objectName' },
+        { text: this.$t('originalFilename'), value: 'originalFilename' },
+        { text: this.$t('fileSize'), value: 'size' }
       ]
     },
     action () {
@@ -285,8 +285,8 @@ export default {
           this.$refs.dataTable.deleteFailed()
         })
     },
-    onGetItems ({ options, offset, limit }) {
-      /* TODO 排序支持
+    onGetItems ({ options, offset, limit, orderBy, orderByDesc }) {
+      /* 支持排序
       options:
         groupBy: Array(0)
         groupDesc: Array(0)
@@ -297,10 +297,11 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      this.$apis.upms.file.list(offset, limit, this.searchParams)
+      this.$apis.upms.file.list(offset, limit, orderBy, orderByDesc, this.searchParams)
         .then(({ data }) => {
           this.$refs.dataTable.loadSuccessfully(data.list, data.total)
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$refs.dataTable.loadFinish()
         })
     },
