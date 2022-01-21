@@ -67,4 +67,16 @@ public class BaseQueryRequest extends BaseRequest {
     @ApiModelProperty("偏移量")
     private Integer offset = 0;
 
+    /**
+     * 升序字段列表
+     */
+    @ApiModelProperty("升序字段列表")
+    private String[] orderBy;
+
+    /**
+     * 降序字段列表
+     */
+    @ApiModelProperty("降序字段列表")
+    private String[] orderByDesc;
+
 }
