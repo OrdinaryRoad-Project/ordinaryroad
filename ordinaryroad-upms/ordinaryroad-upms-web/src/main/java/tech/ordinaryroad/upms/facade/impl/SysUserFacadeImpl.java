@@ -64,7 +64,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     private final SysUsersRolesService sysUsersRolesService;
     private final SysUserMapStruct objMapStruct;
     private final PasswordEncoder passwordEncoder;
-    private final Pattern passwordPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$");
+    private final Pattern passwordPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$");
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -416,8 +416,8 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     private Result<SysUserDTO> validatePassword(@NotNull SysUserDO sysUserDO) {
         String password = sysUserDO.getPassword();
         if (StrUtil.isBlank(password)) {
-            // 默认密码123456
-            sysUserDO.setPassword(passwordEncoder.encode("123456"));
+            // 默认密码Abc123
+            sysUserDO.setPassword(passwordEncoder.encode("Abc123"));
         } else {
             if (StrUtil.length(password) < 6 || StrUtil.length(password) > 16) {
                 return Result.fail("密码长度 6-16");
