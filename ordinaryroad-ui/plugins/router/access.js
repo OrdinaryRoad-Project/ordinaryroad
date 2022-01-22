@@ -53,15 +53,21 @@ export default ({ app, store }) => {
       }
     ]
     const items = menuItems.concat(userMenuItems).concat(itemsNotInDrawer)
-    let item
-    for (let i = 0; i < items.length; i++) {
-      const itemTemp = items[i]
-      if (itemTemp.to === to.path || itemTemp.name === to.name) {
-        item = itemTemp
+
+    let found = false
+    let item = items.shift()
+    while (item) {
+      if (!found && ((item.to && item.to === to.path) ||
+        (item.name && item.name === to.name))) {
+        found = true
         break
       }
+      if (item.children && item.children.length > 0) {
+        items.unshift(...item.children)
+      }
+      item = items.shift()
     }
-    if (item && item.meta && item.meta.permission) {
+    if (found && item && item.meta && item.meta.permission) {
       // 判断权限
       if (!$access.has(item.meta.permission)) {
         if (from.path === '/user/login') {
