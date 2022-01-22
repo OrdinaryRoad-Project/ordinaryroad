@@ -84,6 +84,7 @@ public enum StatusCode implements IStatusCode {
     OPENID_ALREADY_EXIST(4017, "openid已存在"),
     CLIENT_ID_ALREADY_EXIST(4018, "clientId已存在"),
     CLIENT_NAME_ALREADY_EXIST(4019, "clientName已存在"),
+    DATA_OUTDATED(4020, "数据已过期"),
     ;
 
     /**
