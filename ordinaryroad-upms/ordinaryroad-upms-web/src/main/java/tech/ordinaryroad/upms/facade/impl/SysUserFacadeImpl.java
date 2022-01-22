@@ -424,6 +424,8 @@ public class SysUserFacadeImpl implements ISysUserFacade {
             } else {
                 if (!passwordPattern.matcher(password).matches()) {
                     return Result.fail("必须包含大小写字母和数字的组合，可以使用特殊字符");
+                } else {
+                    sysUserDO.setPassword(passwordEncoder.encode(password));
                 }
             }
         }

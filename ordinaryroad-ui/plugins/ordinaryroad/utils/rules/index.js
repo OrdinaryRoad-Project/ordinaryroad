@@ -46,6 +46,6 @@ export default {
   },
   password: (value) => {
     const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$/
-    return pattern.test(value) || $t('invalidPassword')
+    return !value || pattern.test(value) || $t('invalidPassword')
   }
 }
