@@ -80,12 +80,12 @@ VALUES (8, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP',
         '', 'dev', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
 VALUES (9, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
+        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: Gpt8GB9RlsPseeoy\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false',
         '5f1fdd9004c3b00eb19cda7a6c220f91', '2021-12-14 00:36:20', '2022-01-11 14:44:51', 'nacos', '0:0:0:0:0:0:0:1',
         '', 'demo', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
 VALUES (10, 'ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
+        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false',
         '5f1fdd9004c3b00eb19cda7a6c220f91', '2021-12-14 00:36:55', '2022-01-05 13:05:20', 'nacos', '0:0:0:0:0:0:0:1',
         '', 'dev', '', '', '', 'yaml', '');
 
@@ -361,6 +361,30 @@ INSERT INTO `tenant_info`
 VALUES (2, '1', 'dev', 'dev', '开发环境', 'nacos', 1639413364335, 1639413364335);
 INSERT INTO `tenant_info`
 VALUES (3, '1', 'pro', 'pro', '生产环境', 'nacos', 1639413372280, 1639413372280);
+
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 苗锦洲
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 -- ----------------------------
 -- Table structure for users
