@@ -57,6 +57,8 @@ export default {
     '~/plugins/access/index.js',
     // api插件
     '@/plugins/api/index',
+    // api插件 Server端
+    { src: '@/plugins/api/server/index', mode: 'server' },
     // axios拦截器等
     '~/plugins/axios/index.js',
     // dayjs

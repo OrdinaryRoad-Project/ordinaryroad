@@ -39,15 +39,15 @@ export default {
     // 必填
     return !!params.orNumber
   },
-  async asyncData ({ route, $apis }) {
+  async asyncData ({ route, $apisServer, store }) {
     let presetModel
     if (route.params.item) {
       presetModel = route.params.item
     } else {
       // 加载用户
-      presetModel = (await $apis.upms.user.findByUniqueColumn({
-        orNumber: route.params.orNumber
-      })).data
+      presetModel = (await $apisServer.upms.user.findByUniqueColumn(
+        store.getters['user/getTokenInfo'].satoken, { orNumber: route.params.orNumber })
+      ).data
     }
     return { presetModel }
   },

@@ -36,15 +36,15 @@ export default {
     // 必填
     return !!params.dictCode
   },
-  async asyncData ({ route, $apis }) {
+  async asyncData ({ route, $apisServer, store }) {
     let presetModel
     if (route.params.item) {
       presetModel = route.params.item
     } else {
       // 服务端渲染，先从服务器获取dict的uuid
-      presetModel = (await $apis.upms.dict.findByUniqueColumn({
-        dictCode: route.params.dictCode
-      })).data
+      presetModel = (await $apisServer.upms.dict.findByUniqueColumn(
+        store.getters['user/getTokenInfo'].satoken, { dictCode: route.params.dictCode }
+      )).data
     }
     return { presetModel }
   },

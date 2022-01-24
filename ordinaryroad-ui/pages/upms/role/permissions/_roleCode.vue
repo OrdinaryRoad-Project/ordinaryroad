@@ -36,15 +36,15 @@ export default {
     // 必填
     return !!params.roleCode
   },
-  async asyncData ({ route, $apis }) {
+  async asyncData ({ route, $apisServer, store }) {
     let presetModel
     if (route.params.item) {
       presetModel = route.params.item
     } else {
       // 加载角色
-      presetModel = (await $apis.upms.role.findByUniqueColumn({
-        roleCode: route.params.roleCode
-      })).data
+      presetModel = (await $apisServer.upms.role.findByUniqueColumn(
+        store.getters['user/getTokenInfo'].satoken, { roleCode: route.params.roleCode })
+      ).data
     }
     return { presetModel }
   },

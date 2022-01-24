@@ -56,7 +56,7 @@ function getObjectFromCookie (string, key, defaultValue) {
 }
 
 export const actions = {
-  async nuxtServerInit ({ commit }, { $vuetify, $apis, $access, req, app }) {
+  async nuxtServerInit ({ commit }, { $vuetify, $apisServer, $access, req, app }) {
     const store = app.store
     // 初始化，可以获取初始值
     if (typeof req !== 'undefined' && req.headers && req.headers.cookie) {
@@ -72,7 +72,7 @@ export const actions = {
       const tokenInfo = getObjectFromCookie(cookieString, TOKEN_INFO_KEY, store.getters['user/getTokenInfo'])
       if (tokenInfo) {
         try {
-          const { data } = await $apis.upms.userInfo({ saToken: tokenInfo.satoken })
+          const { data } = await $apisServer.upms.userInfo(tokenInfo.satoken)
           commit('user/SET_TOKEN_INFO', tokenInfo)
           commit('user/SET_USER_INFO', data)
 
