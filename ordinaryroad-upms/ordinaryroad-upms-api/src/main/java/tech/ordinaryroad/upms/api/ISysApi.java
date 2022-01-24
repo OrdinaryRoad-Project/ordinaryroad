@@ -25,7 +25,6 @@ package tech.ordinaryroad.upms.api;
 
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
@@ -48,6 +47,6 @@ public interface ISysApi {
      * @return Result
      */
     @PostMapping(value = "/userinfo")
-    Result<SysUserInfoDTO> userInfo(@Validated @RequestBody SysUserInfoRequest request);
+    Result<SysUserInfoDTO> userInfo(@RequestBody(required = false) SysUserInfoRequest request);
 
 }
