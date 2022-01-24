@@ -1,3 +1,5 @@
+# OrdinaryRoad
+
 陌生人你好，这是我的也可能是你的**第一个微服务项目**，已完成UPMS模块基本框架，目前仍在持续开发中...
 
 我的个人博客 [https://ordinaryroad.top](https://ordinaryroad.top)
@@ -6,33 +8,66 @@
 
 在线文档： [https://1962247851.github.io/ordinaryroad](https://1962247851.github.io/ordinaryroad)
 
-截图
+# 截图
+![OR首页](https://user-images.githubusercontent.com/43869694/150742040-cf544d19-10e8-4a0b-ade9-1a0c9ff4608c.png)
 
-![OR注册](https://user-images.githubusercontent.com/43869694/145922744-0041f36d-5f7c-461e-b62f-321d556cd686.png)
-![OR登录](https://user-images.githubusercontent.com/43869694/145922710-74825e88-22a1-4f1f-af51-3df8da6ea2f1.png)
-![OR用户管理页](https://user-images.githubusercontent.com/43869694/145922818-1e4d2f33-5c29-442e-9b58-cc5153e64f7c.png)
-![OR角色管理页](https://user-images.githubusercontent.com/43869694/145922861-3dff9aac-e77f-4df5-9fd0-99e4dcec06dc.png)
-![OR角色用户管理页](https://user-images.githubusercontent.com/43869694/145922875-12bc00e1-8431-4330-a64d-72abaa161a34.png)
-![OR角色用户管理页选择用户](https://user-images.githubusercontent.com/43869694/145922895-e42e1a90-49be-4657-ae1b-eee28f92b2e9.png)
-![OR角色权限管理页](https://user-images.githubusercontent.com/43869694/145922904-cc15644b-548a-438c-8ead-4fdefc3d94ee.png)
-![OR角色权限管理页选择权限](https://user-images.githubusercontent.com/43869694/145922905-0ebd2f5e-2e58-4dc6-b80d-43a248eaf606.png)
-![OR权限管理页](https://user-images.githubusercontent.com/43869694/145922928-47844ed4-f020-4840-8898-3620a578ef4f.png)
-![OR请求路径管理页](https://user-images.githubusercontent.com/43869694/145922932-da1559d0-1e6f-4677-ad99-869b621051ac.png)
-![OR个人中心页](https://user-images.githubusercontent.com/43869694/145923094-5ac1f4c0-e86b-4599-9d8b-088024c6fe54.png)
-![OR个人中心页修改密码](https://user-images.githubusercontent.com/43869694/145923101-15b7d813-1d69-4f84-a04f-282d302feae5.png)
+## 国际化
+![OR国际化](https://user-images.githubusercontent.com/43869694/150741150-18b87eaf-d7dc-49b3-b9bf-ba68c3d69e5d.png)
 
-![OR深色主题](https://user-images.githubusercontent.com/43869694/145923020-be8c4c6b-8973-49bc-b518-e798eee43bcb.png)
-![OR猛男主题](https://user-images.githubusercontent.com/43869694/145923004-3f47f856-cb45-427f-aac7-cb095b0f7a43.png)
-![OR猛男主题深色模式](https://user-images.githubusercontent.com/43869694/145923011-3694f8b9-990c-41be-8504-0bdfa23af1b8.png)
-![OR左侧栏clipped](https://user-images.githubusercontent.com/43869694/145923027-4e27f3a7-04e2-4bec-a975-04a79ad4c826.png)
-![OR左侧栏clipped+迷你](https://user-images.githubusercontent.com/43869694/145923031-8f0c038c-4778-4967-9867-9edc8b23607d.png)
-![OR设置右侧栏](https://user-images.githubusercontent.com/43869694/145923073-8d60ad91-8759-45fc-8a18-9782b157cb6d.png)
-![OR国际化](https://user-images.githubusercontent.com/43869694/145923081-a76c54b6-2797-43fd-af20-1e8df76e91ee.png)
+## 左/右侧栏
+### mini + 非clipped
+![OR左侧栏非clipped mini](https://user-images.githubusercontent.com/43869694/150741108-71012f9b-d8ae-443e-9170-c12870a17357.png)
+### 非clipped
+![OR左侧栏非clipped](https://user-images.githubusercontent.com/43869694/150741110-20b0ec45-6693-42a7-b10c-4d9d8e66d176.png)
+### mini + clipped
+![OR左侧栏clipped mini](https://user-images.githubusercontent.com/43869694/150741075-f88160f7-3f20-4ef2-be57-785fb36a1a7a.png)
+### 右侧栏
+![OR右侧栏](https://user-images.githubusercontent.com/43869694/150741140-ad46b9be-ddb1-47cb-a3bb-97585a66c017.png)
 
+## 主题
+### 深色主题
+![OR主题-深色](https://user-images.githubusercontent.com/43869694/150740934-086919af-39eb-4cd9-a1b6-d3a86606fe31.png)
+### 猛男主题
+![OR主题-猛男](https://user-images.githubusercontent.com/43869694/150740949-10f6d513-4f8f-409f-bb79-05afe471f1b7.png)
+### 深色猛男主题
+![OR主题-猛男-深色](https://user-images.githubusercontent.com/43869694/150740951-b2d1c66a-80b7-4ced-abe4-be13732c4b69.png)
+
+## 注册/登录
+![OR注册](https://user-images.githubusercontent.com/43869694/150740304-bc7e778e-3513-405d-a5b8-7f58ccf052c1.png)
+![OR登录](https://user-images.githubusercontent.com/43869694/150740365-b8347fc2-1a53-47f7-9ca8-3b5a6e2aafe7.png)
+
+## 个人中心页
+![OR个人中心页](https://user-images.githubusercontent.com/43869694/150740860-ded1c703-2a68-4cb3-9db9-30437e26b500.png)
+![OR个人中心页密码修改](https://user-images.githubusercontent.com/43869694/150740864-fd298cf0-6421-45f4-bf19-8b8e44258384.png)
+
+## 权限控制
+### 用户管理页
+![OR用户管理页](https://user-images.githubusercontent.com/43869694/150740400-b18b0160-0733-4479-bd43-c09efe81164b.png)
+![OR用户管理页重置密码](https://user-images.githubusercontent.com/43869694/150742290-e6069614-4e4e-4a52-8f9e-b3101b3ee217.png)
+![OR用户角色管理页](https://user-images.githubusercontent.com/43869694/150742303-c2d1798d-255c-4f3a-9733-21643d68ffb0.png)
+### 角色管理页
+![OR角色管理页](https://user-images.githubusercontent.com/43869694/150740419-ee2c34ed-c286-4744-bb72-900e8adf7729.png)
+![OR角色权限管理页](https://user-images.githubusercontent.com/43869694/150740785-1c20694a-569b-4040-b3bc-79300436f2f5.png)
+![OR角色权限管理页数据表格选择模式](https://user-images.githubusercontent.com/43869694/150740795-96e3c150-5aa9-423e-b644-2556aff171fb.png)
+![OR角色用户管理](https://user-images.githubusercontent.com/43869694/150740772-05b77f82-1080-4fcb-aca1-81e14ba5a281.png)
+### 权限管理页
+![OR权限管理页](https://user-images.githubusercontent.com/43869694/150740832-21ff4cce-80e4-4126-a0ad-e9e14871ca0d.png)
+### 请求路径管理页
+![OR请求路径管理页](https://user-images.githubusercontent.com/43869694/150740850-ac3b0735-052c-4ec8-9f5e-3d855e5d653d.png)
+
+## 系统管理
+### 字典管理页
+![OR字典管理页](https://user-images.githubusercontent.com/43869694/150740992-426a5ea3-370f-4732-8fe1-65937f60ca49.png)
+### 字典项管理页
+![OR字典项管理页](https://user-images.githubusercontent.com/43869694/150741006-5da2706e-7a5f-46f3-9f44-59b4e413b5c3.png)
+### 文件管理页
+![OR文件管理页](https://user-images.githubusercontent.com/43869694/150741048-3861a71a-eb49-4ff2-8a6a-7ea7975401d5.png)
+### 第三方客户端管理页
+![OR第三方客户端管理页](https://user-images.githubusercontent.com/43869694/150741050-04b2008d-0c1a-4618-a376-511e31166f2f.png)
+### Openid管理页
+![OROpenid管理页](https://user-images.githubusercontent.com/43869694/150741051-4522210b-a9f3-4914-8583-0b02ddf5fb6c.png)
 
 ___
-
-# OrdinaryRoad
 
 ## 主要技术栈
 
