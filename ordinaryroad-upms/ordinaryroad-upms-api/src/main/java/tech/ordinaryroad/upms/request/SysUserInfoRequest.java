@@ -29,8 +29,6 @@ import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
-import javax.validation.constraints.NotBlank;
-
 /**
  * @author mjz
  * @date 2021/12/10
@@ -40,10 +38,12 @@ import javax.validation.constraints.NotBlank;
 @ApiModel
 public class SysUserInfoRequest extends BaseRequest {
 
-    private static final long serialVersionUID = -715134225379414396L;
+    private static final long serialVersionUID = -8857867884460652514L;
 
     @ApiModelProperty("token")
-    @NotBlank(message = "token不能为空")
     private String saToken;
+
+    @ApiModelProperty("OR账号")
+    private String orNumber;
 
 }

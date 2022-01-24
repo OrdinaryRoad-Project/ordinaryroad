@@ -10,7 +10,10 @@ WORKDIR /ordinaryroad/$APP_NAME/app
 
 EXPOSE 3001
 
-ENV NODE_ENV=production HOST=0.0.0.0
+#During build step, for npm/yarn, NODE_ENV=production or --production should NOT be used.
+#ENV NODE_ENV=production
+
+ENV HOST=0.0.0.0
 
 # 提示nuxt权限不够，chmod -R 777 .
-CMD npm run build; npm run start
+CMD npm install --no-package-lock; npm run build; npm run start

@@ -70,12 +70,20 @@ public class SaOAuth2Configuration {
                     Result<SysUserDTO> byUniqueColumn = userApi.findByUniqueColumn(sysUserQueryRequest);
                     if (byUniqueColumn.getSuccess()) {
                         SysUserDTO data = byUniqueColumn.getData();
-
                         // 密码校验
                         if (passwordEncoder.matches(password, data.getPassword())) {
                             // 登录
-                            log.info("登录成功：{}", orNumber);
+                            if (data.getEnabled()) {
+                                if (StpUtil.isDisable(orNumber)) {
+                                    StpUtil.untieDisable(orNumber);
+                                }
+                            } else {
+                                if (!StpUtil.isDisable(orNumber)) {
+                                    StpUtil.disable(orNumber, -1L);
+                                }
+                            }
                             StpUtil.login(data.getOrNumber());
+                            log.info("登录成功：{}", orNumber);
                             return Result.success();
                         }
                     }

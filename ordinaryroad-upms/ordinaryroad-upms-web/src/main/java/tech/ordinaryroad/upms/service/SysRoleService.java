@@ -23,9 +23,10 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRoleDAO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
@@ -61,19 +62,28 @@ public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysRoleDO> findAll(SysRoleDO sysRoleDO) {
+    public List<SysRoleDO> findAll(SysRoleDO sysRoleDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String roleName = sysRoleDO.getRoleName();
-        if (Argument.isNotBlank(roleName)) {
+        if (StrUtil.isNotBlank(roleName)) {
             sqls.andLike("roleName", "%" + roleName + "%");
         }
         String roleCode = sysRoleDO.getRoleCode();
-        if (Argument.isNotBlank(roleCode)) {
+        if (StrUtil.isNotBlank(roleCode)) {
             sqls.andLike("roleCode", "%" + roleCode + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(SysRoleDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysRoleDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
     public List<SysRoleDO> findAllByUserUuid(String userUuid) {

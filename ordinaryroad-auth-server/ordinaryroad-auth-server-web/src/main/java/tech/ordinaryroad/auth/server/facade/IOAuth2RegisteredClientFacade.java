@@ -71,7 +71,7 @@ public interface IOAuth2RegisteredClientFacade {
     Result<OAuth2RegisteredClientDTO> findById(OAuth2RegisteredClientQueryRequest request);
 
     /**
-     * 根据唯一列查询字典
+     * 根据唯一列查询
      *
      * @param request Request
      * @return DTO

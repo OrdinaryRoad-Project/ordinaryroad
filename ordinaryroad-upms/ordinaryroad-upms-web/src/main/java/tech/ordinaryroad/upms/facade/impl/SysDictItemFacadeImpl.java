@@ -138,7 +138,7 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
     public Result<List<SysDictItemDTO>> findAll(SysDictItemQueryRequest request) {
         SysDictItemDO sysDictDO = objMapStruct.transfer(request);
 
-        List<SysDictItemDO> all = sysDictItemService.findAll(sysDictDO);
+        List<SysDictItemDO> all = sysDictItemService.findAll(sysDictDO, request.getOrderBy(), request.getOrderByDesc());
         List<SysDictItemDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -174,7 +174,7 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysDictItemDO sysDictDO = objMapStruct.transfer(request);
-        Page<SysDictItemDO> all = (Page<SysDictItemDO>) sysDictItemService.findAll(sysDictDO);
+        Page<SysDictItemDO> all = (Page<SysDictItemDO>) sysDictItemService.findAll(sysDictDO, request.getOrderBy(), request.getOrderByDesc());
 
         PageInfo<SysDictItemDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

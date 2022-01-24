@@ -23,9 +23,9 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysDictItemDAO;
 import tech.ordinaryroad.upms.entity.SysDictItemDO;
@@ -43,27 +43,36 @@ import java.util.Optional;
 @Service
 public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemDO> {
 
-    public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO) {
+    public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String dictUuid = sysDictItemDO.getDictUuid();
-        if (Argument.isNotBlank(dictUuid)) {
+        if (StrUtil.isNotBlank(dictUuid)) {
             sqls.andEqualTo("dictUuid", dictUuid);
         }
         String label = sysDictItemDO.getLabel();
-        if (Argument.isNotBlank(label)) {
+        if (StrUtil.isNotBlank(label)) {
             sqls.andLike("label", "%" + label + "%");
         }
         String value = sysDictItemDO.getValue();
-        if (Argument.isNotBlank(value)) {
+        if (StrUtil.isNotBlank(value)) {
             sqls.andLike("value", "%" + value + "%");
         }
         String remark = sysDictItemDO.getRemark();
-        if (Argument.isNotBlank(remark)) {
+        if (StrUtil.isNotBlank(remark)) {
             sqls.andLike("remark", "%" + value + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(SysDictItemDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysDictItemDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
     public List<SysDictItemDO> findAllByDictUuid(String dictUuid) {

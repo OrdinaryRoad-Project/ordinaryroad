@@ -23,8 +23,9 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysFileDAO;
 import tech.ordinaryroad.upms.entity.SysFileDO;
@@ -40,23 +41,32 @@ import java.util.List;
 @Service
 public class SysFileService extends BaseService<SysFileDAO, SysFileDO> {
 
-    public List<SysFileDO> findAll(SysFileDO sysFileDO) {
+    public List<SysFileDO> findAll(SysFileDO sysFileDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String bucketName = sysFileDO.getBucketName();
-        if (Argument.isNotBlank(bucketName)) {
+        if (StrUtil.isNotBlank(bucketName)) {
             sqls.andLike("bucketName", "%" + bucketName + "%");
         }
         String objectName = sysFileDO.getObjectName();
-        if (Argument.isNotBlank(objectName)) {
+        if (StrUtil.isNotBlank(objectName)) {
             sqls.andLike("objectName", "%" + objectName + "%");
         }
         String originalFilename = sysFileDO.getOriginalFilename();
-        if (Argument.isNotBlank(originalFilename)) {
+        if (StrUtil.isNotBlank(originalFilename)) {
             sqls.andLike("originalFilename", "%" + originalFilename + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(SysFileDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysFileDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
 }

@@ -1,4 +1,5 @@
 {
+  "document": "Document",
   "scopes": "Scopes",
   "redirectUris": "Redirect Uris",
   "clientName": "Client Name",
@@ -47,7 +48,7 @@
   "roleCode": "Role Code",
   "roleName": "Role Name",
   "hints": {
-    "password": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used, the length is between 6-16. if it is empty, the default is 123456."
+    "password": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used, the length is between 6-16. if it is empty, the default is Abc123."
   },
   "user": "User",
   "updateWhat": "Update {0}",

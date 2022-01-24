@@ -24,8 +24,9 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRolesPermissionsDAO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
@@ -71,19 +72,28 @@ public class SysRolesPermissionsService extends BaseService<SysRolesPermissionsD
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysRolesPermissionsDO> findAll(SysRolesPermissionsDO sysRolesPermissionsDO) {
+    public List<SysRolesPermissionsDO> findAll(SysRolesPermissionsDO sysRolesPermissionsDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String roleUuid = sysRolesPermissionsDO.getRoleUuid();
-        if (Argument.isNotBlank(roleUuid)) {
+        if (StrUtil.isNotBlank(roleUuid)) {
             sqls.andEqualTo("roleUuid", roleUuid);
         }
         String permissionUuid = sysRolesPermissionsDO.getPermissionUuid();
-        if (Argument.isNotBlank(permissionUuid)) {
+        if (StrUtil.isNotBlank(permissionUuid)) {
             sqls.andEqualTo("permissionUuid", permissionUuid);
         }
 
-        return super.dao.selectByExample(Example.builder(SysRolesPermissionsDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysRolesPermissionsDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
 }

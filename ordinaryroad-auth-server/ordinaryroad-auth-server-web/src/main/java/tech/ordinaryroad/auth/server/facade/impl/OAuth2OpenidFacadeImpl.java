@@ -139,7 +139,7 @@ public class OAuth2OpenidFacadeImpl implements IOAuth2OpenidFacade {
     public Result<List<OAuth2OpenidDTO>> findAll(OAuth2OpenidQueryRequest request) {
         OAuth2OpenidDO oAuth2OpenidDO = objMapStruct.transfer(request);
 
-        List<OAuth2OpenidDO> all = oAuth2OpenidService.findAll(oAuth2OpenidDO);
+        List<OAuth2OpenidDO> all = oAuth2OpenidService.findAll(oAuth2OpenidDO, request.getOrderBy(), request.getOrderByDesc());
         List<OAuth2OpenidDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -150,7 +150,7 @@ public class OAuth2OpenidFacadeImpl implements IOAuth2OpenidFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         OAuth2OpenidDO oAuth2OpenidDO = objMapStruct.transfer(request);
-        Page<OAuth2OpenidDO> all = (Page<OAuth2OpenidDO>) oAuth2OpenidService.findAll(oAuth2OpenidDO);
+        Page<OAuth2OpenidDO> all = (Page<OAuth2OpenidDO>) oAuth2OpenidService.findAll(oAuth2OpenidDO, request.getOrderBy(), request.getOrderByDesc());
 
         PageInfo<OAuth2OpenidDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

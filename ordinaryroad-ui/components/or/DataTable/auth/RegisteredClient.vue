@@ -1,3 +1,27 @@
+<!--
+  - MIT License
+  -
+  - Copyright (c) 2021 苗锦洲
+  -
+  - Permission is hereby granted, free of charge, to any person obtaining a copy
+  - of this software and associated documentation files (the "Software"), to deal
+  - in the Software without restriction, including without limitation the rights
+  - to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  - copies of the Software, and to permit persons to whom the Software is
+  - furnished to do so, subject to the following conditions:
+  -
+  - The above copyright notice and this permission notice shall be included in all
+  - copies or substantial portions of the Software.
+  -
+  - THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  - IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  - FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  - AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  - LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  - OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  - SOFTWARE.
+  -->
+
 <template>
   <div>
     <or-base-data-table
@@ -176,11 +200,11 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       return [
-        { text: this.$t('clientId'), value: 'clientId', sortable: false },
-        { text: this.$t('clientSecret'), value: 'clientSecret', sortable: false },
-        { text: this.$t('clientName'), value: 'clientName', sortable: false },
-        { text: this.$t('redirectUris'), value: 'redirectUris', sortable: false },
-        { text: this.$t('scopes'), value: 'scopes', sortable: false }
+        { text: this.$t('clientId'), value: 'clientId' },
+        { text: this.$t('clientSecret'), value: 'clientSecret' },
+        { text: this.$t('clientName'), value: 'clientName' },
+        { text: this.$t('redirectUris'), value: 'redirectUris' },
+        { text: this.$t('scopes'), value: 'scopes' }
       ]
     },
     action () {
@@ -237,8 +261,8 @@ export default {
       this.selectedItem = Object.assign({}, item)
       this.$refs.registeredClientDialog.show()
     },
-    onGetItems ({ options, offset, limit }) {
-      /* TODO 排序支持
+    onGetItems ({ options, offset, limit, orderBy, orderByDesc }) {
+      /* 支持排序
       options:
         groupBy: Array(0)
         groupDesc: Array(0)
@@ -249,10 +273,11 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      this.$apis.auth.registered_client.list(offset, limit, this.searchParams)
+      this.$apis.auth.registered_client.list(offset, limit, orderBy, orderByDesc, this.searchParams)
         .then(({ data }) => {
           this.$refs.dataTable.loadSuccessfully(data.list, data.total)
-        }).catch(() => {
+        })
+        .catch(() => {
           this.$refs.dataTable.loadFinish()
         })
     },

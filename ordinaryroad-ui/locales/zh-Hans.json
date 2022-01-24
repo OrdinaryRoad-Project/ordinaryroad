@@ -1,4 +1,5 @@
 {
+  "document": "文档",
   "scopes": "授权范围",
   "redirectUris": "重定向链接",
   "clientName": "客户端名称",
@@ -47,7 +48,7 @@
   "roleCode": "角色code",
   "roleName": "角色名称",
   "hints": {
-    "password": "必须包含大小写字母和数字的组合，可以使用特殊字符，长度6-16，为空则默认123456"
+    "password": "必须包含大小写字母和数字的组合，可以使用特殊字符，长度6-16，为空则默认Abc123"
   },
   "user": "用户",
   "updateWhat": "更新{0}",

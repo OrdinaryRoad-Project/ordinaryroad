@@ -23,10 +23,11 @@
  */
 package tech.ordinaryroad.auth.server.service;
 
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2OpenidDAO;
 import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
@@ -74,23 +75,32 @@ public class OAuth2OpenidService extends BaseService<OAuth2OpenidDAO, OAuth2Open
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<OAuth2OpenidDO> findAll(OAuth2OpenidDO oAuth2OpenidDO) {
+    public List<OAuth2OpenidDO> findAll(OAuth2OpenidDO oAuth2OpenidDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String orNumber = oAuth2OpenidDO.getOrNumber();
-        if (Argument.isNotBlank(orNumber)) {
+        if (StrUtil.isNotBlank(orNumber)) {
             sqls.andLike("orNumber", "%" + orNumber + "%");
         }
         String clientId = oAuth2OpenidDO.getClientId();
-        if (Argument.isNotBlank(clientId)) {
+        if (StrUtil.isNotBlank(clientId)) {
             sqls.andLike("clientId", "%" + clientId + "%");
         }
         String openid = oAuth2OpenidDO.getOpenid();
-        if (Argument.isNotBlank(openid)) {
+        if (StrUtil.isNotBlank(openid)) {
             sqls.andLike("openid", "%" + openid + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(OAuth2OpenidDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(OAuth2OpenidDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
 }

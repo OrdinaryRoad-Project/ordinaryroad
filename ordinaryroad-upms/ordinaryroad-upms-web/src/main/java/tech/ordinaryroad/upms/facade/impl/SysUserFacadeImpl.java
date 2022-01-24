@@ -64,7 +64,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     private final SysUsersRolesService sysUsersRolesService;
     private final SysUserMapStruct objMapStruct;
     private final PasswordEncoder passwordEncoder;
-    private final Pattern passwordPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,10}$");
+    private final Pattern passwordPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$");
 
     @Override
     @Transactional(rollbackFor = Exception.class)
@@ -98,7 +98,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     public Result<List<SysUserDTO>> findAll(SysUserQueryRequest request) {
         SysUserDO sysUserDO = objMapStruct.transfer(request);
 
-        List<SysUserDO> all = sysUserService.findAll(sysUserDO);
+        List<SysUserDO> all = sysUserService.findAll(sysUserDO, request.getOrderBy(), request.getOrderByDesc());
         List<SysUserDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -109,7 +109,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysUserDO sysUserDO = objMapStruct.transfer(request);
-        Page<SysUserDO> all = (Page<SysUserDO>) sysUserService.findAll(sysUserDO);
+        Page<SysUserDO> all = (Page<SysUserDO>) sysUserService.findAll(sysUserDO, request.getOrderBy(), request.getOrderByDesc());
 
         PageInfo<SysUserDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 
@@ -145,8 +145,8 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         }
         String newAvatar = request.getAvatar();
         SysUserDO sysUserDO = byOrNumber.get();
-        String username = sysUserDO.getUsername();
-        if (newAvatar.equals(username)) {
+        String avatar = sysUserDO.getAvatar();
+        if (newAvatar.equals(avatar)) {
             return Result.success(false);
         }
 
@@ -416,14 +416,16 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     private Result<SysUserDTO> validatePassword(@NotNull SysUserDO sysUserDO) {
         String password = sysUserDO.getPassword();
         if (StrUtil.isBlank(password)) {
-            // 默认密码123456
-            sysUserDO.setPassword(passwordEncoder.encode("123456"));
+            // 默认密码Abc123
+            sysUserDO.setPassword(passwordEncoder.encode("Abc123"));
         } else {
             if (StrUtil.length(password) < 6 || StrUtil.length(password) > 16) {
                 return Result.fail("密码长度 6-16");
             } else {
                 if (!passwordPattern.matcher(password).matches()) {
                     return Result.fail("必须包含大小写字母和数字的组合，可以使用特殊字符");
+                } else {
+                    sysUserDO.setPassword(passwordEncoder.encode(password));
                 }
             }
         }

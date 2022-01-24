@@ -23,8 +23,9 @@
  */
 package tech.ordinaryroad.upms.service;
 
+import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.lang.Argument;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysDictDAO;
 import tech.ordinaryroad.upms.entity.SysDictDO;
@@ -55,23 +56,32 @@ public class SysDictService extends BaseService<SysDictDAO, SysDictDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysDictDO> findAll(SysDictDO sysDictDO) {
+    public List<SysDictDO> findAll(SysDictDO sysDictDO, String[] orderBy, String[] orderByDesc) {
         Sqls sqls = Sqls.custom();
 
         String dictName = sysDictDO.getDictName();
-        if (Argument.isNotBlank(dictName)) {
+        if (StrUtil.isNotBlank(dictName)) {
             sqls.andLike("dictName", "%" + dictName + "%");
         }
         String dictCode = sysDictDO.getDictCode();
-        if (Argument.isNotBlank(dictCode)) {
+        if (StrUtil.isNotBlank(dictCode)) {
             sqls.andLike("dictCode", "%" + dictCode + "%");
         }
         String remark = sysDictDO.getRemark();
-        if (Argument.isNotBlank(remark)) {
+        if (StrUtil.isNotBlank(remark)) {
             sqls.andLike("remark", "%" + remark + "%");
         }
 
-        return super.dao.selectByExample(Example.builder(SysDictDO.class).where(sqls).build());
+        Example.Builder exampleBuilder = Example.builder(SysDictDO.class).where(sqls);
+
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        return super.dao.selectByExample(exampleBuilder.build());
     }
 
 }

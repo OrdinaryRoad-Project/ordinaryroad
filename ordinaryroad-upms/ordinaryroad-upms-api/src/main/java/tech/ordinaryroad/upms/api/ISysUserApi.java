@@ -50,13 +50,13 @@ public interface ISysUserApi {
     Result<SysUserDTO> create(@Validated @RequestBody SysUserSaveRequest request);
 
     @PostMapping(value = "/user/find/id")
-    Result<SysUserDTO> findById(@Validated @RequestBody SysUserQueryRequest request);
+    Result<SysUserDTO> findById(@RequestBody SysUserQueryRequest request);
 
     @PostMapping(value = "/user/find_all")
-    Result<List<SysUserDTO>> findAll(@Validated @RequestBody SysUserQueryRequest request);
+    Result<List<SysUserDTO>> findAll(@RequestBody SysUserQueryRequest request);
 
     @PostMapping(value = "/user/list")
-    Result<PageInfo<SysUserDTO>> list(@Validated @RequestBody SysUserQueryRequest request);
+    Result<PageInfo<SysUserDTO>> list(@RequestBody SysUserQueryRequest request);
 
     @PostMapping(value = "/user/update")
     Result<SysUserDTO> update(@Validated @RequestBody SysUserSaveRequest request);
@@ -65,7 +65,7 @@ public interface ISysUserApi {
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
     @PostMapping(value = "/user/find/unique")
-    Result<SysUserDTO> findByUniqueColumn(@Validated @RequestBody SysUserQueryRequest request);
+    Result<SysUserDTO> findByUniqueColumn(@RequestBody SysUserQueryRequest request);
 
     @PostMapping(value = "/user/find_all/foreign")
     Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request);
@@ -79,7 +79,7 @@ public interface ISysUserApi {
      */
     @Deprecated
     @PostMapping(value = "/user/find/unique/async")
-    Mono<Result<SysUserDTO>> findByUniqueColumnAsync(@Validated @RequestBody SysUserQueryRequest request);
+    Mono<Result<SysUserDTO>> findByUniqueColumnAsync(@RequestBody SysUserQueryRequest request);
 
     @PostMapping(value = "/user/update/avatar")
     Result<Boolean> updateAvatar(@Validated @RequestBody SysUserUpdateAvatarRequest request);

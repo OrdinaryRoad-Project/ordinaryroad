@@ -46,6 +46,7 @@ import tech.ordinaryroad.upms.service.SysRoleService;
 import tech.ordinaryroad.upms.service.SysUserService;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -67,12 +68,19 @@ public class SysFacadeImpl implements ISysFacade {
     @Override
     public Result<SysUserInfoDTO> userInfo(SysUserInfoRequest request) {
         SysUserInfoDTO userInfoDTO = new SysUserInfoDTO();
-
-        String tokenValue = StpUtil.getTokenValue();
-        if (StrUtil.isBlank(tokenValue)) {
-            tokenValue = request.getSaToken();
+        String orNumber = "";
+        // 优先根据传过来的orNumber查询
+        if (Objects.nonNull(request)) {
+            orNumber = request.getOrNumber();
         }
-        String orNumber = (String) StpUtil.getLoginIdByToken(tokenValue);
+        if (StrUtil.isBlank(orNumber)) {
+            // 优先获取已经登录系统的tokenValue
+            String tokenValue = StpUtil.getTokenValue();
+            if (StrUtil.isBlank(tokenValue) && Objects.nonNull(request)) {
+                tokenValue = request.getSaToken();
+            }
+            orNumber = (String) StpUtil.getLoginIdByToken(tokenValue);
+        }
 
         // 获取User
         Optional<SysUserDO> optionalSysUserDO = sysUserService.findByOrNumber(orNumber);
