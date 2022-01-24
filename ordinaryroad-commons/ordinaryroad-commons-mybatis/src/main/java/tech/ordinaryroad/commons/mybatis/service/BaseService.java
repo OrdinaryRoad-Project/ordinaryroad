@@ -362,9 +362,8 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         try {
             t.setCreateBy(StpUtil.getLoginIdAsString());
         } catch (Exception e) {
-            e.printStackTrace();
             // TODO 如果有报错需要处理
-            log.error("fillMetaFields createBy failed", e);
+            log.error("fillMetaFields createBy failed, " + requestPath, e);
         }
     }
 
