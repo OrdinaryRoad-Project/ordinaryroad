@@ -41,13 +41,25 @@ import java.util.List;
 @Setter
 public class BaseQueryRequest extends BaseRequest {
 
-    private static final long serialVersionUID = -3803036361359796031L;
+    private static final long serialVersionUID = 1190008554357933046L;
 
     /**
      * 主键uuid
      */
     @ApiModelProperty("主键uuid")
     private String uuid;
+
+    /**
+     * 创建者OR账号
+     */
+    @ApiModelProperty("创建者OR账号")
+    private String createBy;
+
+    /**
+     * 更新者OR账号
+     */
+    @ApiModelProperty("更新者OR账号")
+    private String updateBy;
 
     /**
      * 主键uuid列表
