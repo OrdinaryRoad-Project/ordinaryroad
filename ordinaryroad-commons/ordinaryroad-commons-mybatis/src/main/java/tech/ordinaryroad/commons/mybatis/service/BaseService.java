@@ -383,7 +383,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             t.setUpdateBy(StpUtil.getLoginIdAsString());
         } catch (Exception e) {
             // TODO 如果有报错需要处理
-            log.error("fillMetaFieldsWhenUpdate createBy failed, " + requestPath, e);
+            log.error("fillMetaFieldsWhenUpdate updateBy failed, " + requestPath, e);
         }
     }
 
