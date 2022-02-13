@@ -41,13 +41,9 @@ public class PathConstants {
      */
     public static final List<String> NO_LOGIN_CREATE_PATHS = Arrays.asList(UPMS_FILE_UPLOAD, IM_MIMC_CALLBACK);
 
-
-    public static final String TTH_MSG_UPDATE_READ = "/msg/update/read";
-    public static final String TTH_MSG_UPDATE_RECALLED = "/msg/update/recalled";
-
     /**
      * 更新免登接口地址
      * TODO 内部接口、免登、登录、免登或登录
      */
-    public static final List<String> NO_LOGIN_UPDATE_PATHS = Arrays.asList(TTH_MSG_UPDATE_READ, TTH_MSG_UPDATE_RECALLED);
+    public static final List<String> NO_LOGIN_UPDATE_PATHS = Arrays.asList(IM_MIMC_CALLBACK);
 }
