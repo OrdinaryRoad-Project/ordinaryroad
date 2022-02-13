@@ -54,7 +54,7 @@ public interface ISysFileApi {
      * @param file         文件
      * @return Result
      */
-    @PostMapping(value = PathConstants.FILE_UPLOAD)
+    @PostMapping(value = PathConstants.UPMS_FILE_UPLOAD)
     Result<String> upload(@RequestParam String clientId, @RequestParam String clientSecret, @RequestPart MultipartFile file);
 
     /**
