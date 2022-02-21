@@ -35,11 +35,13 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.minio.GetObjectResponse;
+import io.minio.StatObjectResponse;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.util.ThumbnailatorUtils;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -149,7 +151,8 @@ public class SysFileFacadeImpl implements ISysFileFacade {
 
         try {
             DownloadResponses downloadResponses = orMinioService.download(bucketName, filename);
-            String originalFilename = downloadResponses.getStatObjectResponse().userMetadata().get(OrMinioService.METADATA_KEY_ORIGINAL_FILENAME);
+            StatObjectResponse statObjectResponse = downloadResponses.getStatObjectResponse();
+            String originalFilename = statObjectResponse.userMetadata().get(OrMinioService.METADATA_KEY_ORIGINAL_FILENAME);
             @Cleanup GetObjectResponse getObjectResponse = downloadResponses.getGetObjectResponse();
 
             String extName = FileUtil.extName(originalFilename);
@@ -168,8 +171,12 @@ public class SysFileFacadeImpl implements ISysFileFacade {
             }
 
             response.setHeader(
-                    "Content-Disposition",
+                    HttpHeaders.CONTENT_DISPOSITION,
                     String.format("%s; filename=%s", showType, URLEncoder.encode(originalFilename, "UTF-8"))
+            );
+            response.setHeader(
+                    HttpHeaders.CONTENT_LENGTH,
+                    String.valueOf(statObjectResponse.size())
             );
 
             @Cleanup ServletOutputStream outputStream = response.getOutputStream();
