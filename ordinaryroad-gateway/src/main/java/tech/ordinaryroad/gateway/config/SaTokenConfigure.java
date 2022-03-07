@@ -69,7 +69,7 @@ public class SaTokenConfigure {
     private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(create|update|delete|reset).*$";
     private static final String REGISTER_PATH = "/upms/user/register";
     private static final String FILE_UPLOAD_PATH = "/upms/file/upload";
-    private static final String IM_MIMC_CALLBACK_PATH = "/tth/mimc/callback";
+    private static final String IM_MIMC_CALLBACK_PATH = "/im/mimc/callback";
 
     /**
      * 注册 Sa-Token全局过滤器

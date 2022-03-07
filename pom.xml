@@ -74,6 +74,8 @@
 
         <maven-resources-plugin.version>3.2.0</maven-resources-plugin.version>
         <metadata-extractor.version>2.16.0</metadata-extractor.version>
+        <jiguang-common.version>1.2.0</jiguang-common.version>
+        <jpush-client.version>3.6.1</jpush-client.version>
     </properties>
 
     <modules>
@@ -82,6 +84,7 @@
         <module>ordinaryroad-auth-server</module>
         <module>ordinaryroad-gateway</module>
         <module>ordinaryroad-push</module>
+        <module>ordinaryroad-im</module>
     </modules>
 
     <!-- 以下依赖 全局所有的模块都会引入 -->
@@ -237,6 +240,13 @@
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
+            <!-- ordinaryroad-im-api -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-im-api</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-core</artifactId>
@@ -316,6 +326,18 @@
                 <groupId>com.drewnoakes</groupId>
                 <artifactId>metadata-extractor</artifactId>
                 <version>${metadata-extractor.version}</version>
+            </dependency>
+
+            <!-- 极光推送 -->
+            <dependency>
+                <groupId>cn.jpush.api</groupId>
+                <artifactId>jiguang-common</artifactId>
+                <version>${jiguang-common.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.jpush.api</groupId>
+                <artifactId>jpush-client</artifactId>
+                <version>${jpush-client.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
