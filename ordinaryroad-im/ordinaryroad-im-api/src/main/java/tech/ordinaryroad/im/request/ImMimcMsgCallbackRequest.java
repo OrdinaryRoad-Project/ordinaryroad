@@ -25,9 +25,11 @@ package tech.ordinaryroad.im.request;
 
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.NotBlank;
 import java.util.List;
 
 /**
@@ -62,10 +64,16 @@ public class ImMimcMsgCallbackRequest {
      */
     private List<String> toAccounts;
     private String toResource;
+
     /**
      * 消息体Base64编码后数据
      */
+    @ApiModelProperty(value = "数据", required = true)
+    @NotBlank(message = "数据不能为空")
     private String payload;
+
+    @ApiModelProperty(value = "时间戳", required = true)
+    @NotBlank(message = "时间戳不能为空")
     private String timestamp;
     /**
      * 客户端生成的消息ID
@@ -79,9 +87,12 @@ public class ImMimcMsgCallbackRequest {
      * 可用于表示消息类型扩展字段
      */
     private String bizType;
+
     /**
      * value是用AES算法对timestamp_appId加密的,加密key基于appsecurity的md5值;
      */
+    @ApiModelProperty(value = "MIMC认证", required = true)
+    @NotBlank(message = "MIMC认证不能为空")
     private String authentication;
     /**
      * 所有离线设备（单聊离线消息）

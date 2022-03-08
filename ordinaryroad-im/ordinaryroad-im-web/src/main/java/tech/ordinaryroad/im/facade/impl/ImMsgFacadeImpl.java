@@ -62,9 +62,9 @@ public class ImMsgFacadeImpl implements IImMsgFacade {
 
     @Override
     public Result<ImMsgDTO> create(ImMsgSaveRequest request) {
-        ImMsgDO tthMsgDO = objMapStruct.transfer(request);
-        tthMsgDO.setRead(false);
-        return Result.success(objMapStruct.transfer(imMsgService.createSelective(tthMsgDO)));
+        ImMsgDO imMsgDO = objMapStruct.transfer(request);
+        imMsgDO.setRead(false);
+        return Result.success(objMapStruct.transfer(imMsgService.createSelective(imMsgDO)));
     }
 
     @Override
@@ -78,15 +78,15 @@ public class ImMsgFacadeImpl implements IImMsgFacade {
         if (!byMsgId.isPresent()) {
             return Result.fail(StatusCode.DATA_NOT_EXIST);
         }
-        ImMsgDO tthMsgDO = byMsgId.get();
+        ImMsgDO imMsgDO = byMsgId.get();
 
-        Boolean read = tthMsgDO.getRead();
+        Boolean read = imMsgDO.getRead();
         if (BooleanUtil.isTrue(read)) {
             return Result.success(false);
         }
 
         ImMsgDO newImMsgDO = new ImMsgDO();
-        newImMsgDO.setUuid(tthMsgDO.getUuid());
+        newImMsgDO.setUuid(imMsgDO.getUuid());
         newImMsgDO.setRead(Boolean.TRUE);
         newImMsgDO.setUpdateBy(request.getUid());
         if (imMsgService.doUpdateSelective(newImMsgDO)) {
@@ -102,15 +102,15 @@ public class ImMsgFacadeImpl implements IImMsgFacade {
         if (!byMsgId.isPresent()) {
             return Result.fail(StatusCode.DATA_NOT_EXIST);
         }
-        ImMsgDO tthMsgDO = byMsgId.get();
+        ImMsgDO imMsgDO = byMsgId.get();
 
-        Boolean recalled = tthMsgDO.getRecalled();
+        Boolean recalled = imMsgDO.getRecalled();
         if (BooleanUtil.isTrue(recalled)) {
             return Result.success(false);
         }
 
         ImMsgDO newImMsgDO = new ImMsgDO();
-        newImMsgDO.setUuid(tthMsgDO.getUuid());
+        newImMsgDO.setUuid(imMsgDO.getUuid());
         newImMsgDO.setRecalled(Boolean.TRUE);
         newImMsgDO.setUpdateBy(request.getUid());
         if (imMsgService.doUpdateSelective(newImMsgDO)) {
@@ -151,8 +151,8 @@ public class ImMsgFacadeImpl implements IImMsgFacade {
 
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
-        ImMsgDO tthMsgDO = objMapStruct.transfer(request);
-        Page<ImMsgDO> all = (Page<ImMsgDO>) imMsgService.findAll(tthMsgDO, request.getOrderBy(), request.getOrderByDesc(), orNumber, chatPartnerOrNumber);
+        ImMsgDO imMsgDO = objMapStruct.transfer(request);
+        Page<ImMsgDO> all = (Page<ImMsgDO>) imMsgService.findAll(imMsgDO, request.getOrderBy(), request.getOrderByDesc(), orNumber, chatPartnerOrNumber);
 
         PageInfo<ImMsgDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

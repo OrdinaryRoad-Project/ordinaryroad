@@ -59,17 +59,17 @@ public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<ImMsgDO> findAll(ImMsgDO tthMsgDO, String[] orderBy, String[] orderByDesc, String orNumber, String chatPartnerOrNumber) {
+    public List<ImMsgDO> findAll(ImMsgDO imMsgDO, String[] orderBy, String[] orderByDesc, String orNumber, String chatPartnerOrNumber) {
         WeekendSqls<ImMsgDO> sqls = WeekendSqls.custom();
-        String payload = tthMsgDO.getPayload();
+        String payload = imMsgDO.getPayload();
         if (StrUtil.isNotBlank(payload)) {
             sqls.andLike(ImMsgDO::getPayload, "%" + payload + "%");
         }
-        String bizType = tthMsgDO.getBizType();
+        String bizType = imMsgDO.getBizType();
         if (StrUtil.isNotBlank(bizType)) {
             sqls.andEqualTo(ImMsgDO::getBizType, bizType);
         }
-        Boolean read = tthMsgDO.getRead();
+        Boolean read = imMsgDO.getRead();
         if (Objects.nonNull(read)) {
             sqls.andEqualTo(ImMsgDO::getRead, read);
         }

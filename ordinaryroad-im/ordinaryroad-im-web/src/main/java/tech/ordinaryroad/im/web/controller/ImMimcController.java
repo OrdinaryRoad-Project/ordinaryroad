@@ -25,6 +25,13 @@
 package tech.ordinaryroad.im.web.controller;
 
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.codec.Base64Decoder;
+import cn.hutool.core.util.ByteUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.crypto.Mode;
+import cn.hutool.crypto.Padding;
+import cn.hutool.crypto.SecureUtil;
+import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -36,6 +43,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
+import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.im.api.IImMimcApi;
@@ -62,12 +70,19 @@ import java.nio.charset.StandardCharsets;
 public class ImMimcController implements IImMimcApi {
 
     private final OrImProperties imProperties;
-    private final IImMsgFacade tthMsgFacade;
+    private final IImMsgFacade imMsgFacade;
 
     @ResponseStatus(code = HttpStatus.OK)
     @Override
     public void callback(@Validated @RequestBody ImMimcMsgCallbackRequest request) {
-        // TODO 校验 request.getAuthentication() https://admin.mimc.chat.xiaomi.net/docs/09-callback.html
+        String authentication = request.getAuthentication();
+        String appSecret = imProperties.getMimc().getAppSecret();
+        String appId = imProperties.getMimc().getAppId();
+        Long timestamp = Long.valueOf(request.getTimestamp());
+        if (!checkMimcAuthentication(authentication, appSecret, appId, timestamp)) {
+            throw new BaseException(StatusCode.PARAM_NOT_VALID);
+        }
+
         log.debug("im callback request {}", JSON.toJSONString(request));
         String encodedPayload = new String(Base64Utils.decode(request.getPayload().getBytes(StandardCharsets.UTF_8)));
         ImMsgDTO imMsgDTO = JSON.parseObject(encodedPayload, ImMsgDTO.class);
@@ -76,7 +91,7 @@ public class ImMimcController implements IImMimcApi {
             throw new BaseException("parse payload failed :" + encodedPayload);
         }
 
-        log.debug("im callback tthMsgSaveRequest {}", JSON.toJSONString(imMsgDTO));
+        log.debug("im callback imMsgSaveRequest {}", JSON.toJSONString(imMsgDTO));
         switch (imMsgDTO.getBizType()) {
             case MimcConstant.BIZ_TYPE_TEXT:
             case MimcConstant.BIZ_TYPE_REPLY:
@@ -92,26 +107,72 @@ public class ImMimcController implements IImMimcApi {
                 imMsgSaveRequest.setPayload(imMsgDTO.getPayload());
                 imMsgSaveRequest.setBizType(imMsgDTO.getBizType());
                 imMsgSaveRequest.setCreateBy(imMsgDTO.getCreateBy());
-                tthMsgFacade.create(imMsgSaveRequest);
+                imMsgFacade.create(imMsgSaveRequest);
                 break;
             case MimcConstant.BIZ_TYPE_TEXT_READ:
                 // 消息已读，更新数据库
                 ImMsgReadRequest imMsgReadRequest = new ImMsgReadRequest();
                 imMsgReadRequest.setMsgId(imMsgDTO.getPayload());
                 imMsgReadRequest.setUid(request.getFromAccount());
-                tthMsgFacade.read(imMsgReadRequest);
+                imMsgFacade.read(imMsgReadRequest);
                 break;
             case MimcConstant.BIZ_TYPE_RECALL:
                 // 撤回消息，更新数据库
                 ImMsgRecallRequest imMsgRecallRequest = new ImMsgRecallRequest();
                 imMsgRecallRequest.setMsgId(imMsgDTO.getPayload());
                 imMsgRecallRequest.setUid(request.getFromAccount());
-                tthMsgFacade.recall(imMsgRecallRequest);
+                imMsgFacade.recall(imMsgRecallRequest);
                 break;
             default:
                 // 未知类型
                 log.warn("Unknown BIZ_TYPE: {}", imMsgDTO.getBizType());
         }
+    }
+
+    /**
+     * MIMC认证校验
+     *
+     * @param authentication https://admin.mimc.chat.xiaomi.net/docs/09-callback.html
+     * @param appSecret      AppSecret
+     * @param appId          AppId
+     * @param timestamp      回调中的时间戳
+     * @return Boolean 校验是否通过
+     */
+    private static boolean checkMimcAuthentication(String authentication, String appSecret, String appId, Long timestamp) {
+        boolean valid = Boolean.FALSE;
+        try {
+            byte[] bytes = StrUtil.bytes(authentication, StandardCharsets.UTF_8);
+            byte[] decode = Base64Decoder.decode(bytes);
+
+            byte[] appKeyMd5 = SecureUtil.md5().digest(appSecret);
+            final int groupSize = 16;
+            byte[] decrypt = new byte[decode.length];
+
+            AES aes = new AES(Mode.ECB, Padding.ZeroPadding, appKeyMd5);
+            for (int i = 0; i < decode.length; i += groupSize) {
+                byte[] decodeTemp = new byte[groupSize];
+                System.arraycopy(decode, i, decodeTemp, 0, groupSize);
+                byte[] decryptTemp = aes.decrypt(decodeTemp);
+                System.arraycopy(decryptTemp, 0, decrypt, i, decryptTemp.length);
+            }
+
+            byte[] lengthBytes = new byte[4];
+            System.arraycopy(decrypt, 0, lengthBytes, 0, lengthBytes.length);
+
+            int length = ByteUtil.bytesToInt(lengthBytes);
+
+            byte[] realDecrypt = new byte[length];
+            System.arraycopy(decrypt, 4, realDecrypt, 0, length);
+            String decryptString = StrUtil.str(realDecrypt, StandardCharsets.UTF_8);
+            String[] split = decryptString.split("_");
+            Long decryptTimestamp = Long.valueOf(split[0]);
+            String decryptAppId = split[1];
+            // 小于一分钟
+            valid = Math.abs(decryptTimestamp - timestamp) <= 60 * 1000 && decryptAppId.equals(appId);
+        } catch (Exception e) {
+            log.error("checkMimcAuthentication error", e);
+        }
+        return valid;
     }
 
     @Override
