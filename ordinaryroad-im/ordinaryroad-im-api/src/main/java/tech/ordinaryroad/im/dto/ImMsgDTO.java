@@ -41,7 +41,7 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 @ApiModel
 public class ImMsgDTO extends BaseModelDTO {
 
-    private static final long serialVersionUID = 4324267240669374087L;
+    private static final long serialVersionUID = -5782557525061234152L;
 
     @ApiModelProperty("版本号")
     private Integer version;
@@ -60,5 +60,8 @@ public class ImMsgDTO extends BaseModelDTO {
 
     @ApiModelProperty("是否已撤回")
     private Boolean recalled;
+
+    @ApiModelProperty("接受者")
+    private String toOrNumber;
 
 }

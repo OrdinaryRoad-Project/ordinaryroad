@@ -107,6 +107,7 @@ public class ImMimcController implements IImMimcApi {
                 imMsgSaveRequest.setPayload(imMsgDTO.getPayload());
                 imMsgSaveRequest.setBizType(imMsgDTO.getBizType());
                 imMsgSaveRequest.setCreateBy(imMsgDTO.getCreateBy());
+                imMsgSaveRequest.setToOrNumber(imMsgDTO.getToOrNumber());
                 imMsgFacade.create(imMsgSaveRequest);
                 break;
             case MimcConstant.BIZ_TYPE_TEXT_READ:

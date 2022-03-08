@@ -46,7 +46,7 @@ import javax.validation.constraints.NotNull;
 @ApiModel
 public class ImMsgSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 660136833406495665L;
+    private static final long serialVersionUID = 3203352441126857L;
 
     @ApiModelProperty("版本号")
     @NotNull(message = "版本号不能为空")
@@ -73,5 +73,9 @@ public class ImMsgSaveRequest extends BaseSaveRequest {
     @ApiModelProperty("创建者")
     @NotBlank(message = "创建者不能为空")
     private String createBy;
+
+    @ApiModelProperty("接受者")
+    @NotBlank(message = "接受者不能为空")
+    private String toOrNumber;
 
 }
