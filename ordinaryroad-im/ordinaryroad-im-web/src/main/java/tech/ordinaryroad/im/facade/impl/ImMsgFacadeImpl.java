@@ -152,7 +152,7 @@ public class ImMsgFacadeImpl implements IImMsgFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         ImMsgDO imMsgDO = objMapStruct.transfer(request);
-        Page<ImMsgDO> all = (Page<ImMsgDO>) imMsgService.findAll(imMsgDO, request.getOrderBy(), request.getOrderByDesc(), orNumber, chatPartnerOrNumber);
+        Page<ImMsgDO> all = (Page<ImMsgDO>) imMsgService.findAll(imMsgDO, orNumber, chatPartnerOrNumber, request);
 
         PageInfo<ImMsgDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

@@ -24,10 +24,10 @@
 
 package tech.ordinaryroad.im.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import com.alibaba.nacos.common.utils.Objects;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.im.dao.ImMsgDAO;
 import tech.ordinaryroad.im.entity.ImMsgDO;
@@ -59,7 +59,7 @@ public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<ImMsgDO> findAll(ImMsgDO imMsgDO, String[] orderBy, String[] orderByDesc, String orNumber, String chatPartnerOrNumber) {
+    public List<ImMsgDO> findAll(ImMsgDO imMsgDO, String orNumber, String chatPartnerOrNumber, BaseQueryRequest baseQueryRequest) {
         WeekendSqls<ImMsgDO> sqls = WeekendSqls.custom();
         String payload = imMsgDO.getPayload();
         if (StrUtil.isNotBlank(payload)) {
@@ -81,13 +81,6 @@ public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
 
         Example.Builder exampleBuilder = Example.builder(ImMsgDO.class).where(sqls).orWhere(orNumberSqls1).orWhere(orNumberSqls2);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 }
