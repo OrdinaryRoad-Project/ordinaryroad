@@ -30,7 +30,7 @@ CREATE TABLE `config_info`
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `uk_configinfo_datagrouptenant` (`data_id`, `group_id`, `tenant_id`) USING BTREE
 ) ENGINE = InnoDB
-  AUTO_INCREMENT = 11
+  AUTO_INCREMENT = 12
   CHARACTER SET = utf8
   COLLATE = utf8_bin COMMENT = 'config_info'
   ROW_FORMAT = Dynamic;
