@@ -2,8 +2,7 @@ FROM mysql/mysql-server:8.0.26
 
 MAINTAINER mjz(miaojinzhou@ordinaryroad.tech)
 
-# MYSQL_ROOT_PASSWORD root账户密码
-ENV TZ=Asia/Shanghai MYSQL_ROOT_PASSWORD=Gpt8GB9RlsPseeoy
+ENV TZ=Asia/Shanghai
 
 RUN ln -sf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
 

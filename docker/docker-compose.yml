@@ -54,6 +54,9 @@ services:
       - $PWD/ordinaryroad-mysql/data:/var/lib/mysql
     ports:
       - "3307:3307"
+    environment:
+      # TODO root账户密码
+      MYSQL_ROOT_PASSWORD: Gpt8GB9RlsPseeoy
     hostname: ordinaryroad-mysql
     restart: always
 
@@ -66,6 +69,13 @@ services:
       - $PWD/ordinaryroad-nacos/standalone-logs:/home/nacos/logs
     depends_on:
       - ordinaryroad-mysql
+    environment:
+      MYSQL_SERVICE_HOST: ordinaryroad-mysql
+      MYSQL_SERVICE_DB_NAME: or_config_dev
+      MYSQL_SERVICE_PORT: 3307
+      MYSQL_SERVICE_USER: root
+      # TODO root账户密码
+      MYSQL_SERVICE_PASSWORD: Gpt8GB9RlsPseeoy
     hostname: ordinaryroad-nacos
     restart: always
 
