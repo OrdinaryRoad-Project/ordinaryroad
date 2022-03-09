@@ -94,9 +94,10 @@ VALUES (11, 'ordinaryroad-im-demo.yaml', 'DEFAULT_GROUP',
         'bb758d2f5a41fcdbcc7ca12acfe4276d', '2022-03-07 21:13:23', '2022-03-07 21:16:46', 'nacos', '172.18.0.11', '',
         'demo', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
-    'ordinaryroad:\n  im:\n    # TODO MIMC 相关 此处appId/appKey/appSec为小米MimcDemo所有，会在一定时间后失效，建议开发者自行申请\n    mimc:\n      appId: 2882303761517669588\n      appKey: 5111766983588\n      appSecret: b0L3IOz/9Ob809v8H2FbVg==\n\n# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39403\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_im_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false',
-    'ca83a9bf5595cfe172e5aa2bba488709', '2022-03-07 21:31:19', '2022-03-07 21:34:02', 'nacos', '172.18.0.11', '',
-    'dev', '', '', '', 'yaml', '');
+VALUES (12, 'ordinaryroad-im-dev.yaml', 'DEFAULT_GROUP',
+        'ordinaryroad:\n  im:\n    # TODO MIMC 相关 此处appId/appKey/appSec为小米MimcDemo所有，会在一定时间后失效，建议开发者自行申请\n    mimc:\n      appId: 2882303761517669588\n      appKey: 5111766983588\n      appSecret: b0L3IOz/9Ob809v8H2FbVg==\n\n# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39403\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_im_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false',
+        'ca83a9bf5595cfe172e5aa2bba488709', '2022-03-07 21:31:19', '2022-03-07 21:34:02', 'nacos', '172.18.0.11', '',
+        'dev', '', '', '', 'yaml', '');
 
 -- ----------------------------
 -- Table structure for config_info_aggr

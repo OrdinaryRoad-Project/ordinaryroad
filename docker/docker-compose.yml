@@ -85,6 +85,9 @@ services:
     volumes:
       - $PWD/ordinaryroad-minio/data:/data
       - $PWD/ordinaryroad-minio/config:/root/.minio
+    environment:
+      MINIO_ROOT_USER:
+      MINIO_ROOT_PASSWORD:
     hostname: ordinaryroad-minio
     restart: always
     command: server /data --console-address ":9999"
