@@ -55,8 +55,7 @@ services:
     ports:
       - "3307:3307"
     environment:
-      # TODO root账户密码
-      MYSQL_ROOT_PASSWORD: Gpt8GB9RlsPseeoy
+      MYSQL_ROOT_PASSWORD: ${OR_MYSQL_ROOT_PASSWORD}
     hostname: ordinaryroad-mysql
     restart: always
 
@@ -74,8 +73,7 @@ services:
       MYSQL_SERVICE_DB_NAME: or_config_dev
       MYSQL_SERVICE_PORT: 3307
       MYSQL_SERVICE_USER: root
-      # TODO root账户密码
-      MYSQL_SERVICE_PASSWORD: Gpt8GB9RlsPseeoy
+      MYSQL_SERVICE_PASSWORD: ${OR_MYSQL_ROOT_PASSWORD}
     hostname: ordinaryroad-nacos
     restart: always
 
@@ -139,8 +137,7 @@ services:
       - ordinaryroad-redis
       - ordinaryroad-nacos
     environment:
-      # TODO QQ邮箱授权码
-      QQ_MAIL_AUTHORIZATION_CODE: xxx
+      QQ_MAIL_AUTHORIZATION_CODE:
     hostname: ordinaryroad-push
     restart: always
 
@@ -154,9 +151,8 @@ services:
       - ordinaryroad-redis
       - ordinaryroad-nacos
     environment:
-      # TODO MIMC 相关 此处appId/appKey/appSec为小米MimcDemo所有，会在一定时间后失效，建议开发者自行申请
-      MIMC_APP_ID: 2882303761517669588
-      MIMC_APP_KEY: 5111766983588
-      MIMC_APP_SECRET: b0L3IOz/9Ob809v8H2FbVg==
+      MIMC_APP_ID:
+      MIMC_APP_KEY:
+      MIMC_APP_SECRET:
     hostname: ordinaryroad-im
     restart: always
