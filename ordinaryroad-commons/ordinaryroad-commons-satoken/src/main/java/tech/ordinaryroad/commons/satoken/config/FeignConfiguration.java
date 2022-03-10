@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.commons.core.config;
+package tech.ordinaryroad.commons.satoken.config;
 
 import cn.hutool.core.util.StrUtil;
 import feign.RequestInterceptor;
