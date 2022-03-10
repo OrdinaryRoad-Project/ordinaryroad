@@ -27,6 +27,7 @@ package tech.ordinaryroad.im.api;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
@@ -45,6 +46,6 @@ import tech.ordinaryroad.im.request.ImMsgQueryRequest;
 public interface IImMsgApi {
 
     @PostMapping("/msg/list")
-    Result<PageInfo<ImMsgDTO>> list(@RequestBody ImMsgQueryRequest request);
+    Result<PageInfo<ImMsgDTO>> list(@RequestBody @Validated ImMsgQueryRequest request);
 
 }

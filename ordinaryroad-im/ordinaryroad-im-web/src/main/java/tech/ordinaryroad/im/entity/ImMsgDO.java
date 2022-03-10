@@ -79,7 +79,7 @@ public class ImMsgDO extends BaseDO {
     private Boolean recalled;
 
     /**
-     * 接收者账号
+     * 接收者
      */
     private String toOrNumber;
 

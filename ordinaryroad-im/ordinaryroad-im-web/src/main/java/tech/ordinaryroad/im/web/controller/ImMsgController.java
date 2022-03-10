@@ -27,6 +27,8 @@ package tech.ordinaryroad.im.web.controller;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.im.api.IImMsgApi;
@@ -48,7 +50,7 @@ public class ImMsgController implements IImMsgApi {
     private final IImMsgFacade imMsgFacade;
 
     @Override
-    public Result<PageInfo<ImMsgDTO>> list(ImMsgQueryRequest request) {
+    public Result<PageInfo<ImMsgDTO>> list(@RequestBody @Validated ImMsgQueryRequest request) {
         return imMsgFacade.list(request);
     }
 
