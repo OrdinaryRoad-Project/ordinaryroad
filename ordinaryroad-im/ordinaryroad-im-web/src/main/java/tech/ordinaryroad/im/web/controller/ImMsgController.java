@@ -34,6 +34,7 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.im.api.IImMsgApi;
 import tech.ordinaryroad.im.dto.ImMsgDTO;
 import tech.ordinaryroad.im.facade.IImMsgFacade;
+import tech.ordinaryroad.im.request.ImMsgHistoryRequest;
 import tech.ordinaryroad.im.request.ImMsgQueryRequest;
 
 /**
@@ -52,6 +53,11 @@ public class ImMsgController implements IImMsgApi {
     @Override
     public Result<PageInfo<ImMsgDTO>> list(@RequestBody @Validated ImMsgQueryRequest request) {
         return imMsgFacade.list(request);
+    }
+
+    @Override
+    public Result<PageInfo<ImMsgDTO>> history(@RequestBody @Validated ImMsgHistoryRequest request) {
+        return imMsgFacade.history(request);
     }
 
 }

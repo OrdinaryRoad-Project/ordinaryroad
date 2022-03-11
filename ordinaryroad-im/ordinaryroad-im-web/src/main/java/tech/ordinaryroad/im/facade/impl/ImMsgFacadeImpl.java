@@ -40,10 +40,7 @@ import tech.ordinaryroad.im.dto.ImMsgDTO;
 import tech.ordinaryroad.im.entity.ImMsgDO;
 import tech.ordinaryroad.im.facade.IImMsgFacade;
 import tech.ordinaryroad.im.mapstruct.ImMsgMapStruct;
-import tech.ordinaryroad.im.request.ImMsgQueryRequest;
-import tech.ordinaryroad.im.request.ImMsgReadRequest;
-import tech.ordinaryroad.im.request.ImMsgRecallRequest;
-import tech.ordinaryroad.im.request.ImMsgSaveRequest;
+import tech.ordinaryroad.im.request.*;
 import tech.ordinaryroad.im.service.ImMsgService;
 
 import java.util.Objects;
@@ -145,14 +142,26 @@ public class ImMsgFacadeImpl implements IImMsgFacade {
     }
 
     @Override
-    public Result<PageInfo<ImMsgDTO>> list(ImMsgQueryRequest request) {
+    public Result<PageInfo<ImMsgDTO>> history(ImMsgHistoryRequest request) {
         String orNumber = StpUtil.getLoginIdAsString();
-        String chatPartnerOrNumber = request.getOrNumber();
+        String chatPartnerOrNumber = request.getToOrNumber();
 
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         ImMsgDO imMsgDO = objMapStruct.transfer(request);
-        Page<ImMsgDO> all = (Page<ImMsgDO>) imMsgService.findAll(imMsgDO, orNumber, chatPartnerOrNumber, request);
+        Page<ImMsgDO> all = (Page<ImMsgDO>) imMsgService.history(imMsgDO, orNumber, chatPartnerOrNumber);
+
+        PageInfo<ImMsgDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
+
+        return Result.success(objectPageInfo);
+    }
+
+    @Override
+    public Result<PageInfo<ImMsgDTO>> list(ImMsgQueryRequest request) {
+        PageHelper.offsetPage(request.getOffset(), request.getLimit());
+
+        ImMsgDO imMsgDO = objMapStruct.transfer(request);
+        Page<ImMsgDO> all = (Page<ImMsgDO>) imMsgService.findAll(imMsgDO, request);
 
         PageInfo<ImMsgDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

@@ -22,25 +22,48 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.im.dao;
+package tech.ordinaryroad.im.request;
 
-import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
-import tech.ordinaryroad.im.entity.ImMsgDO;
 
-import java.util.List;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import javax.validation.constraints.NotBlank;
+
 
 /**
+ * 单聊即时消息历史记录查询请求
+ *
  * @author mjz
- * @date 2022/1/21
- */
-public interface ImMsgDAO extends IBaseMapper<ImMsgDO> {
+ * @date 2022/3/11
+ **/
+@Getter
+@Setter
+@ApiModel
+public class ImMsgHistoryRequest extends BaseQueryRequest {
 
-    /**
-     * 查询历史聊天记录
-     *
-     * @param imMsgDO DO
-     * @return List
-     */
-    List<ImMsgDO> history(ImMsgDO imMsgDO);
+    private static final long serialVersionUID = -6171816118687658262L;
+
+    @ApiModelProperty("版本号")
+    private Integer version;
+
+    @ApiModelProperty("消息内容")
+    private String payload;
+
+    @ApiModelProperty("消息类型")
+    private String bizType;
+
+    @ApiModelProperty("是否已读")
+    private Boolean read;
+
+    @ApiModelProperty("是否已撤回")
+    private Boolean recalled;
+
+    @ApiModelProperty(value = "单聊对象账号", required = true)
+    @NotBlank(message = "单聊对象账号不能为空")
+    private String toOrNumber;
 
 }

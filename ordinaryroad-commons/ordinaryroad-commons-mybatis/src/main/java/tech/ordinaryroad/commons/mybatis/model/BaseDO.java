@@ -30,6 +30,7 @@ import lombok.Setter;
 
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
+import javax.persistence.Transient;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -76,6 +77,18 @@ public class BaseDO implements Serializable {
      * 更新者OR账号
      */
     private String updateBy;
+
+    /**
+     * 起始时间
+     */
+    @Transient
+    private LocalDateTime startTime;
+
+    /**
+     * 结束时间
+     */
+    @Transient
+    private LocalDateTime endTime;
 
     @Override
     public String toString() {

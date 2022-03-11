@@ -31,8 +31,6 @@ import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 
-import javax.validation.constraints.NotBlank;
-
 
 /**
  * 单聊即时消息查询请求
@@ -45,11 +43,7 @@ import javax.validation.constraints.NotBlank;
 @ApiModel
 public class ImMsgQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = -3101169368375338199L;
-
-    @ApiModelProperty(value = "单聊对象账号", required = true)
-    @NotBlank(message = "单聊对象账号不能为空")
-    private String orNumber;
+    private static final long serialVersionUID = -2958322525128774149L;
 
     @ApiModelProperty("版本号")
     private Integer version;
@@ -68,5 +62,8 @@ public class ImMsgQueryRequest extends BaseQueryRequest {
 
     @ApiModelProperty("是否已撤回")
     private Boolean recalled;
+
+    @ApiModelProperty("单聊对象账号")
+    private String toOrNumber;
 
 }

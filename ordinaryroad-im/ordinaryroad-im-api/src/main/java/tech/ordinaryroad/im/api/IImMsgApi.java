@@ -33,6 +33,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.im.constant.ServiceNameCons;
 import tech.ordinaryroad.im.dto.ImMsgDTO;
+import tech.ordinaryroad.im.request.ImMsgHistoryRequest;
 import tech.ordinaryroad.im.request.ImMsgQueryRequest;
 
 /**
@@ -47,5 +48,8 @@ public interface IImMsgApi {
 
     @PostMapping("/msg/list")
     Result<PageInfo<ImMsgDTO>> list(@RequestBody @Validated ImMsgQueryRequest request);
+
+    @PostMapping("/msg/history")
+    Result<PageInfo<ImMsgDTO>> history(@RequestBody @Validated ImMsgHistoryRequest request);
 
 }

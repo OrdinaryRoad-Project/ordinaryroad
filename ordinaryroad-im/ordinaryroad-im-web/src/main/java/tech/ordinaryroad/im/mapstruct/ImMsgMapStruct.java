@@ -27,6 +27,7 @@ package tech.ordinaryroad.im.mapstruct;
 import org.mapstruct.Mapper;
 import tech.ordinaryroad.im.dto.ImMsgDTO;
 import tech.ordinaryroad.im.entity.ImMsgDO;
+import tech.ordinaryroad.im.request.ImMsgHistoryRequest;
 import tech.ordinaryroad.im.request.ImMsgQueryRequest;
 import tech.ordinaryroad.im.request.ImMsgSaveRequest;
 
@@ -43,4 +44,5 @@ public interface ImMsgMapStruct {
 
     ImMsgDO transfer(ImMsgQueryRequest request);
 
+    ImMsgDO transfer(ImMsgHistoryRequest request);
 }

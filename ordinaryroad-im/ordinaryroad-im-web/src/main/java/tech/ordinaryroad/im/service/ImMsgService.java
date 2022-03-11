@@ -25,7 +25,6 @@
 package tech.ordinaryroad.im.service;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.nacos.common.utils.Objects;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
@@ -35,6 +34,7 @@ import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 /**
@@ -59,7 +59,13 @@ public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<ImMsgDO> findAll(ImMsgDO imMsgDO, String orNumber, String chatPartnerOrNumber, BaseQueryRequest baseQueryRequest) {
+    public List<ImMsgDO> history(ImMsgDO imMsgDO, String orNumber, String chatPartnerOrNumber) {
+        imMsgDO.setCreateBy(orNumber);
+        imMsgDO.setToOrNumber(chatPartnerOrNumber);
+        return super.dao.history(imMsgDO);
+    }
+
+    public List<ImMsgDO> findAll(ImMsgDO imMsgDO, BaseQueryRequest baseQueryRequest) {
         WeekendSqls<ImMsgDO> sqls = WeekendSqls.custom();
         String payload = imMsgDO.getPayload();
         if (StrUtil.isNotBlank(payload)) {
@@ -73,13 +79,16 @@ public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
         if (Objects.nonNull(read)) {
             sqls.andEqualTo(ImMsgDO::getRead, read);
         }
+        String createBy = imMsgDO.getCreateBy();
+        if (StrUtil.isNotBlank(createBy)) {
+            sqls.andLike(ImMsgDO::getCreateBy, "%" + createBy + "%");
+        }
+        String toOrNumber = imMsgDO.getToOrNumber();
+        if (StrUtil.isNotBlank(toOrNumber)) {
+            sqls.andLike(ImMsgDO::getToOrNumber, "%" + toOrNumber + "%");
+        }
 
-        WeekendSqls<ImMsgDO> orNumberSqls1 = WeekendSqls.custom();
-        orNumberSqls1.andEqualTo(ImMsgDO::getCreateBy, orNumber).andEqualTo(ImMsgDO::getToOrNumber, chatPartnerOrNumber);
-        WeekendSqls<ImMsgDO> orNumberSqls2 = WeekendSqls.custom();
-        orNumberSqls2.andEqualTo(ImMsgDO::getCreateBy, chatPartnerOrNumber).andEqualTo(ImMsgDO::getToOrNumber, orNumber);
-
-        Example.Builder exampleBuilder = Example.builder(ImMsgDO.class).where(sqls).orWhere(orNumberSqls1).orWhere(orNumberSqls2);
+        Example.Builder exampleBuilder = Example.builder(ImMsgDO.class).where(sqls);
 
         return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }

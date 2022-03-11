@@ -28,10 +28,7 @@ import com.github.pagehelper.PageInfo;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.im.dto.ImMsgDTO;
-import tech.ordinaryroad.im.request.ImMsgQueryRequest;
-import tech.ordinaryroad.im.request.ImMsgReadRequest;
-import tech.ordinaryroad.im.request.ImMsgRecallRequest;
-import tech.ordinaryroad.im.request.ImMsgSaveRequest;
+import tech.ordinaryroad.im.request.*;
 
 /**
  * @author mjz
@@ -86,6 +83,14 @@ public interface IImMsgFacade {
      * @return DTO
      */
     Result<ImMsgDTO> findById(ImMsgQueryRequest request);
+
+    /**
+     * 查询自己和他人的历史聊天记录
+     *
+     * @param request Request
+     * @return Page
+     */
+    Result<PageInfo<ImMsgDTO>> history(ImMsgHistoryRequest request);
 
     /**
      * 分页查询所有
