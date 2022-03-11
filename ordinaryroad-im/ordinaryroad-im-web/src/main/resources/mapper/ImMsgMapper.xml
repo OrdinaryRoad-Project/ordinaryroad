@@ -57,5 +57,7 @@
         <if test="endTime != null">
             AND `created_time` &lt;= #{endTime}
         </if>
+
+        ORDER BY `created_time` DESC
     </select>
 </mapper>
