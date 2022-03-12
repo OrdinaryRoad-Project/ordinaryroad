@@ -45,13 +45,13 @@ public class BaseModelDTO extends BaseDTO {
     @ApiModelProperty("创建时间")
     private LocalDateTime createdTime;
 
-    @ApiModelProperty("创建者uuid")
+    @ApiModelProperty("创建者OR账号")
     private String createBy;
 
     @ApiModelProperty("更新时间")
     private LocalDateTime updateTime;
 
-    @ApiModelProperty("更新者uuid")
+    @ApiModelProperty("更新者OR账号")
     private String updateBy;
 
 }

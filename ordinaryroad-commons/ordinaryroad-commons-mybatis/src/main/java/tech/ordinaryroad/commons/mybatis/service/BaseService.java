@@ -27,21 +27,25 @@ package tech.ordinaryroad.commons.mybatis.service;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 import java.util.function.Predicate;
 
@@ -95,7 +99,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
     public boolean createRecord(T t, boolean isSelective) {
         Assert.notNull(t, "新增记录不能为空");
 
-        fillMetaFields(t);
+        fillMetaFieldsWhenCreate(t);
 
         if (isSelective) {
             return dao.insertSelective(t) > 0;
@@ -185,8 +189,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         Assert.notNull(t, "更新记录不能为空");
         Assert.notNull(t.getUuid(), "uuid不能为空");
 
-        t.setUpdateTime(LocalDateTime.now());
-        t.setUpdateBy(StpUtil.getLoginIdAsString());
+        fillMetaFieldsWhenUpdate(t);
 
         if (isSelective) {
             return dao.updateByPrimaryKeySelective(t) > 0;
@@ -270,7 +273,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         int result = 0;
         for (T t : list) {
 
-            fillMetaFields(t);
+            fillMetaFieldsWhenCreate(t);
 
             result += dao.insertSelective(t);
         }
@@ -343,11 +346,11 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
     }
 
     /**
-     * 填充字段
+     * 创建时填充字段
      *
      * @param t BaseDO
      */
-    private void fillMetaFields(T t) {
+    private void fillMetaFieldsWhenCreate(T t) {
         if (StrUtil.isBlank(t.getUuid())) {
             String uuid = IdUtil.fastSimpleUUID();
             log.debug("生成UUID：{}", uuid);
@@ -355,7 +358,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         }
         // 填充createBy字段，跳过免登接口
         String requestPath = SaHolder.getRequest().getRequestPath();
-        if (PathConstants.NO_LOGIN_PATHS.contains(requestPath)) {
+        if (PathConstants.NO_LOGIN_CREATE_PATHS.contains(requestPath)) {
             // ignore
             return;
         }
@@ -363,8 +366,59 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             t.setCreateBy(StpUtil.getLoginIdAsString());
         } catch (Exception e) {
             // TODO 如果有报错需要处理
-            log.error("fillMetaFields createBy failed, " + requestPath, e);
+            log.error("fillMetaFieldsWhenCreate createBy failed, " + requestPath, e);
         }
+    }
+
+    /**
+     * 更新时填充字段
+     *
+     * @param t BaseDO
+     */
+    private void fillMetaFieldsWhenUpdate(T t) {
+        t.setUpdateTime(LocalDateTime.now());
+        // 填充updateBy字段，跳过免登接口
+        String requestPath = SaHolder.getRequest().getRequestPath();
+        if (PathConstants.NO_LOGIN_UPDATE_PATHS.contains(requestPath)) {
+            // ignore
+            return;
+        }
+        try {
+            t.setUpdateBy(StpUtil.getLoginIdAsString());
+        } catch (Exception e) {
+            // TODO 如果有报错需要处理
+            log.error("fillMetaFieldsWhenUpdate updateBy failed, " + requestPath, e);
+        }
+    }
+
+    /**
+     * findAll自动增加排序创建时间条件
+     *
+     * @param baseQueryRequest BaseQueryRequest
+     * @param sqls             WeekendSqls<T>
+     * @param exampleBuilder   Example.Builder
+     * @return List<T>
+     */
+    public List<T> findAll(BaseQueryRequest baseQueryRequest, WeekendSqls<T> sqls, Example.Builder exampleBuilder) {
+        String[] orderBy = baseQueryRequest.getOrderBy();
+        if (ArrayUtil.isNotEmpty(orderBy)) {
+            exampleBuilder.orderBy(orderBy);
+        }
+        String[] orderByDesc = baseQueryRequest.getOrderByDesc();
+        if (ArrayUtil.isNotEmpty(orderByDesc)) {
+            exampleBuilder.orderByDesc(orderByDesc);
+        }
+
+        LocalDateTime startTime = baseQueryRequest.getStartTime();
+        if (Objects.nonNull(startTime)) {
+            sqls.andGreaterThanOrEqualTo(T::getCreatedTime, startTime);
+        }
+        LocalDateTime endTime = baseQueryRequest.getEndTime();
+        if (Objects.nonNull(endTime)) {
+            sqls.andLessThanOrEqualTo(T::getCreatedTime, endTime);
+        }
+
+        return this.dao.selectByExample(exampleBuilder.build());
     }
 
 }

@@ -69,6 +69,7 @@ public class SaTokenConfigure {
     private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(create|update|delete|reset).*$";
     private static final String REGISTER_PATH = "/upms/user/register";
     private static final String FILE_UPLOAD_PATH = "/upms/file/upload";
+    private static final String IM_MIMC_CALLBACK_PATH = "/im/mimc/callback";
 
     /**
      * 注册 Sa-Token全局过滤器
@@ -123,6 +124,17 @@ public class SaTokenConfigure {
                             throw new BaseException(StatusCode.DEMO_MODE_FAIL);
                         } else {
                             // 非演示模式注册不需要校验权限
+                            r.stop();
+                        }
+                    });
+
+                    // 即时消息回调校验：演示模式
+                    SaRouter.match(IM_MIMC_CALLBACK_PATH).check((r) -> {
+                        // 演示模式不允许即时消息回调
+                        if (properties.getDemoMode()) {
+                            throw new BaseException(StatusCode.DEMO_MODE_FAIL);
+                        } else {
+                            // 非演示模式即时消息回调不需要校验权限
                             r.stop();
                         }
                     });

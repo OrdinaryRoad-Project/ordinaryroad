@@ -29,6 +29,7 @@ import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -41,13 +42,25 @@ import java.util.List;
 @Setter
 public class BaseQueryRequest extends BaseRequest {
 
-    private static final long serialVersionUID = -3803036361359796031L;
+    private static final long serialVersionUID = 2227189019481574600L;
 
     /**
      * 主键uuid
      */
     @ApiModelProperty("主键uuid")
     private String uuid;
+
+    /**
+     * 创建者OR账号
+     */
+    @ApiModelProperty("创建者OR账号")
+    private String createBy;
+
+    /**
+     * 更新者OR账号
+     */
+    @ApiModelProperty("更新者OR账号")
+    private String updateBy;
 
     /**
      * 主键uuid列表
@@ -78,5 +91,17 @@ public class BaseQueryRequest extends BaseRequest {
      */
     @ApiModelProperty("降序字段列表")
     private String[] orderByDesc;
+
+    /**
+     * 起始时间
+     */
+    @ApiModelProperty("起始时间")
+    private LocalDateTime startTime;
+
+    /**
+     * 结束时间
+     */
+    @ApiModelProperty("结束时间")
+    private LocalDateTime endTime;
 
 }

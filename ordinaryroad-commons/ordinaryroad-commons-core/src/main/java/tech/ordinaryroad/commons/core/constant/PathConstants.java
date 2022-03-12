@@ -32,10 +32,18 @@ import java.util.List;
  */
 public class PathConstants {
 
-    public static final String FILE_UPLOAD = "/file/upload";
-    
+    public static final String UPMS_FILE_UPLOAD = "/file/upload";
+    public static final String IM_MIMC_CALLBACK = "/mimc/callback";
+
     /**
-     * 免登接口地址
+     * 创建免登接口地址
+     * TODO 内部接口、免登、登录、免登或登录
      */
-    public static final List<String> NO_LOGIN_PATHS = Arrays.asList(FILE_UPLOAD);
+    public static final List<String> NO_LOGIN_CREATE_PATHS = Arrays.asList(UPMS_FILE_UPLOAD, IM_MIMC_CALLBACK);
+
+    /**
+     * 更新免登接口地址
+     * TODO 内部接口、免登、登录、免登或登录
+     */
+    public static final List<String> NO_LOGIN_UPDATE_PATHS = Arrays.asList(IM_MIMC_CALLBACK);
 }

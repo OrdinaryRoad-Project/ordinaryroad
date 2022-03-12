@@ -15,7 +15,4 @@ ENV LANG=C.UTF-8
 
 ENV TZ=Asia/Shanghai JAVA_OPTS="-Xms128m -Xmx256m -Djava.security.egd=file:/dev/./urandom"
 
-# TODO QQ邮箱授权码
-ENV QQ_MAIL_AUTHORIZATION_CODE=xxx
-
 CMD sleep 10; java -jar $JAVA_OPTS app.jar

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021 苗锦洲
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="tech.ordinaryroad.im.dao.ImMsgDAO">
+    <select id="history" parameterType="tech.ordinaryroad.im.entity.ImMsgDO"
+            resultType="tech.ordinaryroad.im.entity.ImMsgDO">
+        SELECT *
+        FROM or_im_pro.im_msg
+        WHERE
+        (
+        (create_by = #{createBy} AND to_or_number = #{toOrNumber})
+        OR (create_by = #{toOrNumber} AND to_or_number = #{createBy})
+        )
+
+        <if test="bizType != null and bizType != ''">
+            AND `biz_type` = #{bizType}
+        </if>
+        <if test="version != null">
+            AND `version` = #{version}
+        </if>
+        <if test="payload != null and payload != ''">
+            AND `payload` LIKE %#{version}%
+        </if>
+        <if test="read != null">
+            AND `read` = #{read}
+        </if>
+        <if test="recalled != null">
+            AND `recalled` = #{recalled}
+        </if>
+
+        <if test="startTime != null">
+            AND `created_time` >= #{startTime}
+        </if>
+        <if test="endTime != null">
+            AND `created_time` &lt;= #{endTime}
+        </if>
+
+        ORDER BY `created_time` DESC
+    </select>
+</mapper>
