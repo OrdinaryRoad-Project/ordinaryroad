@@ -40,9 +40,11 @@ public interface ImMsgMapStruct {
 
     ImMsgDO transfer(ImMsgSaveRequest request);
 
-    ImMsgDTO transfer(ImMsgDO sysUserDO);
+    ImMsgDTO transfer(ImMsgDO imMsgDO);
 
     ImMsgDO transfer(ImMsgQueryRequest request);
 
     ImMsgDO transfer(ImMsgHistoryRequest request);
+
+    ImMsgSaveRequest transfer(ImMsgDTO imMsgDTO);
 }

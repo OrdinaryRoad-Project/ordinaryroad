@@ -49,6 +49,7 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.im.api.IImMimcApi;
 import tech.ordinaryroad.im.dto.ImMsgDTO;
 import tech.ordinaryroad.im.facade.IImMsgFacade;
+import tech.ordinaryroad.im.mapstruct.ImMsgMapStruct;
 import tech.ordinaryroad.im.properties.OrImProperties;
 import tech.ordinaryroad.im.request.ImMimcMsgCallbackRequest;
 import tech.ordinaryroad.im.request.ImMsgReadRequest;
@@ -71,6 +72,7 @@ public class ImMimcController implements IImMimcApi {
 
     private final OrImProperties imProperties;
     private final IImMsgFacade imMsgFacade;
+    private final ImMsgMapStruct objMapStruct;
 
     @ResponseStatus(code = HttpStatus.OK)
     @Override
@@ -100,14 +102,7 @@ public class ImMimcController implements IImMimcApi {
             case MimcConstant.BIZ_TYPE_AUDIO_FILE:
             case MimcConstant.BIZ_TYPE_DOUBLE_CLICK_AVATAR:
                 // 文字、回复、图片、视频、音频、双击头像直接插入
-                ImMsgSaveRequest imMsgSaveRequest = new ImMsgSaveRequest();
-                imMsgSaveRequest.setVersion(imMsgDTO.getVersion());
-                imMsgSaveRequest.setUuid(imMsgDTO.getUuid());
-                imMsgSaveRequest.setMsgId(imMsgDTO.getMsgId());
-                imMsgSaveRequest.setPayload(imMsgDTO.getPayload());
-                imMsgSaveRequest.setBizType(imMsgDTO.getBizType());
-                imMsgSaveRequest.setCreateBy(imMsgDTO.getCreateBy());
-                imMsgSaveRequest.setToOrNumber(imMsgDTO.getToOrNumber());
+                ImMsgSaveRequest imMsgSaveRequest = objMapStruct.transfer(imMsgDTO);
                 imMsgFacade.create(imMsgSaveRequest);
                 break;
             case MimcConstant.BIZ_TYPE_TEXT_READ:
