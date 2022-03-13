@@ -34,8 +34,6 @@ import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.gateway.dto.CaptchaLoginDTO;
 import tech.ordinaryroad.gateway.service.ICaptchaService;
-import tech.ordinaryroad.push.api.IEmailApi;
-import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
 import tech.ordinaryroad.upms.api.ISysUserApi;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.request.SysUserQueryRequest;
@@ -54,7 +52,6 @@ import java.util.concurrent.*;
 public class CaptchaController {
 
     private final ISysUserApi sysUserApi;
-    private final IEmailApi emailApi;
     private final ICaptchaService captchaService;
     private final ExecutorService executorService = new ThreadPoolExecutor(10, 20, 1L, TimeUnit.MINUTES, new LinkedBlockingQueue<>(), new ThreadFactory() {
         @Override
@@ -85,10 +82,7 @@ public class CaptchaController {
             return Mono.just(Result.fail(e.getMessage()));
         }
         String code = captchaService.generateRegisterCaptcha(email);
-        EmailRegisterCaptchaRequest request = new EmailRegisterCaptchaRequest();
-        request.setEmail(email);
-        request.setCode(code);
-        Future<? extends Result<?>> future = executorService.submit(() -> emailApi.sendRegisterCaptcha(request));
+        Future<? extends Result<?>> future = executorService.submit(() -> captchaService.sendRegisterCaptcha(email, code));
         try {
             return Mono.just(future.get());
         } catch (InterruptedException | ExecutionException e) {

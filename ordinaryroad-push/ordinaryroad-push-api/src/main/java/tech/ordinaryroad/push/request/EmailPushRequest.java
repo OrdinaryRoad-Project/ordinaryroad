@@ -21,17 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.facade;
+package tech.ordinaryroad.push.request;
 
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import org.springframework.util.MimeType;
+import tech.ordinaryroad.push.request.base.BasePushRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 /**
+ * 邮箱推送请求
+ *
  * @author mjz
- * @date 2021/11/27
+ * @date 2022/3/12
  */
-public interface IEmailFacade {
+@Getter
+@Setter
+@ApiModel
+public class EmailPushRequest extends BasePushRequest {
 
-    Result<?> sendRegisterCaptcha(EmailRegisterCaptchaRequest request);
+    private static final long serialVersionUID = -8223940903595057427L;
+
+    @ApiModelProperty("邮箱")
+    @NotBlank(message = "邮箱不能为空")
+    @Size(max = 255, message = "邮箱长度不能超过255")
+    @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
+    private String email;
+
+    @ApiModelProperty(value = "邮件内容类型", hidden = true)
+    private MimeType mimeType;
 
 }

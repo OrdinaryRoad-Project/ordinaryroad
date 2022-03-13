@@ -36,6 +36,10 @@ public enum MessageType {
     /**
      * 短信
      */
-    SMS
+    SMS,
+    /**
+     * 安卓客户端
+     */
+    PUSH_ANDROID
 
 }

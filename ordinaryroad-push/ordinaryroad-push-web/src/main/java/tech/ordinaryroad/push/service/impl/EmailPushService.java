@@ -21,40 +21,47 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.facade.impl;
+package tech.ordinaryroad.push.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.stereotype.Component;
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.facade.IEmailFacade;
-import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+import org.springframework.util.MimeType;
+
+import javax.mail.internet.MimeMessage;
+import javax.validation.constraints.NotNull;
+import java.nio.charset.StandardCharsets;
 
 /**
+ * 邮箱推送服务类
+ *
  * @author mjz
- * @date 2021/11/27
+ * @date 2022/3/13
  */
+@Slf4j
 @RequiredArgsConstructor
-@Component
-public class EmailFacadeImpl implements IEmailFacade {
+@Service
+public class EmailPushService {
 
     private final JavaMailSender mailSender;
 
-    @Override
-    public Result<?> sendRegisterCaptcha(EmailRegisterCaptchaRequest request) {
-        // 发送邮件
-        SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
-        // from必须
-        simpleMailMessage.setFrom("1962247851@qq.com");
-        simpleMailMessage.setTo(request.getEmail());
-        simpleMailMessage.setSubject("欢迎您注册OR帐号");
-        simpleMailMessage.setText("您的验证码为：" + request.getCode() + "，五分钟内有效");
+    public Boolean send(@NotNull String email, @NotNull String title, @NotNull String content, MimeType mimeType) {
+        MimeMessage mimeMessage = mailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, StandardCharsets.UTF_8.name());
         try {
-            mailSender.send(simpleMailMessage);
-            return Result.success();
+            // from必须
+            helper.setFrom("1962247851@qq.com", "OrdinaryRoad");
+            helper.setTo(email);
+            helper.setSubject(title);
+            helper.setText(content, true);
+            mailSender.send(mimeMessage);
+            return Boolean.TRUE;
         } catch (Exception e) {
-            return Result.fail(e.getMessage());
+            log.error("Send email to {} failed", email);
+            e.printStackTrace();
+            return Boolean.FALSE;
         }
     }
 

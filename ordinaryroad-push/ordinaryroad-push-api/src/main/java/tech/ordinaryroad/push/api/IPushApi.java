@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.push.constants.ServiceNameCons;
-import tech.ordinaryroad.push.request.PushRequest;
+import tech.ordinaryroad.push.request.EmailPushRequest;
 
 /**
  * @author mjz
@@ -40,7 +40,7 @@ import tech.ordinaryroad.push.request.PushRequest;
 @FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iPushApi")
 public interface IPushApi {
 
-    @PostMapping(value = "/push/send")
-    Result<Boolean> send(@RequestBody @Validated PushRequest request);
+    @PostMapping(value = "/email/send")
+    Result<?> email(@RequestBody @Validated EmailPushRequest request);
 
 }

@@ -29,8 +29,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.push.api.IPushApi;
-import tech.ordinaryroad.push.facade.IEmailFacade;
-import tech.ordinaryroad.push.request.PushRequest;
+import tech.ordinaryroad.push.facade.impl.EmailPushFacadeImpl;
+import tech.ordinaryroad.push.request.EmailPushRequest;
 
 /**
  * @author mjz
@@ -40,19 +40,11 @@ import tech.ordinaryroad.push.request.PushRequest;
 @RestController
 public class PushController implements IPushApi {
 
-    private final IEmailFacade emailFacade;
-
+    private final EmailPushFacadeImpl emailPushFacade;
 
     @Override
-    public Result<Boolean> send(@RequestBody @Validated PushRequest request) {
-        switch (request.getMessageType()) {
-            case EMAIL:
-                return Result.success();
-            case SMS:
-                return Result.success();
-            default:
-                return Result.fail();
-        }
+    public Result<?> email(@RequestBody @Validated EmailPushRequest request) {
+        return emailPushFacade.send(request);
     }
 
 }

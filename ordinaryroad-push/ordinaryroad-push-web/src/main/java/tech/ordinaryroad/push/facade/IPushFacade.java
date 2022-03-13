@@ -23,12 +23,15 @@
  */
 package tech.ordinaryroad.push.facade;
 
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.push.request.base.BasePushRequest;
+
 /**
  * @author mjz
  * @date 2021/11/27
  */
-public interface IPushFacade {
+public interface IPushFacade<R extends BasePushRequest> {
 
-    Boolean send(String content);
+    Result<?> send(R request);
 
 }

@@ -46,10 +46,14 @@
             <artifactId>ordinaryroad-commons-core</artifactId>
         </dependency>
 
+        <!-- 极光推送 -->
         <dependency>
             <groupId>cn.jpush.api</groupId>
             <artifactId>jiguang-common</artifactId>
-            <version>1.1.11</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jpush-client</artifactId>
         </dependency>
     </dependencies>
 

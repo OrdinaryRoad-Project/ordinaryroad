@@ -21,30 +21,38 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.web.controller;
+package tech.ordinaryroad.push.request.base;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.api.IEmailApi;
-import tech.ordinaryroad.push.facade.IEmailFacade;
-import tech.ordinaryroad.push.request.EmailRegisterCaptchaRequest;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
+ * 推送请求基类
+ *
  * @author mjz
- * @date 2021/11/27
+ * @date 2022/3/13
  */
-@RequiredArgsConstructor
-@RestController
-public class EmailController implements IEmailApi {
+@Getter
+@Setter
+@ApiModel
+public class BasePushRequest extends BaseRequest {
 
-    private final IEmailFacade emailFacade;
+    private static final long serialVersionUID = 5109042323164088395L;
 
-    @Override
-    public Result<?> sendRegisterCaptcha(@RequestBody @Validated EmailRegisterCaptchaRequest request) {
-        return emailFacade.sendRegisterCaptcha(request);
-    }
+    @ApiModelProperty(value = "标题", required = true)
+    @NotBlank(message = "标题不能为空")
+    @Size(max = 50, message = "标题长度不能超过50")
+    private String title;
+
+    @ApiModelProperty(value = "内容", required = true)
+    @NotBlank(message = "内容不能为空")
+    @Size(max = 1000, message = "内容长度不能超过1000")
+    private String content;
 
 }

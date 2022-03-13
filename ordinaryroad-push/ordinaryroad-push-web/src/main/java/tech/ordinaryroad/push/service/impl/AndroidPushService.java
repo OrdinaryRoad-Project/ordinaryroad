@@ -21,40 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.request;
+package tech.ordinaryroad.push.service.impl;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.IBaseRequest;
+import org.springframework.stereotype.Service;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.NotNull;
 
 /**
- * 邮箱注册发送验证码请求
+ * 安卓客户推送服务类（极光推送）
  *
  * @author mjz
- * @date 2021/11/27
+ * @date 2022/3/13
  */
-@Getter
-@Setter
-@ApiModel
-public class EmailRegisterCaptchaRequest implements IBaseRequest {
+@Service
+public class AndroidPushService {
 
-    private static final long serialVersionUID = 4487039308979069090L;
 
-    @ApiModelProperty("邮箱")
-    @NotBlank(message = "邮箱不能为空")
-    @Size(max = 255, message = "邮箱长度不能超过255")
-    @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
-    private String email;
+    public Boolean send(@NotNull String orNumber, @NotNull String title, @NotNull String content, @NotNull String channel) {
 
-    @ApiModelProperty("验证码")
-    @NotBlank(message = "验证码不能为空")
-    @Size(max = 10, message = "邮箱长度不能超过10")
-    private String code;
+        return null;
+    }
 
 }

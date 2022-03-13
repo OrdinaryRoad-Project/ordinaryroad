@@ -27,35 +27,28 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.IBaseRequest;
-import tech.ordinaryroad.push.constant.MessageType;
+import tech.ordinaryroad.push.request.base.BasePushRequest;
 
 import javax.validation.constraints.NotBlank;
 
 /**
+ * 安卓客户端推送请求（极光推送）
+ *
  * @author mjz
- * @date 2021/11/27
+ * @date 2022/3/13
  */
 @Getter
 @Setter
 @ApiModel
-public class PushRequest implements IBaseRequest {
+public class AndroidPushRequest extends BasePushRequest {
 
-    private static final long serialVersionUID = 6761331810536219450L;
+    private static final long serialVersionUID = 2816658574123548927L;
 
-    @ApiModelProperty("接收方OR帐号")
-    @NotBlank(message = "接收方OR帐号不能为空")
-    private String receiverOrNumber;
+    @ApiModelProperty(value = "接收方OR账号", required = true)
+    @NotBlank(message = "接收方OR账号不能为空")
+    private String toOrNumber;
 
-    @ApiModelProperty("标题")
-    private String title;
-
-    @ApiModelProperty("内容")
-    @NotBlank(message = "内容不能为空")
-    private String content;
-
-    @ApiModelProperty("消息类型")
-    @NotBlank(message = "消息类型不能为空")
-    private MessageType messageType;
+    @ApiModelProperty("Channel")
+    private String channel;
 
 }

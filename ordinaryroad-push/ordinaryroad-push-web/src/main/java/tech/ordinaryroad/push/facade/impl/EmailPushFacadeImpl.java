@@ -25,7 +25,10 @@ package tech.ordinaryroad.push.facade.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.push.facade.IPushFacade;
+import tech.ordinaryroad.push.request.EmailPushRequest;
+import tech.ordinaryroad.push.service.impl.EmailPushService;
 
 /**
  * @author mjz
@@ -33,12 +36,16 @@ import tech.ordinaryroad.push.facade.IPushFacade;
  */
 @RequiredArgsConstructor
 @Component
-public class PushFacadeImpl implements IPushFacade {
+public class EmailPushFacadeImpl implements IPushFacade<EmailPushRequest> {
+
+    private final EmailPushService emailPushService;
 
     @Override
-    public Boolean send(String content) {
-        return Boolean.TRUE;
+    public Result<?> send(EmailPushRequest request) {
+        if (emailPushService.send(request.getEmail(), request.getTitle(), request.getContent(), request.getMimeType())) {
+            return Result.success();
+        } else {
+            return Result.fail();
+        }
     }
-
-
 }
