@@ -63,13 +63,9 @@ public class JPushService {
      * 此字段的值是用来指定本推送要推送的apns环境，false表示开发，true表示生产；对android和自定义消息无意义
      * 上线之后要改为 true
      */
-    private final static Boolean APNS_PRODUCTION = false;
+    private final static Boolean APNS_PRODUCTION = true;
     private volatile JPushClient jPushClient;
     private final static String SCHEDULE_NAME = "OrdinaryRoad";
-
-    private JPushService() {
-        throw new AssertionError("不能产生该对象");
-    }
 
     private String getAppKey() {
         return pushProperties.getJpush().getAppKey();
