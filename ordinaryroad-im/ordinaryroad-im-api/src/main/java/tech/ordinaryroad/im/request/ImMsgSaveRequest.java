@@ -33,6 +33,7 @@ import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 
 /**
@@ -77,5 +78,8 @@ public class ImMsgSaveRequest extends BaseSaveRequest {
     @ApiModelProperty("接受者")
     @NotBlank(message = "接受者不能为空")
     private String toOrNumber;
+
+    @ApiModelProperty(value = "消息实际发送时间", hidden = true)
+    private LocalDateTime createdTime;
 
 }
