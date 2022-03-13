@@ -21,30 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.api;
+package tech.ordinaryroad.push.facade.impl;
 
-import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.constants.ServiceNameCons;
+import tech.ordinaryroad.push.facade.IPushFacade;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
-import tech.ordinaryroad.push.request.EmailPushRequest;
+import tech.ordinaryroad.push.service.AndroidPushService;
 
 /**
  * @author mjz
- * @date 2021/11/27
+ * @date 2022/3/13
  */
-@Api(value = "推送API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iPushApi")
-public interface IPushApi {
+@RequiredArgsConstructor
+@Component
+public class AndroidPushFacadeImpl implements IPushFacade<AndroidPushRequest> {
 
-    @PostMapping(value = "/email/send")
-    Result<?> email(@RequestBody @Validated EmailPushRequest request);
+    private final AndroidPushService androidPushService;
 
-    @PostMapping(value = "/android/send")
-    Result<?> android(@RequestBody @Validated AndroidPushRequest request);
-
+    @Override
+    public Result<?> send(AndroidPushRequest request) {
+        if (androidPushService.send(request.getToOrNumber(), request.getTitle(), request.getContent(), request.getChannel(), request.getExtras())) {
+            return Result.success();
+        } else {
+            return Result.fail();
+        }
+    }
 }

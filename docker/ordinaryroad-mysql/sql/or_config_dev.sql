@@ -70,14 +70,14 @@ VALUES (6, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP',
         'dev', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
 VALUES (7, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:20', '2021-12-14 00:36:20', 'nacos', '0:0:0:0:0:0:0:1',
-        '', 'demo', '', '', '', 'yaml', '');
+        'ordinaryroad:\n  push:\n    jpush:\n      appKey: ${JPUSH_APP_KEY}\n      masterSecret: ${JPUSH_MASTER_SECRET}\n\n# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39402',
+        '0a42e928b2187368a75bc261f3db6fe0', '2021-12-14 00:36:20', '2022-03-13 16:31:48', 'nacos', '172.22.0.12', '',
+        'demo', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
 VALUES (8, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\r\ndebug: true\r\nlogging:\r\n  level: { tech.ordinaryroad: debug }\r\nspring:\r\n  devtools:\r\n    livereload:\r\n      port: 39402',
-        'f10f60b783d4d0522a6cef05eb9599be', '2021-12-14 00:36:55', '2021-12-14 00:36:55', 'nacos', '0:0:0:0:0:0:0:1',
-        '', 'dev', '', '', '', 'yaml', '');
+        'ordinaryroad:\n  push:\n    jpush:\n      appKey: ${JPUSH_APP_KEY}\n      masterSecret: ${JPUSH_MASTER_SECRET}\n\n# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39402',
+        '0a42e928b2187368a75bc261f3db6fe0', '2021-12-14 00:36:55', '2022-03-13 16:31:58', 'nacos', '172.22.0.12', '',
+        'dev', '', '', '', 'yaml', '');
 INSERT INTO `config_info`
 VALUES (9, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP',
         '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: h2IRXM8k4Yne9Zii\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false',

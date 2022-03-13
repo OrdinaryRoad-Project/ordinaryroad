@@ -21,25 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.service.impl;
+package tech.ordinaryroad.push.properties;
 
-import org.springframework.stereotype.Service;
-
-import javax.validation.constraints.NotNull;
+import lombok.Data;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.context.annotation.Configuration;
 
 /**
- * 安卓客户推送服务类（极光推送）
- *
  * @author mjz
  * @date 2022/3/13
  */
-@Service
-public class AndroidPushService {
+@Data
+@Configuration
+@ConfigurationProperties(prefix = "ordinaryroad.push")
+public class OrPushProperties {
 
+    private JPushProperties jpush = new JPushProperties();
 
-    public Boolean send(@NotNull String orNumber, @NotNull String title, @NotNull String content, @NotNull String channel) {
-
-        return null;
+    @Data
+    public class JPushProperties {
+        private String appKey;
+        private String masterSecret;
     }
 
 }

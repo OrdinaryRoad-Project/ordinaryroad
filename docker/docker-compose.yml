@@ -141,6 +141,8 @@ services:
       - ordinaryroad-nacos
     environment:
       QQ_MAIL_AUTHORIZATION_CODE:
+      JPUSH_APP_KEY:
+      JPUSH_MASTER_SECRET:
     hostname: ordinaryroad-push
     restart: always
 

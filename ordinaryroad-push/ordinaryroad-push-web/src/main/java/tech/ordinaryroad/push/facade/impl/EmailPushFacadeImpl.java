@@ -28,7 +28,7 @@ import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.push.facade.IPushFacade;
 import tech.ordinaryroad.push.request.EmailPushRequest;
-import tech.ordinaryroad.push.service.impl.EmailPushService;
+import tech.ordinaryroad.push.service.EmailPushService;
 
 /**
  * @author mjz

@@ -21,48 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.service.impl;
+package tech.ordinaryroad.push.service;
 
+import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import org.springframework.util.MimeType;
 
-import javax.mail.internet.MimeMessage;
 import javax.validation.constraints.NotNull;
-import java.nio.charset.StandardCharsets;
+import java.util.Collections;
 
 /**
- * 邮箱推送服务类
+ * 安卓客户推送服务类（极光推送）
  *
  * @author mjz
  * @date 2022/3/13
  */
-@Slf4j
 @RequiredArgsConstructor
 @Service
-public class EmailPushService {
+public class AndroidPushService {
 
-    private final JavaMailSender mailSender;
+    private final JPushService jPushService;
 
-    public Boolean send(@NotNull String email, @NotNull String title, @NotNull String content, MimeType mimeType) {
-        MimeMessage mimeMessage = mailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, StandardCharsets.UTF_8.name());
-        try {
-            // from必须
-            helper.setFrom("1962247851@qq.com", "OrdinaryRoad");
-            helper.setTo(email);
-            helper.setSubject(title);
-            helper.setText(content, true);
-            mailSender.send(mimeMessage);
-            return Boolean.TRUE;
-        } catch (Exception e) {
-            log.error("Send email to {} failed", email);
-            e.printStackTrace();
-            return Boolean.FALSE;
-        }
+    public Boolean send(@NotNull String orNumber, @NotNull String title, @NotNull String content, @NotNull String channel, JSONObject extras) {
+        return jPushService.sendToAlias(Collections.singletonList(orNumber), title, title, content, channel, extras.toJavaObject(JsonObject.class)) == 1;
     }
 
 }

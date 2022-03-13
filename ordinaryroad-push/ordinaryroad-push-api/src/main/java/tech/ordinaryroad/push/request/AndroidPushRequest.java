@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.push.request;
 
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -42,13 +43,16 @@ import javax.validation.constraints.NotBlank;
 @ApiModel
 public class AndroidPushRequest extends BasePushRequest {
 
-    private static final long serialVersionUID = 2816658574123548927L;
+    private static final long serialVersionUID = 346400193746756187L;
 
     @ApiModelProperty(value = "接收方OR账号", required = true)
     @NotBlank(message = "接收方OR账号不能为空")
     private String toOrNumber;
 
-    @ApiModelProperty("Channel")
-    private String channel;
+    @ApiModelProperty(value = "Channel Id")
+    private String channel = "default";
+
+    @ApiModelProperty(value = "extras")
+    private JSONObject extras = new JSONObject();
 
 }
