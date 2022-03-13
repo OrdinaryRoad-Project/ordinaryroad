@@ -43,7 +43,7 @@ import javax.validation.constraints.NotBlank;
 @ApiModel
 public class AndroidPushRequest extends BasePushRequest {
 
-    private static final long serialVersionUID = 346400193746756187L;
+    private static final long serialVersionUID = 5021285821421460917L;
 
     @ApiModelProperty(value = "接收方OR账号", required = true)
     @NotBlank(message = "接收方OR账号不能为空")
@@ -51,6 +51,9 @@ public class AndroidPushRequest extends BasePushRequest {
 
     @ApiModelProperty(value = "Channel Id")
     private String channel = "default";
+
+    @ApiModelProperty(value = "intent")
+    private JSONObject intent = new JSONObject();
 
     @ApiModelProperty(value = "extras")
     private JSONObject extras = new JSONObject();

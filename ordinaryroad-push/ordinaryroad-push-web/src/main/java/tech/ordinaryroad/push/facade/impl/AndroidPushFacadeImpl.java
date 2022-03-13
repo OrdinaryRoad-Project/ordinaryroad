@@ -42,7 +42,7 @@ public class AndroidPushFacadeImpl implements IPushFacade<AndroidPushRequest> {
 
     @Override
     public Result<?> send(AndroidPushRequest request) {
-        if (androidPushService.send(request.getToOrNumber(), request.getTitle(), request.getContent(), request.getChannel(), request.getExtras())) {
+        if (androidPushService.send(request.getToOrNumber(), request.getTitle(), request.getContent(), request.getChannel(), request.getIntent(), request.getExtras())) {
             return Result.success();
         } else {
             return Result.fail();

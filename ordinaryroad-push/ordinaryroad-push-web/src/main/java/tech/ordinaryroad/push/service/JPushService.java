@@ -46,7 +46,7 @@ import tech.ordinaryroad.push.properties.OrPushProperties;
 import java.util.List;
 
 /**
- * 极光推送服务类
+ * 极光推送服务类 <a href="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push">文档</a>
  *
  * @author mjz
  * @date 2022/3/13
@@ -100,10 +100,10 @@ public class JPushService {
      * @param extras            扩展字段（通常传跳转的链接）
      * @return 0推送失败，1推送成功
      */
-    public int sendToAlias(List<String> alias, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras) {
+    public int sendToAlias(List<String> alias, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras) {
         int result = 0;
         try {
-            PushPayload pushPayload = JPushService.buildPushObjectAllAliasAlertWithTitle(alias, notificationTitle, msgTitle, msgContent, channel, extras);
+            PushPayload pushPayload = JPushService.buildPushObjectAllAliasAlertWithTitle(alias, notificationTitle, msgTitle, msgContent, channel, intent, extras);
             PushResult pushResult = getJPushClient().sendPush(pushPayload);
             if (pushResult.isResultOK()) {
                 result = 1;
@@ -131,10 +131,10 @@ public class JPushService {
      * @param time              格式:yyyy-MM-dd HH:mm:ss
      * @return 0推送失败，1推送成功
      */
-    public int sendToAliasScheduled(List<String> alias, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras, String time) {
+    public int sendToAliasScheduled(List<String> alias, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras, String time) {
         int result = 0;
         try {
-            PushPayload pushPayload = JPushService.buildPushObjectAllAliasAlertWithTitle(alias, notificationTitle, msgTitle, msgContent, channel, extras);
+            PushPayload pushPayload = JPushService.buildPushObjectAllAliasAlertWithTitle(alias, notificationTitle, msgTitle, msgContent, channel, intent, extras);
             ScheduleResult scheduleResult = getJPushClient().createSingleSchedule(SCHEDULE_NAME, time, pushPayload, getMasterSecret(), getAppKey());
             if (scheduleResult.isResultOK()) {
                 result = 1;
@@ -161,10 +161,10 @@ public class JPushService {
      * @param extras             扩展字段
      * @return 0推送失败，1推送成功
      */
-    public int sendToRegistrationIds(List<String> registrationIdList, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras) {
+    public int sendToRegistrationIds(List<String> registrationIdList, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras) {
         int result = 0;
         try {
-            PushPayload pushPayload = JPushService.buildPushObjectAllRegistrationIdsAlertWithTitle(registrationIdList, notificationTitle, msgTitle, msgContent, channel, extras);
+            PushPayload pushPayload = JPushService.buildPushObjectAllRegistrationIdsAlertWithTitle(registrationIdList, notificationTitle, msgTitle, msgContent, channel, intent, extras);
             PushResult pushResult = getJPushClient().sendPush(pushPayload);
             if (pushResult.isResultOK()) {
                 result = 1;
@@ -190,10 +190,10 @@ public class JPushService {
      * @param extras            扩展字段
      * @return 0推送失败，1推送成功
      */
-    public int sendToAllAndroid(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras) {
+    public int sendToAllAndroid(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras) {
         int result = 0;
         try {
-            PushPayload pushPayload = JPushService.buildPushObjectAndroidAllAlertWithTitle(notificationTitle, msgTitle, msgContent, channel, extras);
+            PushPayload pushPayload = JPushService.buildPushObjectAndroidAllAlertWithTitle(notificationTitle, msgTitle, msgContent, channel, intent, extras);
             PushResult pushResult = getJPushClient().sendPush(pushPayload);
             if (pushResult.isResultOK()) {
                 result = 1;
@@ -219,10 +219,10 @@ public class JPushService {
      * @param extras            扩展字段
      * @return 0推送失败，1推送成功
      */
-    public int sendToAllIos(String notificationTitle, String msgTitle, String msgContent, JsonObject extras) {
+    public int sendToAllIos(String notificationTitle, String msgTitle, String msgContent, JsonObject intent, JsonObject extras) {
         int result = 0;
         try {
-            PushPayload pushPayload = JPushService.buildPushObjectIosAllAlertWithTitle(notificationTitle, msgTitle, msgContent, extras);
+            PushPayload pushPayload = JPushService.buildPushObjectIosAllAlertWithTitle(notificationTitle, msgTitle, msgContent, intent, extras);
             PushResult pushResult = getJPushClient().sendPush(pushPayload);
             if (pushResult.isResultOK()) {
                 result = 1;
@@ -248,10 +248,10 @@ public class JPushService {
      * @param extras            扩展字段
      * @return 0推送失败，1推送成功
      */
-    public int sendToAll(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras) {
+    public int sendToAll(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras) {
         int result = 0;
         try {
-            PushPayload pushPayload = JPushService.buildPushObjectAndroidAndIos(notificationTitle, msgTitle, msgContent, channel, extras);
+            PushPayload pushPayload = JPushService.buildPushObjectAndroidAndIos(notificationTitle, msgTitle, msgContent, channel, intent, extras);
             PushResult pushResult = getJPushClient().sendPush(pushPayload);
             if (pushResult.isResultOK()) {
                 result = 1;
@@ -278,10 +278,10 @@ public class JPushService {
      * @param time              格式:yyyy-MM-dd HH:mm:ss
      * @return 0推送失败，1推送成功
      */
-    public int sendToAllScheduled(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras, String time) {
+    public int sendToAllScheduled(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras, String time) {
         int result = 0;
         try {
-            PushPayload pushPayload = JPushService.buildPushObjectAndroidAndIos(notificationTitle, msgTitle, msgContent, channel, extras);
+            PushPayload pushPayload = JPushService.buildPushObjectAndroidAndIos(notificationTitle, msgTitle, msgContent, channel, intent, extras);
             ScheduleResult scheduleResult = getJPushClient().createSingleSchedule(SCHEDULE_NAME, time, pushPayload, getMasterSecret(), getAppKey());
             if (scheduleResult.isResultOK()) {
                 result = 1;
@@ -298,7 +298,7 @@ public class JPushService {
         return result;
     }
 
-    public static PushPayload buildPushObjectAndroidAndIos(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras) {
+    public static PushPayload buildPushObjectAndroidAndIos(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras) {
         return PushPayload.newBuilder()
                 .setPlatform(Platform.android_ios())
                 .setAudience(Audience.all())
@@ -308,6 +308,7 @@ public class JPushService {
                                 .setAlert(msgContent)
                                 .setTitle(notificationTitle)
                                 .setChannelId(channel)
+                                .setIntent(intent)
                                 //此字段为透传字段，不会显示在通知栏。用户可以通过此字段来做一些定制需求，如特定的key传要指定跳转的页面（value）
                                 .addExtra("extras", extras)
                                 .build()
@@ -349,7 +350,7 @@ public class JPushService {
                 .build();
     }
 
-    private static PushPayload buildPushObjectAllAliasAlertWithTitle(List<String> alias, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras) {
+    private static PushPayload buildPushObjectAllAliasAlertWithTitle(List<String> alias, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras) {
         //创建一个IosAlert对象，可指定APNs的alert、title等字段
         //IosAlert iosAlert =  IosAlert.newBuilder().setTitleAndBody("title", "alert body").build();
         return PushPayload.newBuilder()
@@ -404,7 +405,7 @@ public class JPushService {
                 .build();
     }
 
-    private static PushPayload buildPushObjectAllRegistrationIdsAlertWithTitle(List<String> registrationIds, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras) {
+    private static PushPayload buildPushObjectAllRegistrationIdsAlertWithTitle(List<String> registrationIds, String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras) {
         //创建一个IosAlert对象，可指定APNs的alert、title等字段
         //IosAlert iosAlert =  IosAlert.newBuilder().setTitleAndBody("title", "alert body").build();
         return PushPayload.newBuilder()
@@ -458,7 +459,7 @@ public class JPushService {
                 .build();
     }
 
-    private static PushPayload buildPushObjectAndroidAllAlertWithTitle(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject extras) {
+    private static PushPayload buildPushObjectAndroidAllAlertWithTitle(String notificationTitle, String msgTitle, String msgContent, String channel, JsonObject intent, JsonObject extras) {
         return PushPayload.newBuilder()
                 //指定要推送的平台，all代表当前应用配置了的所有平台，也可以传android等具体平台
                 .setPlatform(Platform.android())
@@ -495,7 +496,7 @@ public class JPushService {
                 .build();
     }
 
-    private static PushPayload buildPushObjectIosAllAlertWithTitle(String notificationTitle, String msgTitle, String msgContent, JsonObject extras) {
+    private static PushPayload buildPushObjectIosAllAlertWithTitle(String notificationTitle, String msgTitle, String msgContent, JsonObject intent, JsonObject extras) {
         return PushPayload.newBuilder()
                 //指定要推送的平台，all代表当前应用配置了的所有平台，也可以传android等具体平台
                 .setPlatform(Platform.ios())
