@@ -48,6 +48,7 @@ import tech.ordinaryroad.upms.service.SysDictService;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -132,6 +133,24 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
             return Result.success(objMapStruct.transfer(byId));
         }
         return Result.fail(StatusCode.DATA_NOT_EXIST);
+    }
+
+    @Override
+    public Result<SysDictItemDTO> detail(SysDictItemQueryRequest request) {
+        final SysDictDO sysDictDO = new SysDictDO();
+        sysDictDO.setUuid(request.getDictUuid());
+        sysDictDO.setDictCode(request.getDictCode());
+        sysDictDO.setDictName(request.getDictName());
+        final Optional<SysDictDO> optionalDict = sysDictService.findByUniqueColumn(sysDictDO);
+        if (!optionalDict.isPresent()) {
+            return Result.fail(StatusCode.DICT_NOT_EXIST);
+        }
+
+        request.setDictUuid(optionalDict.get().getUuid());
+
+        SysDictItemDO sysDictItemDO = objMapStruct.transfer(request);
+        Optional<SysDictItemDO> byDictIdAndId = sysDictItemService.findByDictIdAndId(sysDictItemDO);
+        return byDictIdAndId.map(dictItemDO -> Result.success(objMapStruct.transfer(dictItemDO))).orElseGet(() -> Result.fail(StatusCode.DATA_NOT_EXIST));
     }
 
     @Override

@@ -72,6 +72,14 @@ public interface ISysDictItemFacade {
     Result<SysDictItemDTO> findById(SysDictItemQueryRequest request);
 
     /**
+     * 根据字典uuid/code/name和字典项uuid/label/value获取字典详情
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<SysDictItemDTO> detail(SysDictItemQueryRequest request);
+
+    /**
      * 查询所有
      *
      * @param request Request

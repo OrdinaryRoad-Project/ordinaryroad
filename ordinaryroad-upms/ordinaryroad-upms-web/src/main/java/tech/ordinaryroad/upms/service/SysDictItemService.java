@@ -31,6 +31,7 @@ import tech.ordinaryroad.upms.dao.SysDictItemDAO;
 import tech.ordinaryroad.upms.entity.SysDictItemDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.Collections;
 import java.util.List;
@@ -107,5 +108,24 @@ public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemD
 
         Example example = Example.builder(SysDictItemDO.class).where(custom).build();
         return Optional.ofNullable(super.dao.selectOneByExample(example));
+    }
+
+    public Optional<SysDictItemDO> findByDictIdAndId(SysDictItemDO sysDictItemDO) {
+        final String dictUuid = sysDictItemDO.getDictUuid();
+        if (StrUtil.isBlank(dictUuid)) {
+            return Optional.empty();
+        }
+        WeekendSqls<SysDictItemDO> sqlsAnd = WeekendSqls.custom();
+        sqlsAnd.andEqualTo(SysDictItemDO::getDictUuid, dictUuid);
+
+        final String uuid = sysDictItemDO.getUuid();
+        final String label = sysDictItemDO.getLabel();
+        final String value = sysDictItemDO.getValue();
+        WeekendSqls<SysDictItemDO> sqlsOr = WeekendSqls.custom();
+        sqlsOr.orEqualTo(SysDictItemDO::getUuid, uuid);
+        sqlsOr.orEqualTo(SysDictItemDO::getLabel, label);
+        sqlsOr.orEqualTo(SysDictItemDO::getValue, value);
+
+        return Optional.ofNullable(super.dao.selectOneByExample(Example.builder(SysDictItemDO.class).where(sqlsAnd).andWhere(sqlsOr).build()));
     }
 }

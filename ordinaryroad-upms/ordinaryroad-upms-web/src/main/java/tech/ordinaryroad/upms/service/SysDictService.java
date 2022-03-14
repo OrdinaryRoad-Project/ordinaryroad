@@ -25,6 +25,7 @@ package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysDictDAO;
@@ -41,6 +42,25 @@ import java.util.Optional;
  */
 @Service
 public class SysDictService extends BaseService<SysDictDAO, SysDictDO> {
+
+    public Optional<SysDictDO> findByUniqueColumn(@NotNull SysDictDO sysDictDO) {
+        Optional<SysDictDO> optional = Optional.empty();
+
+        final String uuid = sysDictDO.getUuid();
+        final String dictCode = sysDictDO.getDictCode();
+        final String dictName = sysDictDO.getDictName();
+        if (StrUtil.isNotBlank(uuid)) {
+            optional = Optional.ofNullable(super.findById(uuid));
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(dictCode)) {
+            optional = this.findByDictCode(dictCode);
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(dictName)) {
+            optional = this.findByDictName(dictName);
+        }
+
+        return optional;
+    }
 
     public Optional<SysDictDO> findByDictName(String dictName) {
         Example example = Example.builder(SysDictDO.class)
