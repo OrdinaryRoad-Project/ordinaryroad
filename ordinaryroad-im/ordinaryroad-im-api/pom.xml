@@ -46,6 +46,12 @@
             <groupId>tech.ordinaryroad</groupId>
             <artifactId>ordinaryroad-commons-core</artifactId>
         </dependency>
+
+        <!-- ordinaryroad-push-api -->
+        <dependency>
+            <groupId>tech.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-push-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

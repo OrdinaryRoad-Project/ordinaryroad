@@ -22,33 +22,26 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.im.web.constant;
+package tech.ordinaryroad.im.api;
+
+import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.im.constant.ServiceNameCons;
 
 /**
+ * API
+ *
  * @author mjz
- * @date 2022/2/13
+ * @date 2022/3/14
  */
-public class MimcConstant {
+@Api("即时通信 消息API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iImApi")
+public interface IImApi {
 
-    /**
-     * 文本消息
-     */
-    public static final String BIZ_TYPE_TEXT = "TEXT";
-    public static final String BIZ_TYPE_REPLY = "REPLY";
-    public static final String BIZ_TYPE_PIC_FILE = "PIC_FILE";
-    public static final String BIZ_TYPE_VIDEO_FILE = "VIDEO_FILE";
-    public static final String BIZ_TYPE_AUDIO_FILE = "AUDIO_FILE";
-    public static final String BIZ_TYPE_DOUBLE_CLICK_AVATAR = "DOUBLE_CLICK_AVATAR";
-    public static final String BIZ_TYPE_CHAT_STATE_CHANGE = "CHAT_STATE_CHANGE";
-    /**
-     * 已读消息
-     */
-    public static final String BIZ_TYPE_TEXT_READ = "TEXT_READ";
-    /**
-     * 撤回消息，payload为撤回消息msgId
-     */
-    public static final String BIZ_TYPE_RECALL = "RECALL";
-    public static final String BIZ_TYPE_PING = "PING";
-    public static final String BIZ_TYPE_PONG = "PONG";
+    @GetMapping("/init")
+    Result<JSONObject> init();
 
 }
