@@ -24,13 +24,13 @@
 
 package tech.ordinaryroad.im.web.controller;
 
-import com.alibaba.fastjson.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.im.api.IImApi;
 import tech.ordinaryroad.im.constant.MimcConstant;
+import tech.ordinaryroad.im.dto.ImInfoDTO;
 import tech.ordinaryroad.upms.api.ISysDictItemApi;
 import tech.ordinaryroad.upms.dto.SysDictItemDTO;
 import tech.ordinaryroad.upms.request.SysDictItemQueryRequest;
@@ -51,8 +51,8 @@ public class ImController implements IImApi {
     private final ISysDictItemApi sysDictItemApi;
 
     @Override
-    public Result<JSONObject> init() {
-        final JSONObject jsonObject = new JSONObject();
+    public Result<ImInfoDTO> init() {
+        final ImInfoDTO imInfoDTO = new ImInfoDTO();
 
         // 获取聊天拍一拍字典
         final SysDictItemQueryRequest sysDictItemQueryRequest = new SysDictItemQueryRequest();
@@ -61,8 +61,8 @@ public class ImController implements IImApi {
         if (!dictItemsResult.getSuccess()) {
             return Result.fail(dictItemsResult.getMsg());
         }
-        jsonObject.put("doubleClickAvatarPayloadDictItems", dictItemsResult.getData());
+        imInfoDTO.setDoubleClickAvatarPayloadDictItems(dictItemsResult.getData());
 
-        return Result.success(jsonObject);
+        return Result.success(imInfoDTO);
     }
 }

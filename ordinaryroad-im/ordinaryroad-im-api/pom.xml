@@ -52,6 +52,12 @@
             <groupId>tech.ordinaryroad</groupId>
             <artifactId>ordinaryroad-push-api</artifactId>
         </dependency>
+
+        <!-- ordinaryroad-upms-api -->
+        <dependency>
+            <groupId>tech.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-upms-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

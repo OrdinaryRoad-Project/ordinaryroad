@@ -21,27 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package tech.ordinaryroad.im.dto;
 
-package tech.ordinaryroad.im.api;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.upms.dto.SysDictItemDTO;
 
-import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.im.constant.ServiceNameCons;
-import tech.ordinaryroad.im.dto.ImInfoDTO;
+import java.util.List;
 
 /**
- * API
- *
  * @author mjz
- * @date 2022/3/14
+ * @date 2022/3/15
  */
-@Api("即时通信 消息API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iImApi")
-public interface IImApi {
+@Data
+@ApiModel
+public class ImInfoDTO extends BaseDTO {
 
-    @GetMapping("/init")
-    Result<ImInfoDTO> init();
+    private static final long serialVersionUID = -3767169506610837469L;
+
+    @ApiModelProperty("双击头像字典项")
+    private List<SysDictItemDTO> doubleClickAvatarPayloadDictItems;
 
 }

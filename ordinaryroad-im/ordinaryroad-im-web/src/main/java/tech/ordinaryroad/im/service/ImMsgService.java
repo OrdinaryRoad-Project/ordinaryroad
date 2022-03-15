@@ -25,11 +25,18 @@
 package tech.ordinaryroad.im.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.alibaba.fastjson.JSON;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
+import tech.ordinaryroad.im.constant.MimcConstant;
 import tech.ordinaryroad.im.dao.ImMsgDAO;
 import tech.ordinaryroad.im.entity.ImMsgDO;
+import tech.ordinaryroad.upms.api.ISysDictItemApi;
+import tech.ordinaryroad.upms.dto.SysDictItemDTO;
+import tech.ordinaryroad.upms.request.SysDictItemQueryRequest;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.WeekendSqls;
 
@@ -43,8 +50,11 @@ import java.util.Optional;
  * @author mjz
  * @date 2022/1/21
  */
+@RequiredArgsConstructor
 @Service
 public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
+
+    private final ISysDictItemApi sysDictItemApi;
 
     public Optional<ImMsgDO> findByMsgId(String msgId) {
         if (StrUtil.isBlank(msgId)) {
@@ -92,4 +102,56 @@ public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
 
         return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
+
+    /**
+     * 获取字符串化后的消息
+     *
+     * @param bizType bizType
+     * @param payload payload
+     * @return 消息内容
+     */
+    public String getStringedPayload(String bizType, String payload) {
+        String stringedPayload = "[拍一拍消息]";
+        switch (bizType) {
+            case MimcConstant.BIZ_TYPE_REPLY:
+                MimcConstant.ReplyMsgPayload replyMsgPayload = JSON.parseObject(payload, MimcConstant.ReplyMsgPayload.class);
+                stringedPayload = getStringedPayload(replyMsgPayload.getBizType(), replyMsgPayload.getPayload());
+                break;
+            case MimcConstant.BIZ_TYPE_TEXT:
+                stringedPayload = payload;
+                break;
+            case MimcConstant.BIZ_TYPE_PIC_FILE:
+                stringedPayload = "[图片]";
+                break;
+            case MimcConstant.BIZ_TYPE_VIDEO_FILE:
+                stringedPayload = "[视频]";
+                break;
+            case MimcConstant.BIZ_TYPE_AUDIO_FILE:
+                stringedPayload = "[音频]";
+                break;
+            case MimcConstant.BIZ_TYPE_DOUBLE_CLICK_AVATAR:
+                // TODO 查询字典项获取具体拍一拍内容
+                MimcConstant.DoubleClickAvatarPayload doubleClickAvatarPayload = JSON.parseObject(payload, MimcConstant.DoubleClickAvatarPayload.class);
+
+                final SysDictItemQueryRequest sysDictItemQueryRequest = new SysDictItemQueryRequest();
+                sysDictItemQueryRequest.setDictCode(MimcConstant.DICT_CODE_IM_MSG_DOUBLE_CLICK_AVATAR_PAYLOAD);
+                sysDictItemQueryRequest.setValue(doubleClickAvatarPayload.getActionDictItem());
+                final Result<SysDictItemDTO> dictItemDTOResult = sysDictItemApi.detail(sysDictItemQueryRequest);
+                if (dictItemDTOResult.getSuccess()) {
+                    final String action = dictItemDTOResult.getData().getLabel();
+                }
+//                stringedPayload = getStringedPayload(doubleClickAvatarPayload.getBizType(), replyMsgPayload.getPayload());
+                break;
+            case MimcConstant.BIZ_TYPE_TEXT_READ:
+                stringedPayload = "[查看了未读消息]";
+                break;
+            case MimcConstant.BIZ_TYPE_RECALL:
+                stringedPayload = "[撤回了一条消息]";
+                break;
+            default:
+                stringedPayload = "[暂不支持的消息类型]";
+        }
+        return stringedPayload;
+    }
+
 }
