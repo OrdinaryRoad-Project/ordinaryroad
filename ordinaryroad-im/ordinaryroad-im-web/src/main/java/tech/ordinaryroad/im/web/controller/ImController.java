@@ -57,7 +57,7 @@ public class ImController implements IImApi {
         // 获取聊天拍一拍字典
         final SysDictItemQueryRequest sysDictItemQueryRequest = new SysDictItemQueryRequest();
         sysDictItemQueryRequest.setDictCode(MimcConstant.DICT_CODE_IM_MSG_DOUBLE_CLICK_AVATAR_PAYLOAD);
-        final Result<List<SysDictItemDTO>> dictItemsResult = sysDictItemApi.findAll(sysDictItemQueryRequest);
+        final Result<List<SysDictItemDTO>> dictItemsResult = sysDictItemApi.findAllByForeignColumn(sysDictItemQueryRequest);
         if (!dictItemsResult.getSuccess()) {
             return Result.fail(dictItemsResult.getMsg());
         }
