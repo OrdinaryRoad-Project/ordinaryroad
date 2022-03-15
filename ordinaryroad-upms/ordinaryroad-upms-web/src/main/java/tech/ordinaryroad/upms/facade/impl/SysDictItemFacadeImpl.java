@@ -179,6 +179,17 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
         List<SysDictItemDO> all = Collections.emptyList();
 
         String dictUuid = request.getDictUuid();
+        if (StrUtil.isBlank(dictUuid)) {
+            final SysDictDO sysDictDO = new SysDictDO();
+            sysDictDO.setUuid(request.getDictUuid());
+            sysDictDO.setDictCode(request.getDictCode());
+            sysDictDO.setDictName(request.getDictName());
+            final Optional<SysDictDO> optionalSysDictDO = sysDictService.findByUniqueColumn(sysDictDO);
+            if (optionalSysDictDO.isPresent()) {
+                dictUuid = optionalSysDictDO.get().getUuid();
+            }
+        }
+
         if (StrUtil.isNotBlank(dictUuid)) {
             all = sysDictItemService.findAllByDictUuid(dictUuid);
         }
