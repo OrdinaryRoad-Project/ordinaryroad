@@ -118,13 +118,19 @@ public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemD
         WeekendSqls<SysDictItemDO> sqlsAnd = WeekendSqls.custom();
         sqlsAnd.andEqualTo(SysDictItemDO::getDictUuid, dictUuid);
 
-        final String uuid = sysDictItemDO.getUuid();
-        final String label = sysDictItemDO.getLabel();
-        final String value = sysDictItemDO.getValue();
         WeekendSqls<SysDictItemDO> sqlsOr = WeekendSqls.custom();
-        sqlsOr.orEqualTo(SysDictItemDO::getUuid, uuid);
-        sqlsOr.orEqualTo(SysDictItemDO::getLabel, label);
-        sqlsOr.orEqualTo(SysDictItemDO::getValue, value);
+        final String uuid = sysDictItemDO.getUuid();
+        if (StrUtil.isNotBlank(uuid)) {
+            sqlsOr.orEqualTo(SysDictItemDO::getUuid, uuid);
+        }
+        final String label = sysDictItemDO.getLabel();
+        if (StrUtil.isNotBlank(label)) {
+            sqlsOr.orEqualTo(SysDictItemDO::getLabel, label);
+        }
+        final String value = sysDictItemDO.getValue();
+        if (StrUtil.isNotBlank(value)) {
+            sqlsOr.orEqualTo(SysDictItemDO::getValue, value);
+        }
 
         return Optional.ofNullable(super.dao.selectOneByExample(Example.builder(SysDictItemDO.class).where(sqlsAnd).andWhere(sqlsOr).build()));
     }
