@@ -24,8 +24,15 @@
 
 package tech.ordinaryroad.im.constant;
 
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
+import tech.ordinaryroad.upms.dto.SysDictItemDTO;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 /**
  * @author mjz
@@ -115,6 +122,45 @@ public class MimcConstant {
          * 备注
          */
         private String remark;
+
+        /**
+         * @param fromUser 发送方
+         * @param payload  DoubleClickAvatarPayload
+         * @return [fromUser.username] [动作label] [我/自己] [备注]
+         */
+        public static List<String> getStrings(SysUserDTO fromUser, DoubleClickAvatarPayload payload, SysDictItemDTO actionDictItem) {
+            List<String> strings = new ArrayList<>();
+
+            String string1 = fromUser.getUsername();
+            strings.add(string1);
+
+            String string2;
+            if (Objects.isNull(actionDictItem)) {
+                string2 = "null";
+            } else {
+                string2 = actionDictItem.getLabel();
+            }
+            strings.add(string2);
+
+            String string3;
+            if (!payload.getOrNumber().equals(fromUser.getOrNumber())) {
+                string3 = "我";
+            } else {
+                string3 = "自己";
+            }
+            strings.add(string3);
+
+            String string4;
+            final String remark = payload.getRemark();
+            if (StrUtil.isNotBlank(remark)) {
+                string4 = "的" + remark;
+            } else {
+                string4 = "";
+            }
+            strings.add(string4);
+
+            return strings;
+        }
 
         @Override
         public String toString() {

@@ -33,10 +33,15 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.im.constant.MimcConstant;
 import tech.ordinaryroad.im.dao.ImMsgDAO;
+import tech.ordinaryroad.im.dto.ImMsgDTO;
 import tech.ordinaryroad.im.entity.ImMsgDO;
+import tech.ordinaryroad.im.request.ImMimcMsgCallbackRequest;
 import tech.ordinaryroad.upms.api.ISysDictItemApi;
+import tech.ordinaryroad.upms.api.ISysUserApi;
 import tech.ordinaryroad.upms.dto.SysDictItemDTO;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.request.SysDictItemQueryRequest;
+import tech.ordinaryroad.upms.request.SysUserQueryRequest;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.WeekendSqls;
 
@@ -55,6 +60,7 @@ import java.util.Optional;
 public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
 
     private final ISysDictItemApi sysDictItemApi;
+    private final ISysUserApi sysUserApi;
 
     public Optional<ImMsgDO> findByMsgId(String msgId) {
         if (StrUtil.isBlank(msgId)) {
@@ -106,16 +112,18 @@ public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
     /**
      * 获取字符串化后的消息
      *
-     * @param bizType bizType
-     * @param payload payload
+     * @param request  ImMimcMsgCallbackRequest
+     * @param imMsgDTO ImMsgDTO
+     * @param bizType  bizType
+     * @param payload  payload
      * @return 消息内容
      */
-    public String getStringedPayload(String bizType, String payload) {
-        String stringedPayload = "[拍一拍消息]";
+    public String getStringedPayload(ImMimcMsgCallbackRequest request, ImMsgDTO imMsgDTO, String bizType, String payload) {
+        String stringedPayload;
         switch (bizType) {
             case MimcConstant.BIZ_TYPE_REPLY:
                 MimcConstant.ReplyMsgPayload replyMsgPayload = JSON.parseObject(payload, MimcConstant.ReplyMsgPayload.class);
-                stringedPayload = getStringedPayload(replyMsgPayload.getBizType(), replyMsgPayload.getPayload());
+                stringedPayload = getStringedPayload(request, imMsgDTO, replyMsgPayload.getBizType(), replyMsgPayload.getPayload());
                 break;
             case MimcConstant.BIZ_TYPE_TEXT:
                 stringedPayload = payload;
@@ -130,17 +138,30 @@ public class ImMsgService extends BaseService<ImMsgDAO, ImMsgDO> {
                 stringedPayload = "[音频]";
                 break;
             case MimcConstant.BIZ_TYPE_DOUBLE_CLICK_AVATAR:
-                // TODO 查询字典项获取具体拍一拍内容
-                MimcConstant.DoubleClickAvatarPayload doubleClickAvatarPayload = JSON.parseObject(payload, MimcConstant.DoubleClickAvatarPayload.class);
+                final MimcConstant.DoubleClickAvatarPayload doubleClickAvatarPayload = JSON.parseObject(payload, MimcConstant.DoubleClickAvatarPayload.class);
 
                 final SysDictItemQueryRequest sysDictItemQueryRequest = new SysDictItemQueryRequest();
                 sysDictItemQueryRequest.setDictCode(MimcConstant.DICT_CODE_IM_MSG_DOUBLE_CLICK_AVATAR_PAYLOAD);
                 sysDictItemQueryRequest.setValue(doubleClickAvatarPayload.getActionDictItem());
-                final Result<SysDictItemDTO> dictItemDTOResult = sysDictItemApi.detail(sysDictItemQueryRequest);
-                if (dictItemDTOResult.getSuccess()) {
-                    final String action = dictItemDTOResult.getData().getLabel();
+                final Result<SysDictItemDTO> dictItemResult = sysDictItemApi.detail(sysDictItemQueryRequest);
+                SysDictItemDTO actionDictItem = null;
+                if (dictItemResult.getSuccess()) {
+                    actionDictItem = dictItemResult.getData();
                 }
-//                stringedPayload = getStringedPayload(doubleClickAvatarPayload.getBizType(), replyMsgPayload.getPayload());
+
+                // 查询消息发送方用户信息
+                SysUserDTO fromUser = new SysUserDTO();
+                Result<SysUserDTO> sysUserResult;
+                final SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+                sysUserQueryRequest.setOrNumber(request.getFromAccount());
+                sysUserResult = sysUserApi.findByUniqueColumn(sysUserQueryRequest);
+                if (sysUserResult.getSuccess()) {
+                    fromUser = sysUserResult.getData();
+                }
+
+                final List<String> strings = MimcConstant.DoubleClickAvatarPayload.getStrings(fromUser, doubleClickAvatarPayload, actionDictItem);
+
+                stringedPayload = strings.get(0) + strings.get(1) + strings.get(2) + strings.get(3);
                 break;
             case MimcConstant.BIZ_TYPE_TEXT_READ:
                 stringedPayload = "[查看了未读消息]";

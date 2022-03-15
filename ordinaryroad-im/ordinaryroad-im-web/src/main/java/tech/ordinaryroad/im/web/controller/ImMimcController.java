@@ -56,6 +56,7 @@ import tech.ordinaryroad.im.request.ImMimcMsgCallbackRequest;
 import tech.ordinaryroad.im.request.ImMsgReadRequest;
 import tech.ordinaryroad.im.request.ImMsgRecallRequest;
 import tech.ordinaryroad.im.request.ImMsgSaveRequest;
+import tech.ordinaryroad.im.service.ImMsgService;
 import tech.ordinaryroad.push.api.IPushApi;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
 
@@ -76,6 +77,7 @@ public class ImMimcController implements IImMimcApi {
     private final IImMsgFacade imMsgFacade;
     private final ImMsgMapStruct objMapStruct;
     private final IPushApi pushApi;
+    private final ImMsgService imMsgService;
 
     @ResponseStatus(code = HttpStatus.OK)
     @Override
@@ -129,7 +131,7 @@ public class ImMimcController implements IImMimcApi {
 
         final AndroidPushRequest androidPushRequest = new AndroidPushRequest();
         androidPushRequest.setTitle("新消息提醒");
-        androidPushRequest.setContent(imMsgDTO.getPayload());
+        androidPushRequest.setContent(imMsgService.getStringedPayload(request, imMsgDTO, imMsgDTO.getBizType(), imMsgDTO.getPayload()));
         androidPushRequest.setExtras(extras);
         androidPushRequest.setIntent(intent);
         androidPushRequest.setChannel("msg");
