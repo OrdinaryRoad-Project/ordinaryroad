@@ -42,7 +42,7 @@
             AND `version` = #{version}
         </if>
         <if test="payload != null and payload != ''">
-            AND `payload` LIKE %#{version}%
+            AND `payload` LIKE CONCAT('%',#{payload},'%')
         </if>
         <if test="read != null">
             AND `read` = #{read}
