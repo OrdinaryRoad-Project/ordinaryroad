@@ -28,6 +28,10 @@ services:
       - "9848:9848"
       # minio console https
       - "9001:9001"
+      # thingsboard dashboard
+      - "19090:19090"
+      # IoE
+      - "8701:8701"
     depends_on:
       - ordinaryroad-gateway
       - ordinaryroad-ui
@@ -66,11 +70,9 @@ services:
       context: ./ordinaryroad-nacos
     volumes:
       - $PWD/ordinaryroad-nacos/standalone-logs:/home/nacos/logs
-    depends_on:
-      - ordinaryroad-mysql
     environment:
       MYSQL_SERVICE_HOST: ordinaryroad-mysql
-      MYSQL_SERVICE_DB_NAME: or_config_dev
+      MYSQL_SERVICE_DB_NAME:
       MYSQL_SERVICE_PORT: 3307
       MYSQL_SERVICE_USER: root
       MYSQL_SERVICE_PASSWORD: ${OR_MYSQL_ROOT_PASSWORD}
@@ -92,15 +94,61 @@ services:
     restart: always
     command: server /data --console-address ":9999"
 
+  ordinaryroad-zookeeper:
+    image: ordinaryroad-zookeeper
+    container_name: ordinaryroad-zookeeper
+    build:
+      context: ./ordinaryroad-zookeeper
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=ordinaryroad-zookeeper:2888:3888;ordinaryroad-zookeeper:2181
+    hostname: ordinaryroad-zookeeper
+    restart: always
+
+  ordinaryroad-kafka:
+    image: ordinaryroad-kafka
+    container_name: ordinaryroad-kafka
+    build:
+      context: ./ordinaryroad-kafka
+    depends_on:
+      - ordinaryroad-zookeeper
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: ordinaryroad-zookeeper:2181
+      KAFKA_LISTENERS: INSIDE://:9093,OUTSIDE://:9092
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://:9093,OUTSIDE://ordinaryroad-kafka:9092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT,OUTSIDE:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    volumes:
+      - $PWD/ordinaryroad-kafka/var/run/docker.sock:/var/run/docker.sock
+    hostname: ordinaryroad-kafka
+    restart: always
+
+  ordinaryroad-thingsboard:
+    image: ordinaryroad-thingsboard
+    container_name: ordinaryroad-thingsboard
+    build:
+      context: ./ordinaryroad-thingsboard
+    depends_on:
+      - ordinaryroad-kafka
+    environment:
+      TB_QUEUE_TYPE: kafka
+      TB_KAFKA_SERVERS: ordinaryroad-kafka:9092
+    volumes:
+      # TODO chown -R 799:799 xxx
+      - $PWD/ordinaryroad-thingsboard/data:/data
+      - $PWD/ordinaryroad-thingsboard/logs:/var/log/thingsboard
+    ports:
+      - "1883:1883"
+      - "7070:7070"
+      - "5683-5688:5683-5688/udp"
+    hostname: ordinaryroad-thingsboard
+    restart: always
+
   ordinaryroad-gateway:
     image: ordinaryroad-gateway
     container_name: ordinaryroad-gateway
     build:
       context: ./ordinaryroad-gateway
-    depends_on:
-      - ordinaryroad-auth-server
-      - ordinaryroad-upms
-      - ordinaryroad-push
     hostname: ordinaryroad-gateway
     restart: always
 
@@ -109,11 +157,6 @@ services:
     container_name: ordinaryroad-auth-server
     build:
       context: ./ordinaryroad-auth-server
-    depends_on:
-      - ordinaryroad-mysql
-      - ordinaryroad-redis
-      - ordinaryroad-nacos
-      - ordinaryroad-upms
     hostname: ordinaryroad-auth-server
     restart: always
 
@@ -122,11 +165,6 @@ services:
     container_name: ordinaryroad-upms
     build:
       context: ./ordinaryroad-upms
-    depends_on:
-      - ordinaryroad-mysql
-      - ordinaryroad-redis
-      - ordinaryroad-nacos
-      - ordinaryroad-push
     hostname: ordinaryroad-upms
     restart: always
 
@@ -135,10 +173,6 @@ services:
     container_name: ordinaryroad-push
     build:
       context: ./ordinaryroad-push
-    depends_on:
-      - ordinaryroad-mysql
-      - ordinaryroad-redis
-      - ordinaryroad-nacos
     environment:
       QQ_MAIL_AUTHORIZATION_CODE:
       JPUSH_APP_KEY:
@@ -151,10 +185,6 @@ services:
     container_name: ordinaryroad-im
     build:
       context: ./ordinaryroad-im
-    depends_on:
-      - ordinaryroad-mysql
-      - ordinaryroad-redis
-      - ordinaryroad-nacos
     environment:
       MIMC_APP_ID:
       MIMC_APP_KEY:
