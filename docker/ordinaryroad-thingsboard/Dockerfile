@@ -1,4 +1,4 @@
-FROM thingsboard/tb-postgres:3.3.4
+FROM thingsboard/tb-postgres:3.3.4.1
 
 MAINTAINER mjz(miaojinzhou@ordinaryroad.tech)
 
