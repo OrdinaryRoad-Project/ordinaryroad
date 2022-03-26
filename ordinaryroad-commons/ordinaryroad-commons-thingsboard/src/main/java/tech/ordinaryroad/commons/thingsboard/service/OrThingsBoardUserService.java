@@ -23,11 +23,16 @@
  */
 package tech.ordinaryroad.commons.thingsboard.service;
 
+import cn.hutool.core.util.StrUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thingsboard.server.common.data.User;
+import org.thingsboard.server.common.data.id.CustomerId;
+import org.thingsboard.server.common.data.id.TenantId;
 import org.thingsboard.server.common.data.id.UserId;
+import org.thingsboard.server.common.data.security.Authority;
+import tech.ordinaryroad.commons.thingsboard.properties.OrThingsBoardProperties;
 
 import java.util.UUID;
 
@@ -39,6 +44,7 @@ import java.util.UUID;
 @Service
 public class OrThingsBoardUserService {
 
+    private final OrThingsBoardProperties thingsBoardProperties;
     private final OrThingsBoardClientService clientService;
 
     /**
@@ -46,12 +52,21 @@ public class OrThingsBoardUserService {
      * <p>
      * Device email is unique for entire platform setup.
      *
-     * @param email 邮箱
+     * @param email      邮箱
+     * @param firstName  名
+     * @param lastName   姓
+     * @param tenantId   租户ID
+     * @param customerId 租户下的客户ID
      * @return User
      */
-    public User save(String email) {
+    public User create(String email, String firstName, String lastName, String tenantId, String customerId) {
         final User user = new User();
         user.setEmail(email);
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setTenantId(TenantId.fromUUID(UUID.fromString(tenantId)));
+        user.setCustomerId(new CustomerId(UUID.fromString(customerId)));
+        user.setAuthority(Authority.CUSTOMER_USER);
         return clientService.getClient().saveUser(user, false);
     }
 
@@ -59,8 +74,35 @@ public class OrThingsBoardUserService {
         clientService.getClient().deleteUser(new UserId(UUID.fromString(id)));
     }
 
+    /**
+     * 激活用户，默认密码为 Abc123
+     *
+     * @param id 用户Id
+     * @return {
+     * "refreshToken": "AAB254FF67D..",
+     * "token": "AAB254FF67D.."
+     * }
+     * @see OrThingsBoardProperties.OrThingsBoardCustomerProperties#getDefaultUserPassword()
+     */
     public JsonNode active(String id) {
-        return clientService.getClient().activateUser(new UserId(UUID.fromString(id)), "Abc123").orElseThrow();
+        String defaultUserPassword = thingsBoardProperties.getCustomer().getDefaultUserPassword();
+        return this.active(id, defaultUserPassword);
+    }
+
+    /**
+     * 激活用户，默认密码为 Abc123
+     *
+     * @param id       用户Id
+     * @param password 默认密码
+     * @return {
+     * "refreshToken": "AAB254FF67D..",
+     * "token": "AAB254FF67D.."
+     * }
+     * @see OrThingsBoardProperties.OrThingsBoardCustomerProperties#getDefaultUserPassword()
+     */
+    public JsonNode active(String id, String password) {
+        password = StrUtil.blankToDefault(password, OrThingsBoardProperties.OrThingsBoardCustomerProperties.DEFAULT_USER_PASSWORD);
+        return clientService.getClient().activateUser(new UserId(UUID.fromString(id)), password).orElseThrow();
     }
 
     public User findById(String id) {

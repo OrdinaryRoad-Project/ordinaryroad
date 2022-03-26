@@ -40,6 +40,7 @@
         <module>ordinaryroad-commons-mybatis</module>
         <module>ordinaryroad-commons-satoken</module>
         <module>ordinaryroad-commons-minio</module>
+        <module>ordinaryroad-commons-thingsboard</module>
     </modules>
 
     <artifactId>ordinaryroad-commons</artifactId>

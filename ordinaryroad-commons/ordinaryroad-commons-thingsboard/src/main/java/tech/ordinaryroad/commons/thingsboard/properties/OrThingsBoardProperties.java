@@ -40,6 +40,8 @@ public class OrThingsBoardProperties {
 
     private OrThingsBoardTenantProperties tenant = new OrThingsBoardTenantProperties();
 
+    private OrThingsBoardCustomerProperties customer = new OrThingsBoardCustomerProperties();
+
     @Data
     public static class OrThingsBoardClientProperties {
         /**
@@ -64,5 +66,20 @@ public class OrThingsBoardProperties {
          * Tenant UUID
          */
         private String id;
+    }
+
+    @Data
+    public static class OrThingsBoardCustomerProperties {
+
+        public static final String DEFAULT_USER_PASSWORD = "Abc123";
+
+        /**
+         * Customer UUID
+         */
+        private String id;
+        /**
+         * 激活用户时的默认密码
+         */
+        private String defaultUserPassword = DEFAULT_USER_PASSWORD;
     }
 }
