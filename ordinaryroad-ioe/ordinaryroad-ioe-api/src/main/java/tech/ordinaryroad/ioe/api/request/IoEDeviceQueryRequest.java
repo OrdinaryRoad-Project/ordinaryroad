@@ -21,29 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.api.api;
+package tech.ordinaryroad.ioe.api.request;
 
-
-import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceQueryRequest;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author mjz
- * @date 2022/3/24
+ * @date 2022/3/26
  */
-@Api(value = "设备API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEDeviceApi")
-public interface IIoEDeviceApi {
+@Getter
+@Setter
+@ApiModel
+public class IoEDeviceQueryRequest extends IoEBaseQueryRequest {
 
-    @PostMapping("/device/list")
-    Result<PageInfo<IoEDeviceDTO>> list(@RequestBody @Validated IoEDeviceQueryRequest request);
+    private static final long serialVersionUID = 630621223854460423L;
+
+    @ApiModelProperty("设备类型")
+    private String deviceType;
 
 }

@@ -23,13 +23,17 @@
  */
 package tech.ordinaryroad.ioe.web.controller;
 
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardClientService;
 import tech.ordinaryroad.ioe.api.api.IIoEDeviceApi;
-import tech.ordinaryroad.upms.api.ISysApi;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceQueryRequest;
+import tech.ordinaryroad.ioe.facade.IIoEDeviceFacade;
 
 /**
  * @author mjz
@@ -40,13 +44,11 @@ import tech.ordinaryroad.upms.api.ISysApi;
 @RestController
 public class IoEDeviceController implements IIoEDeviceApi {
 
-    private final ISysApi sysApi;
-    private final OrThingsBoardClientService thingsBoardService;
+    private final IIoEDeviceFacade deviceFacade;
 
     @Override
-    public Result<?> list() {
-
-        return null;
+    public Result<PageInfo<IoEDeviceDTO>> list(@RequestBody @Validated IoEDeviceQueryRequest request) {
+        return deviceFacade.list(request);
     }
 
 }

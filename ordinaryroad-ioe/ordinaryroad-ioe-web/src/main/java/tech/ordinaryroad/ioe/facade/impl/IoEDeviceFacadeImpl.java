@@ -21,29 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.api.api;
-
+package tech.ordinaryroad.ioe.facade.impl;
 
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
+import org.thingsboard.server.common.data.Device;
+import org.thingsboard.server.common.data.page.PageData;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
+import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceQueryRequest;
+import tech.ordinaryroad.ioe.facade.IIoEDeviceFacade;
+import tech.ordinaryroad.ioe.mapstruct.IoEDeviceMapStruct;
+import tech.ordinaryroad.ioe.service.IoEService;
+import tech.ordinaryroad.ioe.utis.IoEUtils;
 
 /**
  * @author mjz
- * @date 2022/3/24
+ * @date 2022/3/26
  */
-@Api(value = "设备API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEDeviceApi")
-public interface IIoEDeviceApi {
+@RequiredArgsConstructor
+@Component
+public class IoEDeviceFacadeImpl implements IIoEDeviceFacade {
 
-    @PostMapping("/device/list")
-    Result<PageInfo<IoEDeviceDTO>> list(@RequestBody @Validated IoEDeviceQueryRequest request);
+    private final IoEService ioEService;
+    private final OrThingsBoardDeviceService thingsBoardDeviceService;
+    private final IoEDeviceMapStruct mapStruct;
+
+    @Override
+    public Result<PageInfo<IoEDeviceDTO>> list(IoEDeviceQueryRequest request) {
+        final String userId = ioEService.getUser().getUserId();
+        final String deviceType = request.getDeviceType();
+
+        final PageData<Device> devicePageData = thingsBoardDeviceService.listCustomerDevices(userId, deviceType, IoEUtils.requestToPageLink(request));
+        final PageInfo<IoEDeviceDTO> ioEDeviceDTOPageInfo = IoEUtils.pageDataToPageInfo(devicePageData, mapStruct::transfer);
+
+        return Result.success(ioEDeviceDTOPageInfo);
+    }
 
 }

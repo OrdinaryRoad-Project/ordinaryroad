@@ -21,29 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.api.api;
+package tech.ordinaryroad.ioe.service;
 
+import cn.dev33.satoken.stp.StpUtil;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import tech.ordinaryroad.ioe.entity.IoEUserDO;
 
-import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceQueryRequest;
+import java.util.Optional;
 
 /**
  * @author mjz
- * @date 2022/3/24
+ * @date 2022/3/26
  */
-@Api(value = "设备API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEDeviceApi")
-public interface IIoEDeviceApi {
+@RequiredArgsConstructor
+@Service
+public class IoEService {
 
-    @PostMapping("/device/list")
-    Result<PageInfo<IoEDeviceDTO>> list(@RequestBody @Validated IoEDeviceQueryRequest request);
+    private final IoEUserService userService;
+
+    public IoEUserDO getUser() {
+        final String openid = StpUtil.getLoginIdAsString();
+        final Optional<IoEUserDO> optional = userService.findByOpenid(openid);
+        return optional.orElseThrow();
+    }
 
 }
