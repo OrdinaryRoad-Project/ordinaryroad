@@ -25,8 +25,8 @@
 package tech.ordinaryroad.commons.mybatis.service;
 
 import cn.dev33.satoken.context.SaHolder;
-import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
@@ -37,6 +37,8 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
+import tech.ordinaryroad.push.api.IPushApi;
+import tech.ordinaryroad.push.request.EmailPushRequest;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 import tk.mybatis.mapper.weekend.WeekendSqls;
@@ -62,6 +64,10 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
 
     @Autowired
     protected D dao;
+    @Autowired
+    protected IFillMetaFieldService<T> fillMetaFieldService;
+    @Autowired
+    protected IPushApi pushApi;
 
     /**
      * 新增记录
@@ -363,10 +369,16 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             return;
         }
         try {
-            t.setCreateBy(StpUtil.getLoginIdAsString());
+            t.setCreateBy(fillMetaFieldService.generateCreateBy(t));
         } catch (Exception e) {
-            // TODO 如果有报错需要处理
-            log.error("fillMetaFieldsWhenCreate createBy failed, " + requestPath, e);
+            // 如果有报错需要处理
+            log.error("TODO fillMetaFieldsWhenCreate createBy failed, " + requestPath, e);
+            final EmailPushRequest emailPushRequest = new EmailPushRequest();
+            // 设置邮箱
+            emailPushRequest.setEmail(fillMetaFieldService.emailToReceiveErrorMsgWhenGenerating(t, e));
+            emailPushRequest.setTitle("创建时填充字段异常");
+            emailPushRequest.setContent("fillMetaFieldsWhenCreate createBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
+            pushApi.email(emailPushRequest);
         }
     }
 
@@ -384,10 +396,15 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             return;
         }
         try {
-            t.setUpdateBy(StpUtil.getLoginIdAsString());
+            t.setUpdateBy(fillMetaFieldService.generateUpdateBy(t));
         } catch (Exception e) {
-            // TODO 如果有报错需要处理
-            log.error("fillMetaFieldsWhenUpdate updateBy failed, " + requestPath, e);
+            // 如果有报错需要处理
+            log.error("TODO fillMetaFieldsWhenUpdate updateBy failed, " + requestPath, e);
+            final EmailPushRequest emailPushRequest = new EmailPushRequest();
+            emailPushRequest.setEmail(fillMetaFieldService.emailToReceiveErrorMsgWhenGenerating(t, e));
+            emailPushRequest.setTitle("更新时填充字段异常");
+            emailPushRequest.setContent("fillMetaFieldsWhenCreate createBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
+            pushApi.email(emailPushRequest);
         }
     }
 

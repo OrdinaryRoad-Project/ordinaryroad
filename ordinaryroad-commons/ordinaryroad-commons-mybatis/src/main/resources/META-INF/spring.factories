@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  tech.ordinaryroad.commons.mybatis.service.impl.FillMetaFieldServiceImpl

@@ -70,6 +70,12 @@
             <groupId>com.github.pagehelper</groupId>
             <artifactId>pagehelper-spring-boot-starter</artifactId>
         </dependency>
+
+        <!-- ordinaryroad-push-api -->
+        <dependency>
+            <groupId>tech.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-push-api</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
