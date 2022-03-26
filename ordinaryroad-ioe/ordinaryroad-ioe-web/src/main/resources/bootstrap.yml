@@ -1,0 +1,18 @@
+# Tomcat
+server:
+  port: 9701
+# Spring
+spring:
+  profiles:
+    active: @profiles.active@
+  application:
+    # 应用名称
+    name: ordinaryroad-ioe
+  cloud:
+    nacos:
+      server-addr: ordinaryroad-nacos:8848
+      config:
+        file-extension: yaml
+        shared-configs:
+          - ordinaryroad-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
+        namespace: @profiles.active@

@@ -83,7 +83,7 @@
         <metadata-extractor.version>2.16.0</metadata-extractor.version>
         <jiguang-common.version>1.2.0</jiguang-common.version>
         <jpush-client.version>3.6.1</jpush-client.version>
-        <thingsboard.rest-client.version>3.3.4.1</thingsboard.rest-client.version>
+        <thingsboard.rest-client.version>3.3.4</thingsboard.rest-client.version>
     </properties>
 
     <modules>
@@ -260,6 +260,13 @@
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-im-api</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
+            <!-- ordinaryroad-ioe-api -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-ioe-api</artifactId>
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
