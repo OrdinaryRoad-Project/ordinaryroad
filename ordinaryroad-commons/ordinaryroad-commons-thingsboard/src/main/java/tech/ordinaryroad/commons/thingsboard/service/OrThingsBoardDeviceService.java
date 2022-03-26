@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.commons.thingsboard.service;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thingsboard.server.common.data.Device;
@@ -42,7 +43,7 @@ import java.util.UUID;
 @Service
 public class OrThingsBoardDeviceService {
 
-    private volatile OrThingsBoardClientService clientService;
+    private final OrThingsBoardClientService clientService;
 
     /**
      * 查询所有设备类型
@@ -54,7 +55,9 @@ public class OrThingsBoardDeviceService {
     }
 
     /**
-     * 分页查询Customer的所有设备
+     * Returns a page of devices objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
      *
      * @param id         Customer Id
      * @param deviceType 设备类型名称
@@ -62,7 +65,7 @@ public class OrThingsBoardDeviceService {
      * @return PageData
      */
     public PageData<Device> listCustomerDevices(String id, String deviceType, PageLink pageLink) {
-        return clientService.getClient().getCustomerDevices(new CustomerId(UUID.fromString(id)), deviceType, pageLink);
+        return clientService.getClient().getCustomerDevices(new CustomerId(UUID.fromString(id)), StrUtil.blankToDefault(deviceType, null), pageLink);
     }
 
 }
