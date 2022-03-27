@@ -26,14 +26,14 @@ package tech.ordinaryroad.ioe.facade.impl;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.thingsboard.server.common.data.Device;
+import org.thingsboard.server.common.data.DeviceInfo;
 import org.thingsboard.server.common.data.page.PageData;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceQueryRequest;
-import tech.ordinaryroad.ioe.facade.IIoEDeviceFacade;
-import tech.ordinaryroad.ioe.mapstruct.IoEDeviceMapStruct;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceInfoQueryRequest;
+import tech.ordinaryroad.ioe.facade.IIoEDeviceInfoFacade;
+import tech.ordinaryroad.ioe.mapstruct.IoEDeviceInfoMapStruct;
 import tech.ordinaryroad.ioe.service.IoEService;
 import tech.ordinaryroad.ioe.utis.IoEUtils;
 
@@ -43,21 +43,22 @@ import tech.ordinaryroad.ioe.utis.IoEUtils;
  */
 @RequiredArgsConstructor
 @Component
-public class IoEDeviceFacadeImpl implements IIoEDeviceFacade {
+public class IoEDeviceInfoFacadeImpl implements IIoEDeviceInfoFacade {
 
     private final IoEService ioEService;
     private final OrThingsBoardDeviceService thingsBoardDeviceService;
-    private final IoEDeviceMapStruct mapStruct;
+    private final IoEDeviceInfoMapStruct mapStruct;
 
     @Override
-    public Result<PageInfo<IoEDeviceDTO>> list(IoEDeviceQueryRequest request) {
-        final String userId = ioEService.getUser().getUserId();
+    public Result<PageInfo<IoEDeviceInfoDTO>> list(IoEDeviceInfoQueryRequest request) {
+        final String customerId = ioEService.getUser().getCustomerId();
         final String deviceType = request.getDeviceType();
+        final String deviceProfileId = request.getDeviceProfileId();
 
-        final PageData<Device> devicePageData = thingsBoardDeviceService.listCustomerDevices(userId, deviceType, IoEUtils.requestToPageLink(request));
-        final PageInfo<IoEDeviceDTO> ioEDeviceDTOPageInfo = IoEUtils.pageDataToPageInfo(devicePageData, mapStruct::transfer);
+        final PageData<DeviceInfo> deviceInfoPageData = thingsBoardDeviceService.listDeviceInfos(customerId, deviceType, deviceProfileId, IoEUtils.requestToPageLink(request));
+        final PageInfo<IoEDeviceInfoDTO> pageInfo = IoEUtils.pageDataToPageInfo(deviceInfoPageData, mapStruct::transfer);
 
-        return Result.success(ioEDeviceDTOPageInfo);
+        return Result.success(pageInfo);
     }
 
 }

@@ -33,6 +33,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import org.thingsboard.server.common.data.Customer;
 import org.thingsboard.server.common.data.User;
 import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
@@ -42,6 +43,7 @@ import tech.ordinaryroad.commons.core.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.satoken.properties.OAuth2ClientProperties;
 import tech.ordinaryroad.commons.thingsboard.properties.OrThingsBoardProperties;
+import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardCustomerService;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardUserService;
 import tech.ordinaryroad.ioe.api.api.IIoEApi;
 import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
@@ -67,6 +69,7 @@ public class IoEController implements IIoEApi {
     private final IIoEUserFacade ioEUserFacade;
     private final IOAuth2Api oAuth2Api;
     private final OrThingsBoardProperties thingsBoardProperties;
+    private final OrThingsBoardCustomerService thingsBoardCustomerService;
     private final OrThingsBoardUserService thingsBoardUserService;
 
     @Transactional(rollbackFor = BaseException.class)
@@ -120,7 +123,7 @@ public class IoEController implements IIoEApi {
             log.info("IoE authorized(), 3. IoEUser already existed, skip create");
             ioEUserDTO = ioeUserResult.getData();
         } else {
-            log.info("IoE authorized(), 3.1/4 IoEUser not exist, creating...");
+            log.info("IoE authorized(), 3.1/5 IoEUser not exist, creating...");
             // 获取userinfo
             final OAuth2UserinfoRequest oAuth2UserinfoRequest = new OAuth2UserinfoRequest();
             oAuth2UserinfoRequest.setAccessToken(accessToken);
@@ -132,27 +135,34 @@ public class IoEController implements IIoEApi {
             final SysUserDTO sysUserDTO = userInfoDTO.getUser();
             final String defaultUsername = sysUserDTO.getUsername();
 
-            // 创建Customer下的User
+            // 创建Customer
             final String tenantId = thingsBoardProperties.getTenant().getId();
-            final String customerId = thingsBoardProperties.getCustomer().getId();
-            final User user = thingsBoardUserService.create(sysUserDTO.getEmail(), sysUserDTO.getUsername(), null, tenantId, customerId);
-            log.info("IoE authorized(), 3.2/4 ThingsBoard User created successfully, {}", user);
+            final Customer customer = thingsBoardCustomerService.create(tenantId, null, defaultUsername);
+            log.info("IoE authorized(), 3.2/5 ThingsBoard Customer created successfully, {}", customer);
+
+            // 创建Customer下的User
+            final String customerId = customer.getId().toString();
+            final String email = sysUserDTO.getEmail();
+            final User user = thingsBoardUserService.create(email, defaultUsername, null, tenantId, customerId);
+            log.info("IoE authorized(), 3.3/5 ThingsBoard User created successfully, {}", user);
 
             // 直接激活User
-            thingsBoardUserService.active(user.getId().toString());
-            log.info("IoE authorized(), 3.3/4 ThingsBoard User activation succeeded");
+            final String userId = user.getId().toString();
+            thingsBoardUserService.active(userId);
+            log.info("IoE authorized(), 3.4/5 ThingsBoard User activation succeeded");
 
             // 创建新IoE用户
             final IoEUserSaveRequest ioEUserSaveRequest = new IoEUserSaveRequest();
             ioEUserSaveRequest.setOpenid(openid);
-            ioEUserSaveRequest.setUserId(user.getId().toString());
+            ioEUserSaveRequest.setCustomerId(customerId);
+            ioEUserSaveRequest.setUserId(userId);
             ioEUserSaveRequest.setUsername(defaultUsername);
             final Result<IoEUserDTO> ioEUserDTOResult = ioEUserFacade.create(ioEUserSaveRequest);
             if (!ioEUserDTOResult.getSuccess()) {
                 throw new BaseException(ioEUserDTOResult.getMsg());
             }
             ioEUserDTO = ioEUserDTOResult.getData();
-            log.info("IoE authorized(), 3.4/4 IoEUser successfully created");
+            log.info("IoE authorized(), 3.5/5 IoEUser successfully created");
         }
 
         // 4. 处理完毕，传参到网页进行重定向

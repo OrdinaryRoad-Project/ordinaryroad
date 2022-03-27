@@ -21,19 +21,29 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.api.api;
 
-import org.mapstruct.Mapper;
-import org.thingsboard.server.common.data.Device;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
+
+import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceInfoQueryRequest;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/3/24
  */
-@Mapper(componentModel = "spring")
-public interface IoEDeviceMapStruct {
+@Api(value = "设备信息API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEDeviceInfoApi")
+public interface IIoEDeviceInfoApi {
 
-    IoEDeviceDTO transfer(Device device);
+    @PostMapping("/device_info/list")
+    Result<PageInfo<IoEDeviceInfoDTO>> list(@RequestBody @Validated IoEDeviceInfoQueryRequest request);
 
 }

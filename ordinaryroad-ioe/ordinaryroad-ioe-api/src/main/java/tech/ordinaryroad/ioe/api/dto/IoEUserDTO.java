@@ -36,12 +36,15 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 @ApiModel
 public class IoEUserDTO extends BaseModelDTO {
 
-    private static final long serialVersionUID = 1532880120603815002L;
+    private static final long serialVersionUID = 461662457804011762L;
 
     @ApiModelProperty("openid")
     private String openid;
 
-    @ApiModelProperty("ThingsBoard平台UserId")
+    @ApiModelProperty("ThingsBoard平台CustomerId")
+    private String customerId;
+
+    @ApiModelProperty("ThingsBoard平台Customer下的UserId")
     private String userId;
 
     @ApiModelProperty("用户名")

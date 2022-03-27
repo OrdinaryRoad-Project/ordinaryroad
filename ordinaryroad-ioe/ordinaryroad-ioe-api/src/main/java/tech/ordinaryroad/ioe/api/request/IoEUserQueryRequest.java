@@ -40,14 +40,18 @@ import javax.validation.constraints.Size;
 @ApiModel
 public class IoEUserQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = 2374064687502575847L;
+    private static final long serialVersionUID = -5507954058279484886L;
 
     @ApiModelProperty(value = "openid")
     @Size(max = 50, message = "openid长度不能超过50")
     private String openid;
 
-    @ApiModelProperty(value = "ThingsBoard平台UserId")
-    @Size(min = 36, max = 36, message = "ThingsBoard平台UserId长度必须为36")
+    @ApiModelProperty(value = "ThingsBoard平台CustomerId")
+    @Size(min = 36, max = 36, message = "ThingsBoard平台CustomerId长度必须为36")
+    private String customerId;
+
+    @ApiModelProperty(value = "ThingsBoard平台Customer下的UserId")
+    @Size(min = 36, max = 36, message = "ThingsBoard平台Customer下的UserId长度必须为36")
     private String userId;
 
     @ApiModelProperty(value = "用户名")

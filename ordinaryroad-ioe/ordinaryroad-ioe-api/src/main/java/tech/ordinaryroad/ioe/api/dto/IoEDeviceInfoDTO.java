@@ -31,13 +31,13 @@ import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 /**
  * @author mjz
  * @date 2022/3/26
- * @see org.thingsboard.server.common.data.Device
+ * @see org.thingsboard.server.common.data.DeviceInfo
  */
 @Data
 @ApiModel
-public class IoEDeviceDTO extends BaseDTO {
+public class IoEDeviceInfoDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 1241854323240124665L;
+    private static final long serialVersionUID = -8615980067033064368L;
 
     @ApiModelProperty("名称")
     private String name;

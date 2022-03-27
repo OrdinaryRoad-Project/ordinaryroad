@@ -25,21 +25,21 @@ package tech.ordinaryroad.ioe.facade;
 
 import com.github.pagehelper.PageInfo;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceQueryRequest;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceInfoQueryRequest;
 
 /**
  * @author mjz
  * @date 2022/3/26
  */
-public interface IIoEDeviceFacade {
+public interface IIoEDeviceInfoFacade {
 
     /**
-     * 查询设备列表
+     * 分页查询用户拥有的设备列表
      *
      * @param request Request
      * @return Page
      */
-    Result<PageInfo<IoEDeviceDTO>> list(IoEDeviceQueryRequest request);
+    Result<PageInfo<IoEDeviceInfoDTO>> list(IoEDeviceInfoQueryRequest request);
 
 }

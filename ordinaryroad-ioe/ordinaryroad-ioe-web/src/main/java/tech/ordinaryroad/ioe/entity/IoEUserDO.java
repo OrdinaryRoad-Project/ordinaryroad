@@ -40,7 +40,7 @@ import javax.persistence.Table;
 @Table(name = "ioe_user")
 public class IoEUserDO extends BaseDO {
 
-    private static final long serialVersionUID = 6442456219682338416L;
+    private static final long serialVersionUID = 8752168860950692702L;
 
     /**
      * Openid
@@ -48,7 +48,12 @@ public class IoEUserDO extends BaseDO {
     private String openid;
 
     /**
-     * ThingsBoard平台UserId
+     * ThingsBoard平台CustomerId
+     */
+    private String customerId;
+
+    /**
+     * ThingsBoard平台Customer下的UserId
      */
     private String userId;
 

@@ -46,12 +46,16 @@ public class IoEUserService extends BaseService<IoEUserDAO, IoEUserDO> {
 
         final String uuid = sysDictDO.getUuid();
         final String openid = sysDictDO.getOpenid();
+        final String customerId = sysDictDO.getCustomerId();
         final String userId = sysDictDO.getUserId();
         if (StrUtil.isNotBlank(uuid)) {
             optional = Optional.ofNullable(super.findById(uuid));
         }
         if (!optional.isPresent() && StrUtil.isNotBlank(openid)) {
             optional = this.findByOpenid(openid);
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(customerId)) {
+            optional = this.findByCustomerId(customerId);
         }
         if (!optional.isPresent() && StrUtil.isNotBlank(userId)) {
             optional = this.findByUserId(userId);
@@ -67,6 +71,19 @@ public class IoEUserService extends BaseService<IoEUserDAO, IoEUserDO> {
 
             final Example build = Example.builder(IoEUserDO.class)
                     .where(sql.andEqualTo(IoEUserDO::getOpenid, openid))
+                    .build();
+            optional = Optional.ofNullable(super.dao.selectOneByExample(build));
+        }
+        return optional;
+    }
+
+    public Optional<IoEUserDO> findByCustomerId(String customerId) {
+        Optional<IoEUserDO> optional = Optional.empty();
+        if (StrUtil.isNotBlank(customerId)) {
+            WeekendSqls<IoEUserDO> sql = WeekendSqls.custom();
+
+            final Example build = Example.builder(IoEUserDO.class)
+                    .where(sql.andEqualTo(IoEUserDO::getCustomerId, customerId))
                     .build();
             optional = Optional.ofNullable(super.dao.selectOneByExample(build));
         }

@@ -41,19 +41,24 @@ import javax.validation.constraints.Size;
 @ApiModel
 public class IoEUserSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 7014705500615704995L;
+    private static final long serialVersionUID = 4561847746638515732L;
 
     @ApiModelProperty(value = "openid", required = true)
     @NotBlank(message = "openid不能为空")
     @Size(max = 50, message = "openid长度不能超过50")
     private String openid;
 
-    @ApiModelProperty(value = "ThingsBoard平台UserId", required = true)
-    @NotBlank(message = "ThingsBoard平台UserId不能为空")
-    @Size(min = 36, max = 36, message = "ThingsBoard平台UserId长度必须为36")
+    @ApiModelProperty(value = "ThingsBoard平台CustomerId", required = true)
+    @NotBlank(message = "ThingsBoard平台CustomerId不能为空")
+    @Size(min = 36, max = 36, message = "ThingsBoard平台CustomerId长度必须为36")
+    private String customerId;
+
+    @ApiModelProperty(value = "ThingsBoard平台Customer下的UserId", required = true)
+    @NotBlank(message = "ThingsBoard平台Customer下的UserId不能为空")
+    @Size(min = 36, max = 36, message = "ThingsBoard平台Customer下的UserId长度必须为36")
     private String userId;
 
-    @ApiModelProperty(value = "用户名")
+    @ApiModelProperty(value = "用户名", required = true)
     @NotBlank(message = "用户名不能为空")
     @Size(max = 20, message = "用户名长度不能超过20")
     private String username;

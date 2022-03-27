@@ -21,25 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.api.request;
+package tech.ordinaryroad.ioe.web.controller;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import com.github.pagehelper.PageInfo;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.ioe.api.api.IIoEDeviceInfoApi;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceInfoQueryRequest;
+import tech.ordinaryroad.ioe.facade.IIoEDeviceInfoFacade;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/3/24
  */
-@Getter
-@Setter
-@ApiModel
-public class IoEDeviceQueryRequest extends IoEBaseQueryRequest {
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class IoEDeviceInfoController implements IIoEDeviceInfoApi {
 
-    private static final long serialVersionUID = 630621223854460423L;
+    private final IIoEDeviceInfoFacade deviceInfoFacade;
 
-    @ApiModelProperty("设备类型")
-    private String deviceType;
+    @Override
+    public Result<PageInfo<IoEDeviceInfoDTO>> list(@RequestBody @Validated IoEDeviceInfoQueryRequest request) {
+        return deviceInfoFacade.list(request);
+    }
 
 }
