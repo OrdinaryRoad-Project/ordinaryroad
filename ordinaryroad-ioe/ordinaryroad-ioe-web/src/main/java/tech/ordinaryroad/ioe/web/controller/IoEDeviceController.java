@@ -21,19 +21,39 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.web.controller;
 
-import org.mapstruct.Mapper;
-import org.thingsboard.server.common.data.DeviceInfo;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.ioe.api.api.IIoEDeviceApi;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
+import tech.ordinaryroad.ioe.facade.IIoEDeviceFacade;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/3/27
  */
-@Mapper(componentModel = "spring")
-public interface IoEDeviceInfoMapStruct {
+@Slf4j
+@RequiredArgsConstructor
+@RestController
+public class IoEDeviceController implements IIoEDeviceApi {
 
-    IoEDeviceInfoDTO transfer(DeviceInfo deviceInfo);
+    private final IIoEDeviceFacade deviceFacade;
+
+    @Override
+    public Result<IoEDeviceDTO> create(@RequestBody @Validated IoEDeviceSaveRequest request) {
+        return deviceFacade.create(request);
+    }
+
+    @Override
+    public Result<IoEDeviceDTO> delete(@RequestBody @Validated IoEDeviceDeleteRequest request) {
+        return deviceFacade.delete(request);
+    }
 
 }

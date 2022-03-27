@@ -21,19 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.api.api;
 
-import org.mapstruct.Mapper;
-import org.thingsboard.server.common.data.DeviceInfo;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+
+import io.swagger.annotations.Api;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/3/27
  */
-@Mapper(componentModel = "spring")
-public interface IoEDeviceInfoMapStruct {
+@Api(value = "设备API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEDeviceApi")
+public interface IIoEDeviceApi {
 
-    IoEDeviceInfoDTO transfer(DeviceInfo deviceInfo);
+    @PostMapping("/device/create")
+    Result<IoEDeviceDTO> create(@RequestBody @Validated IoEDeviceSaveRequest request);
+
+    @PostMapping("/device/delete")
+    Result<IoEDeviceDTO> delete(@RequestBody @Validated IoEDeviceDeleteRequest request);
 
 }

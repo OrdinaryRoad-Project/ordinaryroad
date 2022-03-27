@@ -21,19 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.api.request;
 
-import org.mapstruct.Mapper;
-import org.thingsboard.server.common.data.DeviceInfo;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/3/27
  */
-@Mapper(componentModel = "spring")
-public interface IoEDeviceInfoMapStruct {
+@Getter
+@Setter
+@ApiModel
+public class IoEDeviceSaveRequest extends BaseSaveRequest {
 
-    IoEDeviceInfoDTO transfer(DeviceInfo deviceInfo);
+    private static final long serialVersionUID = -8830527549335099294L;
+
+    @ApiModelProperty(value = "ThingsBoard平台DeviceId", required = true)
+    @NotBlank(message = "ThingsBoard平台DeviceId不能为空")
+    @Size(min = 36, max = 36, message = "ThingsBoard平台DeviceId长度必须为36")
+    private String deviceId;
 
 }

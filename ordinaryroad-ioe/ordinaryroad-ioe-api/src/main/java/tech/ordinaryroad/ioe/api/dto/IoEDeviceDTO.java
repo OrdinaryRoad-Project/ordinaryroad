@@ -21,19 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.api.dto;
 
-import org.mapstruct.Mapper;
-import org.thingsboard.server.common.data.DeviceInfo;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Data;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 
 /**
  * @author mjz
  * @date 2022/3/26
+ * @see org.thingsboard.server.common.data.Device
  */
-@Mapper(componentModel = "spring")
-public interface IoEDeviceInfoMapStruct {
+@Data
+@ApiModel
+public class IoEDeviceDTO extends BaseDTO {
 
-    IoEDeviceInfoDTO transfer(DeviceInfo deviceInfo);
+    private static final long serialVersionUID = 8563067170083673537L;
+
+    @ApiModelProperty("名称")
+    private String name;
+
+    @ApiModelProperty("类型")
+    private String type;
+
+    @ApiModelProperty("标签")
+    private String label;
 
 }

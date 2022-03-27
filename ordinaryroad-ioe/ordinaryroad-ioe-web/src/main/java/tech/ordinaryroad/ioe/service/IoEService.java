@@ -46,4 +46,8 @@ public class IoEService {
         return optional.orElseThrow();
     }
 
+    public String getCustomerId() {
+        return this.getUser().getCustomerId();
+    }
+
 }

@@ -24,9 +24,7 @@
 package tech.ordinaryroad.ioe.api.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 
 /**
  * @author mjz
@@ -35,17 +33,14 @@ import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
  */
 @Data
 @ApiModel
-public class IoEDeviceInfoDTO extends BaseDTO {
+public class IoEDeviceInfoDTO extends IoEDeviceDTO {
 
-    private static final long serialVersionUID = -8615980067033064368L;
+    private static final long serialVersionUID = 7084988126561766229L;
 
-    @ApiModelProperty("名称")
-    private String name;
+    private String customerTitle;
 
-    @ApiModelProperty("类型")
-    private String type;
+    private String customerIsPublic;
 
-    @ApiModelProperty("标签")
-    private String label;
+    private String deviceProfileName;
 
 }

@@ -21,19 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.facade;
 
-import org.mapstruct.Mapper;
-import org.thingsboard.server.common.data.DeviceInfo;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/3/27
  */
-@Mapper(componentModel = "spring")
-public interface IoEDeviceInfoMapStruct {
+public interface IIoEDeviceFacade {
 
-    IoEDeviceInfoDTO transfer(DeviceInfo deviceInfo);
+    /**
+     * 创建设备
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<IoEDeviceDTO> create(IoEDeviceSaveRequest request);
+
+    /**
+     * 删除设备
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<IoEDeviceDTO> delete(IoEDeviceDeleteRequest request);
 
 }
