@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thingsboard.server.common.data.*;
 import org.thingsboard.server.common.data.id.CustomerId;
+import org.thingsboard.server.common.data.id.DeviceId;
 import org.thingsboard.server.common.data.id.DeviceProfileId;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
@@ -36,6 +37,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.UUID;
 
 /**
@@ -47,6 +49,31 @@ import java.util.UUID;
 public class OrThingsBoardDeviceService {
 
     private final OrThingsBoardClientService clientService;
+
+    /**
+     * Creates assignment of the device to customer. Customer will be able to query device afterwards.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' authority.
+     *
+     * @param id       客户Id
+     * @param deviceId 设备Id
+     * @return Optional
+     */
+    public Optional<Device> assignDeviceToCustomer(@NotBlank String id, @NotBlank String deviceId) {
+        return clientService.getClient().assignDeviceToCustomer(new CustomerId(UUID.fromString(id)), DeviceId.fromString(deviceId));
+    }
+
+    /**
+     * Clears assignment of the device to customer. Customer will not be able to query device afterwards.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' authority.
+     *
+     * @param id 设备Id
+     * @return Optional
+     */
+    public Optional<Device> unassignDeviceFromCustomer(@NotBlank String id) {
+        return clientService.getClient().unassignDeviceFromCustomer(DeviceId.fromString(id));
+    }
 
     /**
      * Returns a set of unique device profile names based on devices that are either owned by the tenant or assigned to the customer which user is performing the request.
