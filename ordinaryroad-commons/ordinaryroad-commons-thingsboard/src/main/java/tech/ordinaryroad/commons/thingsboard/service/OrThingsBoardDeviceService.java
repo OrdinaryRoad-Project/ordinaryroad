@@ -26,13 +26,16 @@ package tech.ordinaryroad.commons.thingsboard.service;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.thingsboard.server.common.data.Device;
-import org.thingsboard.server.common.data.EntitySubtype;
+import org.thingsboard.server.common.data.*;
 import org.thingsboard.server.common.data.id.CustomerId;
+import org.thingsboard.server.common.data.id.DeviceProfileId;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -46,12 +49,18 @@ public class OrThingsBoardDeviceService {
     private final OrThingsBoardClientService clientService;
 
     /**
-     * 查询所有设备类型
+     * Returns a set of unique device profile names based on devices that are either owned by the tenant or assigned to the customer which user is performing the request.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
      *
      * @return List
      */
     public List<EntitySubtype> listDeviceTypes() {
         return clientService.getClient().getDeviceTypes();
+    }
+
+    public PageData<Device> listDevices(@NotBlank String id, @NotNull PageLink pageLink) {
+        return this.listDevices(id, null, pageLink);
     }
 
     /**
@@ -64,8 +73,68 @@ public class OrThingsBoardDeviceService {
      * @param pageLink   分页参数
      * @return PageData
      */
-    public PageData<Device> listCustomerDevices(String id, String deviceType, PageLink pageLink) {
-        return clientService.getClient().getCustomerDevices(new CustomerId(UUID.fromString(id)), StrUtil.blankToDefault(deviceType, null), pageLink);
+    public PageData<Device> listDevices(@NotBlank String id, String deviceType, @NotNull PageLink pageLink) {
+        return clientService.getClient()
+                .getCustomerDevices(
+                        new CustomerId(UUID.fromString(id)),
+                        StrUtil.blankToDefault(deviceType, null),
+                        pageLink
+                );
+    }
+
+    public PageData<DeviceProfileInfo> listDeviceProfileInfos(@NotNull PageLink pageLink) {
+        return this.listDeviceProfileInfos(pageLink, null);
+    }
+
+    /**
+     * Returns a page of devices profile info objects owned by tenant. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details. Device Profile Info is a lightweight object that includes main information about Device Profile excluding the heavyweight configuration object.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
+     * @param pageLink            分页参数 (*PageSize *Page)
+     * @param deviceTransportType DEFAULT, MQTT, COAP, LWM2M, SNMP 默认为MQTT
+     * @return PageData
+     * @see DeviceTransportType
+     */
+    public PageData<DeviceProfileInfo> listDeviceProfileInfos(@NotNull PageLink pageLink, DeviceTransportType deviceTransportType) {
+        return clientService.getClient()
+                .getDeviceProfileInfos(
+                        pageLink,
+                        Objects.requireNonNullElse(deviceTransportType, DeviceTransportType.MQTT)
+                );
+    }
+
+
+    public PageData<DeviceInfo> listDeviceInfos(@NotBlank String id, @NotNull PageLink pageLink) {
+        return this.listDeviceInfos(id, null, null, pageLink);
+    }
+
+    /**
+     * Returns a page of devices info objects assigned to customer. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details. Device Info is an extension of the default Device object that contains information about the assigned customer name and device profile name.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
+     * @param id              Customer Id (*)
+     * @param deviceType      设备类型名称
+     * @param deviceProfileId 设备配置Id
+     * @param pageLink        分页参数 (*PageSize *Page)
+     * @return PageData
+     */
+    public PageData<DeviceInfo> listDeviceInfos(@NotBlank String id, String deviceType, String deviceProfileId, @NotNull PageLink pageLink) {
+        DeviceProfileId profileId;
+        if (StrUtil.isBlank(deviceProfileId)) {
+            profileId = null;
+        } else {
+            profileId = DeviceProfileId.fromString(deviceProfileId);
+        }
+
+        return clientService.getClient()
+                .getCustomerDeviceInfos(
+                        new CustomerId(UUID.fromString(id)),
+                        StrUtil.blankToDefault(deviceType, null),
+                        profileId,
+                        pageLink
+                );
     }
 
 }

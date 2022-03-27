@@ -74,10 +74,6 @@ public class OrThingsBoardProperties {
         public static final String DEFAULT_USER_PASSWORD = "Abc123";
 
         /**
-         * Customer UUID
-         */
-        private String id;
-        /**
          * 激活用户时的默认密码
          */
         private String defaultUserPassword = DEFAULT_USER_PASSWORD;

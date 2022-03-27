@@ -45,8 +45,8 @@ public class OrThingsBoardCustomerService {
     private final OrThingsBoardClientService clientService;
 
     public Customer create(String tenantId, String email, String title) {
-        if (StrUtil.isBlank(tenantId) || StrUtil.isBlank(email) || StrUtil.isBlank(title)) {
-            throw new BaseException("tenantId and email and title cannot be empty when creating customer");
+        if (StrUtil.isBlank(tenantId) || StrUtil.isBlank(title)) {
+            throw new BaseException("tenantId and title cannot be empty when creating customer");
         }
         final Customer customer = new Customer();
         customer.setTenantId(TenantId.fromUUID(UUID.fromString(tenantId)));
