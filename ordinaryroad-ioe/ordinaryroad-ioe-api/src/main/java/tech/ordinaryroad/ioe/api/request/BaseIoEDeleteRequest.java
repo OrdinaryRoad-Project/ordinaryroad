@@ -23,28 +23,18 @@
  */
 package tech.ordinaryroad.ioe.api.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
 /**
  * @author mjz
- * @date 2022/3/27
+ * @date 2022/3/28
  */
 @Getter
 @Setter
-@ApiModel
-public class IoEDeviceDeleteRequest extends BaseIoEDeleteRequest {
+public class BaseIoEDeleteRequest extends BaseRequest {
 
-    private static final long serialVersionUID = 8405943186943627654L;
-
-    @ApiModelProperty(value = "ThingsBoard平台DeviceId", required = true)
-    @NotBlank(message = "ThingsBoard平台DeviceId不能为空")
-    @Size(min = 36, max = 36, message = "ThingsBoard平台DeviceId长度必须为36")
-    private String deviceId;
+    private static final long serialVersionUID = 6658386803191395594L;
 
 }
