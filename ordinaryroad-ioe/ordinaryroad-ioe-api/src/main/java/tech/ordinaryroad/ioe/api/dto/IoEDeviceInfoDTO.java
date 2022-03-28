@@ -35,7 +35,7 @@ import lombok.Data;
 @ApiModel
 public class IoEDeviceInfoDTO extends IoEDeviceDTO {
 
-    private static final long serialVersionUID = 7084988126561766229L;
+    private static final long serialVersionUID = 7313025837051182459L;
 
     private String customerTitle;
 

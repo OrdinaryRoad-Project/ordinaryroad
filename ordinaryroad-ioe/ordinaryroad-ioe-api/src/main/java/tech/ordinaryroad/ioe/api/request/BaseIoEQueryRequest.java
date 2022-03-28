@@ -23,10 +23,9 @@
  */
 package tech.ordinaryroad.ioe.api.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 
 /**
  * @author mjz
@@ -34,15 +33,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@ApiModel
-public class IoEDeviceInfoQueryRequest extends BaseIoEQueryRequest {
+public class BaseIoEQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = -6827488578297217838L;
+    private static final long serialVersionUID = -2340083389001322504L;
 
-    @ApiModelProperty("设备类型")
-    private String deviceType;
-
-    @ApiModelProperty("设备配置Id")
-    private String deviceProfileId;
+    private String textSearch;
 
 }

@@ -21,28 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.api.request;
+package tech.ordinaryroad.ioe.mapstruct;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
+import org.mapstruct.Mapper;
+import org.thingsboard.server.common.data.id.UUIDBased;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/3/28
  */
-@Getter
-@Setter
-@ApiModel
-public class IoEDeviceInfoQueryRequest extends BaseIoEQueryRequest {
+@Mapper(componentModel = "spring")
+public interface BaseIoEMapStruct<ID extends UUIDBased> {
 
-    private static final long serialVersionUID = -6827488578297217838L;
-
-    @ApiModelProperty("设备类型")
-    private String deviceType;
-
-    @ApiModelProperty("设备配置Id")
-    private String deviceProfileId;
+    default String transfer(ID id) {
+        return id.toString();
+    }
 
 }

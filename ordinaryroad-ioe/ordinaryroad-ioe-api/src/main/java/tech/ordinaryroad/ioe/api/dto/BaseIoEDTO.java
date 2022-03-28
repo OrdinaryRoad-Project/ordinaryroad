@@ -21,22 +21,20 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.api.request;
+package tech.ordinaryroad.ioe.api.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/3/28
  */
-@Getter
-@Setter
-public class IoEBaseQueryRequest extends BaseQueryRequest {
+@Data
+@ApiModel
+public class BaseIoEDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 926316810700471817L;
-
-    private String textSearch;
+    private String id;
 
 }
