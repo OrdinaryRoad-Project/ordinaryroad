@@ -30,8 +30,11 @@ import org.thingsboard.server.common.data.*;
 import org.thingsboard.server.common.data.id.CustomerId;
 import org.thingsboard.server.common.data.id.DeviceId;
 import org.thingsboard.server.common.data.id.DeviceProfileId;
+import org.thingsboard.server.common.data.kv.Aggregation;
+import org.thingsboard.server.common.data.kv.TsKvEntry;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
+import org.thingsboard.server.common.data.page.SortOrder;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -49,6 +52,7 @@ import java.util.UUID;
 public class OrThingsBoardDeviceService {
 
     private final OrThingsBoardClientService clientService;
+    private final OrThingsBoardTimeseriesService timeseriesService;
 
     /**
      * Creates assignment of the device to customer. Customer will be able to query device afterwards.
@@ -131,7 +135,6 @@ public class OrThingsBoardDeviceService {
                 );
     }
 
-
     public PageData<DeviceInfo> listDeviceInfos(@NotBlank String id, @NotNull PageLink pageLink) {
         return this.listDeviceInfos(id, null, null, pageLink);
     }
@@ -162,6 +165,16 @@ public class OrThingsBoardDeviceService {
                         profileId,
                         pageLink
                 );
+    }
+
+    public List<String> getTimeseriesKeys(@NotBlank String id) {
+        return timeseriesService.getTimeseriesKeys(DeviceId.fromString(id));
+    }
+
+    public List<TsKvEntry> getTimeseries(@NotBlank String id, @NotNull List<String> keys,
+                                         @NotNull Long startTime, @NotNull Long endTime,
+                                         Long interval, Aggregation agg, SortOrder.Direction direction, Integer limit, Boolean useStrictDataTypes) {
+        return timeseriesService.getTimeseries(DeviceId.fromString(id), keys, startTime, endTime, interval, agg, direction, limit, useStrictDataTypes);
     }
 
 }
