@@ -62,13 +62,16 @@ public class IoEUtils {
         return new PageLink(limit, page, textSearch, sortOrder);
     }
 
-    public static <T, DTO extends BaseDTO> PageInfo<DTO> pageDataToPageInfo(PageData<T> pageData, Function<T, DTO> mapper) {
+    public static <T, DTO extends BaseDTO> PageInfo<DTO> pageDataToPageInfo(PageLink pageLink, PageData<T> pageData, Function<T, DTO> mapper) {
         final List<DTO> dtoList = pageData.getData().stream().map(mapper).collect(Collectors.toList());
 
         PageInfo<DTO> pageInfo = new PageInfo<>();
         pageInfo.setList(dtoList);
         pageInfo.setTotal(pageData.getTotalElements());
         pageInfo.setHasNextPage(pageData.hasNext());
+        pageInfo.setPages(pageData.getTotalPages());
+        pageInfo.setPageNum(pageLink.getPage() + 1);
+        pageInfo.setPageSize(pageLink.getPageSize());
         pageInfo.calcByNavigatePages(pageData.getTotalPages());
 
         return pageInfo;

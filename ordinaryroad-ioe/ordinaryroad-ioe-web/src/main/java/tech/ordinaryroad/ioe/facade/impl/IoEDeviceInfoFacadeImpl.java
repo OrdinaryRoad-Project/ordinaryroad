@@ -28,6 +28,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.thingsboard.server.common.data.DeviceInfo;
 import org.thingsboard.server.common.data.page.PageData;
+import org.thingsboard.server.common.data.page.PageLink;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
@@ -55,8 +56,9 @@ public class IoEDeviceInfoFacadeImpl implements IIoEDeviceInfoFacade {
         final String deviceType = request.getDeviceType();
         final String deviceProfileId = request.getDeviceProfileId();
 
-        final PageData<DeviceInfo> deviceInfoPageData = thingsBoardDeviceService.listDeviceInfos(customerId, deviceType, deviceProfileId, IoEUtils.requestToPageLink(request));
-        final PageInfo<IoEDeviceInfoDTO> pageInfo = IoEUtils.pageDataToPageInfo(deviceInfoPageData, mapStruct::transfer);
+        final PageLink pageLink = IoEUtils.requestToPageLink(request);
+        final PageData<DeviceInfo> deviceInfoPageData = thingsBoardDeviceService.listDeviceInfos(customerId, deviceType, deviceProfileId, pageLink);
+        final PageInfo<IoEDeviceInfoDTO> pageInfo = IoEUtils.pageDataToPageInfo(pageLink, deviceInfoPageData, mapStruct::transfer);
 
         return Result.success(pageInfo);
     }
