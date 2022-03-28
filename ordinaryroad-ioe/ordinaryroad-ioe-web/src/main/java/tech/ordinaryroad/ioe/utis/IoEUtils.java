@@ -30,7 +30,7 @@ import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
 import org.thingsboard.server.common.data.page.SortOrder;
 import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
-import tech.ordinaryroad.ioe.api.request.IoEBaseQueryRequest;
+import tech.ordinaryroad.ioe.api.request.BaseIoEQueryRequest;
 
 import java.util.List;
 import java.util.function.Function;
@@ -42,7 +42,7 @@ import java.util.stream.Collectors;
  */
 public class IoEUtils {
 
-    public static PageLink requestToPageLink(IoEBaseQueryRequest request) {
+    public static PageLink requestToPageLink(BaseIoEQueryRequest request) {
         final String textSearch = request.getTextSearch();
 
         final Integer offset = request.getOffset();
@@ -51,7 +51,7 @@ public class IoEUtils {
 
         final SortOrder sortOrder;
         final String orderByAscProperty = ArrayUtil.get(request.getOrderBy(), 0);
-        final String orderByDescProperty = ArrayUtil.get(request.getOrderBy(), 0);
+        final String orderByDescProperty = ArrayUtil.get(request.getOrderByDesc(), 0);
         if (StrUtil.isNotBlank(orderByAscProperty)) {
             sortOrder = new SortOrder(orderByAscProperty, SortOrder.Direction.ASC);
         } else if (StrUtil.isNotBlank(orderByDescProperty)) {
