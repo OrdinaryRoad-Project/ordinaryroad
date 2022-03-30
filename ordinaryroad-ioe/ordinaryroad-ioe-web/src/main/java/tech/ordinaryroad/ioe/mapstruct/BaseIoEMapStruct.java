@@ -24,7 +24,9 @@
 package tech.ordinaryroad.ioe.mapstruct;
 
 import org.mapstruct.Mapper;
+import org.thingsboard.server.common.data.id.DeviceCredentialsId;
 import org.thingsboard.server.common.data.id.UUIDBased;
+import org.thingsboard.server.common.data.security.DeviceCredentialsType;
 
 /**
  * @author mjz
@@ -34,6 +36,14 @@ import org.thingsboard.server.common.data.id.UUIDBased;
 public interface BaseIoEMapStruct<ID extends UUIDBased> {
 
     default String transfer(ID id) {
+        return id.toString();
+    }
+
+    default String transfer(DeviceCredentialsType type) {
+        return type.toString();
+    }
+
+    default String transfer(DeviceCredentialsId id) {
         return id.toString();
     }
 

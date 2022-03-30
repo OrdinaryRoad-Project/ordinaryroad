@@ -26,6 +26,8 @@ package tech.ordinaryroad.ioe.mapstruct;
 import org.mapstruct.Mapper;
 import org.thingsboard.server.common.data.Device;
 import org.thingsboard.server.common.data.id.DeviceId;
+import org.thingsboard.server.common.data.security.DeviceCredentials;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
 
 /**
@@ -36,5 +38,7 @@ import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
 public interface IoEDeviceMapStruct extends BaseIoEMapStruct<DeviceId> {
 
     IoEDeviceDTO transfer(Device device);
+
+    IoEDeviceCredentialsDTO transfer(DeviceCredentials deviceCredentials);
 
 }

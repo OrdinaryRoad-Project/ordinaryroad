@@ -26,8 +26,10 @@ package tech.ordinaryroad.ioe.facade.impl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.thingsboard.server.common.data.Device;
+import org.thingsboard.server.common.data.security.DeviceCredentials;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
@@ -62,6 +64,12 @@ public class IoEDeviceFacadeImpl implements IIoEDeviceFacade {
         final String deviceId = request.getDeviceId();
         final Optional<Device> optional = thingsBoardDeviceService.unassignDeviceFromCustomer(deviceId);
         return optional.map(device -> Result.success(mapStruct.transfer(device))).orElse(Result.fail());
+    }
+
+    @Override
+    public Result<IoEDeviceCredentialsDTO> credentials(String id) {
+        final Optional<DeviceCredentials> optional = thingsBoardDeviceService.getDeviceCredentials(id);
+        return optional.map(deviceCredentials -> Result.success(mapStruct.transfer(deviceCredentials))).orElse(Result.fail());
     }
 
 }

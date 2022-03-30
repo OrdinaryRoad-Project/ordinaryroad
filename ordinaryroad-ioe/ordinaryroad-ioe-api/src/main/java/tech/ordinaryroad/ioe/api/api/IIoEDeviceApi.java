@@ -27,13 +27,18 @@ package tech.ordinaryroad.ioe.api.api;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author mjz
@@ -48,5 +53,8 @@ public interface IIoEDeviceApi {
 
     @PostMapping("/device/delete")
     Result<IoEDeviceDTO> delete(@RequestBody @Validated IoEDeviceDeleteRequest request);
+
+    @GetMapping("/device/credentials/{id}")
+    Result<IoEDeviceCredentialsDTO> credentials(@PathVariable @Validated @NotBlank String id);
 
 }

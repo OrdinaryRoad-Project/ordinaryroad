@@ -26,14 +26,18 @@ package tech.ordinaryroad.ioe.web.controller;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.api.IIoEDeviceApi;
+import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
 import tech.ordinaryroad.ioe.facade.IIoEDeviceFacade;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author mjz
@@ -54,6 +58,11 @@ public class IoEDeviceController implements IIoEDeviceApi {
     @Override
     public Result<IoEDeviceDTO> delete(@RequestBody @Validated IoEDeviceDeleteRequest request) {
         return deviceFacade.delete(request);
+    }
+
+    @Override
+    public Result<IoEDeviceCredentialsDTO> credentials(@PathVariable @Validated @NotBlank String id) {
+        return deviceFacade.credentials(id);
     }
 
 }

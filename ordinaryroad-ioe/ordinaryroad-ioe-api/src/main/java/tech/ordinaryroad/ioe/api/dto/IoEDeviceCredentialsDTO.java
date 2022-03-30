@@ -21,41 +21,24 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.facade;
+package tech.ordinaryroad.ioe.api.dto;
 
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
 /**
  * @author mjz
- * @date 2022/3/27
+ * @date 2022/3/30
+ * @see org.thingsboard.server.common.data.security.DeviceCredentials
  */
-public interface IIoEDeviceFacade {
+@Data
+@ApiModel
+public class IoEDeviceCredentialsDTO extends BaseIoEDTO {
 
-    /**
-     * 创建设备
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<IoEDeviceDTO> create(IoEDeviceSaveRequest request);
+    private static final long serialVersionUID = -6250821658906955145L;
 
-    /**
-     * 删除设备
-     *
-     * @param request Request
-     * @return DTO
-     */
-    Result<IoEDeviceDTO> delete(IoEDeviceDeleteRequest request);
+    private String credentialsType;
+    private String credentialsId;
+    private String credentialsValue;
 
-    /**
-     * 查询设备凭证
-     *
-     * @param id 设备Id
-     * @return DTO
-     */
-    Result<IoEDeviceCredentialsDTO> credentials(String id);
 }
