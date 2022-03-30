@@ -35,6 +35,7 @@ import org.thingsboard.server.common.data.kv.TsKvEntry;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
 import org.thingsboard.server.common.data.page.SortOrder;
+import org.thingsboard.server.common.data.security.DeviceCredentials;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -175,6 +176,18 @@ public class OrThingsBoardDeviceService {
                                          @NotNull Long startTime, @NotNull Long endTime,
                                          Long interval, Aggregation agg, SortOrder.Direction direction, Integer limit, Boolean useStrictDataTypes) {
         return timeseriesService.getTimeseries(DeviceId.fromString(id), keys, startTime, endTime, interval, agg, direction, limit, useStrictDataTypes);
+    }
+
+    /**
+     * If during device creation there wasn't specified any credentials, platform generates random 'ACCESS_TOKEN' credentials.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
+     * @param id 设备Id
+     * @return Optional
+     */
+    public Optional<DeviceCredentials> getDeviceCredentials(@NotBlank String id) {
+        return clientService.getClient().getDeviceCredentialsByDeviceId(DeviceId.fromString(id));
     }
 
 }
