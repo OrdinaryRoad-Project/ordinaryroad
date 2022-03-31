@@ -27,6 +27,7 @@ import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,11 +51,14 @@ import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
 import tech.ordinaryroad.ioe.api.dto.IoEUserinfoDTO;
 import tech.ordinaryroad.ioe.api.request.IoEUserQueryRequest;
 import tech.ordinaryroad.ioe.api.request.IoEUserSaveRequest;
+import tech.ordinaryroad.ioe.entity.IoEUserDO;
 import tech.ordinaryroad.ioe.facade.IIoEUserFacade;
+import tech.ordinaryroad.ioe.service.IoEUserService;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * @author mjz
@@ -67,6 +71,7 @@ public class IoEController implements IIoEApi {
 
     private final OAuth2ClientProperties oAuth2ClientProperties;
     private final IIoEUserFacade ioEUserFacade;
+    private final IoEUserService userService;
     private final IOAuth2Api oAuth2Api;
     private final OrThingsBoardProperties thingsBoardProperties;
     private final OrThingsBoardCustomerService thingsBoardCustomerService;
@@ -189,6 +194,15 @@ public class IoEController implements IIoEApi {
         ioEUserinfoDTO.setUser(ioeUserResult.getData());
 
         return Result.success(ioEUserinfoDTO);
+    }
+
+    @Override
+    public Result<JsonNode> thingsboardToken() {
+        final String openid = StpUtil.getLoginIdAsString();
+
+        final Optional<IoEUserDO> optional = userService.findByOpenid(openid);
+
+        return optional.map(ioEUserDO -> Result.success(thingsBoardUserService.getToken(ioEUserDO.getUserId()))).orElse(Result.fail());
     }
 
 }

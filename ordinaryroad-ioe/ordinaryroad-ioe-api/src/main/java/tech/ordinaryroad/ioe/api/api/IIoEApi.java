@@ -24,6 +24,7 @@
 package tech.ordinaryroad.ioe.api.api;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -55,5 +56,8 @@ public interface IIoEApi {
     @ApiOperation(value = "获取业务用户信息接口", notes = "openid未在ThingsBoard平台注册Customer则data为空")
     @GetMapping("/userinfo")
     Result<IoEUserinfoDTO> userinfo();
+
+    @GetMapping("/thingsboard/token")
+    Result<JsonNode> thingsboardToken();
 
 }

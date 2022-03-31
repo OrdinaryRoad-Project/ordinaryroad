@@ -109,4 +109,19 @@ public class OrThingsBoardUserService {
         return clientService.getClient().getUserById(new UserId(UUID.fromString(id))).orElseThrow();
     }
 
+    /**
+     * Returns the token of the User based on the provided User Id.
+     * If the user who performs the request has the authority of 'SYS_ADMIN', it is possible to get the token of any tenant administrator.
+     * If the user who performs the request has the authority of 'TENANT_ADMIN', it is possible to get the token of any customer user that belongs to the same tenant.
+     *
+     * @param id 用户Id
+     * @return {
+     * "refreshToken": "AAB254FF67D..",
+     * "token": "AAB254FF67D.."
+     * }
+     */
+    public JsonNode getToken(String id) {
+        return clientService.getClient().getUserToken(UserId.fromString(id)).orElseThrow();
+    }
+
 }
