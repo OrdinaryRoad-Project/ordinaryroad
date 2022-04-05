@@ -21,24 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.facade;
 
-import org.mapstruct.Mapper;
-import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
-import tech.ordinaryroad.ioe.api.request.IoEUserQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEUserSaveRequest;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
+import com.github.pagehelper.PageInfo;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.ioe.api.dto.IoEGeofenceDTO;
+import tech.ordinaryroad.ioe.api.request.IoEGeofenceQueryRequest;
+import tech.ordinaryroad.ioe.api.request.IoEGeofenceSaveRequest;
 
 /**
  * @author mjz
- * @date 2022/3/25
+ * @date 2022/4/5
  */
-@Mapper(componentModel = "spring")
-public interface IoEUserMapStruct {
+public interface IIoEGeofenceFacade {
 
-    IoEUserDO transfer(IoEUserSaveRequest request);
+    /**
+     * 创建
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<IoEGeofenceDTO> create(IoEGeofenceSaveRequest request);
 
-    IoEUserDTO transfer(IoEUserDO ioEUserDO);
+    /**
+     * 查询
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<PageInfo<IoEGeofenceDTO>> list(IoEGeofenceQueryRequest request);
 
-    IoEUserDO transfer(IoEUserQueryRequest request);
 }

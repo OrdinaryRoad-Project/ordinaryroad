@@ -24,21 +24,21 @@
 package tech.ordinaryroad.ioe.mapstruct;
 
 import org.mapstruct.Mapper;
-import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
-import tech.ordinaryroad.ioe.api.request.IoEUserQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEUserSaveRequest;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
+import tech.ordinaryroad.ioe.api.dto.IoEGeofenceDTO;
+import tech.ordinaryroad.ioe.api.request.IoEGeofenceQueryRequest;
+import tech.ordinaryroad.ioe.api.request.IoEGeofenceSaveRequest;
+import tech.ordinaryroad.ioe.entity.IoEGeofenceDO;
 
 /**
  * @author mjz
- * @date 2022/3/25
+ * @date 2022/4/5
  */
 @Mapper(componentModel = "spring")
-public interface IoEUserMapStruct {
+public interface IoEGeofenceMapStruct {
 
-    IoEUserDO transfer(IoEUserSaveRequest request);
+    IoEGeofenceDO transfer(IoEGeofenceSaveRequest request);
 
-    IoEUserDTO transfer(IoEUserDO ioEUserDO);
+    IoEGeofenceDTO transfer(IoEGeofenceDO ioEGeofenceDO);
 
-    IoEUserDO transfer(IoEUserQueryRequest request);
+    IoEGeofenceDO transfer(IoEGeofenceQueryRequest request);
 }

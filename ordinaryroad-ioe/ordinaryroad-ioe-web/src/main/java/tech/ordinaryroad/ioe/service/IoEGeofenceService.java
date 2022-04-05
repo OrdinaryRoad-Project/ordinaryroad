@@ -21,24 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.service;
 
-import org.mapstruct.Mapper;
-import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
-import tech.ordinaryroad.ioe.api.request.IoEUserQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEUserSaveRequest;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
+import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.mybatis.service.BaseService;
+import tech.ordinaryroad.ioe.dao.IoEGeofenceDAO;
+import tech.ordinaryroad.ioe.entity.IoEGeofenceDO;
 
 /**
  * @author mjz
- * @date 2022/3/25
+ * @date 2022/4/5
  */
-@Mapper(componentModel = "spring")
-public interface IoEUserMapStruct {
+@Service
+public class IoEGeofenceService extends BaseService<IoEGeofenceDAO, IoEGeofenceDO> {
 
-    IoEUserDO transfer(IoEUserSaveRequest request);
-
-    IoEUserDTO transfer(IoEUserDO ioEUserDO);
-
-    IoEUserDO transfer(IoEUserQueryRequest request);
 }

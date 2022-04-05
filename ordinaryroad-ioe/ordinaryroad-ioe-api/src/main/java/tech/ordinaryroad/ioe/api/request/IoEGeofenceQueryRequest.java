@@ -21,24 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.api.request;
 
-import org.mapstruct.Mapper;
-import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
-import tech.ordinaryroad.ioe.api.request.IoEUserQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEUserSaveRequest;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import java.util.List;
 
 /**
  * @author mjz
- * @date 2022/3/25
+ * @date 2022/4/5
  */
-@Mapper(componentModel = "spring")
-public interface IoEUserMapStruct {
+@Getter
+@Setter
+@ApiModel
+public class IoEGeofenceQueryRequest extends BaseQueryRequest {
 
-    IoEUserDO transfer(IoEUserSaveRequest request);
+    private static final long serialVersionUID = -5839926685040982429L;
 
-    IoEUserDTO transfer(IoEUserDO ioEUserDO);
+    @ApiModelProperty("ThingsBoard平台设备Id")
+    private String deviceId;
 
-    IoEUserDO transfer(IoEUserQueryRequest request);
+    @ApiModelProperty("名称")
+    private String name;
+
+    @ApiModelProperty(value = "围栏类型，目前仅支持：0 1", allowableValues = "0,1")
+    private Integer type;
+
+    @ApiModelProperty("半径（米）")
+    private Integer radius;
+
+    @ApiModelProperty("点列表")
+    private List<String> pointList;
+
 }

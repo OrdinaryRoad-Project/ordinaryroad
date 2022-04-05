@@ -21,24 +21,33 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.api.api;
 
-import org.mapstruct.Mapper;
-import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
-import tech.ordinaryroad.ioe.api.request.IoEUserQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEUserSaveRequest;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
+
+import com.github.pagehelper.PageInfo;
+import io.swagger.annotations.Api;
+import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
+import tech.ordinaryroad.ioe.api.dto.IoEGeofenceDTO;
+import tech.ordinaryroad.ioe.api.request.IoEGeofenceQueryRequest;
+import tech.ordinaryroad.ioe.api.request.IoEGeofenceSaveRequest;
 
 /**
  * @author mjz
- * @date 2022/3/25
+ * @date 2022/4/5
  */
-@Mapper(componentModel = "spring")
-public interface IoEUserMapStruct {
+@Api(value = "地理围栏API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEGeofemceApi")
+public interface IIoEGeofemceApi {
 
-    IoEUserDO transfer(IoEUserSaveRequest request);
+    @PostMapping("/geofence/create")
+    Result<IoEGeofenceDTO> create(@RequestBody @Validated IoEGeofenceSaveRequest request);
 
-    IoEUserDTO transfer(IoEUserDO ioEUserDO);
+    @PostMapping("/geofence/list")
+    Result<PageInfo<IoEGeofenceDTO>> list(@RequestBody @Validated IoEGeofenceQueryRequest request);
 
-    IoEUserDO transfer(IoEUserQueryRequest request);
 }

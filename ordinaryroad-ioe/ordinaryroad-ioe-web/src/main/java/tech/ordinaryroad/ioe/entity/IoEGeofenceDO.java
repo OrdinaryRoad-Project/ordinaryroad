@@ -21,24 +21,58 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.mapstruct;
+package tech.ordinaryroad.ioe.entity;
 
-import org.mapstruct.Mapper;
-import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
-import tech.ordinaryroad.ioe.api.request.IoEUserQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEUserSaveRequest;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
+import lombok.Getter;
+import lombok.Setter;
+import tech.ordinaryroad.commons.mybatis.model.BaseDO;
+
+import javax.persistence.Table;
+import java.util.List;
 
 /**
+ * 地理围栏表
+ *
  * @author mjz
- * @date 2022/3/25
+ * @date 2022/4/5
  */
-@Mapper(componentModel = "spring")
-public interface IoEUserMapStruct {
+@Getter
+@Setter
+@Table(name = "ioe_geofence")
+public class IoEGeofenceDO extends BaseDO {
 
-    IoEUserDO transfer(IoEUserSaveRequest request);
+    private static final long serialVersionUID = 1582044757835050587L;
 
-    IoEUserDTO transfer(IoEUserDO ioEUserDO);
+    /**
+     * ThingsBoard平台设备Id
+     */
+    private String deviceId;
 
-    IoEUserDO transfer(IoEUserQueryRequest request);
+    /**
+     * 名称
+     */
+    private String name;
+
+    /**
+     * 围栏类型，目前仅支持：0 1
+     * <p>
+     * 0    TYPE_ROUND
+     * 1    TYPE_POLYGON
+     * 2    TYPE_AMAPPOI
+     * 3    TYPE_DISTRICT
+     */
+    private Integer type;
+
+    /**
+     * 半径（米） type = 0
+     */
+    private Integer radius;
+
+    /**
+     * 点列表
+     * type = 0: 中心点坐标
+     * type = 1：多边形端点
+     */
+    private List<String> pointList;
+
 }
