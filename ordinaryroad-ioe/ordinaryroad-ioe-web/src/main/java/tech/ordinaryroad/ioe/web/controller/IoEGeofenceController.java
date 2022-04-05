@@ -45,7 +45,7 @@ import tech.ordinaryroad.ioe.facade.IIoEGeofenceFacade;
 @RestController
 public class IoEGeofenceController implements IIoEGeofemceApi {
 
-    private IIoEGeofenceFacade facade;
+    private final IIoEGeofenceFacade facade;
 
     @Override
     public Result<IoEGeofenceDTO> create(@RequestBody @Validated IoEGeofenceSaveRequest request) {

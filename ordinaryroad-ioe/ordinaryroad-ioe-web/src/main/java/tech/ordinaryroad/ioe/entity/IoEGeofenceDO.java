@@ -26,6 +26,8 @@ package tech.ordinaryroad.ioe.entity;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
+import tech.ordinaryroad.commons.mybatis.type.ListTypeHandler;
+import tk.mybatis.mapper.annotation.ColumnType;
 
 import javax.persistence.Table;
 import java.util.List;
@@ -73,6 +75,7 @@ public class IoEGeofenceDO extends BaseDO {
      * type = 0: 中心点坐标
      * type = 1：多边形端点
      */
+    @ColumnType(typeHandler = ListTypeHandler.class)
     private List<String> pointList;
 
 }
