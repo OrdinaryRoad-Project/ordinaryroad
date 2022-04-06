@@ -235,6 +235,13 @@
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
+            <!-- ordinaryroad-commons-kafka -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-commons-kafka</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
             <!-- ordinaryroad-auth-server-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
