@@ -81,6 +81,18 @@ public class OrThingsBoardDeviceService {
     }
 
     /**
+     * Requested device must be owned by tenant that the user belongs to. Device name is an unique property of device. So it can be used to identify the device.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' authority.
+     *
+     * @param deviceName 设备名称
+     * @return Optional
+     */
+    public Optional<Device> getTenantDevice(@NotBlank String deviceName) {
+        return clientService.getClient().getTenantDevice(deviceName);
+    }
+
+    /**
      * Returns a set of unique device profile names based on devices that are either owned by the tenant or assigned to the customer which user is performing the request.
      * <p>
      * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
