@@ -29,6 +29,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.validator.constraints.Range;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
+import tech.ordinaryroad.ioe.api.LatLon;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -62,6 +63,6 @@ public class IoEGeofenceSaveRequest extends BaseSaveRequest {
 
     @ApiModelProperty("点列表")
     @NotEmpty(message = "点列表不能为空")
-    private List<String> pointList;
+    private List<LatLon> pointList;
 
 }

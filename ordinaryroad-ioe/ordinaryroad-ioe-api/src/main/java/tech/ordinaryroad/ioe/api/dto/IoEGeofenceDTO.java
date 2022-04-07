@@ -27,6 +27,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+import tech.ordinaryroad.ioe.api.LatLon;
 
 import java.util.List;
 
@@ -53,6 +54,6 @@ public class IoEGeofenceDTO extends BaseModelDTO {
     private Integer radius;
 
     @ApiModelProperty("点列表")
-    private List<String> pointList;
+    private List<LatLon> pointList;
 
 }

@@ -21,61 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.entity;
 
-import lombok.Getter;
-import lombok.Setter;
-import tech.ordinaryroad.commons.mybatis.model.BaseDO;
-import tech.ordinaryroad.ioe.api.LatLon;
-import tk.mybatis.mapper.annotation.ColumnType;
+package tech.ordinaryroad.ioe.api;
 
-import javax.persistence.Table;
-import java.util.List;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-/**
- * 地理围栏表
- *
- * @author mjz
- * @date 2022/4/5
- */
-@Getter
-@Setter
-@Table(name = "ioe_geofence")
-public class IoEGeofenceDO extends BaseDO {
-
-    private static final long serialVersionUID = 1582044757835050587L;
-
-    /**
-     * ThingsBoard平台设备Id
-     */
-    private String deviceId;
-
-    /**
-     * 名称
-     */
-    private String name;
-
-    /**
-     * 围栏类型，目前仅支持：0 1
-     * <p>
-     * 0    TYPE_ROUND
-     * 1    TYPE_POLYGON
-     * 2    TYPE_AMAPPOI
-     * 3    TYPE_DISTRICT
-     */
-    private Integer type;
-
-    /**
-     * 半径（米） type = 0
-     */
-    private Integer radius;
-
-    /**
-     * 点列表
-     * type = 0: 中心点坐标
-     * type = 1：多边形端点
-     */
-    @ColumnType(typeHandler = LatLonListTypeHandler.class)
-    private List<LatLon> pointList;
-
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+public class LatLon {
+    private double latitude;
+    private double longitude;
 }

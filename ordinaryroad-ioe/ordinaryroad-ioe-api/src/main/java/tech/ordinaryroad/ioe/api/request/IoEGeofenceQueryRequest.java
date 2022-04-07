@@ -28,6 +28,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+import tech.ordinaryroad.ioe.api.LatLon;
 
 import java.util.List;
 
@@ -55,6 +56,6 @@ public class IoEGeofenceQueryRequest extends BaseQueryRequest {
     private Integer radius;
 
     @ApiModelProperty("点列表")
-    private List<String> pointList;
+    private List<LatLon> pointList;
 
 }
