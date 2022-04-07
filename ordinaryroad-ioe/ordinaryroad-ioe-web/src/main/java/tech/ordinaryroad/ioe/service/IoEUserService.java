@@ -45,11 +45,15 @@ public class IoEUserService extends BaseService<IoEUserDAO, IoEUserDO> {
         Optional<IoEUserDO> optional = Optional.empty();
 
         final String uuid = sysDictDO.getUuid();
+        final String orNumber = sysDictDO.getOrNumber();
         final String openid = sysDictDO.getOpenid();
         final String customerId = sysDictDO.getCustomerId();
         final String userId = sysDictDO.getUserId();
         if (StrUtil.isNotBlank(uuid)) {
             optional = Optional.ofNullable(super.findById(uuid));
+        }
+        if (!optional.isPresent() && StrUtil.isNotBlank(orNumber)) {
+            optional = this.findByOrNumber(orNumber);
         }
         if (!optional.isPresent() && StrUtil.isNotBlank(openid)) {
             optional = this.findByOpenid(openid);
@@ -61,6 +65,19 @@ public class IoEUserService extends BaseService<IoEUserDAO, IoEUserDO> {
             optional = this.findByUserId(userId);
         }
 
+        return optional;
+    }
+
+    public Optional<IoEUserDO> findByOrNumber(String orNumber) {
+        Optional<IoEUserDO> optional = Optional.empty();
+        if (StrUtil.isNotBlank(orNumber)) {
+            WeekendSqls<IoEUserDO> sql = WeekendSqls.custom();
+
+            final Example build = Example.builder(IoEUserDO.class)
+                    .where(sql.andEqualTo(IoEUserDO::getOrNumber, orNumber))
+                    .build();
+            optional = Optional.ofNullable(super.dao.selectOneByExample(build));
+        }
         return optional;
     }
 

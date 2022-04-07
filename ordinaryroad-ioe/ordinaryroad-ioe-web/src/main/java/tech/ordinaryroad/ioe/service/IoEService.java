@@ -41,9 +41,13 @@ public class IoEService {
     private final IoEUserService userService;
 
     public IoEUserDO getUser() {
-        final String openid = StpUtil.getLoginIdAsString();
-        final Optional<IoEUserDO> optional = userService.findByOpenid(openid);
+        final String orNumber = StpUtil.getLoginIdAsString();
+        final Optional<IoEUserDO> optional = userService.findByOrNumber(orNumber);
         return optional.orElseThrow();
+    }
+
+    public String getOrNumber() {
+        return this.getUser().getOrNumber();
     }
 
     public String getCustomerId() {

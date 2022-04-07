@@ -36,7 +36,10 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 @ApiModel
 public class IoEUserDTO extends BaseModelDTO {
 
-    private static final long serialVersionUID = 461662457804011762L;
+    private static final long serialVersionUID = -8165375587823381248L;
+
+    @ApiModelProperty("orNumber")
+    private String orNumber;
 
     @ApiModelProperty("openid")
     private String openid;

@@ -41,7 +41,12 @@ import javax.validation.constraints.Size;
 @ApiModel
 public class IoEUserSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 4561847746638515732L;
+    private static final long serialVersionUID = -3813744880497511919L;
+
+    @ApiModelProperty(value = "OR账号", required = true)
+    @NotBlank(message = "OR账号不能为空")
+    @Size(max = 11, message = "OR账号长度不能超过11")
+    private String orNumber;
 
     @ApiModelProperty(value = "openid", required = true)
     @NotBlank(message = "openid不能为空")

@@ -40,7 +40,11 @@ import javax.validation.constraints.Size;
 @ApiModel
 public class IoEUserQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = -5507954058279484886L;
+    private static final long serialVersionUID = -2799156981755875752L;
+
+    @ApiModelProperty(value = "OR账号")
+    @Size(max = 11, message = "OR账号长度不能超过11")
+    private String orNumber;
 
     @ApiModelProperty(value = "openid")
     @Size(max = 50, message = "openid长度不能超过50")

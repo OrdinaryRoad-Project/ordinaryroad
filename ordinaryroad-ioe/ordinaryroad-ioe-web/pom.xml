@@ -67,12 +67,6 @@
         <dependency>
             <groupId>tech.ordinaryroad</groupId>
             <artifactId>ordinaryroad-commons-satoken</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>sa-token-dao-redis-jackson</artifactId>
-                    <groupId>cn.dev33</groupId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <!-- ordinaryroad-commons-thingsboard -->

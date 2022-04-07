@@ -38,6 +38,7 @@ import org.thingsboard.server.common.data.Customer;
 import org.thingsboard.server.common.data.User;
 import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
+import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
 import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.exception.BaseException;
@@ -114,10 +115,21 @@ public class IoEController implements IIoEApi {
         final String accessToken = data.getString("access_token");
         String openid = data.getString("openid");
 
-        // 2. 使用Openid登录IoE
-        StpUtil.login(openid, Boolean.TRUE);
+        // 2.1 根据openid获取其对应的userId
+        String clientId = params.getString(SaOAuth2Consts.Param.client_id);
+        OAuth2GetOrNumberRequest orNumberRequest = new OAuth2GetOrNumberRequest();
+        orNumberRequest.setClientId(clientId);
+        orNumberRequest.setOpenid(openid);
+        Result<String> orNumberResult = oAuth2Api.getOrNumber(orNumberRequest);
+        if (!orNumberResult.getSuccess()) {
+            throw new BaseException(orNumberResult.getMsg());
+        }
+        String orNumber = orNumberResult.getData();
+
+        // 2.2 使用OrNumber登录IoE
+        StpUtil.login(orNumber, Boolean.TRUE);
         final String tokenValue = StpUtil.getTokenValue();
-        log.info("IoE authorized(), 2. login successfully.,\nAccessToken: {}\nOpenid：{}\nSaToken：{}", data, openid, tokenValue);
+        log.info("IoE authorized(), 2. login successfully.\nAccessToken: {}\nOpenid：{}\nOrNumber:{}\nSaToken：{}", data, openid, orNumber, tokenValue);
 
         // 3. 根据openid查询IoE User是否存在，不存在则直接创建
         final IoEUserQueryRequest request = new IoEUserQueryRequest();
@@ -158,6 +170,7 @@ public class IoEController implements IIoEApi {
 
             // 创建新IoE用户
             final IoEUserSaveRequest ioEUserSaveRequest = new IoEUserSaveRequest();
+            ioEUserSaveRequest.setOrNumber(orNumber);
             ioEUserSaveRequest.setOpenid(openid);
             ioEUserSaveRequest.setCustomerId(customerId);
             ioEUserSaveRequest.setUserId(userId);
@@ -183,10 +196,10 @@ public class IoEController implements IIoEApi {
     public Result<IoEUserinfoDTO> userinfo() {
         final IoEUserinfoDTO ioEUserinfoDTO = new IoEUserinfoDTO();
 
-        final String openid = StpUtil.getLoginIdAsString();
+        final String orNumber = StpUtil.getLoginIdAsString();
 
         final IoEUserQueryRequest request = new IoEUserQueryRequest();
-        request.setOpenid(openid);
+        request.setOrNumber(orNumber);
         final Result<IoEUserDTO> ioeUserResult = ioEUserFacade.findByUniqueColumn(request);
         if (!ioeUserResult.getSuccess()) {
             return Result.fail();
@@ -198,9 +211,9 @@ public class IoEController implements IIoEApi {
 
     @Override
     public Result<JsonNode> thingsboardToken() {
-        final String openid = StpUtil.getLoginIdAsString();
+        final String orNumber = StpUtil.getLoginIdAsString();
 
-        final Optional<IoEUserDO> optional = userService.findByOpenid(openid);
+        final Optional<IoEUserDO> optional = userService.findByOrNumber(orNumber);
 
         return optional.map(ioEUserDO -> Result.success(thingsBoardUserService.getToken(ioEUserDO.getUserId()))).orElse(Result.fail());
     }
