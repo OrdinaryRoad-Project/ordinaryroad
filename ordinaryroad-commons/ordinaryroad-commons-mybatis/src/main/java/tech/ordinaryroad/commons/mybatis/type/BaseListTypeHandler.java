@@ -44,7 +44,7 @@ public abstract class BaseListTypeHandler<E> extends BaseTypeHandler<List<E>> {
 
     private final Class<E> clazz;
 
-    protected BaseListTypeHandler(Class<E> clazz) {
+    public BaseListTypeHandler(Class<E> clazz) {
         this.clazz = clazz;
     }
 
