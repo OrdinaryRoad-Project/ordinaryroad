@@ -43,6 +43,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.push.properties.OrPushProperties;
+import tech.ordinaryroad.push.properties.OrPushProperties.JPushProperties;
 
 import java.util.List;
 
@@ -68,8 +69,8 @@ public class JPushService {
     private volatile JPushClient jPushClient;
     private final static String SCHEDULE_NAME = "OrdinaryRoad";
 
-    private OrPushProperties.JPushProperties getJPushProperties(String packageName) {
-        return JSON.parseObject(pushProperties.getPackageNamePropertiesMap().get(packageName), OrPushProperties.JPushProperties.class);
+    private JPushProperties getJPushProperties(String packageName) {
+        return JSON.parseObject(pushProperties.getPackageNamePropertiesMap().get(packageName), JPushProperties.class);
     }
 
     private String getAppKey(String packageName) {

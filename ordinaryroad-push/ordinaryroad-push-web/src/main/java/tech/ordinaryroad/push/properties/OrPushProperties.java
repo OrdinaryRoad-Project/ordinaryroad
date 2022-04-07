@@ -45,7 +45,7 @@ public class OrPushProperties {
     private Map<String, String> packageNamePropertiesMap = new HashMap<>();
 
     @Data
-    public class JPushProperties {
+    public static class JPushProperties {
         private String appKey;
         private String masterSecret;
     }
