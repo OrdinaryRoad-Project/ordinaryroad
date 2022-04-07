@@ -24,6 +24,7 @@
 package tech.ordinaryroad.commons.mybatis.type;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import org.apache.ibatis.type.BaseTypeHandler;
 import org.apache.ibatis.type.JdbcType;
 
@@ -39,30 +40,37 @@ import java.util.List;
  * @author mjz
  * @date 2022/1/20
  */
-public class ListTypeHandler extends BaseTypeHandler<List<Object>> {
+public abstract class ListTypeHandler<E> extends BaseTypeHandler<List<E>> {
+
+    private final Class<E> clazz;
+
+    protected ListTypeHandler(Class<E> clazz) {
+        this.clazz = clazz;
+    }
 
     @Override
-    public void setNonNullParameter(PreparedStatement ps, int i, List<Object> parameter, JdbcType jdbcType) throws SQLException {
+    public void setNonNullParameter(PreparedStatement ps, int i, List<E> parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, JSON.toJSONString(parameter));
     }
 
     @Override
-    public List<Object> getNullableResult(ResultSet rs, String columnName) throws SQLException {
+    public List<E> getNullableResult(ResultSet rs, String columnName) throws SQLException {
         return getObjectList(rs.getString(columnName));
     }
 
     @Override
-    public List<Object> getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
+    public List<E> getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         return getObjectList(rs.getString(columnIndex));
     }
 
     @Override
-    public List<Object> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
+    public List<E> getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         return getObjectList(cs.getString(columnIndex));
     }
 
-    private List<Object> getObjectList(String string) {
-        return JSON.parseArray(string, Object.class);
+    private List<E> getObjectList(String string) {
+        return JSON.parseObject(string, new TypeReference<List<E>>(clazz) {
+        });
     }
 
 }
