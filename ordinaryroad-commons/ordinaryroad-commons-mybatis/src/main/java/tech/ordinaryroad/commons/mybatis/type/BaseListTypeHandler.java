@@ -40,11 +40,11 @@ import java.util.List;
  * @author mjz
  * @date 2022/1/20
  */
-public abstract class ListTypeHandler<E> extends BaseTypeHandler<List<E>> {
+public abstract class BaseListTypeHandler<E> extends BaseTypeHandler<List<E>> {
 
     private final Class<E> clazz;
 
-    protected ListTypeHandler(Class<E> clazz) {
+    protected BaseListTypeHandler(Class<E> clazz) {
         this.clazz = clazz;
     }
 
