@@ -16,3 +16,7 @@ spring:
         shared-configs:
           - ordinaryroad-${spring.profiles.active}.${spring.cloud.nacos.config.file-extension}
         namespace: @profiles.active@
+  kafka:
+    bootstrap-servers:
+      - ordinaryroad-kafka:9092
+      - ordinaryroad-kafka:9093

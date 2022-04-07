@@ -21,31 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.service;
-
-import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.mybatis.service.BaseService;
-import tech.ordinaryroad.ioe.dao.IoEGeofenceDAO;
-import tech.ordinaryroad.ioe.entity.IoEGeofenceDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.weekend.WeekendSqls;
-
-import java.util.List;
+package tech.ordinaryroad.ioe.api.constant;
 
 /**
  * @author mjz
- * @date 2022/4/5
+ * @date 2022/4/7
  */
-@Service
-public class IoEGeofenceService extends BaseService<IoEGeofenceDAO, IoEGeofenceDO> {
+public class PushCons {
 
-    public List<IoEGeofenceDO> findAllByCreateByAndDeviceId(String createBy, String deviceId) {
-        WeekendSqls<IoEGeofenceDO> sqls = WeekendSqls.custom();
-
-        sqls.andEqualTo(IoEGeofenceDO::getCreateBy, createBy)
-                .andEqualTo(IoEGeofenceDO::getDeviceId, deviceId);
-
-        return super.dao.selectByExample(Example.builder(IoEGeofenceDO.class).where(sqls).build());
-    }
+    public static final String ANDROID_PACKAGE_NAME = "tech.ordinaryroad.ioe.android";
 
 }

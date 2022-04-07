@@ -21,31 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.service;
+package tech.ordinaryroad.ioe.utis;
 
-import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.mybatis.service.BaseService;
-import tech.ordinaryroad.ioe.dao.IoEGeofenceDAO;
-import tech.ordinaryroad.ioe.entity.IoEGeofenceDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.weekend.WeekendSqls;
+public enum RangeUnit {
+    METER(1000.0), KILOMETER(1.0), FOOT(3280.84), MILE(0.62137), NAUTICAL_MILE(0.539957);
 
-import java.util.List;
+    private final double fromKm;
 
-/**
- * @author mjz
- * @date 2022/4/5
- */
-@Service
-public class IoEGeofenceService extends BaseService<IoEGeofenceDAO, IoEGeofenceDO> {
-
-    public List<IoEGeofenceDO> findAllByCreateByAndDeviceId(String createBy, String deviceId) {
-        WeekendSqls<IoEGeofenceDO> sqls = WeekendSqls.custom();
-
-        sqls.andEqualTo(IoEGeofenceDO::getCreateBy, createBy)
-                .andEqualTo(IoEGeofenceDO::getDeviceId, deviceId);
-
-        return super.dao.selectByExample(Example.builder(IoEGeofenceDO.class).where(sqls).build());
+    RangeUnit(double fromKm) {
+        this.fromKm = fromKm;
     }
 
+    public double fromKm(double v) {
+        return v * fromKm;
+    }
 }

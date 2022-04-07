@@ -75,10 +75,27 @@
             <artifactId>ordinaryroad-commons-thingsboard</artifactId>
         </dependency>
 
+        <!-- ordinaryroad-commons-kafka -->
+        <dependency>
+            <groupId>tech.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-commons-kafka</artifactId>
+        </dependency>
+
         <!-- thymeleaf 视图引擎 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
+        </dependency>
+
+        <!-- jts-core -->
+        <dependency>
+            <groupId>org.locationtech.jts</groupId>
+            <artifactId>jts-core</artifactId>
+        </dependency>
+        <!-- spatial4j -->
+        <dependency>
+            <groupId>org.locationtech.spatial4j</groupId>
+            <artifactId>spatial4j</artifactId>
         </dependency>
 
         <dependency>
