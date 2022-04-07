@@ -37,6 +37,7 @@ import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.schedule.ScheduleResult;
+import com.alibaba.fastjson.JSON;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -68,7 +69,7 @@ public class JPushService {
     private final static String SCHEDULE_NAME = "OrdinaryRoad";
 
     private OrPushProperties.JPushProperties getJPushProperties(String packageName) {
-        return pushProperties.getPackageNamePropertiesMap().get(packageName);
+        return JSON.parseObject(pushProperties.getPackageNamePropertiesMap().get(packageName), OrPushProperties.JPushProperties.class);
     }
 
     private String getAppKey(String packageName) {
@@ -83,6 +84,8 @@ public class JPushService {
         if (jPushClient == null) {
             synchronized (JPushService.class) {
                 if (jPushClient == null) {
+                    log.info("packageName: {}", packageName);
+                    log.info("pushProperties: {}", JSON.toJSONString(pushProperties));
                     jPushClient = new JPushClient(getMasterSecret(packageName), getAppKey(packageName));
                 }
             }

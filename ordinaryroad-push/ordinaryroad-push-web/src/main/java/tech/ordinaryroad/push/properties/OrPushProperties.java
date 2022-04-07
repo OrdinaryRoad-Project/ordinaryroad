@@ -42,7 +42,7 @@ public class OrPushProperties {
     /**
      * packageName, jPushProperties
      */
-    private Map<String, JPushProperties> packageNamePropertiesMap = new HashMap<>();
+    private Map<String, String> packageNamePropertiesMap = new HashMap<>();
 
     @Data
     public class JPushProperties {
