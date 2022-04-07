@@ -43,7 +43,10 @@ import javax.validation.constraints.NotBlank;
 @ApiModel
 public class AndroidPushRequest extends BasePushRequest {
 
-    private static final long serialVersionUID = 5021285821421460917L;
+    private static final long serialVersionUID = 5670458749904106877L;
+
+    @ApiModelProperty(value = "安卓APP包名")
+    private String packageName;
 
     @ApiModelProperty(value = "接收方OR账号", required = true)
     @NotBlank(message = "接收方OR账号不能为空")

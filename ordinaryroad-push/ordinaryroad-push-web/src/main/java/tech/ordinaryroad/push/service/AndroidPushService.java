@@ -43,8 +43,8 @@ public class AndroidPushService {
 
     private final JPushService jPushService;
 
-    public Boolean send(@NotNull String orNumber, @NotNull String title, @NotNull String content, @NotNull String channel, JSONObject intent, JSONObject extras) {
-        return jPushService.sendToAlias(Collections.singletonList(orNumber), title, title, content, channel, intent.toJavaObject(JsonObject.class), extras.toJavaObject(JsonObject.class)) == 1;
+    public Boolean send(@NotNull String packageName, @NotNull String orNumber, @NotNull String title, @NotNull String content, @NotNull String channel, JSONObject intent, JSONObject extras) {
+        return jPushService.sendToAlias(packageName, Collections.singletonList(orNumber), title, title, content, channel, intent.toJavaObject(JsonObject.class), extras.toJavaObject(JsonObject.class)) == 1;
     }
 
 }

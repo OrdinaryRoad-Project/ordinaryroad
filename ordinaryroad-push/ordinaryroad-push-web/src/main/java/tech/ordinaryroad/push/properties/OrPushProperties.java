@@ -27,6 +27,9 @@ import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @author mjz
  * @date 2022/3/13
@@ -36,7 +39,10 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "ordinaryroad.push")
 public class OrPushProperties {
 
-    private JPushProperties jpush = new JPushProperties();
+    /**
+     * packageName, jPushProperties
+     */
+    private Map<String, JPushProperties> packageNamePropertiesMap = new HashMap<>();
 
     @Data
     public class JPushProperties {
