@@ -84,6 +84,8 @@
         <jiguang-common.version>1.2.0</jiguang-common.version>
         <jpush-client.version>3.6.1</jpush-client.version>
         <thingsboard.rest-client.version>3.3.4.1</thingsboard.rest-client.version>
+        <jts.version>1.18.2</jts.version>
+        <spatial4j.version>0.7</spatial4j.version>
     </properties>
 
     <modules>
@@ -375,6 +377,19 @@
                 <groupId>org.thingsboard</groupId>
                 <artifactId>rest-client</artifactId>
                 <version>${thingsboard.rest-client.version}</version>
+            </dependency>
+
+            <!-- jts-core -->
+            <dependency>
+                <groupId>org.locationtech.jts</groupId>
+                <artifactId>jts-core</artifactId>
+                <version>${jts.version}</version>
+            </dependency>
+            <!-- spatial4j -->
+            <dependency>
+                <groupId>org.locationtech.spatial4j</groupId>
+                <artifactId>spatial4j</artifactId>
+                <version>${spatial4j.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
