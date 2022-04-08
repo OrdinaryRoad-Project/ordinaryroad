@@ -28,7 +28,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.TextNode;
-import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -94,7 +93,7 @@ public class KafkaConsumer {
             if (byCustomerId.isPresent()) {
                 final IoEUserDO ioEUserDO = byCustomerId.get();
                 final String orNumber = ioEUserDO.getOrNumber();
-                final List<IoEGeofenceDO> geofenceList = geofenceService.findAllByCreateByAndDeviceId(ioEUserDO.getOpenid(), device.getId().toString());
+                final List<IoEGeofenceDO> geofenceList = geofenceService.findAllByCreateByAndDeviceId(ioEUserDO.getOrNumber(), device.getId().toString());
                 log.info("onDeviceTelemetry, geofenceList:{}", JSON.toJSON(geofenceList));
                 // 出围栏
                 List<String> namesOut = new ArrayList<>();
@@ -151,7 +150,15 @@ public class KafkaConsumer {
             LatLon perimeterCoordinates = geofence.getPointList().get(0);
             return geofence.getRadius() > GeoUtil.distance(entityCoordinates, perimeterCoordinates, RangeUnit.METER);
         } else if (geofence.getType() == 1) {
-            return GeoUtil.contains(new Gson().toJson(geofence.getPointList()), new LatLon(latitude, longitude));
+            List<String> latLongStringList = new ArrayList<>();
+            List<Double> latAndLongList = new ArrayList<>();
+            for (LatLon latLon : geofence.getPointList()) {
+                latAndLongList.add(latLon.getLatitude());
+                latAndLongList.add(latLon.getLongitude());
+                latLongStringList.add(latAndLongList.toString());
+                latAndLongList.clear();
+            }
+            return GeoUtil.contains(latLongStringList.toString(), new LatLon(latitude, longitude));
         } else {
             throw new RuntimeException("Unsupported IoEGeofenceDO type: " + geofence.getType());
         }
