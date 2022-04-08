@@ -30,6 +30,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
 import tech.ordinaryroad.ioe.api.dto.IoEGeofenceDTO;
@@ -46,6 +47,12 @@ public interface IIoEGeofemceApi {
 
     @PostMapping("/geofence/create")
     Result<IoEGeofenceDTO> create(@RequestBody @Validated IoEGeofenceSaveRequest request);
+
+    @PostMapping("/geofence/delete")
+    Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request);
+
+    @PostMapping("/geofence/update")
+    Result<IoEGeofenceDTO> update(@RequestBody @Validated IoEGeofenceSaveRequest request);
 
     @PostMapping("/geofence/list")
     Result<PageInfo<IoEGeofenceDTO>> list(@RequestBody @Validated IoEGeofenceQueryRequest request);

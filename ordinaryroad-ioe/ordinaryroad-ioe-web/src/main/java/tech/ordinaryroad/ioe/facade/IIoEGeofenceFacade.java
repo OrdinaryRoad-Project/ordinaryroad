@@ -24,6 +24,7 @@
 package tech.ordinaryroad.ioe.facade;
 
 import com.github.pagehelper.PageInfo;
+import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.dto.IoEGeofenceDTO;
 import tech.ordinaryroad.ioe.api.request.IoEGeofenceQueryRequest;
@@ -44,11 +45,26 @@ public interface IIoEGeofenceFacade {
     Result<IoEGeofenceDTO> create(IoEGeofenceSaveRequest request);
 
     /**
+     * 删除
+     *
+     * @param request Request
+     * @return Boolean
+     */
+    Result<Boolean> delete(BaseDeleteRequest request);
+
+    /**
+     * 更新
+     *
+     * @param request Request
+     * @return DTO
+     */
+    Result<IoEGeofenceDTO> update(IoEGeofenceSaveRequest request);
+
+    /**
      * 查询
      *
      * @param request Request
      * @return DTO
      */
     Result<PageInfo<IoEGeofenceDTO>> list(IoEGeofenceQueryRequest request);
-
 }

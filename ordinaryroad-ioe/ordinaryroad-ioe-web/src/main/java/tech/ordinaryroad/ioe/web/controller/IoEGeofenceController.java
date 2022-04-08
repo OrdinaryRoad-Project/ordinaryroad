@@ -29,6 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.api.IIoEGeofemceApi;
 import tech.ordinaryroad.ioe.api.dto.IoEGeofenceDTO;
@@ -50,6 +51,16 @@ public class IoEGeofenceController implements IIoEGeofemceApi {
     @Override
     public Result<IoEGeofenceDTO> create(@RequestBody @Validated IoEGeofenceSaveRequest request) {
         return facade.create(request);
+    }
+
+    @Override
+    public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
+        return facade.delete(request);
+    }
+
+    @Override
+    public Result<IoEGeofenceDTO> update(@RequestBody @Validated IoEGeofenceSaveRequest request) {
+        return facade.update(request);
     }
 
     @Override

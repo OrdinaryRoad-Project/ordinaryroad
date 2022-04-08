@@ -23,11 +23,14 @@
  */
 package tech.ordinaryroad.ioe.facade.impl;
 
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.ioe.api.dto.IoEGeofenceDTO;
@@ -39,6 +42,8 @@ import tech.ordinaryroad.ioe.mapstruct.IoEGeofenceMapStruct;
 import tech.ordinaryroad.ioe.service.IoEGeofenceService;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.weekend.WeekendSqls;
+
+import java.util.Objects;
 
 /**
  * @author mjz
@@ -55,6 +60,27 @@ public class IoEGeofenceFacadeImpl implements IIoEGeofenceFacade {
     public Result<IoEGeofenceDTO> create(IoEGeofenceSaveRequest request) {
         IoEGeofenceDO ioEGeofenceDO = objMapStruct.transfer(request);
         return Result.success(objMapStruct.transfer(ioEGeofenceService.createSelective(ioEGeofenceDO)));
+    }
+
+    @Override
+    public Result<Boolean> delete(BaseDeleteRequest request) {
+        return Result.success(ioEGeofenceService.delete(request.getUuid()));
+    }
+
+    @Override
+    public Result<IoEGeofenceDTO> update(IoEGeofenceSaveRequest request) {
+        String uuid = request.getUuid();
+        if (StrUtil.isBlank(uuid)) {
+            return Result.fail(StatusCode.PARAM_NOT_COMPLETE);
+        }
+
+        IoEGeofenceDO byId = ioEGeofenceService.findById(uuid);
+        if (Objects.isNull(byId)) {
+            return Result.fail(StatusCode.DATA_NOT_EXIST);
+        }
+
+        IoEGeofenceDO transfer = objMapStruct.transfer(request);
+        return Result.success(objMapStruct.transfer(ioEGeofenceService.updateSelective(transfer)));
     }
 
     @Override
