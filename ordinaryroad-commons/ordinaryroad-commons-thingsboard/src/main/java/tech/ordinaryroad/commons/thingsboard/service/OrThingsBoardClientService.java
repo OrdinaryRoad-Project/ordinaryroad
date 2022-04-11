@@ -23,9 +23,14 @@
  */
 package tech.ordinaryroad.commons.thingsboard.service;
 
+import cn.hutool.core.util.ReflectUtil;
+import com.fasterxml.jackson.databind.JsonNode;
 import org.springframework.stereotype.Service;
 import org.thingsboard.rest.client.RestClient;
+import org.thingsboard.server.common.data.id.UserId;
 import tech.ordinaryroad.commons.thingsboard.properties.OrThingsBoardProperties;
+
+import java.util.Optional;
 
 /**
  * @author mjz
@@ -43,12 +48,33 @@ public class OrThingsBoardClientService {
     }
 
     private void initAndLogin() {
-        final OrThingsBoardProperties.OrThingsBoardClientProperties clientProperties = thingsBoardProperties.getClient();
+        final OrThingsBoardProperties.OrThingsBoardClientProperties clientProperties = getClientProperties();
         this.client = new RestClient(clientProperties.getUrl());
         this.client.login(clientProperties.getUsername(), clientProperties.getPassword());
+    }
+
+    private OrThingsBoardProperties.OrThingsBoardClientProperties getClientProperties() {
+        return thingsBoardProperties.getClient();
     }
 
     public RestClient getClient() {
         return this.client;
     }
+
+    /**
+     * 根据UserId获取新的Client
+     *
+     * @param userId 用户Id
+     * @return RestClient
+     */
+    public RestClient newClient(String userId) {
+        final OrThingsBoardProperties.OrThingsBoardClientProperties clientProperties = getClientProperties();
+        final RestClient newClient = new RestClient(clientProperties.getUrl());
+
+        final Optional<JsonNode> userToken = this.client.getUserToken(UserId.fromString(userId));
+        ReflectUtil.invoke(newClient, "setTokenInfo", userToken.orElseThrow());
+
+        return newClient;
+    }
+
 }

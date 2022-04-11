@@ -35,14 +35,15 @@ import org.thingsboard.server.common.data.kv.TsKvEntry;
 import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.PageLink;
 import org.thingsboard.server.common.data.page.SortOrder;
+import org.thingsboard.server.common.data.query.AlarmData;
+import org.thingsboard.server.common.data.query.AlarmDataPageLink;
+import org.thingsboard.server.common.data.query.EntityTypeFilter;
+import org.thingsboard.server.common.data.query.SingleEntityFilter;
 import org.thingsboard.server.common.data.security.DeviceCredentials;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * @author mjz
@@ -54,6 +55,7 @@ public class OrThingsBoardDeviceService {
 
     private final OrThingsBoardClientService clientService;
     private final OrThingsBoardTimeseriesService timeseriesService;
+    private final OrThingsBoardAlarmService alarmService;
 
     /**
      * Creates assignment of the device to customer. Customer will be able to query device afterwards.
@@ -200,6 +202,31 @@ public class OrThingsBoardDeviceService {
      */
     public Optional<DeviceCredentials> getDeviceCredentials(@NotBlank String id) {
         return clientService.getClient().getDeviceCredentialsByDeviceId(DeviceId.fromString(id));
+    }
+
+    /**
+     * 分页查询设备的告警信息
+     *
+     * @param deviceId          设备Id
+     * @param alarmDataPageLink AlarmDataPageLink
+     * @return PageData
+     */
+    public PageData<AlarmData> findDeviceAlarmDataByQuery(@NotBlank String deviceId, @NotNull AlarmDataPageLink alarmDataPageLink) {
+        final SingleEntityFilter singleEntityFilter = new SingleEntityFilter();
+        singleEntityFilter.setSingleEntity(DeviceId.fromString(deviceId));
+        return alarmService.findAlarmDataByQuery(singleEntityFilter, alarmDataPageLink, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+    }
+
+    /**
+     * 分页查询所有设备的告警信息
+     *
+     * @param alarmDataPageLink AlarmDataPageLink
+     * @return PageData
+     */
+    public PageData<AlarmData> findAllDeviceAlarmDataByQuery(@NotBlank String userId, @NotNull AlarmDataPageLink alarmDataPageLink) {
+        final EntityTypeFilter entityTypeFilter = new EntityTypeFilter();
+        entityTypeFilter.setEntityType(EntityType.DEVICE);
+        return alarmService.findAlarmDataByQuery(userId, entityTypeFilter, alarmDataPageLink, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
     }
 
 }
