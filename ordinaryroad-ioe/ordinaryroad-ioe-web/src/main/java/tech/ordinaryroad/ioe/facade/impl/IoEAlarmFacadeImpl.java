@@ -57,20 +57,32 @@ public class IoEAlarmFacadeImpl implements IIoEAlarmFacade {
 
     @Override
     public Result<Void> delete(String alarmId) {
-        thingsBoardAlarmService.delete(alarmId);
-        return Result.success();
+        try {
+            thingsBoardAlarmService.delete(alarmId);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.fail(e.getLocalizedMessage());
+        }
     }
 
     @Override
     public Result<Void> ack(String alarmId) {
-        thingsBoardAlarmService.ack(alarmId);
-        return Result.success();
+        try {
+            thingsBoardAlarmService.ack(alarmId);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.fail(e.getLocalizedMessage());
+        }
     }
 
     @Override
     public Result<Void> clear(String alarmId) {
-        thingsBoardAlarmService.clear(alarmId);
-        return Result.success();
+        try {
+            thingsBoardAlarmService.clear(alarmId);
+            return Result.success();
+        } catch (Exception e) {
+            return Result.fail(e.getLocalizedMessage());
+        }
     }
 
     @Override
