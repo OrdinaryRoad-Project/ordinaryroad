@@ -21,41 +21,49 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.service;
+package tech.ordinaryroad.ioe.api.dto;
 
-import cn.dev33.satoken.stp.StpUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
+import com.fasterxml.jackson.databind.JsonNode;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
-import java.util.Optional;
+import java.util.List;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/4/11
+ * @see org.thingsboard.server.common.data.alarm.Alarm
  */
-@RequiredArgsConstructor
-@Service
-public class IoEService {
+@Data
+@ApiModel
+public class IoEAlarmDTO extends BaseIoEDTO {
 
-    private final IoEUserService userService;
+    private static final long serialVersionUID = -1930972367515319579L;
 
-    public IoEUserDO getUser() {
-        final String orNumber = StpUtil.getLoginIdAsString();
-        final Optional<IoEUserDO> optional = userService.findByOrNumber(orNumber);
-        return optional.orElseThrow();
-    }
+    private String name;
 
-    public String getOrNumber() {
-        return this.getUser().getOrNumber();
-    }
+    private String type;
 
-    public String getCustomerId() {
-        return this.getUser().getCustomerId();
-    }
+    private String severity;
 
-    public String getUserId() {
-        return this.getUser().getUserId();
-    }
+    private String status;
+
+    private Long startTs;
+
+    private Long endTs;
+
+    private Long ackTs;
+
+    private Long clearTs;
+
+    private JsonNode details;
+
+    private Boolean propagate;
+
+    private Boolean propagateToOwner;
+
+    private Boolean propagateToTenant;
+
+    private List<String> propagateRelationTypes;
 
 }

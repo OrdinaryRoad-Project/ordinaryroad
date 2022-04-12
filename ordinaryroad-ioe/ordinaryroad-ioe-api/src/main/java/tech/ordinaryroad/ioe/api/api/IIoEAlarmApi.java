@@ -28,43 +28,39 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
-import tech.ordinaryroad.ioe.api.dto.IoEAlarmDataDTO;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
-import tech.ordinaryroad.ioe.api.request.IoEAlarmDataQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceAlarmDataQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
+import tech.ordinaryroad.ioe.api.dto.IoEAlarmInfoDTO;
+import tech.ordinaryroad.ioe.api.request.IoEAlarmInfoQueryRequest;
+import tech.ordinaryroad.ioe.api.request.IoEEntityAlarmInfoQueryRequest;
 
 import javax.validation.constraints.NotBlank;
 
 /**
  * @author mjz
- * @date 2022/3/27
+ * @date 2022/4/10
  */
-@Api(value = "设备API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEDeviceApi")
-public interface IIoEDeviceApi {
+@Api(value = "告警API")
+@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEAlarmApi")
+public interface IIoEAlarmApi {
 
-    @PostMapping("/device/create")
-    Result<IoEDeviceDTO> create(@RequestBody @Validated IoEDeviceSaveRequest request);
+    @DeleteMapping("/alarm/{id}/delete")
+    Result<Void> delete(@PathVariable @Validated @NotBlank String id);
 
-    @PostMapping("/device/delete")
-    Result<IoEDeviceDTO> delete(@RequestBody @Validated IoEDeviceDeleteRequest request);
+    @PostMapping("/alarm/{id}/ack")
+    Result<Void> ack(@PathVariable @Validated @NotBlank String id);
 
-    @GetMapping("/device/credentials/{id}")
-    Result<IoEDeviceCredentialsDTO> credentials(@PathVariable @Validated @NotBlank String id);
+    @PostMapping("/alarm/{id}/clear")
+    Result<Void> clear(@PathVariable @Validated @NotBlank String id);
 
-    @PostMapping("/device/alarms")
-    Result<PageInfo<IoEAlarmDataDTO>> alarms(@RequestBody @Validated IoEDeviceAlarmDataQueryRequest request);
+    @PostMapping("/alarm/list")
+    Result<PageInfo<IoEAlarmInfoDTO>> list(@RequestBody @Validated IoEAlarmInfoQueryRequest request);
 
-    @PostMapping("/device/all/alarms")
-    Result<PageInfo<IoEAlarmDataDTO>> allAlarms(@RequestBody @Validated IoEAlarmDataQueryRequest request);
+    @PostMapping("/alarm/list/entity")
+    Result<PageInfo<IoEAlarmInfoDTO>> listEntity(@RequestBody @Validated IoEEntityAlarmInfoQueryRequest request);
 
 }

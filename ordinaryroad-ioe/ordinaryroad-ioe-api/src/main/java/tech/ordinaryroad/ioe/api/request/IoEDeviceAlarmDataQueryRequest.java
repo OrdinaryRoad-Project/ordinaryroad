@@ -21,41 +21,27 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.service;
+package tech.ordinaryroad.ioe.api.request;
 
-import cn.dev33.satoken.stp.StpUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
-
-import java.util.Optional;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/4/10
  */
-@RequiredArgsConstructor
-@Service
-public class IoEService {
+@Getter
+@Setter
+@ApiModel
+public class IoEDeviceAlarmDataQueryRequest extends IoEAlarmDataQueryRequest {
 
-    private final IoEUserService userService;
+    private static final long serialVersionUID = -5107242908392478538L;
 
-    public IoEUserDO getUser() {
-        final String orNumber = StpUtil.getLoginIdAsString();
-        final Optional<IoEUserDO> optional = userService.findByOrNumber(orNumber);
-        return optional.orElseThrow();
-    }
-
-    public String getOrNumber() {
-        return this.getUser().getOrNumber();
-    }
-
-    public String getCustomerId() {
-        return this.getUser().getCustomerId();
-    }
-
-    public String getUserId() {
-        return this.getUser().getUserId();
-    }
+    @ApiModelProperty("设备Id")
+    private String deviceId;
 
 }
+
+

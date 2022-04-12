@@ -35,6 +35,8 @@ import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 @ApiModel
 public class BaseIoEDTO extends BaseDTO {
 
+    private static final long serialVersionUID = 592434195920522051L;
+
     private String id;
 
 }

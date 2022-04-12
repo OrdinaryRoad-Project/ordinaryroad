@@ -21,41 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.service;
+package tech.ordinaryroad.ioe.mapstruct;
 
-import cn.dev33.satoken.stp.StpUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
-
-import java.util.Optional;
+import org.mapstruct.Mapper;
+import org.thingsboard.server.common.data.alarm.AlarmInfo;
+import org.thingsboard.server.common.data.query.AlarmData;
+import tech.ordinaryroad.ioe.api.dto.IoEAlarmDataDTO;
+import tech.ordinaryroad.ioe.api.dto.IoEAlarmInfoDTO;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/4/10
  */
-@RequiredArgsConstructor
-@Service
-public class IoEService {
+@Mapper(componentModel = "spring")
+public interface IoEAlarmMapStruct extends BaseIoEMapStruct {
 
-    private final IoEUserService userService;
+    IoEAlarmDataDTO transfer(AlarmData alarmData);
 
-    public IoEUserDO getUser() {
-        final String orNumber = StpUtil.getLoginIdAsString();
-        final Optional<IoEUserDO> optional = userService.findByOrNumber(orNumber);
-        return optional.orElseThrow();
-    }
-
-    public String getOrNumber() {
-        return this.getUser().getOrNumber();
-    }
-
-    public String getCustomerId() {
-        return this.getUser().getCustomerId();
-    }
-
-    public String getUserId() {
-        return this.getUser().getUserId();
-    }
+    IoEAlarmInfoDTO transfer(AlarmInfo alarmInfo);
 
 }

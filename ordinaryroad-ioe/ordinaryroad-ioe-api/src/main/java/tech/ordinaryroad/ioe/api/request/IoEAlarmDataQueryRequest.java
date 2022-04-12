@@ -21,41 +21,48 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.service;
+package tech.ordinaryroad.ioe.api.request;
 
-import cn.dev33.satoken.stp.StpUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Optional;
+import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/4/10
  */
-@RequiredArgsConstructor
-@Service
-public class IoEService {
+@Getter
+@Setter
+@ApiModel
+public class IoEAlarmDataQueryRequest extends BaseIoEDataQueryRequest {
 
-    private final IoEUserService userService;
+    private static final long serialVersionUID = -2161000370703943911L;
 
-    public IoEUserDO getUser() {
-        final String orNumber = StpUtil.getLoginIdAsString();
-        final Optional<IoEUserDO> optional = userService.findByOrNumber(orNumber);
-        return optional.orElseThrow();
-    }
+    @ApiModelProperty("开始时间")
+    private Long startTs = null;
 
-    public String getOrNumber() {
-        return this.getUser().getOrNumber();
-    }
+    @ApiModelProperty("结束时间")
+    private Long endTs = null;
 
-    public String getCustomerId() {
-        return this.getUser().getCustomerId();
-    }
+    private Long timeWindow = null;
 
-    public String getUserId() {
-        return this.getUser().getUserId();
-    }
+    @ApiModelProperty("类型列表")
+    private List<String> typeList;
+
+    @ApiModelProperty(value = "状态列表", allowableValues = "ANY, ACTIVE, CLEARED, ACK, UNACK")
+    @NotEmpty(message = "状态列表不能为空")
+    private List<String> searchStatusList;
+
+    @ApiModelProperty(value = "严重性列表", allowableValues = "CRITICAL, MAJOR, MINOR, WARNING, INDETERMINATE")
+    private List<String> severityList;
+
+    @ApiModelProperty("搜索传播警报")
+    private Boolean searchPropagatedAlarms;
 
 }
+
+

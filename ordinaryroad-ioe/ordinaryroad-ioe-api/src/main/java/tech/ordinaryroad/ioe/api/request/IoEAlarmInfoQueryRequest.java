@@ -21,41 +21,36 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.service;
+package tech.ordinaryroad.ioe.api.request;
 
-import cn.dev33.satoken.stp.StpUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
-
-import java.util.Optional;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/4/10
  */
-@RequiredArgsConstructor
-@Service
-public class IoEService {
+@Getter
+@Setter
+@ApiModel
+public class IoEAlarmInfoQueryRequest extends BaseIoEQueryRequest {
 
-    private final IoEUserService userService;
+    private static final long serialVersionUID = 3950395417048224877L;
 
-    public IoEUserDO getUser() {
-        final String orNumber = StpUtil.getLoginIdAsString();
-        final Optional<IoEUserDO> optional = userService.findByOrNumber(orNumber);
-        return optional.orElseThrow();
-    }
+    @ApiModelProperty(value = "搜索状态", allowableValues = "ANY, ACTIVE, CLEARED, ACK, UNACK")
+    private String searchStatus;
 
-    public String getOrNumber() {
-        return this.getUser().getOrNumber();
-    }
+    @ApiModelProperty(value = "状态", allowableValues = "ACTIVE_UNACK, ACTIVE_ACK, CLEARED_UNACK, CLEARED_ACK")
+    private String status;
 
-    public String getCustomerId() {
-        return this.getUser().getCustomerId();
-    }
+    @ApiModelProperty(value = "严重性", allowableValues = "CRITICAL, MAJOR, MINOR, WARNING, INDETERMINATE")
+    private String severity;
 
-    public String getUserId() {
-        return this.getUser().getUserId();
-    }
+    @ApiModelProperty("是否获取originatorName")
+    private Boolean fetchOriginator;
 
 }
+
+

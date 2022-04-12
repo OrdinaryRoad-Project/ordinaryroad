@@ -21,41 +21,22 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.service;
+package tech.ordinaryroad.ioe.api.dto;
 
-import cn.dev33.satoken.stp.StpUtil;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import tech.ordinaryroad.ioe.entity.IoEUserDO;
-
-import java.util.Optional;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
 
 /**
  * @author mjz
- * @date 2022/3/26
+ * @date 2022/4/11
+ * @see org.thingsboard.server.common.data.alarm.AlarmInfo
  */
-@RequiredArgsConstructor
-@Service
-public class IoEService {
+@Data
+@ApiModel
+public class IoEAlarmInfoDTO extends IoEAlarmDTO {
 
-    private final IoEUserService userService;
+    private static final long serialVersionUID = -3358767069268417698L;
 
-    public IoEUserDO getUser() {
-        final String orNumber = StpUtil.getLoginIdAsString();
-        final Optional<IoEUserDO> optional = userService.findByOrNumber(orNumber);
-        return optional.orElseThrow();
-    }
-
-    public String getOrNumber() {
-        return this.getUser().getOrNumber();
-    }
-
-    public String getCustomerId() {
-        return this.getUser().getCustomerId();
-    }
-
-    public String getUserId() {
-        return this.getUser().getUserId();
-    }
+    private String originatorName;
 
 }

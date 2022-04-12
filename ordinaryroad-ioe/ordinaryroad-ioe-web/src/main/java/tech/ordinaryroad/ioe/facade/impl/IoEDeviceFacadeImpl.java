@@ -23,19 +23,28 @@
  */
 package tech.ordinaryroad.ioe.facade.impl;
 
+import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.thingsboard.server.common.data.Device;
+import org.thingsboard.server.common.data.page.PageData;
+import org.thingsboard.server.common.data.query.AlarmData;
+import org.thingsboard.server.common.data.query.AlarmDataPageLink;
 import org.thingsboard.server.common.data.security.DeviceCredentials;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService;
+import tech.ordinaryroad.ioe.api.dto.IoEAlarmDataDTO;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
+import tech.ordinaryroad.ioe.api.request.IoEAlarmDataQueryRequest;
+import tech.ordinaryroad.ioe.api.request.IoEDeviceAlarmDataQueryRequest;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
 import tech.ordinaryroad.ioe.facade.IIoEDeviceFacade;
+import tech.ordinaryroad.ioe.mapstruct.IoEAlarmMapStruct;
 import tech.ordinaryroad.ioe.mapstruct.IoEDeviceMapStruct;
 import tech.ordinaryroad.ioe.service.IoEService;
+import tech.ordinaryroad.ioe.utis.IoEUtils;
 
 import java.util.Optional;
 
@@ -50,6 +59,7 @@ public class IoEDeviceFacadeImpl implements IIoEDeviceFacade {
     private final IoEService ioEService;
     private final OrThingsBoardDeviceService thingsBoardDeviceService;
     private final IoEDeviceMapStruct mapStruct;
+    private final IoEAlarmMapStruct alarmMapStruct;
 
     @Override
     public Result<IoEDeviceDTO> create(IoEDeviceSaveRequest request) {
@@ -72,4 +82,23 @@ public class IoEDeviceFacadeImpl implements IIoEDeviceFacade {
         return optional.map(deviceCredentials -> Result.success(mapStruct.transfer(deviceCredentials))).orElse(Result.fail());
     }
 
+    @Override
+    public Result<PageInfo<IoEAlarmDataDTO>> alarms(IoEDeviceAlarmDataQueryRequest request) {
+        final AlarmDataPageLink alarmDataPageLink = IoEUtils.requestToAlarmDataPageLink(request);
+
+        final PageData<AlarmData> deviceAlarmDataByQuery = thingsBoardDeviceService.findDeviceAlarmDataByQuery(request.getDeviceId(), alarmDataPageLink);
+        final PageInfo<IoEAlarmDataDTO> pageInfo = IoEUtils.pageDataToPageInfo(alarmDataPageLink.getPage() + 1, alarmDataPageLink.getPageSize(), deviceAlarmDataByQuery, alarmMapStruct::transfer);
+
+        return Result.success(pageInfo);
+    }
+
+    @Override
+    public Result<PageInfo<IoEAlarmDataDTO>> allAlarms(IoEAlarmDataQueryRequest request) {
+        final AlarmDataPageLink alarmDataPageLink = IoEUtils.requestToAlarmDataPageLink(request);
+
+        final PageData<AlarmData> deviceAlarmDataByQuery = thingsBoardDeviceService.findAllDeviceAlarmDataByQuery(ioEService.getUserId(), alarmDataPageLink);
+        final PageInfo<IoEAlarmDataDTO> pageInfo = IoEUtils.pageDataToPageInfo(alarmDataPageLink.getPage() + 1, alarmDataPageLink.getPageSize(), deviceAlarmDataByQuery, alarmMapStruct::transfer);
+
+        return Result.success(pageInfo);
+    }
 }

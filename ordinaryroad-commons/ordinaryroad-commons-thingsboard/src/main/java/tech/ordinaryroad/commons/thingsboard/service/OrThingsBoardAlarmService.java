@@ -23,9 +23,16 @@
  */
 package tech.ordinaryroad.commons.thingsboard.service;
 
+import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.core.util.ReflectUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
+import org.thingsboard.rest.client.RestClient;
 import org.thingsboard.server.common.data.alarm.*;
 import org.thingsboard.server.common.data.id.AlarmId;
 import org.thingsboard.server.common.data.id.EntityId;
@@ -33,7 +40,9 @@ import org.thingsboard.server.common.data.page.PageData;
 import org.thingsboard.server.common.data.page.TimePageLink;
 import org.thingsboard.server.common.data.query.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author mjz
@@ -60,15 +69,7 @@ public class OrThingsBoardAlarmService {
      * @return Alarm
      */
     public Alarm saveAlarm(EntityId entityId, String type, AlarmSeverity alarmSeverity, AlarmStatus alarmStatus, JsonNode details) {
-        return clientService.getClient().saveAlarm(
-                Alarm.builder()
-                        .originator(entityId)
-                        .type(type)
-                        .severity(alarmSeverity)
-                        .status(alarmStatus)
-                        .details(details)
-                        .build()
-        );
+        return clientService.getClient().saveAlarm(Alarm.builder().originator(entityId).type(type).severity(alarmSeverity).status(alarmStatus).details(details).build());
     }
 
     /**
@@ -117,7 +118,48 @@ public class OrThingsBoardAlarmService {
      * @return PageData
      */
     public PageData<AlarmInfo> getAlarms(EntityId entityId, AlarmSearchStatus searchStatus, AlarmStatus status, TimePageLink pageLink, Boolean fetchOriginator) {
-        return clientService.getClient().getAlarms(entityId, searchStatus, status, pageLink, fetchOriginator);
+        return clientService.getClient().getAlarms(entityId, searchStatus, status, pageLink, BooleanUtil.isTrue(fetchOriginator));
+    }
+
+    /**
+     * Returns a page of alarms that belongs to the current user owner. If the user has the authority of 'Tenant Administrator', the server returns alarms that belongs to the tenant of current user. If the user has the authority of 'Customer User', the server returns alarms that belongs to the customer of current user. Specifying both parameters 'searchStatus' and 'status' at the same time will cause an error. You can specify parameters to filter the results. The result is wrapped with PageData object that allows you to iterate over result set using pagination. See the 'Model' tab of the Response Class for more details.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
+     * @param userId          用户Id
+     * @param searchStatus    AlarmSearchStatus
+     * @param status          AlarmStatus
+     * @param pageLink        TimePageLink
+     * @param fetchOriginator A boolean value to specify if the alarm originator name will be filled in the AlarmInfo object field: 'originatorName' or will returns as null.
+     * @return PageData
+     */
+    public PageData<AlarmInfo> getAllAlarms(String userId, AlarmSearchStatus searchStatus, AlarmStatus status, TimePageLink pageLink, Boolean fetchOriginator) {
+        RestClient newClient = clientService.newClient(userId);
+
+        RestTemplate restTemplate = (RestTemplate) ReflectUtil.getFieldValue(newClient, "restTemplate");
+        String baseURL = (String) ReflectUtil.getFieldValue(newClient, "baseURL");
+
+        String urlSecondPart = "/api/alarms?fetchOriginator={fetchOriginator}";
+        Map<String, String> params = new HashMap<>();
+        params.put("fetchOriginator", String.valueOf(BooleanUtil.isTrue(fetchOriginator)));
+        if (searchStatus != null) {
+            params.put("searchStatus", searchStatus.name());
+            urlSecondPart += "&searchStatus={searchStatus}";
+        }
+        if (status != null) {
+            params.put("status", status.name());
+            urlSecondPart += "&status={status}";
+        }
+
+        ReflectUtil.invoke(newClient, "addTimePageLinkToParam", params, pageLink);
+
+        return restTemplate.exchange(
+                baseURL + urlSecondPart + "&" + ReflectUtil.invoke(newClient, "getTimeUrlParams", pageLink),
+                HttpMethod.GET,
+                HttpEntity.EMPTY,
+                new ParameterizedTypeReference<PageData<AlarmInfo>>() {
+                },
+                params).getBody();
     }
 
     /**
@@ -136,9 +178,7 @@ public class OrThingsBoardAlarmService {
      * @return
      */
     public PageData<AlarmData> findAlarmDataByQuery(EntityFilter entityFilter, AlarmDataPageLink pageLink, List<EntityKey> entityFields, List<EntityKey> latestValues, List<KeyFilter> keyFilters, List<EntityKey> alarmFields) {
-        return clientService.getClient().findAlarmDataByQuery(
-                new AlarmDataQuery(entityFilter, pageLink, entityFields, latestValues, keyFilters, alarmFields)
-        );
+        return clientService.getClient().findAlarmDataByQuery(new AlarmDataQuery(entityFilter, pageLink, entityFields, latestValues, keyFilters, alarmFields));
     }
 
     /**
@@ -148,9 +188,7 @@ public class OrThingsBoardAlarmService {
      * @return PageData
      */
     public PageData<AlarmData> findAlarmDataByQuery(String userId, EntityFilter entityFilter, AlarmDataPageLink pageLink, List<EntityKey> entityFields, List<EntityKey> latestValues, List<KeyFilter> keyFilters, List<EntityKey> alarmFields) {
-        return clientService.newClient(userId).findAlarmDataByQuery(
-                new AlarmDataQuery(entityFilter, pageLink, entityFields, latestValues, keyFilters, alarmFields)
-        );
+        return clientService.newClient(userId).findAlarmDataByQuery(new AlarmDataQuery(entityFilter, pageLink, entityFields, latestValues, keyFilters, alarmFields));
     }
 
 }

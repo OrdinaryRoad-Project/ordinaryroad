@@ -31,52 +31,48 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.ioe.api.api.IIoEDeviceApi;
-import tech.ordinaryroad.ioe.api.dto.IoEAlarmDataDTO;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
-import tech.ordinaryroad.ioe.api.request.IoEAlarmDataQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceAlarmDataQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
-import tech.ordinaryroad.ioe.facade.IIoEDeviceFacade;
+import tech.ordinaryroad.ioe.api.api.IIoEAlarmApi;
+import tech.ordinaryroad.ioe.api.dto.IoEAlarmInfoDTO;
+import tech.ordinaryroad.ioe.api.request.IoEAlarmInfoQueryRequest;
+import tech.ordinaryroad.ioe.api.request.IoEEntityAlarmInfoQueryRequest;
+import tech.ordinaryroad.ioe.facade.IIoEAlarmFacade;
 
 import javax.validation.constraints.NotBlank;
 
 /**
  * @author mjz
- * @date 2022/3/27
+ * @date 2022/4/11
  */
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class IoEDeviceController implements IIoEDeviceApi {
+public class IoEAlarmController implements IIoEAlarmApi {
 
-    private final IIoEDeviceFacade deviceFacade;
+    private final IIoEAlarmFacade alarmFacade;
 
     @Override
-    public Result<IoEDeviceDTO> create(@RequestBody @Validated IoEDeviceSaveRequest request) {
-        return deviceFacade.create(request);
+    public Result<Void> delete(@PathVariable @Validated @NotBlank String id) {
+        return alarmFacade.delete(id);
     }
 
     @Override
-    public Result<IoEDeviceDTO> delete(@RequestBody @Validated IoEDeviceDeleteRequest request) {
-        return deviceFacade.delete(request);
+    public Result<Void> ack(@PathVariable @Validated @NotBlank String id) {
+        return alarmFacade.ack(id);
     }
 
     @Override
-    public Result<IoEDeviceCredentialsDTO> credentials(@PathVariable @Validated @NotBlank String id) {
-        return deviceFacade.credentials(id);
+    public Result<Void> clear(@PathVariable @Validated @NotBlank String id) {
+        return alarmFacade.clear(id);
     }
 
     @Override
-    public Result<PageInfo<IoEAlarmDataDTO>> alarms(@RequestBody @Validated IoEDeviceAlarmDataQueryRequest request) {
-        return deviceFacade.alarms(request);
+    public Result<PageInfo<IoEAlarmInfoDTO>> list(@RequestBody @Validated IoEAlarmInfoQueryRequest request) {
+        return alarmFacade.list(request);
     }
 
     @Override
-    public Result<PageInfo<IoEAlarmDataDTO>> allAlarms(@RequestBody @Validated IoEAlarmDataQueryRequest request) {
-        return deviceFacade.allAlarms(request);
+    public Result<PageInfo<IoEAlarmInfoDTO>> listEntity(@RequestBody @Validated IoEEntityAlarmInfoQueryRequest request) {
+        return alarmFacade.listEntity(request);
     }
 
 }

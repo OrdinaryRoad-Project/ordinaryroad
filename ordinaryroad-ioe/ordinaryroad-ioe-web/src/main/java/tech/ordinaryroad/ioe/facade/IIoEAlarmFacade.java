@@ -25,58 +25,56 @@ package tech.ordinaryroad.ioe.facade;
 
 import com.github.pagehelper.PageInfo;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.ioe.api.dto.IoEAlarmDataDTO;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceCredentialsDTO;
-import tech.ordinaryroad.ioe.api.dto.IoEDeviceDTO;
-import tech.ordinaryroad.ioe.api.request.IoEAlarmDataQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceAlarmDataQueryRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
+import tech.ordinaryroad.ioe.api.dto.IoEAlarmInfoDTO;
+import tech.ordinaryroad.ioe.api.request.IoEAlarmInfoQueryRequest;
+import tech.ordinaryroad.ioe.api.request.IoEEntityAlarmInfoQueryRequest;
 
 /**
  * @author mjz
- * @date 2022/3/27
+ * @date 2022/4/11
  */
-public interface IIoEDeviceFacade {
+public interface IIoEAlarmFacade {
 
     /**
-     * 创建设备
+     * 删除告警
+     *
+     * @param alarmId 告警Id
+     * @return Void
+     */
+    Result<Void> delete(String alarmId);
+
+
+    /**
+     * 确认告警
+     *
+     * @param alarmId 告警Id
+     * @return Void
+     */
+    Result<Void> ack(String alarmId);
+
+
+    /**
+     * 清除告警
+     *
+     * @param alarmId 告警Id
+     * @return Void
+     */
+    Result<Void> clear(String alarmId);
+
+    /**
+     * 分页查询告警
      *
      * @param request Request
-     * @return DTO
+     * @return PageInfo
      */
-    Result<IoEDeviceDTO> create(IoEDeviceSaveRequest request);
+    Result<PageInfo<IoEAlarmInfoDTO>> list(IoEAlarmInfoQueryRequest request);
 
     /**
-     * 删除设备
+     * 分页查询实体的告警
      *
      * @param request Request
-     * @return DTO
+     * @return PageInfo
      */
-    Result<IoEDeviceDTO> delete(IoEDeviceDeleteRequest request);
-
-    /**
-     * 查询设备凭证
-     *
-     * @param id 设备Id
-     * @return DTO
-     */
-    Result<IoEDeviceCredentialsDTO> credentials(String id);
-
-    /**
-     * 分页查询设备告警数据
-     *
-     * @param request Request
-     * @return PageIndo
-     */
-    Result<PageInfo<IoEAlarmDataDTO>> alarms(IoEDeviceAlarmDataQueryRequest request);
-
-    /**
-     * 分页查询所有设备的告警数据
-     *
-     * @param request Request
-     * @return PageIndo
-     */
-    Result<PageInfo<IoEAlarmDataDTO>> allAlarms(IoEAlarmDataQueryRequest request);
+    Result<PageInfo<IoEAlarmInfoDTO>> listEntity(IoEEntityAlarmInfoQueryRequest request);
 
 }
