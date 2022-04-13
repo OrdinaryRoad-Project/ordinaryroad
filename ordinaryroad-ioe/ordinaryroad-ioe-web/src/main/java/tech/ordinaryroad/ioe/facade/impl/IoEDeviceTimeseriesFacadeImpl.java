@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.ioe.facade.impl;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.thingsboard.server.common.data.id.DeviceId;
@@ -62,11 +63,22 @@ public class IoEDeviceTimeseriesFacadeImpl implements IIoEDeviceTimeseriesFacade
         Long startTime = request.getStartTime();
         Long endTime = request.getEndTime();
         Long interval = request.getInterval();
-        Aggregation agg = Aggregation.valueOf(request.getAgg());
-        SortOrder.Direction direction = SortOrder.Direction.valueOf(request.getDirection());
+
+        Aggregation aggregation = null;
+        String agg = request.getAgg();
+        if (StrUtil.isNotBlank(agg)) {
+            aggregation = Aggregation.valueOf(agg);
+        }
+
+        SortOrder.Direction sortOrderDirection = null;
+        String direction = request.getDirection();
+        if (StrUtil.isNotBlank(direction)) {
+            sortOrderDirection = SortOrder.Direction.valueOf(direction);
+        }
+
         Integer limit = request.getLimit();
         Boolean useStrictDataTypes = request.getUseStrictDataTypes();
-        final List<TsKvEntry> timeseries = timeseriesService.getTimeseries(DeviceId.fromString(id), keys, startTime, endTime, interval, agg, direction, limit, useStrictDataTypes);
+        final List<TsKvEntry> timeseries = timeseriesService.getTimeseries(DeviceId.fromString(id), keys, startTime, endTime, interval, aggregation, sortOrderDirection, limit, useStrictDataTypes);
         final List<IoETsKvEntryDTO> collect = timeseries.stream().map(mapStruct::transfer).collect(Collectors.toList());
         return Result.success(collect);
     }

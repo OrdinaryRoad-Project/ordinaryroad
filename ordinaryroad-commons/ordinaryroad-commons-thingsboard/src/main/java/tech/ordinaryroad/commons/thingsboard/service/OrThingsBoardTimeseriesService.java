@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.commons.thingsboard.service;
 
+import cn.hutool.core.util.BooleanUtil;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -140,7 +141,7 @@ public class OrThingsBoardTimeseriesService {
                         startTime,
                         endTime,
                         limit,
-                        useStrictDataTypes
+                        BooleanUtil.isTrue(useStrictDataTypes)
                 );
     }
 
