@@ -47,9 +47,9 @@ import java.util.List;
 @FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEDeviceTimeseriesApi")
 public interface IIoEDeviceTimeseriesApi {
 
-    @GetMapping("/timeries/keys/device/{id}")
+    @GetMapping("/timeseries/keys/device/{id}")
     Result<List<String>> getTimeseriesKeys(@PathVariable @Validated @NotBlank String id);
 
-    @PostMapping("/timeries/device")
+    @PostMapping("/timeseries/device")
     Result<List<IoETsKvEntryDTO>> getTimeseries(@RequestBody @Validated IoEDeviceTimeseriesQueryRequest request);
 }

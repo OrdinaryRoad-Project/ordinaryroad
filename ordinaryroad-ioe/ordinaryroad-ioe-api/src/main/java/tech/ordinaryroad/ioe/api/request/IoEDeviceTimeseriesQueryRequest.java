@@ -40,7 +40,7 @@ import java.util.List;
 @ApiModel
 public class IoEDeviceTimeseriesQueryRequest extends BaseRequest {
 
-    private static final long serialVersionUID = -1336449203881202257L;
+    private static final long serialVersionUID = -5553338680784586602L;
 
     @ApiModelProperty(required = true)
     private String id;
@@ -55,8 +55,13 @@ public class IoEDeviceTimeseriesQueryRequest extends BaseRequest {
     private Long endTime;
 
     private Long interval;
+
+    @ApiModelProperty(value = "聚合", allowableValues = "MIN, MAX, AVG, SUM, COUNT, NONE")
     private String agg;
+
+    @ApiModelProperty(value = "排序方向", allowableValues = "ASC, DESC")
     private String direction;
+
     private Integer limit;
     private Boolean useStrictDataTypes;
 }
