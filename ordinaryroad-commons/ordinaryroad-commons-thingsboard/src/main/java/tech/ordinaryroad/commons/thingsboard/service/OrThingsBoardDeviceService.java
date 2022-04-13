@@ -150,6 +150,18 @@ public class OrThingsBoardDeviceService {
                 );
     }
 
+    /**
+     * Fetch the Device Info object based on the provided Device Id. If the user has the authority of 'Tenant Administrator', the server checks that the device is owned by the same tenant. If the user has the authority of 'Customer User', the server checks that the device is assigned to the same customer. Device Info is an extension of the default Device object that contains information about the assigned customer name and device profile name.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
+     * @param id 设备Id
+     * @return Optional
+     */
+    public Optional<DeviceInfo> getDeviceInfoById(@NotBlank String id) {
+        return clientService.getClient().getDeviceInfoById(DeviceId.fromString(id));
+    }
+
     public PageData<DeviceInfo> listDeviceInfos(@NotBlank String id, @NotNull PageLink pageLink) {
         return this.listDeviceInfos(id, null, null, pageLink);
     }

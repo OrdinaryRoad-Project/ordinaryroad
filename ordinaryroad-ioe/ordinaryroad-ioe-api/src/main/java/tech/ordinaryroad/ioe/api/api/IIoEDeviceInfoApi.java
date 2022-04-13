@@ -28,12 +28,16 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceInfoQueryRequest;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author mjz
@@ -42,6 +46,9 @@ import tech.ordinaryroad.ioe.api.request.IoEDeviceInfoQueryRequest;
 @Api(value = "设备信息API")
 @FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iIoEDeviceInfoApi")
 public interface IIoEDeviceInfoApi {
+
+    @GetMapping("/device_info/{id}")
+    Result<IoEDeviceInfoDTO> findById(@PathVariable @Validated @NotBlank String id);
 
     @PostMapping("/device_info/list")
     Result<PageInfo<IoEDeviceInfoDTO>> list(@RequestBody @Validated IoEDeviceInfoQueryRequest request);

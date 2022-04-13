@@ -38,11 +38,13 @@ import java.util.List;
 @ApiModel
 public class IoEAlarmDTO extends BaseIoEDTO {
 
-    private static final long serialVersionUID = -1930972367515319579L;
+    private static final long serialVersionUID = -2046419855695620728L;
 
     private String name;
 
     private String type;
+
+    private String originator;
 
     private String severity;
 

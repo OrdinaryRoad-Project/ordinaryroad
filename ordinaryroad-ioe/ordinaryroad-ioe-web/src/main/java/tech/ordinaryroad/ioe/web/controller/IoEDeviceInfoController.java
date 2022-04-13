@@ -27,6 +27,7 @@ import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
@@ -34,6 +35,8 @@ import tech.ordinaryroad.ioe.api.api.IIoEDeviceInfoApi;
 import tech.ordinaryroad.ioe.api.dto.IoEDeviceInfoDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceInfoQueryRequest;
 import tech.ordinaryroad.ioe.facade.IIoEDeviceInfoFacade;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author mjz
@@ -45,6 +48,11 @@ import tech.ordinaryroad.ioe.facade.IIoEDeviceInfoFacade;
 public class IoEDeviceInfoController implements IIoEDeviceInfoApi {
 
     private final IIoEDeviceInfoFacade deviceInfoFacade;
+
+    @Override
+    public Result<IoEDeviceInfoDTO> findById(@PathVariable @Validated @NotBlank String id) {
+        return deviceInfoFacade.findById(id);
+    }
 
     @Override
     public Result<PageInfo<IoEDeviceInfoDTO>> list(@RequestBody @Validated IoEDeviceInfoQueryRequest request) {

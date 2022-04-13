@@ -38,6 +38,8 @@ import tech.ordinaryroad.ioe.mapstruct.IoEDeviceInfoMapStruct;
 import tech.ordinaryroad.ioe.service.IoEService;
 import tech.ordinaryroad.ioe.utis.IoEUtils;
 
+import java.util.Optional;
+
 /**
  * @author mjz
  * @date 2022/3/26
@@ -49,6 +51,12 @@ public class IoEDeviceInfoFacadeImpl implements IIoEDeviceInfoFacade {
     private final IoEService ioEService;
     private final OrThingsBoardDeviceService thingsBoardDeviceService;
     private final IoEDeviceInfoMapStruct mapStruct;
+
+    @Override
+    public Result<IoEDeviceInfoDTO> findById(String id) {
+        Optional<DeviceInfo> optional = thingsBoardDeviceService.getDeviceInfoById(id);
+        return optional.map(data -> Result.success(mapStruct.transfer(data))).orElseGet(Result::fail);
+    }
 
     @Override
     public Result<PageInfo<IoEDeviceInfoDTO>> list(IoEDeviceInfoQueryRequest request) {

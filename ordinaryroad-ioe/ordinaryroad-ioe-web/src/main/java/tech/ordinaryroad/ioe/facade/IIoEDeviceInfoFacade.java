@@ -35,6 +35,14 @@ import tech.ordinaryroad.ioe.api.request.IoEDeviceInfoQueryRequest;
 public interface IIoEDeviceInfoFacade {
 
     /**
+     * 根据Id查询设备信息
+     *
+     * @param id 设备Id
+     * @return DTO
+     */
+    Result<IoEDeviceInfoDTO> findById(String id);
+
+    /**
      * 分页查询用户拥有的设备列表
      *
      * @param request Request
