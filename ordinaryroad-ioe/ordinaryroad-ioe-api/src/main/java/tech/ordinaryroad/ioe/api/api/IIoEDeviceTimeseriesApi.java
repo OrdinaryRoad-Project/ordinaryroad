@@ -33,7 +33,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
-import tech.ordinaryroad.ioe.api.dto.IoETsKvEntryDTO;
+import tech.ordinaryroad.ioe.api.dto.IoEBasicTsKvEntryDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceTimeseriesQueryRequest;
 
 import javax.validation.constraints.NotBlank;
@@ -51,5 +51,5 @@ public interface IIoEDeviceTimeseriesApi {
     Result<List<String>> getTimeseriesKeys(@PathVariable @Validated @NotBlank String id);
 
     @PostMapping("/timeseries/device")
-    Result<List<IoETsKvEntryDTO>> getTimeseries(@RequestBody @Validated IoEDeviceTimeseriesQueryRequest request);
+    Result<List<IoEBasicTsKvEntryDTO>> getTimeseries(@RequestBody @Validated IoEDeviceTimeseriesQueryRequest request);
 }

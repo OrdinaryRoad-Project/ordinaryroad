@@ -25,7 +25,7 @@ package tech.ordinaryroad.ioe.mapstruct;
 
 import org.mapstruct.Mapper;
 import org.thingsboard.server.common.data.kv.TsKvEntry;
-import tech.ordinaryroad.ioe.api.dto.IoETsKvEntryDTO;
+import tech.ordinaryroad.ioe.api.dto.IoEBasicTsKvEntryDTO;
 
 /**
  * @author mjz
@@ -34,6 +34,6 @@ import tech.ordinaryroad.ioe.api.dto.IoETsKvEntryDTO;
 @Mapper(componentModel = "spring")
 public interface IoEKvEntityMapStruct {
 
-    IoETsKvEntryDTO transfer(TsKvEntry tsKvEntry);
+    IoEBasicTsKvEntryDTO transfer(TsKvEntry tsKvEntry);
 
 }

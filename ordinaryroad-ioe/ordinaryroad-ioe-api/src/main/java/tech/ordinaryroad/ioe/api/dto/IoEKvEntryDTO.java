@@ -21,34 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.ioe.facade;
+package tech.ordinaryroad.ioe.api.dto;
 
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.ioe.api.dto.IoEBasicTsKvEntryDTO;
-import tech.ordinaryroad.ioe.api.request.IoEDeviceTimeseriesQueryRequest;
-
-import java.util.List;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 
 /**
  * @author mjz
- * @date 2022/3/29
+ * @date 2022/4/13
+ * @see org.thingsboard.server.common.data.kv.KvEntry
  */
-public interface IIoEDeviceTimeseriesFacade {
+@Data
+@ApiModel
+public class IoEKvEntryDTO extends BaseDTO {
 
-    /**
-     * 查询设备所有时序键
-     *
-     * @param id 设备Id
-     * @return List
-     */
-    Result<List<String>> getTimeseriesKeys(String id);
+    private static final long serialVersionUID = -1005880246448293696L;
 
-    /**
-     * 查询时序数据
-     *
-     * @param request Request
-     * @return List
-     */
-    Result<List<IoEBasicTsKvEntryDTO>> getTimeseries(IoEDeviceTimeseriesQueryRequest request);
+    private String key;
+
+    private Object value;
 
 }

@@ -25,6 +25,7 @@ package tech.ordinaryroad.ioe.api.dto;
 
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
+import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 
 /**
  * @author mjz
@@ -33,9 +34,9 @@ import lombok.Data;
  */
 @Data
 @ApiModel
-public class BaseIoEKvEntryDTO extends BaseIoEDTO {
+public class BaseIoEKvEntryDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 5402724643011095464L;
+    private static final long serialVersionUID = -4722622960835495614L;
 
     private Object value;
 

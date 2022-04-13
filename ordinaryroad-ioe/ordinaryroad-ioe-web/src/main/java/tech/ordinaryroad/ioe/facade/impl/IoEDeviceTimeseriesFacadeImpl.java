@@ -32,7 +32,7 @@ import org.thingsboard.server.common.data.kv.TsKvEntry;
 import org.thingsboard.server.common.data.page.SortOrder;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardTimeseriesService;
-import tech.ordinaryroad.ioe.api.dto.IoETsKvEntryDTO;
+import tech.ordinaryroad.ioe.api.dto.IoEBasicTsKvEntryDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceTimeseriesQueryRequest;
 import tech.ordinaryroad.ioe.facade.IIoEDeviceTimeseriesFacade;
 import tech.ordinaryroad.ioe.mapstruct.IoEKvEntityMapStruct;
@@ -57,7 +57,7 @@ public class IoEDeviceTimeseriesFacadeImpl implements IIoEDeviceTimeseriesFacade
     }
 
     @Override
-    public Result<List<IoETsKvEntryDTO>> getTimeseries(IoEDeviceTimeseriesQueryRequest request) {
+    public Result<List<IoEBasicTsKvEntryDTO>> getTimeseries(IoEDeviceTimeseriesQueryRequest request) {
         String id = request.getId();
         List<String> keys = request.getKeys();
         Long startTime = request.getStartTime();
@@ -79,7 +79,7 @@ public class IoEDeviceTimeseriesFacadeImpl implements IIoEDeviceTimeseriesFacade
         Integer limit = request.getLimit();
         Boolean useStrictDataTypes = request.getUseStrictDataTypes();
         final List<TsKvEntry> timeseries = timeseriesService.getTimeseries(DeviceId.fromString(id), keys, startTime, endTime, interval, aggregation, sortOrderDirection, limit, useStrictDataTypes);
-        final List<IoETsKvEntryDTO> collect = timeseries.stream().map(mapStruct::transfer).collect(Collectors.toList());
+        final List<IoEBasicTsKvEntryDTO> collect = timeseries.stream().map(mapStruct::transfer).collect(Collectors.toList());
         return Result.success(collect);
     }
 }

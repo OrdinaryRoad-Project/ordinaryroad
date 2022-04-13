@@ -31,7 +31,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.api.IIoEDeviceTimeseriesApi;
-import tech.ordinaryroad.ioe.api.dto.IoETsKvEntryDTO;
+import tech.ordinaryroad.ioe.api.dto.IoEBasicTsKvEntryDTO;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceTimeseriesQueryRequest;
 import tech.ordinaryroad.ioe.facade.IIoEDeviceTimeseriesFacade;
 
@@ -55,7 +55,7 @@ public class IoEDeviceTimeseriesController implements IIoEDeviceTimeseriesApi {
     }
 
     @Override
-    public Result<List<IoETsKvEntryDTO>> getTimeseries(@RequestBody @Validated IoEDeviceTimeseriesQueryRequest request) {
+    public Result<List<IoEBasicTsKvEntryDTO>> getTimeseries(@RequestBody @Validated IoEDeviceTimeseriesQueryRequest request) {
         return timeseriesFacade.getTimeseries(request);
     }
 
