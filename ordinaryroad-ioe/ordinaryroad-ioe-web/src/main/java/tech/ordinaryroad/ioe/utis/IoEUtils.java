@@ -28,6 +28,9 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.*;
 import com.github.pagehelper.PageInfo;
 import org.thingsboard.server.common.data.alarm.AlarmSearchStatus;
 import org.thingsboard.server.common.data.alarm.AlarmSeverity;
@@ -39,6 +42,7 @@ import org.thingsboard.server.common.data.query.AlarmDataPageLink;
 import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 import tech.ordinaryroad.ioe.api.request.BaseIoEQueryRequest;
 import tech.ordinaryroad.ioe.api.request.IoEAlarmDataQueryRequest;
+import tech.ordinaryroad.ioe.api.request.IoERpcRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -146,6 +150,35 @@ public class IoEUtils {
         alarmDataPageLink.setSeverityList(alarmSeverityList);
 
         return alarmDataPageLink;
+    }
+
+    public static JsonNode rpcRequestToJsonNode(IoERpcRequest request) {
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode objectNode = objectMapper.createObjectNode();
+
+        objectNode.set("method", TextNode.valueOf(request.getMethod()));
+
+        ObjectNode paramsObjectNode = objectMapper.createObjectNode();
+        objectNode.set("params", paramsObjectNode);
+
+        objectNode.set("timeout", LongNode.valueOf(request.getTimeout()));
+
+        Long expirationTime = request.getExpirationTime();
+        if (expirationTime != null) {
+            objectNode.set("expirationTime", LongNode.valueOf(expirationTime));
+        }
+
+        objectNode.set("persistent", BooleanNode.valueOf(request.getPersistent()));
+
+        Integer retries = request.getRetries();
+        if (retries != null) {
+            objectNode.set("retries", IntNode.valueOf(retries));
+        }
+
+        ObjectNode additionalInfoObjectNode = objectMapper.createObjectNode();
+        objectNode.set("additionalInfo", additionalInfoObjectNode);
+
+        return objectNode;
     }
 
     public static <T, DTO extends BaseDTO> PageInfo<DTO> pageDataToPageInfo(PageLink pageLink, PageData<T> pageData, Function<T, DTO> mapper) {
