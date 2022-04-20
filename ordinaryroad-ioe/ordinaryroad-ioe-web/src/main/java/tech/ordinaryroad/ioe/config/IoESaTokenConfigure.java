@@ -67,6 +67,9 @@ public class IoESaTokenConfigure {
                 // 开放地址 登录回调
                 .addExclude("/authorized")
 
+                // 开放地址 免登录接口
+                .addExclude("/no_auth/**")
+
                 // 鉴权方法：每次访问进入
                 .setAuth(obj -> {
 

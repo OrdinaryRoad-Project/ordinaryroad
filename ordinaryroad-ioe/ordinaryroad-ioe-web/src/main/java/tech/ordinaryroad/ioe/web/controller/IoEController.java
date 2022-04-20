@@ -25,16 +25,20 @@ package tech.ordinaryroad.ioe.web.controller;
 
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.RandomUtil;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.thingsboard.server.common.data.Customer;
+import org.thingsboard.server.common.data.DeviceInfo;
 import org.thingsboard.server.common.data.User;
 import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
@@ -43,20 +47,26 @@ import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.service.RedisService;
 import tech.ordinaryroad.commons.satoken.properties.OAuth2ClientProperties;
 import tech.ordinaryroad.commons.thingsboard.properties.OrThingsBoardProperties;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardCustomerService;
+import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService;
+import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardRpcService;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardUserService;
 import tech.ordinaryroad.ioe.api.api.IIoEApi;
 import tech.ordinaryroad.ioe.api.dto.IoEUserDTO;
 import tech.ordinaryroad.ioe.api.dto.IoEUserinfoDTO;
+import tech.ordinaryroad.ioe.api.request.IoERpcRequest;
 import tech.ordinaryroad.ioe.api.request.IoEUserQueryRequest;
 import tech.ordinaryroad.ioe.api.request.IoEUserSaveRequest;
 import tech.ordinaryroad.ioe.entity.IoEUserDO;
 import tech.ordinaryroad.ioe.facade.IIoEUserFacade;
 import tech.ordinaryroad.ioe.service.IoEUserService;
+import tech.ordinaryroad.ioe.utis.IoEUtils;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 
+import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -77,6 +87,9 @@ public class IoEController implements IIoEApi {
     private final OrThingsBoardProperties thingsBoardProperties;
     private final OrThingsBoardCustomerService thingsBoardCustomerService;
     private final OrThingsBoardUserService thingsBoardUserService;
+    private final OrThingsBoardDeviceService thingsBoardDeviceService;
+    private final RedisService redisService;
+    private final OrThingsBoardRpcService thingsBoardRpcService;
 
     @Transactional(rollbackFor = BaseException.class)
     @Override
@@ -217,5 +230,54 @@ public class IoEController implements IIoEApi {
 
         return optional.map(ioEUserDO -> Result.success(thingsBoardUserService.getToken(ioEUserDO.getUserId()))).orElse(Result.fail());
     }
+
+    @Override
+    public Result<String> pblTempUnlockPin(@PathVariable @Validated @NotBlank String id) {
+        Optional<DeviceInfo> byId = thingsBoardDeviceService.getDeviceInfoById(id);
+        if (byId.isEmpty()) {
+            return Result.fail();
+        }
+        String deviceId = byId.get().getId().toString();
+        String tempPin = RandomUtil.randomString(6);
+        String key = generatePblTempUnlockPinKey(tempPin);
+        redisService.setCacheObject(key, deviceId);
+        return Result.success(tempPin);
+    }
+
+    @Override
+    public Result<Boolean> pblUnlock(@PathVariable @Validated @NotBlank String pin) {
+        String key = generatePblTempUnlockPinKey(pin);
+
+        if (!redisService.hasKey(key)) {
+            return Result.fail("PIN已失效");
+        }
+
+        String deviceId = redisService.getCacheObject(key);
+        redisService.deleteObject(key);
+
+        Optional<DeviceInfo> byId = thingsBoardDeviceService.getDeviceInfoById(deviceId);
+        if (byId.isEmpty()) {
+            return Result.fail(StatusCode.DATA_NOT_EXIST);
+        }
+
+        IoERpcRequest request = new IoERpcRequest();
+        request.setMethod("unlock");
+        JsonNode jsonNode = IoEUtils.rpcRequestToJsonNode(request);
+        JsonNode response = thingsBoardRpcService.twoWay(deviceId, jsonNode);
+
+        if (!response.has("code")) {
+            return Result.success(Boolean.FALSE);
+        } else {
+            JsonNode codeNode = response.get("code");
+            return Result.success("0".equals(codeNode.toString()));
+        }
+    }
+
+    public static String generatePblTempUnlockPinKey(String pin) {
+        return KEY_PBL_TEMP_UNLOCK_PIN_KEY_PREFIX + pin + KEY_PBL_TEMP_UNLOCK_PIN_KEY_SUFFIX;
+    }
+
+    private static final String KEY_PBL_TEMP_UNLOCK_PIN_KEY_PREFIX = "IOE:DEVICE:PBL:";
+    private static final String KEY_PBL_TEMP_UNLOCK_PIN_KEY_SUFFIX = ":TEMPUNLOCKPIN";
 
 }

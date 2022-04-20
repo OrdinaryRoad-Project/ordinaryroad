@@ -28,12 +28,16 @@ import com.fasterxml.jackson.databind.JsonNode;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
 import tech.ordinaryroad.ioe.api.dto.IoEUserinfoDTO;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * @author mjz
@@ -59,5 +63,11 @@ public interface IIoEApi {
 
     @GetMapping("/thingsboard/token")
     Result<JsonNode> thingsboardToken();
+
+    @GetMapping("/device/pbl/{id}/temp/unlock/pin")
+    Result<String> pblTempUnlockPin(@PathVariable @Validated @NotBlank String id);
+
+    @GetMapping("/no_auth/device/pbl/temp/unlock/pin/{pin}")
+    Result<Boolean> pblUnlock(@PathVariable @Validated @NotBlank String pin);
 
 }
