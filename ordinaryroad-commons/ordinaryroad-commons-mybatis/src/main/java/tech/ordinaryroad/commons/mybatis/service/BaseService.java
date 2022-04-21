@@ -403,7 +403,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             final EmailPushRequest emailPushRequest = new EmailPushRequest();
             emailPushRequest.setEmail(fillMetaFieldService.emailToReceiveErrorMsgWhenGenerating(t, e));
             emailPushRequest.setTitle("更新时填充字段异常");
-            emailPushRequest.setContent("fillMetaFieldsWhenCreate createBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
+            emailPushRequest.setContent("fillMetaFieldsWhenCreate updateBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
             pushApi.email(emailPushRequest);
         }
     }
