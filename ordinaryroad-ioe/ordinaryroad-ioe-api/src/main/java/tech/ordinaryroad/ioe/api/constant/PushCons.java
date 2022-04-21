@@ -30,5 +30,9 @@ package tech.ordinaryroad.ioe.api.constant;
 public class PushCons {
 
     public static final String ANDROID_PACKAGE_NAME = "tech.ordinaryroad.ioe.android";
+    public static final String ANDROID_ALARM_CHANNEL_ID = "alarm";
+    public static final String ANDROID_TITLE_GEOFENCE_INSIDE = "入围栏告警";
+    public static final String ANDROID_TITLE_GEOFENCE_OUTSIDE = "出围栏告警";
+    public static final String ANDROID_TITLE_VIBRATING_WHEN_LOCKED = "震动告警";
 
 }

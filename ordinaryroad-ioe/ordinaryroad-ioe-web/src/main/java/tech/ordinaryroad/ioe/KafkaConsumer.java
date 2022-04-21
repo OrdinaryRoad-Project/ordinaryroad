@@ -113,30 +113,69 @@ public class KafkaConsumer {
                 if (!namesOut.isEmpty()) {
                     // 需要创建出围栏告警
                     final JsonNode details = new TextNode(CollUtil.join(namesOut, "、"));
-                    final Alarm alarm = thingsBoardAlarmService.saveAlarm(device.getId(), "出围栏告警", AlarmSeverity.WARNING, AlarmStatus.ACTIVE_UNACK, details);
+                    final Alarm alarm = thingsBoardAlarmService.saveAlarm(device.getId(), PushCons.ANDROID_TITLE_GEOFENCE_OUTSIDE, AlarmSeverity.WARNING, AlarmStatus.ACTIVE_UNACK, details);
                     log.info("onDeviceTelemetry, Android Push {} {},{}", alarm.getStartTs() == alarm.getEndTs(), alarm.getStartTs(), alarm.getEndTs());
                     if (alarm.getStartTs() == alarm.getEndTs()) {
                         // 首次创建APP推送
                         final AndroidPushRequest request = new AndroidPushRequest();
                         request.setPackageName(PushCons.ANDROID_PACKAGE_NAME);
-                        request.setTitle("出围栏告警");
+                        request.setTitle(PushCons.ANDROID_TITLE_GEOFENCE_OUTSIDE + " " + deviceName);
                         request.setContent(details.textValue());
                         request.setToOrNumber(orNumber);
+                        request.setChannel(PushCons.ANDROID_ALARM_CHANNEL_ID);
                         pushApi.android(request);
                     }
                 }
                 if (!namesIn.isEmpty()) {
                     // 需要创建入围栏告警
                     final JsonNode details = new TextNode(CollUtil.join(namesIn, "、"));
-                    final Alarm alarm = thingsBoardAlarmService.saveAlarm(device.getId(), "入围栏告警", AlarmSeverity.WARNING, AlarmStatus.ACTIVE_UNACK, details);
+                    final Alarm alarm = thingsBoardAlarmService.saveAlarm(device.getId(), PushCons.ANDROID_TITLE_GEOFENCE_INSIDE, AlarmSeverity.WARNING, AlarmStatus.ACTIVE_UNACK, details);
                     log.info("onDeviceTelemetry, Android Push {} {},{}", alarm.getStartTs() == alarm.getEndTs(), alarm.getStartTs(), alarm.getEndTs());
                     if (alarm.getStartTs() == alarm.getEndTs()) {
                         // 首次创建APP推送
                         final AndroidPushRequest request = new AndroidPushRequest();
                         request.setPackageName(PushCons.ANDROID_PACKAGE_NAME);
-                        request.setTitle("入围栏告警");
+                        request.setTitle(PushCons.ANDROID_TITLE_GEOFENCE_INSIDE + " " + deviceName);
                         request.setContent(details.textValue());
                         request.setToOrNumber(orNumber);
+                        request.setChannel(PushCons.ANDROID_ALARM_CHANNEL_ID);
+                        pushApi.android(request);
+                    }
+                }
+            }
+        }
+    }
+
+    @KafkaListener(topics = {"telemetry-device-pbl-vibrating"}, groupId = "ioe-telemetry-device-pbl")
+    public void onDeviceTelemetryPblVibrating(ConsumerRecord<String, String> record) {
+        final Headers headers = record.headers();
+
+        final String deviceType = new String(headers.lastHeader("tb_msg_md_deviceType").value(), StandardCharsets.UTF_8);
+        final String deviceName = new String(headers.lastHeader("tb_msg_md_deviceName").value(), StandardCharsets.UTF_8);
+        final String lastLockStatus = new String(headers.lastHeader("tb_msg_md_lockStatus").value(), StandardCharsets.UTF_8);
+
+        final JSONObject msg = JSON.parseObject(record.value());
+        final Boolean vibrating = msg.getBoolean("vibrating");
+
+        final Optional<Device> tenantDevice = thingsBoardDeviceService.getTenantDevice(deviceName);
+
+        if (tenantDevice.isPresent()) {
+            final Device device = tenantDevice.get();
+            final Optional<IoEUserDO> byCustomerId = userService.findByCustomerId(device.getCustomerId().toString());
+            if (byCustomerId.isPresent()) {
+                final IoEUserDO ioEUserDO = byCustomerId.get();
+                final String orNumber = ioEUserDO.getOrNumber();
+                if (vibrating && "LOCKED".equals(lastLockStatus)) {
+                    // 需要创建创建未解锁震动告警
+                    final Alarm alarm = thingsBoardAlarmService.saveAlarm(device.getId(), PushCons.ANDROID_TITLE_VIBRATING_WHEN_LOCKED, AlarmSeverity.WARNING, AlarmStatus.ACTIVE_UNACK, null);
+                    if (alarm.getStartTs() == alarm.getEndTs()) {
+                        // 首次创建APP推送
+                        final AndroidPushRequest request = new AndroidPushRequest();
+                        request.setPackageName(PushCons.ANDROID_PACKAGE_NAME);
+                        request.setTitle(PushCons.ANDROID_TITLE_VIBRATING_WHEN_LOCKED);
+                        request.setContent(deviceName);
+                        request.setToOrNumber(orNumber);
+                        request.setChannel(PushCons.ANDROID_ALARM_CHANNEL_ID);
                         pushApi.android(request);
                     }
                 }

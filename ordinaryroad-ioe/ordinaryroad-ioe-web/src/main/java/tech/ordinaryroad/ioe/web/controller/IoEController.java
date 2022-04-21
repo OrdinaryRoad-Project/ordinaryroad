@@ -269,7 +269,7 @@ public class IoEController implements IIoEApi {
             return Result.success(Boolean.FALSE);
         } else {
             JsonNode codeNode = response.get("code");
-            return Result.success("0".equals(codeNode.toString()));
+            return Result.success("0".equals(codeNode.textValue()));
         }
     }
 
