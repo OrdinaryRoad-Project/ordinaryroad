@@ -41,7 +41,7 @@ import java.util.List;
 @ApiModel
 public class IoEGeofenceQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = -5839926685040982429L;
+    private static final long serialVersionUID = 4069174180875508283L;
 
     @ApiModelProperty("ThingsBoard平台设备Id")
     private String deviceId;
@@ -57,5 +57,8 @@ public class IoEGeofenceQueryRequest extends BaseQueryRequest {
 
     @ApiModelProperty("点列表")
     private List<LatLon> pointList;
+
+    @ApiModelProperty(value = "严重程度", allowableValues = "CRITICAL, MAJOR, MINOR, WARNING, INDETERMINATE")
+    private String severity;
 
 }

@@ -78,4 +78,11 @@ public class IoEGeofenceDO extends BaseDO {
     @ColumnType(typeHandler = LatLonListTypeHandler.class)
     private List<LatLon> pointList;
 
+    /**
+     * 严重程度：CRITICAL, MAJOR, MINOR, WARNING, INDETERMINATE
+     *
+     * @see org.thingsboard.server.common.data.alarm.AlarmSeverity
+     */
+    private String severity;
+
 }

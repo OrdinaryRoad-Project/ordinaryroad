@@ -31,6 +31,7 @@ import org.hibernate.validator.constraints.Range;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 import tech.ordinaryroad.ioe.api.LatLon;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.List;
@@ -44,17 +45,17 @@ import java.util.List;
 @ApiModel
 public class IoEGeofenceSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 8666332804314537275L;
+    private static final long serialVersionUID = 2943293800741623308L;
 
-    @ApiModelProperty("ThingsBoard平台设备Id")
+    @ApiModelProperty(value = "ThingsBoard平台设备Id", required = true)
     @Size(min = 36, max = 36, message = "ThingsBoard平台设备Id长度必须为36")
     private String deviceId;
 
-    @ApiModelProperty("名称")
+    @ApiModelProperty(value = "名称", required = true)
     @Size(min = 1, max = 20, message = "名称长度1-20")
     private String name;
 
-    @ApiModelProperty(value = "围栏类型，目前仅支持：0 1", allowableValues = "0,1")
+    @ApiModelProperty(value = "围栏类型，目前仅支持：0 1", allowableValues = "0,1", required = true)
     private Integer type;
 
     @ApiModelProperty("半径（米）")
@@ -64,5 +65,15 @@ public class IoEGeofenceSaveRequest extends BaseSaveRequest {
     @ApiModelProperty("点列表")
     @NotEmpty(message = "点列表不能为空")
     private List<LatLon> pointList;
+
+    @ApiModelProperty(value = "严重程度", required = true,
+            allowableValues = "CRITICAL, MAJOR, MINOR, WARNING, INDETERMINATE",
+            notes = "CRITICAL：危险，每次产生告警发送客户端推送和邮箱推送；" +
+                    "MAJOR：重要，每次产生告警仅发送邮箱推送；" +
+                    "MINOR：次要，每次产生告警仅发送客户端推送；" +
+                    "WARNING：警告，仅首次产生告警发送客户端和邮箱推送；" +
+                    "INDETERMINATE：不确定，告警产生时不进行任何消息推送")
+    @NotBlank(message = "严重程度不能为空")
+    private String severity;
 
 }

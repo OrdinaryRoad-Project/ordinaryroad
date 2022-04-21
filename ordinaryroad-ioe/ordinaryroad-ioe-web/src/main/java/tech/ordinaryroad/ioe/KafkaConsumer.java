@@ -32,12 +32,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.common.header.Headers;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 import org.thingsboard.server.common.data.Device;
 import org.thingsboard.server.common.data.alarm.Alarm;
 import org.thingsboard.server.common.data.alarm.AlarmSeverity;
 import org.thingsboard.server.common.data.alarm.AlarmStatus;
+import org.thingsboard.server.common.data.id.DeviceId;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardAlarmService;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService;
 import tech.ordinaryroad.ioe.api.LatLon;
@@ -45,16 +47,16 @@ import tech.ordinaryroad.ioe.api.constant.PushCons;
 import tech.ordinaryroad.ioe.entity.IoEGeofenceDO;
 import tech.ordinaryroad.ioe.entity.IoEUserDO;
 import tech.ordinaryroad.ioe.service.IoEGeofenceService;
+import tech.ordinaryroad.ioe.service.IoEService;
 import tech.ordinaryroad.ioe.service.IoEUserService;
 import tech.ordinaryroad.ioe.utis.GeoUtil;
 import tech.ordinaryroad.ioe.utis.RangeUnit;
 import tech.ordinaryroad.push.api.IPushApi;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
+import tech.ordinaryroad.push.request.EmailPushRequest;
 
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * @author mjz
@@ -70,6 +72,7 @@ public class KafkaConsumer {
     private final IoEGeofenceService geofenceService;
     private final IoEUserService userService;
     private final IPushApi pushApi;
+    private final IoEService ioEService;
 
     @KafkaListener(topics = {"telemetry-device"}, groupId = "ioe-telemetry-device")
     public void onDeviceTelemetry(ConsumerRecord<String, String> record) {
@@ -89,61 +92,141 @@ public class KafkaConsumer {
 
         if (tenantDevice.isPresent()) {
             final Device device = tenantDevice.get();
+            final DeviceId deviceId = device.getId();
             final Optional<IoEUserDO> byCustomerId = userService.findByCustomerId(device.getCustomerId().toString());
             if (byCustomerId.isPresent()) {
                 final IoEUserDO ioEUserDO = byCustomerId.get();
                 final String orNumber = ioEUserDO.getOrNumber();
-                final List<IoEGeofenceDO> geofenceList = geofenceService.findAllByCreateByAndDeviceId(ioEUserDO.getOrNumber(), device.getId().toString());
+                final String email = ioEService.getEmail(orNumber);
+                final List<IoEGeofenceDO> geofenceList = geofenceService.findAllByCreateByAndDeviceId(ioEUserDO.getOrNumber(), deviceId.toString());
                 log.info("onDeviceTelemetry, geofenceList:{}", JSON.toJSON(geofenceList));
                 // 出围栏
-                List<String> namesOut = new ArrayList<>();
+                List<IoEGeofenceDO> geofenceOut = new ArrayList<>();
                 // 入围栏
-                List<String> namesIn = new ArrayList<>();
+                List<IoEGeofenceDO> geofenceIn = new ArrayList<>();
                 // 判断是否需要告警
                 for (IoEGeofenceDO geofence : geofenceList) {
                     final String geofenceName = geofence.getName();
                     if (checkMatches(geofence, p.getDouble("lat"), p.getDouble("lon"))) {
-                        log.warn("onDeviceTelemetry, inside the geofence {}", geofenceName);
-                        namesIn.add(geofenceName);
+                        geofenceIn.add(geofence);
                     } else {
-                        log.warn("onDeviceTelemetry, outside the geofence {}", geofenceName);
-                        namesOut.add(geofenceName);
+                        geofenceOut.add(geofence);
                     }
                 }
-                if (!namesOut.isEmpty()) {
+                if (!geofenceOut.isEmpty()) {
                     // 需要创建出围栏告警
-                    final JsonNode details = new TextNode(CollUtil.join(namesOut, "、"));
-                    final Alarm alarm = thingsBoardAlarmService.saveAlarm(device.getId(), PushCons.ANDROID_TITLE_GEOFENCE_OUTSIDE, AlarmSeverity.WARNING, AlarmStatus.ACTIVE_UNACK, details);
-                    log.info("onDeviceTelemetry, Android Push {} {},{}", alarm.getStartTs() == alarm.getEndTs(), alarm.getStartTs(), alarm.getEndTs());
-                    if (alarm.getStartTs() == alarm.getEndTs()) {
-                        // 首次创建APP推送
-                        final AndroidPushRequest request = new AndroidPushRequest();
-                        request.setPackageName(PushCons.ANDROID_PACKAGE_NAME);
-                        request.setTitle(PushCons.ANDROID_TITLE_GEOFENCE_OUTSIDE + " " + deviceName);
-                        request.setContent(details.textValue());
-                        request.setToOrNumber(orNumber);
-                        request.setChannel(PushCons.ANDROID_ALARM_CHANNEL_ID);
-                        pushApi.android(request);
-                    }
+                    Map<String, List<String>> severityNamesMap = getSeverityNamesMap(geofenceOut);
+                    severityNamesMap.forEach((severity, names) -> {
+                        final JsonNode details = new TextNode(CollUtil.join(names, "、"));
+                        AlarmSeverity alarmSeverity = AlarmSeverity.valueOf(severity);
+                        final Alarm alarm = thingsBoardAlarmService.saveAlarm(deviceId, PushCons.ANDROID_TITLE_GEOFENCE_OUTSIDE, alarmSeverity, AlarmStatus.ACTIVE_UNACK, details);
+
+                        // 构建客户端推送
+                        final AndroidPushRequest androidPushRequest = new AndroidPushRequest();
+                        androidPushRequest.setPackageName(PushCons.ANDROID_PACKAGE_NAME);
+                        androidPushRequest.setTitle(PushCons.ANDROID_TITLE_GEOFENCE_OUTSIDE);
+                        androidPushRequest.setContent(deviceName + " " + details.textValue());
+                        androidPushRequest.setToOrNumber(orNumber);
+                        androidPushRequest.setChannel(PushCons.ANDROID_ALARM_CHANNEL_ID);
+
+                        // 构建邮箱推送
+                        final EmailPushRequest emailPushRequest = new EmailPushRequest();
+                        emailPushRequest.setTitle(PushCons.ANDROID_TITLE_GEOFENCE_OUTSIDE);
+                        emailPushRequest.setContent(deviceName + " " + details.textValue());
+                        emailPushRequest.setEmail(email);
+
+                        doPush(alarmSeverity, alarm, androidPushRequest, emailPushRequest);
+                    });
                 }
-                if (!namesIn.isEmpty()) {
+
+                if (!geofenceIn.isEmpty()) {
                     // 需要创建入围栏告警
-                    final JsonNode details = new TextNode(CollUtil.join(namesIn, "、"));
-                    final Alarm alarm = thingsBoardAlarmService.saveAlarm(device.getId(), PushCons.ANDROID_TITLE_GEOFENCE_INSIDE, AlarmSeverity.WARNING, AlarmStatus.ACTIVE_UNACK, details);
-                    log.info("onDeviceTelemetry, Android Push {} {},{}", alarm.getStartTs() == alarm.getEndTs(), alarm.getStartTs(), alarm.getEndTs());
-                    if (alarm.getStartTs() == alarm.getEndTs()) {
-                        // 首次创建APP推送
-                        final AndroidPushRequest request = new AndroidPushRequest();
-                        request.setPackageName(PushCons.ANDROID_PACKAGE_NAME);
-                        request.setTitle(PushCons.ANDROID_TITLE_GEOFENCE_INSIDE + " " + deviceName);
-                        request.setContent(details.textValue());
-                        request.setToOrNumber(orNumber);
-                        request.setChannel(PushCons.ANDROID_ALARM_CHANNEL_ID);
-                        pushApi.android(request);
-                    }
+                    Map<String, List<String>> severityNamesMap = getSeverityNamesMap(geofenceIn);
+                    severityNamesMap.forEach((severity, names) -> {
+                        final JsonNode details = new TextNode(CollUtil.join(names, "、"));
+                        AlarmSeverity alarmSeverity = AlarmSeverity.valueOf(severity);
+                        final Alarm alarm = thingsBoardAlarmService.saveAlarm(deviceId, PushCons.ANDROID_TITLE_GEOFENCE_INSIDE, alarmSeverity, AlarmStatus.ACTIVE_UNACK, details);
+
+                        // 构建客户端推送
+                        final AndroidPushRequest androidPushRequest = new AndroidPushRequest();
+                        androidPushRequest.setPackageName(PushCons.ANDROID_PACKAGE_NAME);
+                        androidPushRequest.setTitle(PushCons.ANDROID_TITLE_GEOFENCE_INSIDE);
+                        androidPushRequest.setContent(deviceName + " " + details.textValue());
+                        androidPushRequest.setToOrNumber(orNumber);
+                        androidPushRequest.setChannel(PushCons.ANDROID_ALARM_CHANNEL_ID);
+
+                        // 构建邮箱推送
+                        final EmailPushRequest emailPushRequest = new EmailPushRequest();
+                        emailPushRequest.setTitle(PushCons.ANDROID_TITLE_GEOFENCE_INSIDE);
+                        emailPushRequest.setContent(deviceName + " " + details.textValue());
+                        emailPushRequest.setEmail(email);
+
+                        doPush(alarmSeverity, alarm, androidPushRequest, emailPushRequest);
+                    });
                 }
             }
         }
+    }
+
+    /**
+     * 根据严重程度执行消息推送动作
+     * <p>
+     * CRITICAL：危险，每次产生告警发送客户端推送和邮箱推送；
+     * <p>
+     * MAJOR：重要，每次产生告警仅发送邮箱推送；
+     * <p>
+     * MINOR：次要，每次产生告警仅发送客户端推送；
+     * <p>
+     * WARNING：警告，仅首次产生告警发送客户端和邮箱推送；
+     * <p>
+     * INDETERMINATE：不确定，告警产生时不进行任何消息推送
+     * <p>
+     *
+     * @param alarmSeverity      AlarmSeverity
+     * @param alarm              Alarm
+     * @param androidPushRequest AndroidPushRequest
+     * @param emailPushRequest   EmailPushRequest
+     */
+    private void doPush(AlarmSeverity alarmSeverity, Alarm alarm, AndroidPushRequest androidPushRequest, EmailPushRequest emailPushRequest) {
+        switch (alarmSeverity) {
+            case CRITICAL:
+                // 危险，每次产生告警发送客户端推送和邮箱推送
+                pushApi.android(androidPushRequest);
+                pushApi.email(emailPushRequest);
+                break;
+            case MAJOR:
+                // 重要，每次产生告警仅发送邮箱推送
+                pushApi.email(emailPushRequest);
+                break;
+            case MINOR:
+                // 次要，每次产生告警仅发送客户端推送；
+                pushApi.android(androidPushRequest);
+                break;
+            case WARNING:
+                // 警告，仅首次产生告警发送客户端和邮箱推送
+                if (alarm.getStartTs() == alarm.getEndTs()) {
+                    pushApi.android(androidPushRequest);
+                    pushApi.email(emailPushRequest);
+                }
+                break;
+            case INDETERMINATE:
+                // 告警产生时不进行任何消息推送
+                break;
+            default:
+        }
+    }
+
+    @NotNull
+    private Map<String, List<String>> getSeverityNamesMap(List<IoEGeofenceDO> geofenceOut) {
+        Map<String, List<String>> severityNamesMap = new HashMap<>();
+        for (IoEGeofenceDO ioEGeofenceDO : geofenceOut) {
+            String severity = ioEGeofenceDO.getSeverity();
+            String name = ioEGeofenceDO.getName();
+            List<String> names = severityNamesMap.getOrDefault(severity, new ArrayList<>());
+            names.add(name);
+            severityNamesMap.putIfAbsent(severity, names);
+        }
+        return severityNamesMap;
     }
 
     @KafkaListener(topics = {"telemetry-device-pbl-vibrating"}, groupId = "ioe-telemetry-device-pbl")

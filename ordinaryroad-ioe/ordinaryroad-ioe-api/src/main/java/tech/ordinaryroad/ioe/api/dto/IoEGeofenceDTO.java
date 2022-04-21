@@ -39,7 +39,7 @@ import java.util.List;
 @ApiModel
 public class IoEGeofenceDTO extends BaseModelDTO {
 
-    private static final long serialVersionUID = 6235702191302742402L;
+    private static final long serialVersionUID = 4898980646194227599L;
 
     @ApiModelProperty("ThingsBoard平台设备Id")
     private String deviceId;
@@ -55,5 +55,8 @@ public class IoEGeofenceDTO extends BaseModelDTO {
 
     @ApiModelProperty("点列表")
     private List<LatLon> pointList;
+
+    @ApiModelProperty("严重程度")
+    private String severity;
 
 }

@@ -26,7 +26,12 @@ package tech.ordinaryroad.ioe.service;
 import cn.dev33.satoken.stp.StpUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.exception.BaseException;
+import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.entity.IoEUserDO;
+import tech.ordinaryroad.upms.api.ISysUserApi;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
+import tech.ordinaryroad.upms.request.SysUserQueryRequest;
 
 import java.util.Optional;
 
@@ -39,6 +44,7 @@ import java.util.Optional;
 public class IoEService {
 
     private final IoEUserService userService;
+    private final ISysUserApi sysUserApi;
 
     public IoEUserDO getUser() {
         final String orNumber = StpUtil.getLoginIdAsString();
@@ -56,6 +62,21 @@ public class IoEService {
 
     public String getUserId() {
         return this.getUser().getUserId();
+    }
+
+    public String getEmail(String orNumber) {
+        final SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+        sysUserQueryRequest.setOrNumber(orNumber);
+        Result<SysUserDTO> byUniqueColumn = sysUserApi.findByUniqueColumn(sysUserQueryRequest);
+        if (!byUniqueColumn.getSuccess()) {
+            throw new BaseException(byUniqueColumn.getMsg());
+        }
+        return byUniqueColumn.getData().getEmail();
+    }
+
+    public String getEmail() {
+        final String orNumber = getOrNumber();
+        return this.getEmail(orNumber);
     }
 
 }
