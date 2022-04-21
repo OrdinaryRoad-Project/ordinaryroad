@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.ioe.web.controller;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,7 @@ import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
 import tech.ordinaryroad.ioe.facade.IIoEDeviceFacade;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author mjz
@@ -77,6 +79,11 @@ public class IoEDeviceController implements IIoEDeviceApi {
     @Override
     public Result<PageInfo<IoEAlarmDataDTO>> allAlarms(@RequestBody @Validated IoEAlarmDataQueryRequest request) {
         return deviceFacade.allAlarms(request);
+    }
+
+    @Override
+    public Result<Boolean> saveAttributes(@PathVariable @Validated @NotBlank String deviceId, @PathVariable @Validated @NotBlank String scope, @RequestBody @NotNull JsonNode request) {
+        return deviceFacade.saveAttributes(deviceId, scope, request);
     }
 
 }

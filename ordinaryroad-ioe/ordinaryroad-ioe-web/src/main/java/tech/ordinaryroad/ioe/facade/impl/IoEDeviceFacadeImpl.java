@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.ioe.facade.impl;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -100,5 +101,15 @@ public class IoEDeviceFacadeImpl implements IIoEDeviceFacade {
         final PageInfo<IoEAlarmDataDTO> pageInfo = IoEUtils.pageDataToPageInfo(alarmDataPageLink.getPage() + 1, alarmDataPageLink.getPageSize(), deviceAlarmDataByQuery, alarmMapStruct::transfer);
 
         return Result.success(pageInfo);
+    }
+
+    @Override
+    public Result<Boolean> saveAttributes(String deviceId, String scope, JsonNode request) {
+        boolean success = thingsBoardDeviceService.saveDeviceAttributes(deviceId, scope, request);
+        if (success) {
+            return Result.success();
+        } else {
+            return Result.fail();
+        }
     }
 }

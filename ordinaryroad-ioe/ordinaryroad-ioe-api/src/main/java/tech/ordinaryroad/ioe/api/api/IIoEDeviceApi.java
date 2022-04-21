@@ -24,6 +24,7 @@
 package tech.ordinaryroad.ioe.api.api;
 
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -43,6 +44,7 @@ import tech.ordinaryroad.ioe.api.request.IoEDeviceDeleteRequest;
 import tech.ordinaryroad.ioe.api.request.IoEDeviceSaveRequest;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * @author mjz
@@ -66,5 +68,8 @@ public interface IIoEDeviceApi {
 
     @PostMapping("/device/all/alarms")
     Result<PageInfo<IoEAlarmDataDTO>> allAlarms(@RequestBody @Validated IoEAlarmDataQueryRequest request);
+
+    @PostMapping("/device/{deviceId}/attributes/{scope}/save")
+    Result<Boolean> saveAttributes(@PathVariable @Validated @NotBlank String deviceId, @PathVariable @Validated @NotBlank String scope, @RequestBody @NotNull JsonNode request);
 
 }

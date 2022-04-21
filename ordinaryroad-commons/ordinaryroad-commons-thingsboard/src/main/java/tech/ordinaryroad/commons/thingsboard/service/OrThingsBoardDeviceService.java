@@ -24,6 +24,7 @@
 package tech.ordinaryroad.commons.thingsboard.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.fasterxml.jackson.databind.JsonNode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thingsboard.server.common.data.*;
@@ -239,6 +240,42 @@ public class OrThingsBoardDeviceService {
         final EntityTypeFilter entityTypeFilter = new EntityTypeFilter();
         entityTypeFilter.setEntityType(EntityType.DEVICE);
         return alarmService.findAlarmDataByQuery(userId, entityTypeFilter, alarmDataPageLink, Collections.emptyList(), Collections.emptyList(), Collections.emptyList(), Collections.emptyList());
+    }
+
+    /**
+     * Creates or updates the entity attributes based on Entity Id and the specified attribute scope. List of possible attribute scopes depends on the entity type:
+     * <p>
+     * SERVER_SCOPE - supported for all entity types;
+     * CLIENT_SCOPE - supported for devices;
+     * SHARED_SCOPE - supported for devices.
+     * <p>
+     * The request payload is a JSON object with key-value format of attributes to create or update. For example:
+     *
+     * <pre>
+     * {
+     *  "stringKey":"value1",
+     *  "booleanKey":true,
+     *  "doubleKey":42.0,
+     *  "longKey":73,
+     *  "jsonKey": {
+     *     "someNumber": 42,
+     *     "someArray": [1,2,3],
+     *     "someNestedObject": {"key": "value"}
+     *  }
+     * }
+     * </pre>
+     * Referencing a non-existing entity Id or invalid entity type will cause an error.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
+     * @param deviceId    设备Id
+     * @param serverScope SERVER_SCOPE, CLIENT_SCOPE, SHARED_SCOPE
+     * @param jsonNode    JSON格式的属性
+     * @return 是否成功
+     * @see org.thingsboard.server.common.data.DataConstants#allScopes()
+     */
+    public boolean saveDeviceAttributes(@NotBlank String deviceId, @NotBlank String serverScope, @NotNull JsonNode jsonNode) {
+        return clientService.getClient().saveDeviceAttributes(DeviceId.fromString(deviceId), serverScope, jsonNode);
     }
 
 }

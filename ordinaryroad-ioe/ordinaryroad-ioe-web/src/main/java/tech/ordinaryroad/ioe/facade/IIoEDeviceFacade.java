@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.ioe.facade;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pagehelper.PageInfo;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.dto.IoEAlarmDataDTO;
@@ -79,4 +80,13 @@ public interface IIoEDeviceFacade {
      */
     Result<PageInfo<IoEAlarmDataDTO>> allAlarms(IoEAlarmDataQueryRequest request);
 
+    /**
+     * 保存设备属性
+     *
+     * @param deviceId 设备Id
+     * @param scope    范围
+     * @param request  属性
+     * @return Result
+     */
+    Result<Boolean> saveAttributes(String deviceId, String scope, JsonNode request);
 }

@@ -217,9 +217,9 @@ public class KafkaConsumer {
     }
 
     @NotNull
-    private Map<String, List<String>> getSeverityNamesMap(List<IoEGeofenceDO> geofenceOut) {
+    private Map<String, List<String>> getSeverityNamesMap(List<IoEGeofenceDO> geofenceList) {
         Map<String, List<String>> severityNamesMap = new HashMap<>();
-        for (IoEGeofenceDO ioEGeofenceDO : geofenceOut) {
+        for (IoEGeofenceDO ioEGeofenceDO : geofenceList) {
             String severity = ioEGeofenceDO.getSeverity();
             String name = ioEGeofenceDO.getName();
             List<String> names = severityNamesMap.getOrDefault(severity, new ArrayList<>());
