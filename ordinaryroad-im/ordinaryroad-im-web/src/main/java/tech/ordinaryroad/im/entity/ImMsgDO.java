@@ -45,7 +45,7 @@ import javax.persistence.Table;
 @Table(name = "im_msg")
 public class ImMsgDO extends BaseDO {
 
-    private static final long serialVersionUID = 7477858325536799030L;
+    private static final long serialVersionUID = -4024298994164700101L;
 
     /**
      * 版本号
@@ -82,6 +82,11 @@ public class ImMsgDO extends BaseDO {
      * 接收者
      */
     private String toOrNumber;
+
+    /**
+     * MIMC APP ID
+     */
+    private String appId;
 
     @Override
     public String toString() {

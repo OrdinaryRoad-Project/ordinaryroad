@@ -45,7 +45,7 @@ import javax.validation.constraints.NotBlank;
 @ApiModel
 public class ImMsgHistoryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = -6171816118687658262L;
+    private static final long serialVersionUID = 4762277376776113589L;
 
     @ApiModelProperty("版本号")
     private Integer version;
@@ -65,5 +65,9 @@ public class ImMsgHistoryRequest extends BaseQueryRequest {
     @ApiModelProperty(value = "单聊对象账号", required = true)
     @NotBlank(message = "单聊对象账号不能为空")
     private String toOrNumber;
+
+    @ApiModelProperty(value = "MIMC APP ID", required = true)
+    @NotBlank(message = "MIMC APP ID不能为空")
+    private String appId;
 
 }

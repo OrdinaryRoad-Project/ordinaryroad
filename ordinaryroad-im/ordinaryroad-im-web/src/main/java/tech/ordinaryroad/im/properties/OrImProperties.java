@@ -23,9 +23,15 @@
  */
 package tech.ordinaryroad.im.properties;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author mjz
@@ -36,16 +42,28 @@ import org.springframework.context.annotation.Configuration;
 @ConfigurationProperties(prefix = "ordinaryroad.im")
 public class OrImProperties {
 
-    private MimcProperties mimc = new MimcProperties();
+    private List<MimcProperties> mimcPropertiesList = new ArrayList<>();
 
     @Data
-    public class MimcProperties {
+    public static class MimcProperties {
         private String appId;
         private String appKey;
         private String appSecret;
         private String regionKey = "REGION_CN";
         private String domain = "https://mimc.chat.xiaomi.net/";
         private String tokenUrl = "https://mimc.chat.xiaomi.net/api/account/token";
+    }
+
+    public MimcProperties getProperties(String appId) {
+        if (StrUtil.isBlank(appId)) {
+            return null;
+        }
+
+        List<MimcProperties> collect = mimcPropertiesList.stream()
+                .filter(mimcProperties -> mimcProperties.getAppId().equals(appId))
+                .collect(Collectors.toList());
+
+        return CollUtil.getFirst(collect);
     }
 
 }

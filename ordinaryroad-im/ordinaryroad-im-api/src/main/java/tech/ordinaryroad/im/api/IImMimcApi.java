@@ -28,12 +28,15 @@ import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.im.constant.ServiceNameCons;
 import tech.ordinaryroad.im.request.ImMimcMsgCallbackRequest;
+
+import javax.validation.constraints.NotBlank;
 
 /**
  * 即时通信 小米即时消息云API
@@ -48,7 +51,7 @@ public interface IImMimcApi {
     @PostMapping(PathConstants.IM_MIMC_CALLBACK)
     void callback(@Validated @RequestBody ImMimcMsgCallbackRequest request);
 
-    @GetMapping("/mimc/fetch_token")
-    Result<String> fetchToken();
+    @GetMapping("/mimc/fetch_token/{appId}")
+    Result<String> fetchToken(@PathVariable @Validated @NotBlank String appId);
 
 }

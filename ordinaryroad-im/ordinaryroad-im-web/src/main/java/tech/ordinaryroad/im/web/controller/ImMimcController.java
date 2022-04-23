@@ -40,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Base64Utils;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -60,6 +61,7 @@ import tech.ordinaryroad.im.service.ImMsgService;
 import tech.ordinaryroad.push.api.IPushApi;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
 
+import javax.validation.constraints.NotBlank;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -84,8 +86,8 @@ public class ImMimcController implements IImMimcApi {
     public void callback(@Validated @RequestBody ImMimcMsgCallbackRequest request) {
         // 认证校验
         String authentication = request.getAuthentication();
-        String appSecret = imProperties.getMimc().getAppSecret();
-        String appId = imProperties.getMimc().getAppId();
+        String appId = request.getFromAppId();
+        String appSecret = imProperties.getProperties(appId).getAppSecret();
         Long timestamp = Long.valueOf(request.getTimestamp());
         if (!checkMimcAuthentication(authentication, appSecret, appId, timestamp)) {
             throw new BaseException(StatusCode.PARAM_NOT_VALID);
@@ -225,11 +227,9 @@ public class ImMimcController implements IImMimcApi {
     }
 
     @Override
-    public Result<String> fetchToken() {
+    public Result<String> fetchToken(@PathVariable @Validated @NotBlank String appId) {
         String orNumber = StpUtil.getLoginIdAsString();
-
-        OrImProperties.MimcProperties mimc = imProperties.getMimc();
-        String appId = mimc.getAppId();
+        OrImProperties.MimcProperties mimc = imProperties.getProperties(appId);
         String appKey = mimc.getAppKey();
         String appSecret = mimc.getAppSecret();
         String regionKey = mimc.getRegionKey();

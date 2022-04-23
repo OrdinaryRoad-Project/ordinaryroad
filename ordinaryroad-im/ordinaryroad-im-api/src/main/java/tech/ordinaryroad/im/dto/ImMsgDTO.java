@@ -64,4 +64,7 @@ public class ImMsgDTO extends BaseModelDTO {
     @ApiModelProperty("接受者")
     private String toOrNumber;
 
+    @ApiModelProperty("MIMC APP ID")
+    private String appId;
+
 }
