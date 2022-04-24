@@ -25,7 +25,6 @@ package tech.ordinaryroad.auth.server.facade;
 
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
-import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 
 /**
@@ -45,8 +44,7 @@ public interface IOAuth2Facade {
     /**
      * Client端根据 Access-Token 置换用户信息
      *
-     * @param request Request
      * @return OAuth2UserInfoDTO
      */
-    Result<OAuth2UserInfoDTO> userinfo(OAuth2UserinfoRequest request);
+    Result<OAuth2UserInfoDTO> userinfo();
 }

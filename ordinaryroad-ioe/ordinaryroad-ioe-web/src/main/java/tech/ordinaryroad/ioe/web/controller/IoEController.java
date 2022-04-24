@@ -43,12 +43,12 @@ import org.thingsboard.server.common.data.User;
 import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
-import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.commons.core.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.service.RedisService;
 import tech.ordinaryroad.commons.satoken.properties.OAuth2ClientProperties;
+import tech.ordinaryroad.commons.satoken.util.OrOAuth2Util;
 import tech.ordinaryroad.commons.thingsboard.properties.OrThingsBoardProperties;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardCustomerService;
 import tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService;
@@ -155,9 +155,7 @@ public class IoEController implements IIoEApi {
         } else {
             log.info("IoE authorized(), 3.1/5 IoEUser not exist, creating...");
             // 获取userinfo
-            final OAuth2UserinfoRequest oAuth2UserinfoRequest = new OAuth2UserinfoRequest();
-            oAuth2UserinfoRequest.setAccessToken(accessToken);
-            final Result<OAuth2UserInfoDTO> userinfoResult = oAuth2Api.userinfo(oAuth2UserinfoRequest);
+            final Result<OAuth2UserInfoDTO> userinfoResult = oAuth2Api.userinfo(OrOAuth2Util.generateAuthorizationHeader(accessToken));
             if (!userinfoResult.getSuccess()) {
                 throw new BaseException(userinfoResult.getMsg());
             }

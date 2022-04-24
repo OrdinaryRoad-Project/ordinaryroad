@@ -25,13 +25,15 @@ package tech.ordinaryroad.auth.server.api;
 
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import tech.ordinaryroad.auth.server.constants.ServiceNameCons;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
-import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 
 /**
@@ -54,10 +56,10 @@ public interface IOAuth2Api {
     /**
      * Client端根据 Access-Token 置换用户信息
      *
-     * @param request Request
+     * @param authorization AUTHORIZATION：Bearer ${access_token}
      * @return OAuth2UserInfoDTO
      */
-    @PostMapping("/oauth2/userinfo")
-    Result<OAuth2UserInfoDTO> userinfo(@Validated @RequestBody OAuth2UserinfoRequest request);
+    @GetMapping("/oauth2/userinfo")
+    Result<OAuth2UserInfoDTO> userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization);
 
 }
