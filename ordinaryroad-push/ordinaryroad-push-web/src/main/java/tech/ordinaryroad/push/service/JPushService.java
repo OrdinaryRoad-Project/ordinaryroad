@@ -37,7 +37,6 @@ import cn.jpush.api.push.model.notification.AndroidNotification;
 import cn.jpush.api.push.model.notification.IosNotification;
 import cn.jpush.api.push.model.notification.Notification;
 import cn.jpush.api.schedule.ScheduleResult;
-import com.alibaba.fastjson.JSON;
 import com.google.gson.JsonObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +44,10 @@ import org.springframework.stereotype.Service;
 import tech.ordinaryroad.push.properties.OrPushProperties;
 import tech.ordinaryroad.push.properties.OrPushProperties.JPushProperties;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * 极光推送服务类 <a href="https://docs.jiguang.cn/jpush/server/push/rest_api_v3_push">文档</a>
@@ -66,11 +68,15 @@ public class JPushService {
      * 上线之后要改为 true
      */
     private final static Boolean APNS_PRODUCTION = true;
-    private volatile JPushClient jPushClient;
+    private final Map<String, JPushClient> jPushClients = new HashMap<>();
     private final static String SCHEDULE_NAME = "OrdinaryRoad";
 
     private JPushProperties getJPushProperties(String packageName) {
-        return JSON.parseObject(pushProperties.getPackageNamePropertiesMap().get(packageName), JPushProperties.class);
+        List<JPushProperties> collect = pushProperties.getJPushPropertiesList()
+                .stream()
+                .filter(jPushProperties -> jPushProperties.getPackageName().equals(packageName))
+                .collect(Collectors.toList());
+        return collect.get(0);
     }
 
     private String getAppKey(String packageName) {
@@ -82,14 +88,12 @@ public class JPushService {
     }
 
     private JPushClient getJPushClient(String packageName) {
-        if (jPushClient == null) {
-            synchronized (JPushService.class) {
-                if (jPushClient == null) {
-                    log.info("packageName: {}", packageName);
-                    log.info("pushProperties: {}", JSON.toJSONString(pushProperties));
-                    jPushClient = new JPushClient(getMasterSecret(packageName), getAppKey(packageName));
-                }
-            }
+        JPushClient jPushClient;
+        if (jPushClients.containsKey(packageName)) {
+            jPushClient = jPushClients.get(packageName);
+        } else {
+            jPushClient = new JPushClient(getMasterSecret(packageName), getAppKey(packageName));
+            jPushClients.put(packageName, jPushClient);
         }
         return jPushClient;
     }
