@@ -28,6 +28,7 @@ import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
 import cn.dev33.satoken.util.SaResult;
+import cn.hutool.core.util.BooleanUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
@@ -84,8 +85,13 @@ public class SaOAuth2ServerController implements IOAuth2Api {
     }
 
     @Override
-    public Result<OAuth2UserInfoDTO> userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
-        return oAuth2Facade.userinfo();
+    public Object userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestParam(name = "wrapped", defaultValue = "false") Boolean wrapped) {
+        Result<OAuth2UserInfoDTO> userinfo = oAuth2Facade.userinfo();
+        if (BooleanUtil.isTrue(wrapped)) {
+            return userinfo;
+        } else {
+            return userinfo.getData();
+        }
     }
 
 }

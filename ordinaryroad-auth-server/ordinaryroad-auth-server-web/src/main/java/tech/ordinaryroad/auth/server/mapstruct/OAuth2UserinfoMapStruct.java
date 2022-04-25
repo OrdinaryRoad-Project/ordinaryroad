@@ -21,35 +21,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.auth.server.dto;
+package tech.ordinaryroad.auth.server.mapstruct;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import org.mapstruct.Mapper;
+import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
 
 /**
- * 用户相关信息DTO：User
- *
  * @author mjz
- * @date 2021/12/1
+ * @date 2022/4/25
  */
-@Data
-@ApiModel
-public class OAuth2UserInfoDTO extends BaseDTO {
+@Mapper(componentModel = "spring")
+public interface OAuth2UserinfoMapStruct {
 
-    private static final long serialVersionUID = 7843086136016105834L;
-
-    @ApiModelProperty("or帐号")
-    private String orNumber;
-
-    @ApiModelProperty("头像地址")
-    private String avatar;
-
-    @ApiModelProperty("邮箱")
-    private String email;
-
-    @ApiModelProperty("用户名")
-    private String username;
+    OAuth2UserInfoDTO transfer(SysUserDTO sysUserDTO);
 
 }

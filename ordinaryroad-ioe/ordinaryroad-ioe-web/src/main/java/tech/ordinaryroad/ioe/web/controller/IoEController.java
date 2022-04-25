@@ -64,7 +64,6 @@ import tech.ordinaryroad.ioe.entity.IoEUserDO;
 import tech.ordinaryroad.ioe.facade.IIoEUserFacade;
 import tech.ordinaryroad.ioe.service.IoEUserService;
 import tech.ordinaryroad.ioe.utis.IoEUtils;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
 
 import javax.validation.constraints.NotBlank;
 import java.util.HashMap;
@@ -155,13 +154,12 @@ public class IoEController implements IIoEApi {
         } else {
             log.info("IoE authorized(), 3.1/5 IoEUser not exist, creating...");
             // 获取userinfo
-            final Result<OAuth2UserInfoDTO> userinfoResult = oAuth2Api.userinfo(OrOAuth2Util.generateAuthorizationHeader(accessToken));
+            final Result<OAuth2UserInfoDTO> userinfoResult = (Result<OAuth2UserInfoDTO>) oAuth2Api.userinfo(OrOAuth2Util.generateAuthorizationHeader(accessToken), Boolean.TRUE);
             if (!userinfoResult.getSuccess()) {
                 throw new BaseException(userinfoResult.getMsg());
             }
             final OAuth2UserInfoDTO userInfoDTO = userinfoResult.getData();
-            final SysUserDTO sysUserDTO = userInfoDTO.getUser();
-            final String defaultUsername = sysUserDTO.getUsername();
+            final String defaultUsername = userInfoDTO.getUsername();
 
             // 创建Customer
             final String tenantId = thingsBoardProperties.getTenant().getId();
@@ -170,7 +168,7 @@ public class IoEController implements IIoEApi {
 
             // 创建Customer下的User
             final String customerId = customer.getId().toString();
-            final String email = sysUserDTO.getEmail();
+            final String email = userInfoDTO.getEmail();
             final User user = thingsBoardUserService.create(email, defaultUsername, null, tenantId, customerId);
             log.info("IoE authorized(), 3.3/5 ThingsBoard User created successfully, {}", user);
 
