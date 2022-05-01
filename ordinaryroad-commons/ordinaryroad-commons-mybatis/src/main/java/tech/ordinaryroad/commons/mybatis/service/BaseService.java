@@ -419,11 +419,15 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
     public List<T> findAll(BaseQueryRequest baseQueryRequest, WeekendSqls<T> sqls, Example.Builder exampleBuilder) {
         String[] orderBy = baseQueryRequest.getOrderBy();
         if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
+            for (String property : orderBy) {
+                exampleBuilder.orderBy(property);
+            }
         }
         String[] orderByDesc = baseQueryRequest.getOrderByDesc();
         if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
+            for (String property : orderByDesc) {
+                exampleBuilder.orderByDesc(property);
+            }
         }
 
         LocalDateTime startTime = baseQueryRequest.getStartTime();
