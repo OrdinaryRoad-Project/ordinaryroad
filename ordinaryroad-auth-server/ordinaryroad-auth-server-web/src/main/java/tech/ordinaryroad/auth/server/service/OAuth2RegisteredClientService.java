@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.auth.server.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2RegisteredClientDAO;
 import tech.ordinaryroad.auth.server.entity.OAuth2RegisteredClientDO;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -56,36 +57,29 @@ public class OAuth2RegisteredClientService extends BaseService<OAuth2RegisteredC
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<OAuth2RegisteredClientDO> findAll(OAuth2RegisteredClientDO oAuth2RegisteredClientDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<OAuth2RegisteredClientDO> findAll(OAuth2RegisteredClientDO oAuth2RegisteredClientDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<OAuth2RegisteredClientDO> sqls = WeekendSqls.custom();
 
         String clientId = oAuth2RegisteredClientDO.getClientId();
         if (StrUtil.isNotBlank(clientId)) {
-            sqls.andLike("clientId", "%" + clientId + "%");
+            sqls.andLike(OAuth2RegisteredClientDO::getClientId, "%" + clientId + "%");
         }
         String clientName = oAuth2RegisteredClientDO.getClientName();
         if (StrUtil.isNotBlank(clientName)) {
-            sqls.andLike("clientName", "%" + clientName + "%");
+            sqls.andLike(OAuth2RegisteredClientDO::getClientName, "%" + clientName + "%");
         }
         String redirectUris = oAuth2RegisteredClientDO.getRedirectUris();
         if (StrUtil.isNotBlank(redirectUris)) {
-            sqls.andLike("redirectUris", "%" + redirectUris + "%");
+            sqls.andLike(OAuth2RegisteredClientDO::getRedirectUris, "%" + redirectUris + "%");
         }
         String scopes = oAuth2RegisteredClientDO.getScopes();
         if (StrUtil.isNotBlank(scopes)) {
-            sqls.andLike("scopes", "%" + scopes + "%");
+            sqls.andLike(OAuth2RegisteredClientDO::getScopes, "%" + scopes + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(OAuth2RegisteredClientDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
 }

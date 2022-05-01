@@ -31,6 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
@@ -59,7 +60,7 @@ public class TokenWebFilter implements WebFilter {
     @Override
     public Mono<Void> filter(@NotNull ServerWebExchange exchange, @NotNull WebFilterChain chain) {
         ServerHttpRequest request = exchange.getRequest();
-        String authorization = request.getHeaders().getFirst("Authorization");
+        String authorization = request.getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
         if (StrUtil.isNotBlank(authorization)) {
             String accessToken = authorization;
             assert accessToken != null;

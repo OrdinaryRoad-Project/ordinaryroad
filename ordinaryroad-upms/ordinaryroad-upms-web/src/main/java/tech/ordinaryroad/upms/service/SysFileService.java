@@ -23,14 +23,14 @@
  */
 package tech.ordinaryroad.upms.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysFileDAO;
 import tech.ordinaryroad.upms.entity.SysFileDO;
 import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 
@@ -41,32 +41,25 @@ import java.util.List;
 @Service
 public class SysFileService extends BaseService<SysFileDAO, SysFileDO> {
 
-    public List<SysFileDO> findAll(SysFileDO sysFileDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysFileDO> findAll(SysFileDO sysFileDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysFileDO> sqls = WeekendSqls.custom();
 
         String bucketName = sysFileDO.getBucketName();
         if (StrUtil.isNotBlank(bucketName)) {
-            sqls.andLike("bucketName", "%" + bucketName + "%");
+            sqls.andLike(SysFileDO::getBucketName, "%" + bucketName + "%");
         }
         String objectName = sysFileDO.getObjectName();
         if (StrUtil.isNotBlank(objectName)) {
-            sqls.andLike("objectName", "%" + objectName + "%");
+            sqls.andLike(SysFileDO::getObjectName, "%" + objectName + "%");
         }
         String originalFilename = sysFileDO.getOriginalFilename();
         if (StrUtil.isNotBlank(originalFilename)) {
-            sqls.andLike("originalFilename", "%" + originalFilename + "%");
+            sqls.andLike(SysFileDO::getOriginalFilename, "%" + originalFilename + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(SysFileDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
 }

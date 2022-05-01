@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.auth.server.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2OpenidDAO;
 import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,32 +76,25 @@ public class OAuth2OpenidService extends BaseService<OAuth2OpenidDAO, OAuth2Open
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<OAuth2OpenidDO> findAll(OAuth2OpenidDO oAuth2OpenidDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<OAuth2OpenidDO> findAll(OAuth2OpenidDO oAuth2OpenidDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<OAuth2OpenidDO> sqls = WeekendSqls.custom();
 
         String orNumber = oAuth2OpenidDO.getOrNumber();
         if (StrUtil.isNotBlank(orNumber)) {
-            sqls.andLike("orNumber", "%" + orNumber + "%");
+            sqls.andLike(OAuth2OpenidDO::getOrNumber, "%" + orNumber + "%");
         }
         String clientId = oAuth2OpenidDO.getClientId();
         if (StrUtil.isNotBlank(clientId)) {
-            sqls.andLike("clientId", "%" + clientId + "%");
+            sqls.andLike(OAuth2OpenidDO::getClientId, "%" + clientId + "%");
         }
         String openid = oAuth2OpenidDO.getOpenid();
         if (StrUtil.isNotBlank(openid)) {
-            sqls.andLike("openid", "%" + openid + "%");
+            sqls.andLike(OAuth2OpenidDO::getOpenid, "%" + openid + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(OAuth2OpenidDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
 }

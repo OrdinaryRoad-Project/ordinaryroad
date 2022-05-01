@@ -1,0 +1,10 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  tech.ordinaryroad.commons.thingsboard.properties.OrThingsBoardProperties, \
+  tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardClientService, \
+  tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardTenantService, \
+  tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardCustomerService, \
+  tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardUserService, \
+  tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardDeviceService, \
+  tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardTimeseriesService, \
+  tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardAlarmService, \
+  tech.ordinaryroad.commons.thingsboard.service.OrThingsBoardRpcService

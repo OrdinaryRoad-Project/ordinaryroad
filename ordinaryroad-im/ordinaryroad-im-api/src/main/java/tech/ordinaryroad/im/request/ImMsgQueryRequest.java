@@ -43,7 +43,7 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 @ApiModel
 public class ImMsgQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = -2958322525128774149L;
+    private static final long serialVersionUID = 4902501393331659693L;
 
     @ApiModelProperty("版本号")
     private Integer version;
@@ -65,5 +65,8 @@ public class ImMsgQueryRequest extends BaseQueryRequest {
 
     @ApiModelProperty("单聊对象账号")
     private String toOrNumber;
+
+    @ApiModelProperty(value = "MIMC APP ID")
+    private String appId;
 
 }

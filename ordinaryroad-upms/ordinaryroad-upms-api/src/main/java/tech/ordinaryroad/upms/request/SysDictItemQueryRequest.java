@@ -38,10 +38,16 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 @ApiModel
 public class SysDictItemQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = -2496753012494102476L;
+    private static final long serialVersionUID = -5315988336265546391L;
 
     @ApiModelProperty("字典uuid")
     private String dictUuid;
+
+    @ApiModelProperty("字典code")
+    private String dictCode;
+
+    @ApiModelProperty("字典名称")
+    private String dictName;
 
     @ApiModelProperty("显示标签")
     private String label;

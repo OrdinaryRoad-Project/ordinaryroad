@@ -68,6 +68,10 @@ public class SysDictItemController implements ISysDictItemApi {
         return sysDictItemFacade.findById(request);
     }
 
+    @Override
+    public Result<SysDictItemDTO> detail(@RequestBody SysDictItemQueryRequest request) {
+        return sysDictItemFacade.detail(request);
+    }
 
     @Override
     public Result<List<SysDictItemDTO>> findAll(@RequestBody SysDictItemQueryRequest request) {

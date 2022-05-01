@@ -58,6 +58,9 @@ public interface ISysDictItemApi {
     @PostMapping(value = "/dict_item/find/id")
     Result<SysDictItemDTO> findById(@RequestBody SysDictItemQueryRequest request);
 
+    @PostMapping(value = "/dict_item/detail")
+    Result<SysDictItemDTO> detail(@RequestBody SysDictItemQueryRequest request);
+
     @PostMapping(value = "/dict_item/find_all")
     Result<List<SysDictItemDTO>> findAll(@RequestBody SysDictItemQueryRequest request);
 

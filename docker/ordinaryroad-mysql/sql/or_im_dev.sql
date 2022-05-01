@@ -48,6 +48,7 @@ CREATE TABLE `im_msg`
     `read`         bit(1)                                                       NULL DEFAULT b'0' COMMENT '是否已读',
     `recalled`     bit(1)                                                       NULL DEFAULT b'0' COMMENT '是否已撤回',
     `to_or_number` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_ci NULL DEFAULT NULL COMMENT '接受者OR账号',
+    `app_id`       varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_as_cs NULL DEFAULT NULL COMMENT 'MIMC APP ID',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `im_msg_uuid_uindex` (`uuid`) USING BTREE
 ) ENGINE = InnoDB

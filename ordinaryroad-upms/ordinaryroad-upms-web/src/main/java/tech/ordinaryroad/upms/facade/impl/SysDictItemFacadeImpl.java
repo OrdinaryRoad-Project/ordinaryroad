@@ -48,6 +48,7 @@ import tech.ordinaryroad.upms.service.SysDictService;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -135,10 +136,28 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
     }
 
     @Override
+    public Result<SysDictItemDTO> detail(SysDictItemQueryRequest request) {
+        final SysDictDO sysDictDO = new SysDictDO();
+        sysDictDO.setUuid(request.getDictUuid());
+        sysDictDO.setDictCode(request.getDictCode());
+        sysDictDO.setDictName(request.getDictName());
+        final Optional<SysDictDO> optionalDict = sysDictService.findByUniqueColumn(sysDictDO);
+        if (!optionalDict.isPresent()) {
+            return Result.fail(StatusCode.DICT_NOT_EXIST);
+        }
+
+        request.setDictUuid(optionalDict.get().getUuid());
+
+        SysDictItemDO sysDictItemDO = objMapStruct.transfer(request);
+        Optional<SysDictItemDO> byDictIdAndId = sysDictItemService.findByDictIdAndId(sysDictItemDO);
+        return byDictIdAndId.map(dictItemDO -> Result.success(objMapStruct.transfer(dictItemDO))).orElseGet(() -> Result.fail(StatusCode.DATA_NOT_EXIST));
+    }
+
+    @Override
     public Result<List<SysDictItemDTO>> findAll(SysDictItemQueryRequest request) {
         SysDictItemDO sysDictDO = objMapStruct.transfer(request);
 
-        List<SysDictItemDO> all = sysDictItemService.findAll(sysDictDO, request.getOrderBy(), request.getOrderByDesc());
+        List<SysDictItemDO> all = sysDictItemService.findAll(sysDictDO, request);
         List<SysDictItemDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -160,6 +179,17 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
         List<SysDictItemDO> all = Collections.emptyList();
 
         String dictUuid = request.getDictUuid();
+        if (StrUtil.isBlank(dictUuid)) {
+            final SysDictDO sysDictDO = new SysDictDO();
+            sysDictDO.setUuid(request.getDictUuid());
+            sysDictDO.setDictCode(request.getDictCode());
+            sysDictDO.setDictName(request.getDictName());
+            final Optional<SysDictDO> optionalSysDictDO = sysDictService.findByUniqueColumn(sysDictDO);
+            if (optionalSysDictDO.isPresent()) {
+                dictUuid = optionalSysDictDO.get().getUuid();
+            }
+        }
+
         if (StrUtil.isNotBlank(dictUuid)) {
             all = sysDictItemService.findAllByDictUuid(dictUuid);
         }
@@ -174,7 +204,7 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysDictItemDO sysDictDO = objMapStruct.transfer(request);
-        Page<SysDictItemDO> all = (Page<SysDictItemDO>) sysDictItemService.findAll(sysDictDO, request.getOrderBy(), request.getOrderByDesc());
+        Page<SysDictItemDO> all = (Page<SysDictItemDO>) sysDictItemService.findAll(sysDictDO, request);
 
         PageInfo<SysDictItemDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

@@ -166,7 +166,7 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
     public Result<List<SysRequestPathDTO>> findAll(SysRequestPathQueryRequest request) {
         SysRequestPathDO sysRequestPathDO = objMapStruct.transfer(request);
 
-        List<SysRequestPathDO> all = sysRequestPathService.findAll(sysRequestPathDO, request.getOrderBy(), request.getOrderByDesc());
+        List<SysRequestPathDO> all = sysRequestPathService.findAll(sysRequestPathDO, request);
         List<SysRequestPathDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -177,7 +177,7 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysRequestPathDO sysRequestPathDO = objMapStruct.transfer(request);
-        Page<SysRequestPathDO> all = (Page<SysRequestPathDO>) sysRequestPathService.findAll(sysRequestPathDO, request.getOrderBy(), request.getOrderByDesc());
+        Page<SysRequestPathDO> all = (Page<SysRequestPathDO>) sysRequestPathService.findAll(sysRequestPathDO, request);
 
         PageInfo<SysRequestPathDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, sysUserDO -> {
             SysRequestPathDTO sysRequestPathDto = objMapStruct.transfer(sysUserDO);

@@ -68,4 +68,13 @@ public interface ICaptchaService {
      */
     void checkRegisterCaptcha(@NotNull String email, @NotNull String code);
 
+    /**
+     * 发送注册验证码
+     *
+     * @param email 需要发送的邮箱
+     * @param code  生成的注册验证码
+     * @return Result
+     */
+    Result<?> sendRegisterCaptcha(@NotNull String email, @NotNull String code);
+
 }

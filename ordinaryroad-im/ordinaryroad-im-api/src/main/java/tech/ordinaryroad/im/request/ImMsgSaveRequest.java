@@ -33,6 +33,7 @@ import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDateTime;
 
 
 /**
@@ -46,21 +47,21 @@ import javax.validation.constraints.NotNull;
 @ApiModel
 public class ImMsgSaveRequest extends BaseSaveRequest {
 
-    private static final long serialVersionUID = 3203352441126857L;
+    private static final long serialVersionUID = -6987650602001810070L;
 
-    @ApiModelProperty("版本号")
+    @ApiModelProperty(value = "版本号", required = true)
     @NotNull(message = "版本号不能为空")
     private Integer version;
 
-    @ApiModelProperty("消息id")
+    @ApiModelProperty(value = "消息id", required = true)
     @NotBlank(message = "消息id不能为空")
     private String msgId;
 
-    @ApiModelProperty("消息内容")
+    @ApiModelProperty(value = "消息内容", required = true)
     @NotNull(message = "消息内容不能为空")
     private String payload;
 
-    @ApiModelProperty("消息类型")
+    @ApiModelProperty(value = "消息类型", required = true)
     @NotBlank(message = "消息类型不能为空")
     private String bizType;
 
@@ -70,12 +71,19 @@ public class ImMsgSaveRequest extends BaseSaveRequest {
     @ApiModelProperty("是否已撤回")
     private Boolean recalled;
 
-    @ApiModelProperty("创建者")
+    @ApiModelProperty(value = "创建者", required = true)
     @NotBlank(message = "创建者不能为空")
     private String createBy;
 
-    @ApiModelProperty("接受者")
+    @ApiModelProperty(value = "接受者", required = true)
     @NotBlank(message = "接受者不能为空")
     private String toOrNumber;
+
+    @ApiModelProperty(value = "MIMC APP ID", required = true)
+    @NotBlank(message = "MIMC APP ID不能为空")
+    private String appId;
+
+    @ApiModelProperty(value = "消息实际发送时间", hidden = true)
+    private LocalDateTime createdTime;
 
 }

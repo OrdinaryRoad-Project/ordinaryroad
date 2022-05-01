@@ -27,7 +27,6 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
-import tech.ordinaryroad.upms.dto.SysUserDTO;
 
 /**
  * 用户相关信息DTO：User
@@ -39,9 +38,18 @@ import tech.ordinaryroad.upms.dto.SysUserDTO;
 @ApiModel
 public class OAuth2UserInfoDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 7129420855456681962L;
+    private static final long serialVersionUID = 7843086136016105834L;
 
-    @ApiModelProperty("用户信息")
-    private SysUserDTO user;
+    @ApiModelProperty("or帐号")
+    private String orNumber;
+
+    @ApiModelProperty("头像地址")
+    private String avatar;
+
+    @ApiModelProperty("邮箱")
+    private String email;
+
+    @ApiModelProperty("用户名")
+    private String username;
 
 }

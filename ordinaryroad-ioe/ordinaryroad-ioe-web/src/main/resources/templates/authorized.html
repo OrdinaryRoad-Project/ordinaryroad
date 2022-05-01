@@ -1,0 +1,59 @@
+<!--
+  ~ MIT License
+  ~
+  ~ Copyright (c) 2021 苗锦洲
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy
+  ~ of this software and associated documentation files (the "Software"), to deal
+  ~ in the Software without restriction, including without limitation the rights
+  ~ to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+  ~ copies of the Software, and to permit persons to whom the Software is
+  ~ furnished to do so, subject to the following conditions:
+  ~
+  ~ The above copyright notice and this permission notice shall be included in all
+  ~ copies or substantial portions of the Software.
+  ~
+  ~ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+  ~ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+  ~ FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+  ~ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+  ~ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+  ~ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+  ~ SOFTWARE.
+  -->
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>OrdinaryRoad-IoE</title>
+</head>
+<body>
+
+<div style="display: none" id="or_access_token" th:utext="${access_token}"></div>
+<div style="display: none" id="or_satoken" th:utext="${satoken}"></div>
+<div style="display: none" id="or_state" th:utext="${state}"></div>
+
+<div>正在跳转中...如未正常跳转<a id="redirect">请点这里</a></div>
+
+<script src="https://unpkg.zhimg.com/jquery@3.4.1/dist/jquery.min.js"></script>
+<script>window.jQuery || alert('当前页面CDN服务商已宕机，请将所有js包更换为本地依赖')</script>
+<script type="text/javascript">
+    // 初始化
+    $(() => {
+        let accessToken = $('#or_access_token').text();
+        let satoken = $('#or_satoken').text();
+        let state = $('#or_state').text();
+
+        let redirectUri = 'or://tech.ordinaryroad.ioe.android/authorized' +
+            '?access_token=' + accessToken
+            + '&state=' + state
+            + '&satoken=' + satoken;
+
+        $('#redirect').attr('href', redirectUri);
+
+        location.href = redirectUri;
+    });
+</script>
+</body>
+</html>

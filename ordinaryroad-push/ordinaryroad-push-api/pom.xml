@@ -29,7 +29,7 @@
     <parent>
         <artifactId>ordinaryroad-push</artifactId>
         <groupId>tech.ordinaryroad</groupId>
-        <version>1.0.0</version>
+        <version>1.3.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -46,10 +46,14 @@
             <artifactId>ordinaryroad-commons-core</artifactId>
         </dependency>
 
+        <!-- 极光推送 -->
         <dependency>
             <groupId>cn.jpush.api</groupId>
             <artifactId>jiguang-common</artifactId>
-            <version>1.1.11</version>
+        </dependency>
+        <dependency>
+            <groupId>cn.jpush.api</groupId>
+            <artifactId>jpush-client</artifactId>
         </dependency>
     </dependencies>
 

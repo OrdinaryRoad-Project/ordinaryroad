@@ -34,12 +34,13 @@ public class PathConstants {
 
     public static final String UPMS_FILE_UPLOAD = "/file/upload";
     public static final String IM_MIMC_CALLBACK = "/mimc/callback";
+    public static final String AUTH_OPENID_CREATE = "/openid/create";
 
     /**
      * 创建免登接口地址
      * TODO 内部接口、免登、登录、免登或登录
      */
-    public static final List<String> NO_LOGIN_CREATE_PATHS = Arrays.asList(UPMS_FILE_UPLOAD, IM_MIMC_CALLBACK);
+    public static final List<String> NO_LOGIN_CREATE_PATHS = Arrays.asList(UPMS_FILE_UPLOAD, IM_MIMC_CALLBACK, AUTH_OPENID_CREATE);
 
     /**
      * 更新免登接口地址

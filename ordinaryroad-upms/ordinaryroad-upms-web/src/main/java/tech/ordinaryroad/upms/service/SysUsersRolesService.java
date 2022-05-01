@@ -24,14 +24,15 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysUsersRolesDAO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.Collections;
 import java.util.List;
@@ -76,28 +77,21 @@ public class SysUsersRolesService extends BaseService<SysUsersRolesDAO, SysUsers
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysUsersRolesDO> findAll(SysUsersRolesDO sysUsersRolesDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysUsersRolesDO> findAll(SysUsersRolesDO sysUsersRolesDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysUsersRolesDO> sqls = WeekendSqls.custom();
 
         String userUuid = sysUsersRolesDO.getUserUuid();
         if (StrUtil.isNotBlank(userUuid)) {
-            sqls.andEqualTo("userUuid", userUuid);
+            sqls.andEqualTo(SysUsersRolesDO::getUserUuid, userUuid);
         }
         String roleUuid = sysUsersRolesDO.getRoleUuid();
         if (StrUtil.isNotBlank(roleUuid)) {
-            sqls.andEqualTo("roleUuid", roleUuid);
+            sqls.andEqualTo(SysUsersRolesDO::getRoleUuid, roleUuid);
         }
 
         Example.Builder exampleBuilder = Example.builder(SysUsersRolesDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
 }

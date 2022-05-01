@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.upms.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysDictItemDAO;
 import tech.ordinaryroad.upms.entity.SysDictItemDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.Collections;
 import java.util.List;
@@ -43,36 +44,29 @@ import java.util.Optional;
 @Service
 public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemDO> {
 
-    public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysDictItemDO> sqls = WeekendSqls.custom();
 
         String dictUuid = sysDictItemDO.getDictUuid();
         if (StrUtil.isNotBlank(dictUuid)) {
-            sqls.andEqualTo("dictUuid", dictUuid);
+            sqls.andEqualTo(SysDictItemDO::getDictUuid, dictUuid);
         }
         String label = sysDictItemDO.getLabel();
         if (StrUtil.isNotBlank(label)) {
-            sqls.andLike("label", "%" + label + "%");
+            sqls.andLike(SysDictItemDO::getLabel, "%" + label + "%");
         }
         String value = sysDictItemDO.getValue();
         if (StrUtil.isNotBlank(value)) {
-            sqls.andLike("value", "%" + value + "%");
+            sqls.andLike(SysDictItemDO::getValue, "%" + value + "%");
         }
         String remark = sysDictItemDO.getRemark();
         if (StrUtil.isNotBlank(remark)) {
-            sqls.andLike("remark", "%" + value + "%");
+            sqls.andLike(SysDictItemDO::getRemark, "%" + value + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(SysDictItemDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
     public List<SysDictItemDO> findAllByDictUuid(String dictUuid) {
@@ -107,5 +101,30 @@ public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemD
 
         Example example = Example.builder(SysDictItemDO.class).where(custom).build();
         return Optional.ofNullable(super.dao.selectOneByExample(example));
+    }
+
+    public Optional<SysDictItemDO> findByDictIdAndId(SysDictItemDO sysDictItemDO) {
+        final String dictUuid = sysDictItemDO.getDictUuid();
+        if (StrUtil.isBlank(dictUuid)) {
+            return Optional.empty();
+        }
+        WeekendSqls<SysDictItemDO> sqlsAnd = WeekendSqls.custom();
+        sqlsAnd.andEqualTo(SysDictItemDO::getDictUuid, dictUuid);
+
+        WeekendSqls<SysDictItemDO> sqlsOr = WeekendSqls.custom();
+        final String uuid = sysDictItemDO.getUuid();
+        if (StrUtil.isNotBlank(uuid)) {
+            sqlsOr.orEqualTo(SysDictItemDO::getUuid, uuid);
+        }
+        final String label = sysDictItemDO.getLabel();
+        if (StrUtil.isNotBlank(label)) {
+            sqlsOr.orEqualTo(SysDictItemDO::getLabel, label);
+        }
+        final String value = sysDictItemDO.getValue();
+        if (StrUtil.isNotBlank(value)) {
+            sqlsOr.orEqualTo(SysDictItemDO::getValue, value);
+        }
+
+        return Optional.ofNullable(super.dao.selectOneByExample(Example.builder(SysDictItemDO.class).where(sqlsAnd).andWhere(sqlsOr).build()));
     }
 }

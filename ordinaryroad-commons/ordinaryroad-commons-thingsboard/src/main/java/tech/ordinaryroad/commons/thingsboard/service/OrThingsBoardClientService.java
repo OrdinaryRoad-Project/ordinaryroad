@@ -1,0 +1,80 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 苗锦洲
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+package tech.ordinaryroad.commons.thingsboard.service;
+
+import cn.hutool.core.util.ReflectUtil;
+import com.fasterxml.jackson.databind.JsonNode;
+import org.springframework.stereotype.Service;
+import org.thingsboard.rest.client.RestClient;
+import org.thingsboard.server.common.data.id.UserId;
+import tech.ordinaryroad.commons.thingsboard.properties.OrThingsBoardProperties;
+
+import java.util.Optional;
+
+/**
+ * @author mjz
+ * @date 2022/3/19
+ */
+@Service
+public class OrThingsBoardClientService {
+
+    private final OrThingsBoardProperties thingsBoardProperties;
+    private RestClient client;
+
+    public OrThingsBoardClientService(OrThingsBoardProperties thingsBoardProperties) {
+        this.thingsBoardProperties = thingsBoardProperties;
+        this.initAndLogin();
+    }
+
+    private void initAndLogin() {
+        final OrThingsBoardProperties.OrThingsBoardClientProperties clientProperties = getClientProperties();
+        this.client = new RestClient(clientProperties.getUrl());
+        this.client.login(clientProperties.getUsername(), clientProperties.getPassword());
+    }
+
+    private OrThingsBoardProperties.OrThingsBoardClientProperties getClientProperties() {
+        return thingsBoardProperties.getClient();
+    }
+
+    public RestClient getClient() {
+        return this.client;
+    }
+
+    /**
+     * 根据UserId获取新的Client
+     *
+     * @param userId 用户Id
+     * @return RestClient
+     */
+    public RestClient newClient(String userId) {
+        final OrThingsBoardProperties.OrThingsBoardClientProperties clientProperties = getClientProperties();
+        final RestClient newClient = new RestClient(clientProperties.getUrl());
+
+        final Optional<JsonNode> userToken = this.client.getUserToken(UserId.fromString(userId));
+        ReflectUtil.invoke(newClient, "setTokenInfo", userToken.orElseThrow());
+
+        return newClient;
+    }
+
+}

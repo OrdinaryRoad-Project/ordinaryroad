@@ -98,7 +98,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
     public Result<List<SysUserDTO>> findAll(SysUserQueryRequest request) {
         SysUserDO sysUserDO = objMapStruct.transfer(request);
 
-        List<SysUserDO> all = sysUserService.findAll(sysUserDO, request.getOrderBy(), request.getOrderByDesc());
+        List<SysUserDO> all = sysUserService.findAll(sysUserDO, request);
         List<SysUserDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -109,7 +109,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysUserDO sysUserDO = objMapStruct.transfer(request);
-        Page<SysUserDO> all = (Page<SysUserDO>) sysUserService.findAll(sysUserDO, request.getOrderBy(), request.getOrderByDesc());
+        Page<SysUserDO> all = (Page<SysUserDO>) sysUserService.findAll(sysUserDO, request);
 
         PageInfo<SysUserDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

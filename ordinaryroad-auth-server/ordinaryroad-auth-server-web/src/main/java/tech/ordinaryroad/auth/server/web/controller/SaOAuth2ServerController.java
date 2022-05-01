@@ -24,17 +24,23 @@
 
 package tech.ordinaryroad.auth.server.web.controller;
 
+import cn.dev33.satoken.context.SaHolder;
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
 import cn.dev33.satoken.util.SaResult;
+import cn.hutool.core.util.BooleanUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.facade.IOAuth2Facade;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
-import tech.ordinaryroad.auth.server.request.OAuth2UserinfoRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.satoken.util.OrOAuth2Util;
+
+import java.util.Map;
 
 /**
  * Sa-OAuth2 Server端 控制器
@@ -58,6 +64,12 @@ public class SaOAuth2ServerController implements IOAuth2Api {
         if (o instanceof SaResult) {
             SaResult saResult = (SaResult) o;
             Object data = saResult.getData();
+            if (SaHolder.getRequest().isPath(SaOAuth2Consts.Api.token)) {
+                if (data instanceof Map) {
+                    Map<String, Object> map = (Map<String, Object>) data;
+                    map.put(OrOAuth2Util.OAUTH2_PARAM_TOKEN_TYPE, OrOAuth2Util.OAUTH2_AUTHORIZATION_TOKEN_TYPE);
+                }
+            }
             if (wrapped) {
                 return Result.success(data);
             } else {
@@ -73,8 +85,13 @@ public class SaOAuth2ServerController implements IOAuth2Api {
     }
 
     @Override
-    public Result<OAuth2UserInfoDTO> userinfo(@Validated @RequestBody OAuth2UserinfoRequest request) {
-        return oAuth2Facade.userinfo(request);
+    public Object userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestParam(name = "wrapped", defaultValue = "false") Boolean wrapped) {
+        Result<OAuth2UserInfoDTO> userinfo = oAuth2Facade.userinfo();
+        if (BooleanUtil.isTrue(wrapped)) {
+            return userinfo;
+        } else {
+            return userinfo.getData();
+        }
     }
 
 }

@@ -143,7 +143,7 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
     public Result<List<SysPermissionDTO>> findAll(SysPermissionQueryRequest request) {
         SysPermissionDO sysPermissionDO = objMapStruct.transfer(request);
 
-        List<SysPermissionDO> all = sysPermissionService.findAll(sysPermissionDO, request.getOrderBy(), request.getOrderByDesc());
+        List<SysPermissionDO> all = sysPermissionService.findAll(sysPermissionDO, request);
         List<SysPermissionDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
 
         return Result.success(list);
@@ -171,7 +171,7 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         SysPermissionDO sysPermissionDO = objMapStruct.transfer(request);
-        Page<SysPermissionDO> all = (Page<SysPermissionDO>) sysPermissionService.findAll(sysPermissionDO, request.getOrderBy(), request.getOrderByDesc());
+        Page<SysPermissionDO> all = (Page<SysPermissionDO>) sysPermissionService.findAll(sysPermissionDO, request);
 
         PageInfo<SysPermissionDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

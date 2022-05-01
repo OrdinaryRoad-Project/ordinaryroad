@@ -23,16 +23,17 @@
  */
 package tech.ordinaryroad.upms.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysUserDAO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -69,34 +70,27 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysUserDO> findAll(SysUserDO sysUserDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysUserDO> findAll(SysUserDO sysUserDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysUserDO> sqls = WeekendSqls.custom();
 
         String email = sysUserDO.getEmail();
         if (StrUtil.isNotBlank(email)) {
-            sqls.andLike("email", "%" + email + "%");
+            sqls.andLike(SysUserDO::getEmail, "%" + email + "%");
         }
 
         String username = sysUserDO.getUsername();
         if (StrUtil.isNotBlank(username)) {
-            sqls.andLike("username", "%" + username + "%");
+            sqls.andLike(SysUserDO::getUsername, "%" + username + "%");
         }
 
         String orNumber = sysUserDO.getOrNumber();
         if (StrUtil.isNotBlank(orNumber)) {
-            sqls.andLike("orNumber", "%" + orNumber + "%");
+            sqls.andLike(SysUserDO::getOrNumber, "%" + orNumber + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(SysUserDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
     public List<SysUserDO> findAllByRoleUuid(String roleUuid) {

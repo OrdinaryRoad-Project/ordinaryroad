@@ -37,6 +37,11 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 public class OAuth2ClientProperties {
 
     /**
+     * OAuth2认证服务器地址
+     */
+    private String authServerHost = "http://ordinaryroad-auth-server:9302";
+
+    /**
      * 应用id
      */
     private String clientId;

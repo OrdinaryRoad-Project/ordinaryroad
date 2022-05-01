@@ -35,6 +35,8 @@ import tech.ordinaryroad.commons.core.service.RedisService;
 import tech.ordinaryroad.commons.core.utils.captcha.TransparentBackgroundLineCaptcha;
 import tech.ordinaryroad.gateway.dto.CaptchaLoginDTO;
 import tech.ordinaryroad.gateway.service.ICaptchaService;
+import tech.ordinaryroad.push.api.IPushApi;
+import tech.ordinaryroad.push.request.EmailPushRequest;
 
 /**
  * @author mjz
@@ -45,6 +47,7 @@ import tech.ordinaryroad.gateway.service.ICaptchaService;
 public class CaptchaServiceImpl implements ICaptchaService {
 
     private final RedisService redisService;
+    private final IPushApi pushApi;
 
     @Override
     public void checkValid(String key, String code) {
@@ -96,6 +99,15 @@ public class CaptchaServiceImpl implements ICaptchaService {
     @Override
     public void checkRegisterCaptcha(String email, String code) {
         this.checkValid(CacheConstants.generateRegisterCaptchaKey(email), code);
+    }
+
+    @Override
+    public Result<?> sendRegisterCaptcha(String email, String code) {
+        EmailPushRequest emailPushRequest = new EmailPushRequest();
+        emailPushRequest.setEmail(email);
+        emailPushRequest.setTitle("欢迎您注册OR帐号");
+        emailPushRequest.setContent("您的验证码为：" + code + "，五分钟内有效");
+        return pushApi.email(emailPushRequest);
     }
 
 }
