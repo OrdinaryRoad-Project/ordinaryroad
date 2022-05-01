@@ -23,16 +23,17 @@
  */
 package tech.ordinaryroad.upms.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRoleDAO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,28 +63,21 @@ public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysRoleDO> findAll(SysRoleDO sysRoleDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysRoleDO> findAll(SysRoleDO sysRoleDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysRoleDO> sqls = WeekendSqls.custom();
 
         String roleName = sysRoleDO.getRoleName();
         if (StrUtil.isNotBlank(roleName)) {
-            sqls.andLike("roleName", "%" + roleName + "%");
+            sqls.andLike(SysRoleDO::getRoleName, "%" + roleName + "%");
         }
         String roleCode = sysRoleDO.getRoleCode();
         if (StrUtil.isNotBlank(roleCode)) {
-            sqls.andLike("roleCode", "%" + roleCode + "%");
+            sqls.andLike(SysRoleDO::getRoleCode, "%" + roleCode + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(SysRoleDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
     public List<SysRoleDO> findAllByUserUuid(String userUuid) {

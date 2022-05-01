@@ -23,10 +23,10 @@
  */
 package tech.ordinaryroad.upms.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysPermissionDAO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
@@ -35,6 +35,7 @@ import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.Collections;
 import java.util.List;
@@ -65,28 +66,21 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysPermissionDO> findAll(SysPermissionDO sysPermissionDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysPermissionDO> findAll(SysPermissionDO sysPermissionDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysPermissionDO> sqls = WeekendSqls.custom();
 
         String permissionCode = sysPermissionDO.getPermissionCode();
         if (StrUtil.isNotBlank(permissionCode)) {
-            sqls.andLike("permissionCode", "%" + permissionCode + "%");
+            sqls.andLike(SysPermissionDO::getPermissionCode, "%" + permissionCode + "%");
         }
         String description = sysPermissionDO.getDescription();
         if (StrUtil.isNotBlank(description)) {
-            sqls.andLike("description", "%" + description + "%");
+            sqls.andLike(SysPermissionDO::getDescription, "%" + description + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(SysPermissionDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
     public List<SysPermissionDO> findAllByUserUuid(String userUuid) {

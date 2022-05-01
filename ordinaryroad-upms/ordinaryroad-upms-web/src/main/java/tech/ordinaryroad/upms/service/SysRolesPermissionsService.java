@@ -24,14 +24,15 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRolesPermissionsDAO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.Collections;
 import java.util.List;
@@ -72,28 +73,21 @@ public class SysRolesPermissionsService extends BaseService<SysRolesPermissionsD
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysRolesPermissionsDO> findAll(SysRolesPermissionsDO sysRolesPermissionsDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysRolesPermissionsDO> findAll(SysRolesPermissionsDO sysRolesPermissionsDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysRolesPermissionsDO> sqls = WeekendSqls.custom();
 
         String roleUuid = sysRolesPermissionsDO.getRoleUuid();
         if (StrUtil.isNotBlank(roleUuid)) {
-            sqls.andEqualTo("roleUuid", roleUuid);
+            sqls.andEqualTo(SysRolesPermissionsDO::getRoleUuid, roleUuid);
         }
         String permissionUuid = sysRolesPermissionsDO.getPermissionUuid();
         if (StrUtil.isNotBlank(permissionUuid)) {
-            sqls.andEqualTo("permissionUuid", permissionUuid);
+            sqls.andEqualTo(SysRolesPermissionsDO::getPermissionUuid, permissionUuid);
         }
 
         Example.Builder exampleBuilder = Example.builder(SysRolesPermissionsDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
 }

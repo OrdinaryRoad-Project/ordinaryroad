@@ -23,9 +23,9 @@
  */
 package tech.ordinaryroad.upms.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysDictItemDAO;
 import tech.ordinaryroad.upms.entity.SysDictItemDO;
@@ -44,36 +44,29 @@ import java.util.Optional;
 @Service
 public class SysDictItemService extends BaseService<SysDictItemDAO, SysDictItemDO> {
 
-    public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysDictItemDO> findAll(SysDictItemDO sysDictItemDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysDictItemDO> sqls = WeekendSqls.custom();
 
         String dictUuid = sysDictItemDO.getDictUuid();
         if (StrUtil.isNotBlank(dictUuid)) {
-            sqls.andEqualTo("dictUuid", dictUuid);
+            sqls.andEqualTo(SysDictItemDO::getDictUuid, dictUuid);
         }
         String label = sysDictItemDO.getLabel();
         if (StrUtil.isNotBlank(label)) {
-            sqls.andLike("label", "%" + label + "%");
+            sqls.andLike(SysDictItemDO::getLabel, "%" + label + "%");
         }
         String value = sysDictItemDO.getValue();
         if (StrUtil.isNotBlank(value)) {
-            sqls.andLike("value", "%" + value + "%");
+            sqls.andLike(SysDictItemDO::getValue, "%" + value + "%");
         }
         String remark = sysDictItemDO.getRemark();
         if (StrUtil.isNotBlank(remark)) {
-            sqls.andLike("remark", "%" + value + "%");
+            sqls.andLike(SysDictItemDO::getRemark, "%" + value + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(SysDictItemDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
     public List<SysDictItemDO> findAllByDictUuid(String dictUuid) {

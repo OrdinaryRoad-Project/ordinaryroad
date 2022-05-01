@@ -23,15 +23,16 @@
  */
 package tech.ordinaryroad.upms.service;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysDictDAO;
 import tech.ordinaryroad.upms.entity.SysDictDO;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
+import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -76,32 +77,25 @@ public class SysDictService extends BaseService<SysDictDAO, SysDictDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
-    public List<SysDictDO> findAll(SysDictDO sysDictDO, String[] orderBy, String[] orderByDesc) {
-        Sqls sqls = Sqls.custom();
+    public List<SysDictDO> findAll(SysDictDO sysDictDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<SysDictDO> sqls = WeekendSqls.custom();
 
         String dictName = sysDictDO.getDictName();
         if (StrUtil.isNotBlank(dictName)) {
-            sqls.andLike("dictName", "%" + dictName + "%");
+            sqls.andLike(SysDictDO::getDictName, "%" + dictName + "%");
         }
         String dictCode = sysDictDO.getDictCode();
         if (StrUtil.isNotBlank(dictCode)) {
-            sqls.andLike("dictCode", "%" + dictCode + "%");
+            sqls.andLike(SysDictDO::getDictCode, "%" + dictCode + "%");
         }
         String remark = sysDictDO.getRemark();
         if (StrUtil.isNotBlank(remark)) {
-            sqls.andLike("remark", "%" + remark + "%");
+            sqls.andLike(SysDictDO::getRemark, "%" + remark + "%");
         }
 
         Example.Builder exampleBuilder = Example.builder(SysDictDO.class).where(sqls);
 
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            exampleBuilder.orderBy(orderBy);
-        }
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            exampleBuilder.orderByDesc(orderByDesc);
-        }
-
-        return super.dao.selectByExample(exampleBuilder.build());
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
 }
