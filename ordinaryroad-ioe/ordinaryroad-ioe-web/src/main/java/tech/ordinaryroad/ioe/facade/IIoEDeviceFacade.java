@@ -89,4 +89,14 @@ public interface IIoEDeviceFacade {
      * @return Result
      */
     Result<Boolean> saveAttributes(String deviceId, String scope, JsonNode request);
+
+    /**
+     * 更新设备标签
+     *
+     * @param deviceId 设备Id
+     * @param label    标签
+     * @return DTO
+     */
+    Result<IoEDeviceDTO> updateLabel(String deviceId, String label);
+
 }

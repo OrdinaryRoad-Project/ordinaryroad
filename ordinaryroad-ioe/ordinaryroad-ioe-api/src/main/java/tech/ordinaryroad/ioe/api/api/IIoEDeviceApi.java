@@ -29,10 +29,7 @@ import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.constant.ServiceNameCons;
 import tech.ordinaryroad.ioe.api.dto.IoEAlarmDataDTO;
@@ -71,5 +68,8 @@ public interface IIoEDeviceApi {
 
     @PostMapping("/device/{deviceId}/attributes/{scope}/save")
     Result<Boolean> saveAttributes(@PathVariable @Validated @NotBlank String deviceId, @PathVariable @Validated @NotBlank String scope, @RequestBody @NotNull JsonNode request);
+
+    @PostMapping("/device/{deviceId}/update/label")
+    Result<IoEDeviceDTO> updateLabel(@PathVariable @Validated @NotBlank String deviceId, @RequestParam @Validated @NotNull String label);
 
 }

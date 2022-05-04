@@ -112,4 +112,15 @@ public class IoEDeviceFacadeImpl implements IIoEDeviceFacade {
             return Result.fail();
         }
     }
+
+    @Override
+    public Result<IoEDeviceDTO> updateLabel(String deviceId, String label) {
+        Device device = thingsBoardDeviceService.updateDeviceLabel(deviceId, label);
+        if (device == null) {
+            return Result.fail();
+        } else {
+            return Result.success(mapStruct.transfer(device));
+        }
+    }
+
 }

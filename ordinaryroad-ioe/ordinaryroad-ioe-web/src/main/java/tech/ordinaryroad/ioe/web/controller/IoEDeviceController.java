@@ -30,6 +30,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.ioe.api.api.IIoEDeviceApi;
@@ -84,6 +85,11 @@ public class IoEDeviceController implements IIoEDeviceApi {
     @Override
     public Result<Boolean> saveAttributes(@PathVariable @Validated @NotBlank String deviceId, @PathVariable @Validated @NotBlank String scope, @RequestBody @NotNull JsonNode request) {
         return deviceFacade.saveAttributes(deviceId, scope, request);
+    }
+
+    @Override
+    public Result<IoEDeviceDTO> updateLabel(@PathVariable @Validated @NotBlank String deviceId, @RequestParam @Validated @NotNull String label) {
+        return deviceFacade.updateLabel(deviceId, label);
     }
 
 }

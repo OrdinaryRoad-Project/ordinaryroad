@@ -278,4 +278,36 @@ public class OrThingsBoardDeviceService {
         return clientService.getClient().saveDeviceAttributes(DeviceId.fromString(deviceId), serverScope, jsonNode);
     }
 
+    /**
+     * Create or update the Device. When creating device, platform generates Device Id as time-based UUID. Device credentials are also generated if not provided in the 'accessToken' request parameter. The newly created device id will be present in the response. Specify existing Device id to update the device. Referencing non-existing device Id will cause 'Not Found' error.
+     * <p>
+     * Device name is unique in the scope of tenant. Use unique identifiers like MAC or IMEI for the device names and non-unique 'label' field for user-friendly visualization purposes.
+     * <p>
+     * Available for users with 'TENANT_ADMIN' or 'CUSTOMER_USER' authority.
+     *
+     * @param device Device
+     * @return Device
+     */
+    public Device saveDevice(Device device) {
+        return this.clientService.getClient().saveDevice(device);
+    }
+
+    /**
+     * 更新设备标签
+     *
+     * @param id    设备Id
+     * @param label 标签
+     * @return Device
+     */
+    public Device updateDeviceLabel(String id, String label) {
+        Optional<DeviceInfo> deviceInfoById = this.getDeviceInfoById(id);
+        Device device = null;
+        if (deviceInfoById.isPresent()) {
+            device = deviceInfoById.get();
+            device.setLabel(label);
+            device = this.saveDevice(device);
+        }
+        return device;
+    }
+
 }
