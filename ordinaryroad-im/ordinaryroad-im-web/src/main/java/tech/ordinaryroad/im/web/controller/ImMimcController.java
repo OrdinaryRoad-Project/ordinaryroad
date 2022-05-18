@@ -138,7 +138,8 @@ public class ImMimcController implements IImMimcApi {
         androidPushRequest.setIntent(intent);
         androidPushRequest.setChannel("msg");
         androidPushRequest.setToOrNumber(request.getToAccount());
-
+        // 根据APP_ID查询PackageName
+        androidPushRequest.setPackageName(imProperties.getProperties(request.getToAppId()).getPackageName());
         pushApi.android(androidPushRequest);
     }
 
