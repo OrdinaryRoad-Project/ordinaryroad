@@ -94,4 +94,9 @@ public class SaOAuth2ServerController implements IOAuth2Api {
         }
     }
 
+    @Override
+    public Result<OAuth2UserInfoDTO> userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
+        return oAuth2Facade.userinfo();
+    }
+
 }

@@ -154,7 +154,7 @@ public class IoEController implements IIoEApi {
         } else {
             log.info("IoE authorized(), 3.1/5 IoEUser not exist, creating...");
             // 获取userinfo
-            final Result<OAuth2UserInfoDTO> userinfoResult = (Result<OAuth2UserInfoDTO>) oAuth2Api.userinfo(OrOAuth2Util.generateAuthorizationHeader(accessToken), Boolean.TRUE);
+            final Result<OAuth2UserInfoDTO> userinfoResult = oAuth2Api.userinfo(OrOAuth2Util.generateAuthorizationHeader(accessToken));
             if (!userinfoResult.getSuccess()) {
                 throw new BaseException(userinfoResult.getMsg());
             }
