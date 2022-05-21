@@ -28,10 +28,6 @@ services:
       - "9848:9848"
       # minio console https
       - "9001:9001"
-      # thingsboard dashboard
-      - "19090:19090"
-      # IoE
-      - "8701:8701"
     depends_on:
       - ordinaryroad-gateway
       - ordinaryroad-ui
