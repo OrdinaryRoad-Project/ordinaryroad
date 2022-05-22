@@ -1,4 +1,4 @@
-version: "2"
+version: "3.0"
 services:
   ordinaryroad-ui:
     image: ordinaryroad-ui
@@ -17,7 +17,12 @@ services:
       context: ./ordinaryroad-nginx
     volumes:
       - $PWD/ordinaryroad-nginx/ssl:/etc/nginx/ssl
+      - $PWD/ordinaryroad-nginx/www:/home/www
     ports:
+      # HTTP
+      - "80:80"
+      # HTTPS
+      - "443:443"
       # 前端
       - "8021:8021"
       # 网关 https
@@ -171,8 +176,6 @@ services:
       context: ./ordinaryroad-push
     environment:
       QQ_MAIL_AUTHORIZATION_CODE:
-      JPUSH_APP_KEY:
-      JPUSH_MASTER_SECRET:
     hostname: ordinaryroad-push
     restart: always
 
@@ -181,9 +184,5 @@ services:
     container_name: ordinaryroad-im
     build:
       context: ./ordinaryroad-im
-    environment:
-      MIMC_APP_ID:
-      MIMC_APP_KEY:
-      MIMC_APP_SECRET:
     hostname: ordinaryroad-im
     restart: always
