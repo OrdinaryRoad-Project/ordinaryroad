@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.upms.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -41,7 +40,7 @@ import javax.persistence.Table;
 @Table(name = "sys_role")
 public class SysRoleDO extends BaseDO {
 
-    private static final long serialVersionUID = -1498327437123266498L;
+    private static final long serialVersionUID = 7489229774039719503L;
 
     /**
      * 角色名称
@@ -57,10 +56,5 @@ public class SysRoleDO extends BaseDO {
      * 角色是否可用。默认为1（可用）
      */
     private Boolean enabled;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }

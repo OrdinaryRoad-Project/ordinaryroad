@@ -68,13 +68,13 @@
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.20</lombok.version>
         <dynamic-datasource-spring-boot-starter.version>3.4.1</dynamic-datasource-spring-boot-starter.version>
         <pagehelper-starter.version>1.3.1</pagehelper-starter.version>
         <swagger-annotations.version>1.5.22</swagger-annotations.version>
         <sa-token.version>1.27.0</sa-token.version>
         <spring-cloud-starter-loadbalancer.version>3.0.4</spring-cloud-starter-loadbalancer.version>
-        <fastjson.version>1.2.75</fastjson.version>
+        <fastjson2.version>2.0.4</fastjson2.version>
         <pagehelper.version>5.2.1</pagehelper.version>
         <minio.version>8.0.0</minio.version>
         <thumbnailator.version>0.4.16</thumbnailator.version>
@@ -194,6 +194,13 @@
             </dependency>
 
 
+            <!-- ordinaryroad-commons-base -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-commons-base</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
             <!-- ordinaryroad-commons-core -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
@@ -312,11 +319,11 @@
                 <version>${hutool.version}</version>
             </dependency>
 
-            <!-- fastjson -->
+            <!-- fastjson2 -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
             </dependency>
 
             <!-- mapstruct -->

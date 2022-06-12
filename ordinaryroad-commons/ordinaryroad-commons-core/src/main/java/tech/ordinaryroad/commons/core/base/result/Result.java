@@ -25,9 +25,9 @@
 package tech.ordinaryroad.commons.core.base.result;
 
 
-import com.alibaba.fastjson.JSON;
-import tech.ordinaryroad.commons.core.base.cons.IStatusCode;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import com.alibaba.fastjson2.JSON;
+import tech.ordinaryroad.commons.base.cons.IStatusCode;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 
 /**
  * 请求结果
@@ -38,7 +38,7 @@ import tech.ordinaryroad.commons.core.base.cons.StatusCode;
  */
 public class Result<T> implements IBaseResult<T> {
 
-    private static final long serialVersionUID = -4855562186962805808L;
+    private static final long serialVersionUID = 570724001999385145L;
 
     private int code;
 

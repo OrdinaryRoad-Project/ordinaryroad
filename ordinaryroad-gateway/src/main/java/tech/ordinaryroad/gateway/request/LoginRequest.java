@@ -27,7 +27,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.IBaseRequest;
+import tech.ordinaryroad.commons.base.request.IBaseRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -43,7 +43,7 @@ import javax.validation.constraints.Size;
 @ApiModel
 public class LoginRequest implements IBaseRequest {
 
-    private static final long serialVersionUID = -3404691201449928129L;
+    private static final long serialVersionUID = -7838016262579003724L;
 
     @ApiModelProperty("记住我")
     private Boolean rememberMe;

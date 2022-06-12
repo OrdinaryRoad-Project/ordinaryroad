@@ -22,10 +22,10 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.commons.core.base.request;
+package tech.ordinaryroad.commons.base.request;
 
 
-import tech.ordinaryroad.commons.core.base.IBase;
+import tech.ordinaryroad.commons.base.IBase;
 
 /**
  * 请求抽象接口

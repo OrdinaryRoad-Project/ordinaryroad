@@ -23,8 +23,6 @@
  */
 package tech.ordinaryroad.upms.entity;
 
-import com.alibaba.fastjson.JSON;
-import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -42,7 +40,7 @@ import javax.persistence.Table;
 @Table(name = "sys_request_path")
 public class SysRequestPathDO extends BaseDO {
 
-    private static final long serialVersionUID = -4382680460624492429L;
+    private static final long serialVersionUID = -7963351841938453159L;
 
     /**
      * 请求路径所需要的权限uuid
@@ -58,10 +56,5 @@ public class SysRequestPathDO extends BaseDO {
      * 路径名称
      */
     private String pathName;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }

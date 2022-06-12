@@ -25,7 +25,6 @@
 package tech.ordinaryroad.im.entity;
 
 
-import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -45,7 +44,7 @@ import javax.persistence.Table;
 @Table(name = "im_msg")
 public class ImMsgDO extends BaseDO {
 
-    private static final long serialVersionUID = -4024298994164700101L;
+    private static final long serialVersionUID = -111925592197699160L;
 
     /**
      * 版本号
@@ -87,10 +86,5 @@ public class ImMsgDO extends BaseDO {
      * MIMC APP ID
      */
     private String appId;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }

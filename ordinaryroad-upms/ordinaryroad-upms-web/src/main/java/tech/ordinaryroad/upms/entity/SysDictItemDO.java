@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.upms.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -41,7 +40,7 @@ import javax.persistence.Table;
 @Table(name = "sys_dict_item")
 public class SysDictItemDO extends BaseDO {
 
-    private static final long serialVersionUID = 7038836090818144267L;
+    private static final long serialVersionUID = -5548735684253641759L;
 
     /**
      * 字典uuid
@@ -67,10 +66,5 @@ public class SysDictItemDO extends BaseDO {
      * 备注
      */
     private String remark;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }

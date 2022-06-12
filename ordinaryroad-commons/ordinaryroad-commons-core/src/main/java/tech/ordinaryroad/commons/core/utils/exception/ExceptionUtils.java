@@ -27,7 +27,7 @@ import cn.dev33.satoken.exception.*;
 import cn.dev33.satoken.oauth2.exception.SaOAuth2Exception;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
 
 /**

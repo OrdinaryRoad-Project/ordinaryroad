@@ -25,7 +25,8 @@ package tech.ordinaryroad.gateway.flter;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.ArrayUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.core.annotation.Order;
@@ -96,7 +97,7 @@ public class ValidateCodeWebFilter implements WebFilter {
                     };
                     return Mono.from(
                             cachedFlux.flatMap(cachedDataBuffer -> {
-                                JSONObject originalBody = JSONObject.parseObject(IoUtil.read(cachedDataBuffer.asInputStream(), StandardCharsets.UTF_8));
+                                JSONObject originalBody = JSON.parseObject(IoUtil.read(cachedDataBuffer.asInputStream(), StandardCharsets.UTF_8));
                                 String code = originalBody.getString(CODE);
                                 try {
                                     switch (index) {

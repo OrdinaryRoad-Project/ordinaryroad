@@ -26,7 +26,7 @@ package tech.ordinaryroad.upms.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
 import java.util.List;
 
@@ -40,7 +40,7 @@ import java.util.List;
 @ApiModel
 public class SysUserInfoDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 6455647082881979934L;
+    private static final long serialVersionUID = 4600270856295682637L;
 
     @ApiModelProperty("用户信息")
     private SysUserDTO user;

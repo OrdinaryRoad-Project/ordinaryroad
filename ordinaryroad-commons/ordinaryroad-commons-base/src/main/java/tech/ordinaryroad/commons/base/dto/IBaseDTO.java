@@ -21,15 +21,13 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package tech.ordinaryroad.commons.base.dto;
 
-package tech.ordinaryroad.commons.core.base;
+import tech.ordinaryroad.commons.base.IBase;
 
 /**
- * 抽象基类
- *
  * @author mjz
- * @date 2021/9/3
+ * @date 2021/11/29
  */
-public abstract class AbstractBase implements IBase {
-
+public interface IBaseDTO extends IBase {
 }

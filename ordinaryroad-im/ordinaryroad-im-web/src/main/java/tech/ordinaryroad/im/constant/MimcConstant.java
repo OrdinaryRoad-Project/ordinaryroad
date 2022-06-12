@@ -25,7 +25,7 @@
 package tech.ordinaryroad.im.constant;
 
 import cn.hutool.core.util.StrUtil;
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson2.JSON;
 import lombok.Data;
 import tech.ordinaryroad.upms.dto.SysDictItemDTO;
 import tech.ordinaryroad.upms.dto.SysUserDTO;

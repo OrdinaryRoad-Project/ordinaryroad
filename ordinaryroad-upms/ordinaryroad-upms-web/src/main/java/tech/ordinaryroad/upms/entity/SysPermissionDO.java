@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.upms.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -41,7 +40,7 @@ import javax.persistence.Table;
 @Table(name = "sys_permission")
 public class SysPermissionDO extends BaseDO {
 
-    private static final long serialVersionUID = -6621067925753768071L;
+    private static final long serialVersionUID = -4809045250630021569L;
 
     /**
      * 权限code
@@ -52,10 +51,5 @@ public class SysPermissionDO extends BaseDO {
      * 权限描述
      */
     private String description;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }

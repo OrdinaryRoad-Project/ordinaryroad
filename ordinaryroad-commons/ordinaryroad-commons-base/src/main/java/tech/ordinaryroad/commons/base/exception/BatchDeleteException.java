@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.commons.core.base.exception;
+package tech.ordinaryroad.commons.base.exception;
 
 /**
  * 批量删除失败

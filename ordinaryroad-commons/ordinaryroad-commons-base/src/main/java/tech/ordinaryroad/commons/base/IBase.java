@@ -21,16 +21,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.commons.core.base.dto;
+
+package tech.ordinaryroad.commons.base;
+
+import java.io.Serializable;
 
 /**
- * DTO DTO抽象类
+ * 可序列化的接口类
  *
  * @author mjz
- * @date 2021/12/1
+ * @date 2021/9/3
  */
-public abstract class BaseDTO implements IBaseDTO {
-
-    private static final long serialVersionUID = -4406187362812160064L;
+public interface IBase extends Serializable {
 
 }

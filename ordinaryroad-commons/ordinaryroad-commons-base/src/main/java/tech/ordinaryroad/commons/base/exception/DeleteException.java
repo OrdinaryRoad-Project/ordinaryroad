@@ -21,13 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.commons.core.base.dto;
 
-import tech.ordinaryroad.commons.core.base.IBase;
+package tech.ordinaryroad.commons.base.exception;
 
 /**
+ * 删除失败
+ *
  * @author mjz
- * @date 2021/11/29
+ * @date 2021/9/9
  */
-public interface IBaseDTO extends IBase {
+public class DeleteException extends BaseException {
+
+    private static final long serialVersionUID = -5746564229957308928L;
+
+    public DeleteException(String msg) {
+        super(msg);
+    }
+
 }

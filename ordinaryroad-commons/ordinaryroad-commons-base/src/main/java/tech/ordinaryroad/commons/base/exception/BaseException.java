@@ -22,11 +22,11 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.commons.core.base.exception;
+package tech.ordinaryroad.commons.base.exception;
 
 
-import tech.ordinaryroad.commons.core.base.cons.IStatusCode;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import tech.ordinaryroad.commons.base.cons.IStatusCode;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 
 /**
  * 异常基类

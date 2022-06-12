@@ -45,7 +45,7 @@ import java.time.LocalDateTime;
 @MappedSuperclass
 public class BaseDO implements Serializable {
 
-    private static final long serialVersionUID = -7515911796792892668L;
+    private static final long serialVersionUID = -5159871109171099140L;
 
     /**
      * 自增主键

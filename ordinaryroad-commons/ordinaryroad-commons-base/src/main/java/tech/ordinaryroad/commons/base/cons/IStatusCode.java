@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.commons.core.base.cons;
+package tech.ordinaryroad.commons.base.cons;
 
 /**
  * 状态码接口

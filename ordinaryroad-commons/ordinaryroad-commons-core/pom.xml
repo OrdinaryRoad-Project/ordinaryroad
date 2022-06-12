@@ -42,6 +42,12 @@
     </properties>
 
     <dependencies>
+        <!-- ordinaryroad-commons-base -->
+        <dependency>
+            <groupId>tech.ordinaryroad</groupId>
+            <artifactId>ordinaryroad-commons-base</artifactId>
+        </dependency>
+
         <!-- Spring Cloud Openfeign -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -132,10 +138,10 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
 
-        <!-- fastjson -->
+        <!-- fastjson2 -->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
+            <groupId>com.alibaba.fastjson2</groupId>
+            <artifactId>fastjson2</artifactId>
         </dependency>
 
         <!-- mapstruct -->

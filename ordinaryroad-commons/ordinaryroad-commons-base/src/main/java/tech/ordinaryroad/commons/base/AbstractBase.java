@@ -22,20 +22,14 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.commons.core.base.exception;
+package tech.ordinaryroad.commons.base;
 
 /**
- * 删除失败
+ * 抽象基类
  *
  * @author mjz
- * @date 2021/9/9
+ * @date 2021/9/3
  */
-public class DeleteException extends BaseException {
-
-    private static final long serialVersionUID = -5746564229957308928L;
-
-    public DeleteException(String msg) {
-        super(msg);
-    }
+public abstract class AbstractBase implements IBase {
 
 }

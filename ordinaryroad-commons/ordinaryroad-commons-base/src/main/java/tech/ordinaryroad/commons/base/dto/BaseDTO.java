@@ -21,20 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-
-package tech.ordinaryroad.commons.core.base.exception;
+package tech.ordinaryroad.commons.base.dto;
 
 /**
- * 验证码错误异常类
+ * DTO DTO抽象类
  *
  * @author mjz
+ * @date 2021/12/1
  */
-public class CaptchaException extends BaseException {
+public abstract class BaseDTO implements IBaseDTO {
 
-    private static final long serialVersionUID = 9036656405436182436L;
-
-    public CaptchaException(String msg) {
-        super(msg);
-    }
+    private static final long serialVersionUID = -4406187362812160064L;
 
 }

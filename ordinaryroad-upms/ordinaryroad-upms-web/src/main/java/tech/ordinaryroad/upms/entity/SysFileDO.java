@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.upms.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -41,7 +40,7 @@ import javax.persistence.Table;
 @Table(name = "sys_file")
 public class SysFileDO extends BaseDO {
 
-    private static final long serialVersionUID = -3867437985069715630L;
+    private static final long serialVersionUID = 9075577780013301875L;
 
     /**
      * 桶名称
@@ -62,10 +61,5 @@ public class SysFileDO extends BaseDO {
      * 文件大小（byte）
      */
     private Long size;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }
