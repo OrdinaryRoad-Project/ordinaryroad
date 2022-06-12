@@ -56,9 +56,6 @@ public class SaOAuth2Configuration {
 
     @Autowired
     public void setSaOAuth2Config(SaOAuth2Config cfg) {
-        // 开启Password模式
-        cfg.setIsPassword(true);
-
         cfg
                 // TODO 美化登录页面 配置：未登录时返回的View
                 .setNotLoginView(() -> new ModelAndView("login.html"))
