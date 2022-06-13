@@ -23,48 +23,17 @@
  */
 package tech.ordinaryroad.commons.thingsboard.service;
 
-import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.thingsboard.server.common.data.Tenant;
-import org.thingsboard.server.common.data.id.TenantId;
-import tech.ordinaryroad.commons.base.exception.BaseException;
-
-import java.util.Optional;
-import java.util.UUID;
 
 /**
  * @author mjz
- * @date 2022/3/25
+ * @date 2022/4/20
  */
 @RequiredArgsConstructor
 @Service
-public class OrThingsBoardTenantService {
+public class OrThingsBoardAssetService {
 
     private final OrThingsBoardClientService clientService;
-
-    public Tenant create(String email, String title) {
-        if (StrUtil.isBlank(email) || StrUtil.isBlank(title)) {
-            throw new BaseException("email and title cannot be empty when creating tenant");
-        }
-        final Tenant tenant = new Tenant();
-        tenant.setEmail(email);
-        tenant.setTitle(title);
-        return clientService.getClient().saveTenant(tenant);
-    }
-
-    public void delete(String id) {
-        if (StrUtil.isBlank(id)) {
-            throw new BaseException("id cannot be empty when deleting tenant");
-        }
-        clientService.getClient().deleteTenant(new TenantId(UUID.fromString(id)));
-    }
-
-    public Optional<Tenant> findById(String id) {
-        if (StrUtil.isBlank(id)) {
-            return Optional.empty();
-        }
-        return clientService.getClient().getTenantById(new TenantId(UUID.fromString(id)));
-    }
 
 }
