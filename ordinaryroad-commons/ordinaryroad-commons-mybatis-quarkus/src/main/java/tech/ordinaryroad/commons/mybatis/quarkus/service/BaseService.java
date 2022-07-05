@@ -25,12 +25,13 @@
 package tech.ordinaryroad.commons.mybatis.quarkus.service;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
-import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
+import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.extern.slf4j.Slf4j;
 import tech.ordinaryroad.commons.core.quarkus.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.quarkus.mapper.IBaseMapper;
@@ -38,7 +39,10 @@ import tech.ordinaryroad.commons.mybatis.quarkus.model.BaseDO;
 
 import javax.inject.Inject;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -51,6 +55,10 @@ import java.util.function.Function;
  */
 @Slf4j
 public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
+
+    public D getDao() {
+        return this.dao;
+    }
 
     @Inject
     protected D dao;
@@ -234,35 +242,54 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * findAll自动增加排序创建时间条件
      *
      * @param baseQueryRequest BaseQueryRequest
-     * @param wrapper          LambdaQueryWrapper<T>
+     * @param wrapper          QueryChainWrapper<T>
      * @return List<T>
      */
-    public List<T> findAll(BaseQueryRequest baseQueryRequest, LambdaQueryWrapper<T> wrapper) {
+    public List<T> findAll(BaseQueryRequest baseQueryRequest, QueryChainWrapper<T> wrapper) {
+        updateQueryChainWrapper(baseQueryRequest, wrapper);
+        return wrapper.list();
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param baseQueryRequest BaseQueryRequest
+     * @param wrapper          QueryChainWrapper<T>
+     * @return Page<T>
+     */
+    public Page<T> page(BaseQueryRequest baseQueryRequest, QueryChainWrapper<T> wrapper) {
+        updateQueryChainWrapper(baseQueryRequest, wrapper);
+
+        Long page = baseQueryRequest.getPage();
+        Long size = baseQueryRequest.getSize();
+
+        return wrapper.page(Page.of(page, size));
+    }
+
+    private void updateQueryChainWrapper(BaseQueryRequest baseQueryRequest, QueryChainWrapper<T> wrapper) {
+        String createBy = baseQueryRequest.getCreateBy();
+        wrapper.eq(StrUtil.isNotBlank(createBy), "create_by", createBy);
+
+        String updateBy = baseQueryRequest.getUpdateBy();
+        wrapper.eq(StrUtil.isNotBlank(updateBy), "update_by", updateBy);
+
         List<String> orderBy = baseQueryRequest.getOrderBy();
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            List<SFunction<T, ?>> columns = new ArrayList<>();
-            for (String columnName : orderBy) {
-                columns.add((SFunction<T, ?>) t -> columnName);
-            }
-            wrapper.orderByAsc(columns);
-        }
+        wrapper.orderByAsc(ArrayUtil.isNotEmpty(orderBy), orderBy);
 
         List<String> orderByDesc = baseQueryRequest.getOrderByDesc();
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            List<SFunction<T, ?>> columns = new ArrayList<>();
-            for (String columnName : orderByDesc) {
-                columns.add((SFunction<T, ?>) t -> columnName);
-            }
-            wrapper.orderByDesc(columns);
+        wrapper.orderByDesc(ArrayUtil.isNotEmpty(orderByDesc), orderByDesc);
+
+        Long startTime = baseQueryRequest.getStartTime();
+        if (Objects.nonNull(startTime)) {
+            LocalDateTime localDateTime = LocalDateTimeUtil.of(startTime);
+            wrapper.ge("created_time", localDateTime);
         }
 
-        LocalDateTime startTime = baseQueryRequest.getStartTime();
-        wrapper.ge(Objects.nonNull(startTime), T::getCreatedTime, startTime);
-
-        LocalDateTime endTime = baseQueryRequest.getEndTime();
-        wrapper.le(Objects.nonNull(endTime), T::getCreatedTime, endTime);
-
-        return this.dao.selectList(wrapper);
+        Long endTime = baseQueryRequest.getEndTime();
+        if (Objects.nonNull(endTime)) {
+            LocalDateTime localDateTime = LocalDateTimeUtil.of(endTime);
+            wrapper.le("created_time", localDateTime);
+        }
     }
 
 }

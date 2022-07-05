@@ -24,7 +24,6 @@
 
 package tech.ordinaryroad.commons.mybatis.quarkus.model;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Getter;
 import lombok.Setter;
@@ -42,7 +41,7 @@ import java.time.LocalDateTime;
 @Setter
 public class BaseDO implements Serializable {
 
-    private static final long serialVersionUID = 1221847371341256300L;
+    private static final long serialVersionUID = 64554217033565006L;
 
     /**
      * 自增主键
@@ -58,25 +57,21 @@ public class BaseDO implements Serializable {
     /**
      * 创建时间
      */
-    @TableField("created_time")
     private LocalDateTime createdTime;
 
     /**
      * 创建者OR账号
      */
-    @TableField("create_by")
     private String createBy;
 
     /**
      * 更新时间
      */
-    @TableField("update_time")
     private LocalDateTime updateTime;
 
     /**
      * 更新者OR账号
      */
-    @TableField("update_by")
     private String updateBy;
 
     /**
