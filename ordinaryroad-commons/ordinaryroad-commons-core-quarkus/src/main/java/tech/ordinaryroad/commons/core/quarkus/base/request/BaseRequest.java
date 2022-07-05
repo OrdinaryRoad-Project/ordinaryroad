@@ -25,7 +25,6 @@ package tech.ordinaryroad.commons.core.quarkus.base.request;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 import tech.ordinaryroad.commons.base.request.IBaseRequest;
 
 /**
@@ -41,7 +40,7 @@ public abstract class BaseRequest implements IBaseRequest {
     /**
      * 用户uuid，由网关过滤器填充
      */
-    @SchemaProperty(name = "用户uuid")
+//    @SchemaProperty(name = "用户uuid")
     private String uid;
 
 }

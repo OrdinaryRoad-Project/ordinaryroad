@@ -24,7 +24,6 @@
 package tech.ordinaryroad.commons.core.quarkus.base.dto;
 
 import lombok.Data;
-import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
 import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
 import java.time.LocalDateTime;
@@ -38,21 +37,21 @@ import java.time.LocalDateTime;
 @Data
 public class BaseModelDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 7216530114273459879L;
+    private static final long serialVersionUID = 5269406345998745414L;
 
-    @SchemaProperty(name = "主键uuid")
+    //    @SchemaProperty(name = "主键uuid")
     private String uuid;
 
-    @SchemaProperty(name = "创建时间")
+    //    @SchemaProperty(name = "创建时间")
     private LocalDateTime createdTime;
 
-    @SchemaProperty(name = "创建者OR账号")
+    //    @SchemaProperty(name = "创建者OR账号")
     private String createBy;
 
-    @SchemaProperty(name = "更新时间")
+    //    @SchemaProperty(name = "更新时间")
     private LocalDateTime updateTime;
 
-    @SchemaProperty(name = "更新者OR账号")
+    //    @SchemaProperty(name = "更新者OR账号")
     private String updateBy;
 
 }

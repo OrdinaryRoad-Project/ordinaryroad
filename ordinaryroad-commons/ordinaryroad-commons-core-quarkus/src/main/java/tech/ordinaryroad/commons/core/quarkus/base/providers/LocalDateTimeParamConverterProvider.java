@@ -23,22 +23,18 @@
  */
 package tech.ordinaryroad.commons.core.quarkus.base.providers;
 
-import javax.ws.rs.ext.ParamConverter;
-import javax.ws.rs.ext.ParamConverterProvider;
-import javax.ws.rs.ext.Provider;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Type;
-
 /**
  * @author mjz
  * @date 2022/7/3
  */
-@Provider
-public class LocalDateTimeParamConverterProvider implements ParamConverterProvider {
+//@Provider
+public class LocalDateTimeParamConverterProvider
+//        implements ParamConverterProvider
+{
 
-    @Override
-    public <T> ParamConverter<T> getConverter(Class<T> rawType, Type genericType, Annotation[] annotations) {
-        return (ParamConverter<T>) new LocalDateTimeParamConverter();
-    }
+//    @Override
+//    public <T> ParamConverter<T> getConverter(Class<T> rawType, Type genericType, Annotation[] annotations) {
+//        return (ParamConverter<T>) new LocalDateTimeParamConverter();
+//    }
 
 }

@@ -26,13 +26,11 @@ package tech.ordinaryroad.commons.core.quarkus.base.request.query;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.eclipse.microprofile.openapi.annotations.media.SchemaProperty;
+import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import org.jboss.resteasy.annotations.jaxrs.QueryParam;
 import tech.ordinaryroad.commons.core.quarkus.base.request.BaseRequest;
 
 import javax.ws.rs.DefaultValue;
-import javax.ws.rs.FormParam;
-import javax.ws.rs.QueryParam;
-import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -45,77 +43,68 @@ import java.util.List;
 @Setter
 public class BaseQueryRequest extends BaseRequest {
 
-    private static final long serialVersionUID = -619594620770230224L;
+    private static final long serialVersionUID = -1218778042472018859L;
 
     /**
-     * 主键uuid
+     * 创建者Id
      */
-    @SchemaProperty(name = "主键uuid")
-    @FormParam("uuid")
-    private String uuid;
-
-    /**
-     * 创建者OR账号
-     */
-    @SchemaProperty(name = "创建者OR账号")
-    @FormParam("createBy")
+//    @SchemaProperty(name = "创建者OR账号")
+    @QueryParam
     private String createBy;
 
     /**
-     * 更新者OR账号
+     * 更新者Id
      */
-    @SchemaProperty(name = "更新者OR账号")
-    @FormParam("updateBy")
+//    @SchemaProperty(name = "更新者OR账号")
+    @QueryParam
     private String updateBy;
 
     /**
-     * 主键uuid列表
+     * 每页显示条数
      */
-    @SchemaProperty(name = "主键uuid列表")
-    @FormParam("uuids")
-    private List<String> uuids;
-
-    /**
-     * 个数
-     */
-    @SchemaProperty(name = "个数")
+//    @SchemaProperty(name = "个数")
+//    @Range(min = 1, max = 1000, message = "个数范围为1-1000")
+//    @DefaultValue("20")
+//    @DecimalMax(value = "1000", message = "个数最大为1000")
     @DefaultValue("20")
-    @QueryParam("limit")
-    private Integer limit = 20;
+    @PathParam
+    private Long size = 20L;
 
     /**
-     * 偏移量
+     * 页码
      */
-    @SchemaProperty(name = "偏移量")
-    @QueryParam("offset")
-    private Integer offset = 0;
+//    @SchemaProperty(name = "偏移量")
+//    @Min(value = 0, message = "偏移量最小为0")
+//    @DefaultValue("0")
+    @PathParam
+    private Long page = 1L;
 
     /**
      * 升序字段列表
      */
-    @SchemaProperty(name = "升序字段列表")
-    @FormParam("orderBy")
+//    @SchemaProperty(name = "升序字段列表")
+    @QueryParam
     private List<String> orderBy;
 
     /**
      * 降序字段列表
      */
-    @SchemaProperty(name = "降序字段列表")
-    @FormParam("orderByDesc")
+//    @SchemaProperty(name = "降序字段列表")
+    @QueryParam
     private List<String> orderByDesc;
 
     /**
      * 起始时间
      */
-    @SchemaProperty(name = "起始时间")
-    @FormParam("startTime")
-    private LocalDateTime startTime;
+//    @SchemaProperty(name = "起始时间")
+    @QueryParam
+    private Long startTime;
 
     /**
      * 结束时间
      */
-    @SchemaProperty(name = "结束时间")
-    @FormParam("endTime")
-    private LocalDateTime endTime;
+//    @SchemaProperty(name = "结束时间")
+    @QueryParam
+    private Long endTime;
 
 }

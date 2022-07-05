@@ -22,4 +22,4 @@
 # SOFTWARE.
 #
 
-tech.ordinaryroad.commons.core.quarkus.base.providers.LocalDateTimeParamConverterProvider
+#tech.ordinaryroad.commons.core.quarkus.base.providers.LocalDateTimeParamConverterProvider

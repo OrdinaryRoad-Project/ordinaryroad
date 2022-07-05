@@ -23,26 +23,22 @@
  */
 package tech.ordinaryroad.commons.core.quarkus.base.providers;
 
-import cn.hutool.core.date.DatePattern;
-import cn.hutool.core.date.LocalDateTimeUtil;
-
-import javax.ws.rs.ext.ParamConverter;
-import java.time.LocalDateTime;
-
 /**
  * @author mjz
  * @date 2022/7/3
  */
-public class LocalDateTimeParamConverter implements ParamConverter<LocalDateTime> {
+public class LocalDateTimeParamConverter
+//        implements ParamConverter<LocalDateTime>
+{
 
-    @Override
-    public LocalDateTime fromString(String value) {
-        return LocalDateTimeUtil.parse(value, DatePattern.NORM_DATETIME_FORMATTER);
-    }
-
-    @Override
-    public String toString(LocalDateTime value) {
-        return LocalDateTimeUtil.formatNormal(value);
-    }
+//    @Override
+//    public LocalDateTime fromString(String value) {
+//        return LocalDateTimeUtil.parse(value, DatePattern.NORM_DATETIME_FORMATTER);
+//    }
+//
+//    @Override
+//    public String toString(LocalDateTime value) {
+//        return LocalDateTimeUtil.formatNormal(value);
+//    }
 
 }
