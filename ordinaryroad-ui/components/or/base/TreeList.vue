@@ -58,7 +58,7 @@
           active-class="primary white--text elevation-4"
           @click="!item.to && $emit('clickListItem', item)"
         >
-          <v-list-item-action>
+          <v-list-item-action v-if="item.icon">
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-title>{{ $t(item.titleKey) }}</v-list-item-title>
@@ -76,7 +76,7 @@
         @click="!item.to && $emit('clickListItem', item)"
       >
         <slot :name="'item_'+i">
-          <v-list-item-action>
+          <v-list-item-action v-if="item.icon">
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
