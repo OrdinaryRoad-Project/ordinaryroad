@@ -47,7 +47,7 @@ export default ({ app, store }, inject) => {
           },
           beforeDestroy () {
             this.$el.remove()
-            this.isConfirm && resolve(this)
+            resolve(this)
           }
         })
 

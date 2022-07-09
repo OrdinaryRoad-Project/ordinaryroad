@@ -245,15 +245,17 @@ export default {
         content: this.$t('areYouSureToDoWhat', [operationString]),
         loading: true
       }).then((dialog) => {
-        this.$apis.upms.user.updateEnabled(item.uuid, !item.enabled)
-          .then(() => {
-            this.$snackbar.success(this.$t('whatSuccessfully', [operationString]))
-            item.enabled = !item.enabled
-            dialog.cancel()
-          })
-          .catch(() => {
-            dialog.cancel()
-          })
+        if (dialog.isConfirm) {
+          this.$apis.upms.user.updateEnabled(item.uuid, !item.enabled)
+            .then(() => {
+              this.$snackbar.success(this.$t('whatSuccessfully', [operationString]))
+              item.enabled = !item.enabled
+              dialog.cancel()
+            })
+            .catch(() => {
+              dialog.cancel()
+            })
+        }
       })
     },
     updateItemRoles (item) {

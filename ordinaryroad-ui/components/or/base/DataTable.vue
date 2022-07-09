@@ -342,9 +342,11 @@ export default {
       }).then((dialog) => {
         this.deleteDialog = dialog
         // 删除
-        this.$emit('deleteItem', {
-          item: this.selectedItem, index: this.selectedIndex
-        })
+        if (dialog.isConfirm) {
+          this.$emit('deleteItem', {
+            item: this.selectedItem, index: this.selectedIndex
+          })
+        }
       })
     },
     editItem (item) {
