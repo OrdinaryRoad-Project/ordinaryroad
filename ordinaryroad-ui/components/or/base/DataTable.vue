@@ -213,6 +213,10 @@ export default {
       type: Boolean,
       default: false
     },
+    showBaseHeadersWhenSelecting: {
+      type: Boolean,
+      default: false
+    },
     presetSelectedItems: {
       type: Array,
       default: () => []
@@ -275,25 +279,23 @@ export default {
     // 放在这为了支持国际化，如果放在data下切换语言不会更新
     headers () {
       const headers = []
-      if (this.showSelect) {
+
+      // 业务headers
+      headers.push(...this.tableHeaders)
+
+      // 基础headers
+      if (!this.showSelect || this.showBaseHeadersWhenSelecting) {
         headers.push(
-          ...this.tableHeaders,
-          {
-            text: this.$t('dataTable.actions'),
-            value: 'actions',
-            sortable: false,
-            align: 'center',
-            class: 'sticky-right',
-            cellClass: 'sticky-right'
-          }
-        )
-      } else {
-        headers.push(
-          ...this.tableHeaders,
           { text: this.$t('createdTime'), value: 'createdTime', width: '220' },
           { text: this.$t('createBy'), value: 'createBy' },
           { text: this.$t('updateTime'), value: 'updateTime', width: '220' },
-          { text: this.$t('updateBy'), value: 'updateBy' },
+          { text: this.$t('updateBy'), value: 'updateBy' }
+        )
+      }
+
+      // 操作headers
+      if (!this.hideActions) {
+        headers.push(
           {
             text: this.$t('dataTable.actions'),
             value: 'actions',
@@ -304,7 +306,8 @@ export default {
           }
         )
       }
-      return this.hideActions ? this.$util.remove(headers, 'value', 'actions') : headers
+
+      return headers
     },
     action () {
       return this.selectedIndex === -1 ? 'create' : 'update'
