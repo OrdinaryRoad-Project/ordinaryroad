@@ -90,7 +90,7 @@
 
       <div
         v-if="$slots['after-heading']"
-        class="ml-6"
+        style="width: 100%"
       >
         <slot name="after-heading" />
       </div>
