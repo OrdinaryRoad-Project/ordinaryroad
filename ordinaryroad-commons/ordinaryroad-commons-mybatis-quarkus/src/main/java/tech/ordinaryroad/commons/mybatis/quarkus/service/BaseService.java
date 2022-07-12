@@ -27,8 +27,10 @@ package tech.ordinaryroad.commons.mybatis.quarkus.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.date.LocalDateTimeUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.toolkit.Assert;
 import com.baomidou.mybatisplus.extension.conditions.query.QueryChainWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -93,6 +95,21 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         fillMetaFieldsWhenCreate(t);
 
         return dao.insert(t) > 0;
+    }
+
+    /**
+     * 更新记录
+     *
+     * @param t             要设置的新值，清空String类型需传入空字符串
+     * @param updateWrapper Wrapper，用于构建Where条件
+     * @return 返回修改的行数
+     */
+    public int update(T t, Wrapper<T> updateWrapper) {
+        Assert.notNull(t, "更新记录不能为空");
+
+        fillMetaFieldsWhenUpdate(t);
+
+        return dao.update(t, updateWrapper);
     }
 
     /**
@@ -273,11 +290,15 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         String updateBy = baseQueryRequest.getUpdateBy();
         wrapper.eq(StrUtil.isNotBlank(updateBy), "update_by", updateBy);
 
-        List<String> orderBy = baseQueryRequest.getOrderBy();
-        wrapper.orderByAsc(ArrayUtil.isNotEmpty(orderBy), orderBy);
-
-        List<String> orderByDesc = baseQueryRequest.getOrderByDesc();
-        wrapper.orderByDesc(ArrayUtil.isNotEmpty(orderByDesc), orderByDesc);
+        List<String> sortBy = baseQueryRequest.getSortBy();
+        List<Boolean> sortDesc = baseQueryRequest.getSortDesc();
+        if (ArrayUtil.isNotEmpty(sortBy)) {
+            for (int i = 0; i < sortBy.size(); i++) {
+                String columnName = StrUtil.toUnderlineCase(sortBy.get(i));
+                boolean isDesc = BooleanUtil.isTrue(CollUtil.get(sortDesc, i));
+                wrapper.orderBy(Boolean.TRUE, !isDesc, columnName);
+            }
+        }
 
         Long startTime = baseQueryRequest.getStartTime();
         if (Objects.nonNull(startTime)) {

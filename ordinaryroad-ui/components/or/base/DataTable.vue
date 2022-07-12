@@ -364,19 +364,12 @@ export default {
 
       const sortBy = this.options.sortBy
       const sortDesc = this.options.sortDesc
-      const orderBy = []
-      const orderByDesc = []
-      for (let i = 0; i < sortDesc.length; i++) {
-        const name = sortBy[i]
-        sortDesc[i] ? orderByDesc.push(name) : orderBy.push(name)
-      }
-
       this.$emit('getItems', {
         options: this.options,
         offset: (this.options.page - 1) * this.options.itemsPerPage,
         limit: this.options.itemsPerPage,
-        orderBy,
-        orderByDesc
+        sortBy,
+        sortDesc
       })
     },
     onItemSelected ({ item, value }) {

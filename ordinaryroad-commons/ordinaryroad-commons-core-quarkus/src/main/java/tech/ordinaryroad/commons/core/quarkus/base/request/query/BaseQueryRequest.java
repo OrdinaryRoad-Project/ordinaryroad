@@ -43,7 +43,7 @@ import java.util.List;
 @Setter
 public class BaseQueryRequest extends BaseRequest {
 
-    private static final long serialVersionUID = -1218778042472018859L;
+    private static final long serialVersionUID = 1650890589341936855L;
 
     /**
      * 创建者Id
@@ -80,18 +80,18 @@ public class BaseQueryRequest extends BaseRequest {
     private Long page = 1L;
 
     /**
-     * 升序字段列表
+     * 根据哪些字段排序
      */
 //    @SchemaProperty(name = "升序字段列表")
     @QueryParam
-    private List<String> orderBy;
+    private List<String> sortBy;
 
     /**
-     * 降序字段列表
+     * 是否为降序排序
      */
 //    @SchemaProperty(name = "降序字段列表")
     @QueryParam
-    private List<String> orderByDesc;
+    private List<Boolean> sortDesc;
 
     /**
      * 起始时间

@@ -40,8 +40,8 @@ export default {
     const data = { uuid, permissionCode, description }
     return $axios({ url: '/upms/permission/update', method: 'post', data })
   },
-  list: (offset, limit, orderBy, orderByDesc, { permissionCode, description }) => {
-    const data = { offset, limit, orderBy, orderByDesc, permissionCode, description }
+  list: (offset, limit, sortBy, sortDesc, { permissionCode, description }) => {
+    const data = { offset, limit, sortBy, sortDesc, permissionCode, description }
     return $axios({ url: '/upms/permission/list', method: 'post', data })
   },
   findAll: ({ permissionCode, description }) => {

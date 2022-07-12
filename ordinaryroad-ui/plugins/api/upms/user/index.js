@@ -52,8 +52,8 @@ export default {
     const data = { roleUuid }
     return $axios({ url: '/upms/user/find_all/foreign', method: 'post', data })
   },
-  list: (offset, limit, orderBy, orderByDesc, { email, orNumber, username }) => {
-    const data = { offset, limit, orderBy, orderByDesc, email, orNumber, username }
+  list: (offset, limit, sortBy, sortDesc, { email, orNumber, username }) => {
+    const data = { offset, limit, sortBy, sortDesc, email, orNumber, username }
     return $axios({ url: '/upms/user/list', method: 'post', data })
   },
   updateAvatar: (avatar) => {

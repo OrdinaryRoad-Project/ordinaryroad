@@ -42,8 +42,8 @@ export default {
       : ''
     return path
   },
-  list: (offset, limit, orderBy, orderByDesc, { bucketName, objectName, originalFilename }) => {
-    const data = { offset, limit, orderBy, orderByDesc, bucketName, objectName, originalFilename }
+  list: (offset, limit, sortBy, sortDesc, { bucketName, objectName, originalFilename }) => {
+    const data = { offset, limit, sortBy, sortDesc, bucketName, objectName, originalFilename }
     return $axios({ url: '/upms/file/list', method: 'post', data })
   }
 }
