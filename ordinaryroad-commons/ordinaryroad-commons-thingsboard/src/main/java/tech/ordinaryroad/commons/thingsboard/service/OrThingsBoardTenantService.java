@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.thingsboard.server.common.data.Tenant;
 import org.thingsboard.server.common.data.id.TenantId;
-import tech.ordinaryroad.commons.core.base.exception.BaseException;
+import tech.ordinaryroad.commons.base.exception.BaseException;
 
 import java.util.Optional;
 import java.util.UUID;

@@ -36,7 +36,7 @@ import tech.ordinaryroad.auth.server.mapstruct.OAuth2OpenidMapStruct;
 import tech.ordinaryroad.auth.server.request.OAuth2OpenidQueryRequest;
 import tech.ordinaryroad.auth.server.request.OAuth2OpenidSaveRequest;
 import tech.ordinaryroad.auth.server.service.OAuth2OpenidService;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;

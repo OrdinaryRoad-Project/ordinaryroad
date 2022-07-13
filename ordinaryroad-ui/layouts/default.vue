@@ -302,12 +302,14 @@ export default {
       this.$dialog({
         content: this.$i18n.t('confirmLogout'),
         loading: true
-      }).then((value) => {
-        this.$store.dispatch('user/logout', {
-          $apis: this.$apis,
-          $router: this.$router,
-          $route: this.$route
-        }).then(() => value.cancel())
+      }).then((dialog) => {
+        if (dialog.isConfirm) {
+          this.$store.dispatch('user/logout', {
+            $apis: this.$apis,
+            $router: this.$router,
+            $route: this.$route
+          }).then(() => dialog.cancel())
+        }
       })
     },
 

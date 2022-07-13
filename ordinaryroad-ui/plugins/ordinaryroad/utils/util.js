@@ -298,6 +298,37 @@ function getFileSizeString (size) {
   return size.toFixed(2) + ' TB'
 }
 
+/** 将对象转换为url参数形式，数组类型不带下标[i]
+ * @param {Object} param 将要转换为URL参数的字符串对象
+ * @param {String} key URL 参数字符串的前缀
+ * @param {Boolean} encode 是否进行URL编码，默认为true
+ * @return {String} URL参数字符串
+ */
+function urlEncode (param, key = null, encode = true) {
+  if (param == null) {
+    return ''
+  }
+  let paramStr = ''
+  const t = typeof (param)
+  if (t === 'string' || t === 'number' || t === 'boolean') {
+    paramStr += '&' + key + '=' + ((encode == null || encode) ? encodeURIComponent(param) : param)
+  } else {
+    for (const i in param) {
+      let k
+      if (key == null) {
+        k = i
+      } else if (param instanceof Array) {
+        // k = key + '[' + i + ']'
+        k = key
+      } else {
+        k = key + '.' + i
+      }
+      paramStr += urlEncode(param[i], k, encode)
+    }
+  }
+  return paramStr
+}
+
 module.exports = {
   formatSeconds,
   formatTime,
@@ -311,5 +342,6 @@ module.exports = {
   objectEquals,
   arrayEquals,
   indexOf,
-  getFileSizeString
+  getFileSizeString,
+  urlEncode
 }

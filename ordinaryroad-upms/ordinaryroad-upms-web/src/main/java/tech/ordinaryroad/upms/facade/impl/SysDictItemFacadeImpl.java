@@ -30,7 +30,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;

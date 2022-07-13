@@ -8,6 +8,8 @@ RUN mkdir -p /ordinaryroad/$APP_NAME/app
 
 WORKDIR /ordinaryroad/$APP_NAME/app
 
+COPY ./app .
+
 EXPOSE 3001
 
 #During build step, for npm/yarn, NODE_ENV=production or --production should NOT be used.

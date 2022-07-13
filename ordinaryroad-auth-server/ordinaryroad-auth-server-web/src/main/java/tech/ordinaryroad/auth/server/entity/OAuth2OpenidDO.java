@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.auth.server.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -57,10 +56,5 @@ public class OAuth2OpenidDO extends BaseDO {
      * openid
      */
     private String openid;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }

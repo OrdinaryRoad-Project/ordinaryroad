@@ -57,9 +57,11 @@ export default function (context, inject) {
               title: '系统提示',
               content: '登录状态已过期，您可以继续留在该页面，或者重新登录。',
               confirmText: '重新登录'
-            }).then((value) => {
-              // 跳转登录页面
-              router.push({ path: '/user/login', query: { redirect: route.fullPath } })
+            }).then((dialog) => {
+              if (dialog.isConfirm) {
+                // 跳转登录页面
+                router.push({ path: '/user/login', query: { redirect: route.fullPath } })
+              }
             })
           }
         }

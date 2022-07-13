@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.upms.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -43,7 +42,7 @@ import javax.persistence.Table;
 @Table(name = "sys_users_roles")
 public class SysUsersRolesDO extends BaseDO {
 
-    private static final long serialVersionUID = 8132681650981971837L;
+    private static final long serialVersionUID = -9201735128236630040L;
 
     /**
      * 用户uuid
@@ -56,10 +55,5 @@ public class SysUsersRolesDO extends BaseDO {
      */
     @EqualsAndHashCode.Include
     private String roleUuid;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }

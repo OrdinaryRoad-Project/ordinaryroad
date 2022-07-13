@@ -23,7 +23,7 @@
  */
 package tech.ordinaryroad.im.request;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -43,7 +43,7 @@ import java.util.List;
 @ApiModel
 public class ImMimcMsgCallbackRequest {
 
-    private static final long serialVersionUID = -6141643144862972594L;
+    private static final long serialVersionUID = -6848569480162583196L;
 
     /**
      * OFFLINE_MSG：                 单聊离线消息

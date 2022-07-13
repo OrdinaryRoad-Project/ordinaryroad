@@ -27,7 +27,7 @@ import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.dto.SysUserDTO;

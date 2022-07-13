@@ -26,7 +26,7 @@ package tech.ordinaryroad.gateway.controller;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.BooleanUtil;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import com.ejlchina.okhttps.OkHttps;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

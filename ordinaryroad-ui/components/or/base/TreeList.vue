@@ -25,30 +25,45 @@
 <template>
   <v-list :nav="nav">
     <template v-for="(item,i) in items">
-      <v-list-group
-        v-if="item.children&&item.children.length > 0"
-        :key="i"
-        :prepend-icon="item.icon"
-        no-action
-      >
-        <template #prependIcon>
-          <slot :name="'prependIcon_'+i" />
-        </template>
-        <template #activator>
-          <slot :name="'activator_'+i">
-            <v-list-item-title>{{ $t(item.titleKey) }}</v-list-item-title>
-          </slot>
-        </template>
-        <template #appendIcon>
-          <slot :name="'appendIcon_'+i" />
-        </template>
-        <OrBaseTreeList
-          :nav="nav"
-          :items="item.children"
-          @clickListItem="onClickListItem"
-        />
-      </v-list-group>
-
+      <template v-if="item.children">
+        <v-list-group
+          v-if="item.children.length > 0"
+          :key="i"
+          :prepend-icon="item.icon"
+          no-action
+        >
+          <template #prependIcon>
+            <slot :name="'prependIcon_'+i" />
+          </template>
+          <template #activator>
+            <slot :name="'activator_'+i">
+              <v-list-item-title>{{ $t(item.titleKey) }}</v-list-item-title>
+            </slot>
+          </template>
+          <template #appendIcon>
+            <slot :name="'appendIcon_'+i" />
+          </template>
+          <OrBaseTreeList
+            :nav="nav"
+            :items="item.children"
+            @clickListItem="onClickListItem"
+          />
+        </v-list-group>
+        <v-list-item
+          v-else
+          :key="i"
+          :to="item.to||null"
+          :router="item.to"
+          exact
+          active-class="primary white--text elevation-4"
+          @click="!item.to && $emit('clickListItem', item)"
+        >
+          <v-list-item-action v-if="item.icon">
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-item-action>
+          <v-list-item-title>{{ $t(item.titleKey) }}</v-list-item-title>
+        </v-list-item>
+      </template>
       <v-list-item
         v-else
         :key="i"
@@ -61,7 +76,7 @@
         @click="!item.to && $emit('clickListItem', item)"
       >
         <slot :name="'item_'+i">
-          <v-list-item-action>
+          <v-list-item-action v-if="item.icon">
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>

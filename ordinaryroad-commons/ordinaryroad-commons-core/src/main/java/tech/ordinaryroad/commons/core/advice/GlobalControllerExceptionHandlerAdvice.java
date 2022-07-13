@@ -37,8 +37,8 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.NoHandlerFoundException;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
-import tech.ordinaryroad.commons.core.base.exception.BaseException;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
+import tech.ordinaryroad.commons.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.utils.exception.ExceptionUtils;
 

@@ -29,6 +29,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.ordinaryroad.auth.server.constants.ServiceNameCons;
+import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 
@@ -58,5 +59,14 @@ public interface IOAuth2Api {
      */
     @GetMapping("/oauth2/userinfo")
     Object userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestParam(name = "wrapped", defaultValue = "false") Boolean wrapped);
+
+    /**
+     * Client端根据 Access-Token 置换用户信息（代码调用）
+     *
+     * @param authorization AUTHORIZATION：Bearer ${access_token}
+     * @return Result
+     */
+    @GetMapping("/oauth2/userinfo/wrapped")
+    Result<OAuth2UserInfoDTO> userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization);
 
 }

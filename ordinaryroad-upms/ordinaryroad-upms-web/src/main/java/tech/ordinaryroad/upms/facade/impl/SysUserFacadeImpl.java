@@ -34,7 +34,7 @@ import org.jetbrains.annotations.Nullable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;

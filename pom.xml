@@ -30,7 +30,7 @@
 
     <groupId>tech.ordinaryroad</groupId>
     <artifactId>ordinaryroad</artifactId>
-    <version>1.3.0</version>
+    <version>1.3.1</version>
     <packaging>pom</packaging>
 
     <name>ordinaryroad</name>
@@ -45,9 +45,13 @@
     </repositories>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
-        <ordinaryroad.version>1.3.0</ordinaryroad.version>
+        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
+        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
+        <quarkus.platform.version>2.10.1.Final</quarkus.platform.version>
+
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <ordinaryroad.version>1.3.1</ordinaryroad.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
@@ -68,13 +72,13 @@
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
-        <lombok.version>1.18.12</lombok.version>
+        <lombok.version>1.18.24</lombok.version>
         <dynamic-datasource-spring-boot-starter.version>3.4.1</dynamic-datasource-spring-boot-starter.version>
         <pagehelper-starter.version>1.3.1</pagehelper-starter.version>
         <swagger-annotations.version>1.5.22</swagger-annotations.version>
-        <sa-token.version>1.27.0</sa-token.version>
+        <sa-token.version>1.30.0</sa-token.version>
         <spring-cloud-starter-loadbalancer.version>3.0.4</spring-cloud-starter-loadbalancer.version>
-        <fastjson.version>1.2.75</fastjson.version>
+        <fastjson2.version>2.0.4</fastjson2.version>
         <pagehelper.version>5.2.1</pagehelper.version>
         <minio.version>8.0.0</minio.version>
         <thumbnailator.version>0.4.16</thumbnailator.version>
@@ -95,7 +99,6 @@
         <module>ordinaryroad-gateway</module>
         <module>ordinaryroad-push</module>
         <module>ordinaryroad-im</module>
-        <module>ordinaryroad-ioe</module>
     </modules>
 
     <!-- 以下依赖 全局所有的模块都会引入 -->
@@ -112,6 +115,15 @@
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
+            <!-- quarkus -->
+            <dependency>
+                <groupId>${quarkus.platform.group-id}</groupId>
+                <artifactId>${quarkus.platform.artifact-id}</artifactId>
+                <version>${quarkus.platform.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
             <!-- Spring Boot 依赖配置 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -195,6 +207,13 @@
             </dependency>
 
 
+            <!-- ordinaryroad-commons-base -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-commons-base</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
             <!-- ordinaryroad-commons-core -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
@@ -202,10 +221,24 @@
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
+            <!-- ordinaryroad-commons-core-quarkus -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-commons-core-quarkus</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
             <!-- ordinaryroad-commons-mybatis -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-mybatis</artifactId>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
+            <!-- ordinaryroad-commons-mybatis-quarkus -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-commons-mybatis-quarkus</artifactId>
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
@@ -272,13 +305,6 @@
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
-            <!-- ordinaryroad-ioe-api -->
-            <dependency>
-                <groupId>tech.ordinaryroad</groupId>
-                <artifactId>ordinaryroad-ioe-api</artifactId>
-                <version>${ordinaryroad.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>cn.dev33</groupId>
                 <artifactId>sa-token-core</artifactId>
@@ -320,11 +346,11 @@
                 <version>${hutool.version}</version>
             </dependency>
 
-            <!-- fastjson -->
+            <!-- fastjson2 -->
             <dependency>
-                <groupId>com.alibaba</groupId>
-                <artifactId>fastjson</artifactId>
-                <version>${fastjson.version}</version>
+                <groupId>com.alibaba.fastjson2</groupId>
+                <artifactId>fastjson2</artifactId>
+                <version>${fastjson2.version}</version>
             </dependency>
 
             <!-- mapstruct -->
@@ -406,14 +432,14 @@
                     <encoding>${project.build.sourceEncoding}</encoding>
                     <annotationProcessorPaths>
                         <path>
-                            <groupId>org.mapstruct</groupId>
-                            <artifactId>mapstruct-processor</artifactId>
-                            <version>${mapstruct.version}</version>
-                        </path>
-                        <path>
                             <groupId>org.projectlombok</groupId>
                             <artifactId>lombok</artifactId>
                             <version>${lombok.version}</version>
+                        </path>
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
                         </path>
                     </annotationProcessorPaths>
                 </configuration>

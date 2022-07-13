@@ -23,7 +23,7 @@
  */
 package tech.ordinaryroad.push.request;
 
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
@@ -43,7 +43,7 @@ import javax.validation.constraints.NotBlank;
 @ApiModel
 public class AndroidPushRequest extends BasePushRequest {
 
-    private static final long serialVersionUID = 1777456546009796317L;
+    private static final long serialVersionUID = -159777254626407907L;
 
     @ApiModelProperty(value = "安卓APP包名", required = true)
     @NotBlank(message = "安卓APP包名不能为空")

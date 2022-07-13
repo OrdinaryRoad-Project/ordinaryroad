@@ -81,10 +81,12 @@
             },
             dataType: 'json',
             success: function (res) {
-                if (res.code == 200) {
+                if (res.code === 200) {
                     layer.msg('授权成功！');
                     setTimeout(function () {
-                        location.reload(true);
+                        let url = window.location.href.split('#')[0]
+                        window.location.replace(url);
+                        // location.reload(true);
                     }, 800);
                 } else {
                     // 重定向至授权失败URL
@@ -92,7 +94,7 @@
                 }
             },
             error: function (e) {
-                console.log('error');
+                console.log('error', e);
             }
         });
     }

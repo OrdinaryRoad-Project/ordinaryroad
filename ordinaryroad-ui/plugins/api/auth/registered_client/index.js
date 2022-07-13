@@ -44,8 +44,8 @@ export default {
     const data = { clientId, clientName }
     return $axios({ url: '/auth/registered_client/find/unique', method: 'post', data })
   },
-  list: (offset, limit, orderBy, orderByDesc, { clientId, clientName, redirectUris, scopes }) => {
-    const data = { offset, limit, orderBy, orderByDesc, clientId, clientName, redirectUris, scopes }
+  list: (offset, limit, sortBy, sortDesc, { clientId, clientName, redirectUris, scopes }) => {
+    const data = { offset, limit, sortBy, sortDesc, clientId, clientName, redirectUris, scopes }
     return $axios({ url: '/auth/registered_client/list', method: 'post', data })
   },
   findAll: ({ clientId, clientName, redirectUris, scopes }) => {

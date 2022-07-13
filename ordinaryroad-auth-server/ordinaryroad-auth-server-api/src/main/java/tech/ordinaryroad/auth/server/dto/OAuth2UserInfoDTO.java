@@ -26,7 +26,7 @@ package tech.ordinaryroad.auth.server.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
 /**
  * 用户相关信息DTO：User
@@ -38,7 +38,7 @@ import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
 @ApiModel
 public class OAuth2UserInfoDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 7843086136016105834L;
+    private static final long serialVersionUID = 2264708854063291438L;
 
     @ApiModelProperty("or帐号")
     private String orNumber;

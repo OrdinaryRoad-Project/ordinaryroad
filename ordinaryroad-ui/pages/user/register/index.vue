@@ -159,8 +159,10 @@ export default {
               content: this.$t('registrationSuccessDialog.content', [value.data.orNumber]),
               confirmText: this.$t('registrationSuccessDialog.confirmText')
             }).then((dialog) => {
-              dialog.cancel()
-              this.$router.push({ path: '/user/login' })
+              if (dialog.isConfirm) {
+                dialog.cancel()
+                this.$router.push({ path: '/user/login' })
+              }
             })
           }).catch(() => {
             this.loading = false

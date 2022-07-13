@@ -52,6 +52,7 @@ public class OrImProperties {
         private String regionKey = "REGION_CN";
         private String domain = "https://mimc.chat.xiaomi.net/";
         private String tokenUrl = "https://mimc.chat.xiaomi.net/api/account/token";
+        private String packageName;
     }
 
     public MimcProperties getProperties(String appId) {

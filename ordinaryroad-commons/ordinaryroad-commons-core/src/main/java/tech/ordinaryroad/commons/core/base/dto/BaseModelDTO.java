@@ -25,6 +25,7 @@ package tech.ordinaryroad.commons.core.base.dto;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
 import java.time.LocalDateTime;
 
@@ -37,7 +38,7 @@ import java.time.LocalDateTime;
 @Data
 public class BaseModelDTO extends BaseDTO {
 
-    private static final long serialVersionUID = 6284738194158708959L;
+    private static final long serialVersionUID = 2451951873209762729L;
 
     @ApiModelProperty("主键uuid")
     private String uuid;

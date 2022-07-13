@@ -245,15 +245,17 @@ export default {
         content: this.$t('areYouSureToDoWhat', [operationString]),
         loading: true
       }).then((dialog) => {
-        this.$apis.upms.user.updateEnabled(item.uuid, !item.enabled)
-          .then(() => {
-            this.$snackbar.success(this.$t('whatSuccessfully', [operationString]))
-            item.enabled = !item.enabled
-            dialog.cancel()
-          })
-          .catch(() => {
-            dialog.cancel()
-          })
+        if (dialog.isConfirm) {
+          this.$apis.upms.user.updateEnabled(item.uuid, !item.enabled)
+            .then(() => {
+              this.$snackbar.success(this.$t('whatSuccessfully', [operationString]))
+              item.enabled = !item.enabled
+              dialog.cancel()
+            })
+            .catch(() => {
+              dialog.cancel()
+            })
+        }
       })
     },
     updateItemRoles (item) {
@@ -324,7 +326,7 @@ export default {
       this.selectedItem = Object.assign({}, item)
       this.$refs.userDialog.show()
     },
-    onGetItems ({ options, offset, limit, orderBy, orderByDesc }) {
+    onGetItems ({ options, offset, limit, sortBy, sortDesc }) {
       /* 支持排序
       options:
         groupBy: Array(0)
@@ -336,7 +338,7 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      this.$apis.upms.user.list(offset, limit, orderBy, orderByDesc, this.searchParams)
+      this.$apis.upms.user.list(offset, limit, sortBy, sortDesc, this.searchParams)
         .then(({ data }) => {
           this.$refs.dataTable.loadSuccessfully(data.list, data.total)
         })

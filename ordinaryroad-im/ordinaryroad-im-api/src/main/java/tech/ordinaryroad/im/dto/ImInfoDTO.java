@@ -26,7 +26,7 @@ package tech.ordinaryroad.im.dto;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import tech.ordinaryroad.commons.core.base.dto.BaseDTO;
+import tech.ordinaryroad.commons.base.dto.BaseDTO;
 import tech.ordinaryroad.upms.dto.SysDictItemDTO;
 
 import java.util.List;
@@ -39,7 +39,7 @@ import java.util.List;
 @ApiModel
 public class ImInfoDTO extends BaseDTO {
 
-    private static final long serialVersionUID = -3767169506610837469L;
+    private static final long serialVersionUID = 5589380169421584484L;
 
     @ApiModelProperty("双击头像字典项")
     private List<SysDictItemDTO> doubleClickAvatarPayloadDictItems;

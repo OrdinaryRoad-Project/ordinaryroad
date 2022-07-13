@@ -33,8 +33,8 @@ import cn.hutool.crypto.Padding;
 import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.symmetric.AES;
 import cn.hutool.http.HttpUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson2.JSON;
+import com.alibaba.fastjson2.JSONObject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -44,8 +44,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import tech.ordinaryroad.commons.core.base.cons.StatusCode;
-import tech.ordinaryroad.commons.core.base.exception.BaseException;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
+import tech.ordinaryroad.commons.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.im.api.IImMimcApi;
 import tech.ordinaryroad.im.constant.MimcConstant;
@@ -138,7 +138,8 @@ public class ImMimcController implements IImMimcApi {
         androidPushRequest.setIntent(intent);
         androidPushRequest.setChannel("msg");
         androidPushRequest.setToOrNumber(request.getToAccount());
-
+        // 根据APP_ID查询PackageName
+        androidPushRequest.setPackageName(imProperties.getProperties(request.getToAppId()).getPackageName());
         pushApi.android(androidPushRequest);
     }
 

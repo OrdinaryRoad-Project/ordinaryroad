@@ -93,6 +93,7 @@ export default {
     },
     confirm () {
       if (this.params.loading) {
+        this.isConfirm = true
         this.loading = true
       } else {
         this.dialog = false

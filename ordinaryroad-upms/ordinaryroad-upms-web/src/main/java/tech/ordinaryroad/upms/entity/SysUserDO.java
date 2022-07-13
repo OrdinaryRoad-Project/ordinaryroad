@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.upms.entity;
 
-import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
@@ -42,7 +41,7 @@ import javax.persistence.Table;
 @Table(name = "sys_user")
 public class SysUserDO extends BaseDO {
 
-    private static final long serialVersionUID = 4873747200596716403L;
+    private static final long serialVersionUID = 1213747147371494092L;
 
     /**
      * or帐号
@@ -81,10 +80,5 @@ public class SysUserDO extends BaseDO {
      * 密码是否过期。默认为1（没有过期）
      */
     private Boolean passwordNotExpired;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
 
 }

@@ -42,7 +42,7 @@ import java.util.List;
 @Setter
 public class BaseQueryRequest extends BaseRequest {
 
-    private static final long serialVersionUID = 2227189019481574600L;
+    private static final long serialVersionUID = -6517407721981279173L;
 
     /**
      * 主键uuid
@@ -81,16 +81,16 @@ public class BaseQueryRequest extends BaseRequest {
     private Integer offset = 0;
 
     /**
-     * 升序字段列表
+     * 根据哪些字段排序
      */
-    @ApiModelProperty("升序字段列表")
-    private String[] orderBy;
+    @ApiModelProperty("排序字段列表")
+    private String[] sortBy;
 
     /**
-     * 降序字段列表
+     * 是否为降序排序
      */
-    @ApiModelProperty("降序字段列表")
-    private String[] orderByDesc;
+    @ApiModelProperty("是否为降序排序")
+    private Boolean[] sortDesc;
 
     /**
      * 起始时间

@@ -209,7 +209,7 @@ export default {
       this.selectedItem = Object.assign({}, item)
       this.$refs.requestPathDialog.show()
     },
-    onGetItems ({ options, offset, limit, orderBy, orderByDesc }) {
+    onGetItems ({ options, offset, limit, sortBy, sortDesc }) {
       /* 支持排序
       options:
         groupBy: Array(0)
@@ -221,7 +221,7 @@ export default {
         sortBy: Array(1)
         sortDesc: Array(1)
        */
-      this.$apis.upms.request_path.list(offset, limit, orderBy, orderByDesc, this.searchParams)
+      this.$apis.upms.request_path.list(offset, limit, sortBy, sortDesc, this.searchParams)
         .then(({ data }) => {
           this.$refs.dataTable.loadSuccessfully(data.list, data.total)
         })

@@ -26,6 +26,7 @@ package tech.ordinaryroad.commons.core.base.request;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Getter;
 import lombok.Setter;
+import tech.ordinaryroad.commons.base.request.IBaseRequest;
 
 /**
  * @author mjz
@@ -35,7 +36,7 @@ import lombok.Setter;
 @Setter
 public abstract class BaseRequest implements IBaseRequest {
 
-    private static final long serialVersionUID = 4391603643220298879L;
+    private static final long serialVersionUID = -892693379052534276L;
 
     /**
      * 用户uuid，由网关过滤器填充

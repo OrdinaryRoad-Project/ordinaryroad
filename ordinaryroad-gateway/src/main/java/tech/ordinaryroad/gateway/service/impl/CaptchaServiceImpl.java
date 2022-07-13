@@ -28,7 +28,7 @@ import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import tech.ordinaryroad.commons.core.base.exception.CaptchaException;
+import tech.ordinaryroad.commons.base.exception.CaptchaException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.core.service.RedisService;

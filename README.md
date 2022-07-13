@@ -6,7 +6,7 @@
 
 演示地址: [https://ordinaryroad.tech:8021](https://ordinaryroad.tech:8021) 帐号10001，密码Abc123
 
-在线文档： [https://1962247851.github.io/ordinaryroad](https://1962247851.github.io/ordinaryroad)
+在线文档： [https://ordinaryroad.tech](https://ordinaryroad.tech)
 
 # 截图
 ![OR首页](https://user-images.githubusercontent.com/43869694/150742040-cf544d19-10e8-4a0b-ade9-1a0c9ff4608c.png)

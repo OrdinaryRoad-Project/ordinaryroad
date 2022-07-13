@@ -28,6 +28,7 @@ import cn.dev33.satoken.context.SaHolder;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
+import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -417,16 +418,17 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * @return List<T>
      */
     public List<T> findAll(BaseQueryRequest baseQueryRequest, WeekendSqls<T> sqls, Example.Builder exampleBuilder) {
-        String[] orderBy = baseQueryRequest.getOrderBy();
-        if (ArrayUtil.isNotEmpty(orderBy)) {
-            for (String property : orderBy) {
-                exampleBuilder.orderBy(property);
-            }
-        }
-        String[] orderByDesc = baseQueryRequest.getOrderByDesc();
-        if (ArrayUtil.isNotEmpty(orderByDesc)) {
-            for (String property : orderByDesc) {
-                exampleBuilder.orderByDesc(property);
+        String[] sortBy = baseQueryRequest.getSortBy();
+        Boolean[] sortDesc = baseQueryRequest.getSortDesc();
+        if (ArrayUtil.isNotEmpty(sortBy)) {
+            for (int i = 0; i < sortBy.length; i++) {
+                String columnName = sortBy[i];
+                Boolean isDesc = BooleanUtil.isTrue(ArrayUtil.get(sortDesc, i));
+                if (isDesc) {
+                    exampleBuilder.orderByDesc(columnName);
+                } else {
+                    exampleBuilder.orderByAsc(columnName);
+                }
             }
         }
 
