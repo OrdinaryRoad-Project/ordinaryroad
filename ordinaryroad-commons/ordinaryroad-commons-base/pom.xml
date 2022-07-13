@@ -29,15 +29,15 @@
     <parent>
         <artifactId>ordinaryroad-commons</artifactId>
         <groupId>tech.ordinaryroad</groupId>
-        <version>1.3.0</version>
+        <version>1.3.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>ordinaryroad-commons-base</artifactId>
 
     <properties>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
     </properties>
 
 </project>
