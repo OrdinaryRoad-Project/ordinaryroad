@@ -263,13 +263,6 @@
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
-            <!-- ordinaryroad-commons-thingsboard -->
-            <dependency>
-                <groupId>tech.ordinaryroad</groupId>
-                <artifactId>ordinaryroad-commons-thingsboard</artifactId>
-                <version>${ordinaryroad.version}</version>
-            </dependency>
-
             <!-- ordinaryroad-commons-kafka -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>

@@ -41,7 +41,6 @@
         <module>ordinaryroad-commons-mybatis</module>
         <module>ordinaryroad-commons-satoken</module>
         <module>ordinaryroad-commons-minio</module>
-        <module>ordinaryroad-commons-thingsboard</module>
         <module>ordinaryroad-commons-kafka</module>
         <module>ordinaryroad-commons-mybatis-quarkus</module>
         <module>ordinaryroad-commons-core-quarkus</module>
