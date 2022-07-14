@@ -37,13 +37,6 @@
     <url>https://ordinaryroad.top</url>
     <description>OrdinaryRoad</description>
 
-    <repositories>
-        <repository>
-            <id>thingsboard</id>
-            <url>https://repo.thingsboard.io/artifactory/libs-release-public</url>
-        </repository>
-    </repositories>
-
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
@@ -83,7 +76,6 @@
         <metadata-extractor.version>2.16.0</metadata-extractor.version>
         <jiguang-common.version>1.2.0</jiguang-common.version>
         <jpush-client.version>3.6.1</jpush-client.version>
-        <thingsboard.rest-client.version>3.3.4.1</thingsboard.rest-client.version>
         <jts.version>1.18.2</jts.version>
         <spatial4j.version>0.7</spatial4j.version>
     </properties>
@@ -362,13 +354,6 @@
                 <groupId>cn.jpush.api</groupId>
                 <artifactId>jpush-client</artifactId>
                 <version>${jpush-client.version}</version>
-            </dependency>
-
-            <!-- ThingsBoard Client -->
-            <dependency>
-                <groupId>org.thingsboard</groupId>
-                <artifactId>rest-client</artifactId>
-                <version>${thingsboard.rest-client.version}</version>
             </dependency>
 
             <!-- jts-core -->
