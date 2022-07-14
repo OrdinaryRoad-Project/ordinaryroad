@@ -45,10 +45,6 @@
     </repositories>
 
     <properties>
-        <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
-        <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-        <quarkus.platform.version>2.10.1.Final</quarkus.platform.version>
-
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <ordinaryroad.version>1.3.1</ordinaryroad.version>
@@ -115,15 +111,6 @@
     <!-- 依赖声明 -->
     <dependencyManagement>
         <dependencies>
-            <!-- quarkus -->
-            <dependency>
-                <groupId>${quarkus.platform.group-id}</groupId>
-                <artifactId>${quarkus.platform.artifact-id}</artifactId>
-                <version>${quarkus.platform.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
             <!-- Spring Boot 依赖配置 -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
@@ -221,24 +208,10 @@
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
-            <!-- ordinaryroad-commons-core-quarkus -->
-            <dependency>
-                <groupId>tech.ordinaryroad</groupId>
-                <artifactId>ordinaryroad-commons-core-quarkus</artifactId>
-                <version>${ordinaryroad.version}</version>
-            </dependency>
-
             <!-- ordinaryroad-commons-mybatis -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-mybatis</artifactId>
-                <version>${ordinaryroad.version}</version>
-            </dependency>
-
-            <!-- ordinaryroad-commons-mybatis-quarkus -->
-            <dependency>
-                <groupId>tech.ordinaryroad</groupId>
-                <artifactId>ordinaryroad-commons-mybatis-quarkus</artifactId>
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
