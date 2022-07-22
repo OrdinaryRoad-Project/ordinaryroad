@@ -86,7 +86,6 @@
         <module>ordinaryroad-auth-server</module>
         <module>ordinaryroad-gateway</module>
         <module>ordinaryroad-push</module>
-        <module>ordinaryroad-im</module>
     </modules>
 
     <!-- 以下依赖 全局所有的模块都会引入 -->
@@ -253,13 +252,6 @@
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-push-api</artifactId>
-                <version>${ordinaryroad.version}</version>
-            </dependency>
-
-            <!-- ordinaryroad-im-api -->
-            <dependency>
-                <groupId>tech.ordinaryroad</groupId>
-                <artifactId>ordinaryroad-im-api</artifactId>
                 <version>${ordinaryroad.version}</version>
             </dependency>
 
