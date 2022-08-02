@@ -29,7 +29,6 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.BooleanUtil;
-import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -358,11 +357,24 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * @param t BaseDO
      */
     private void fillMetaFieldsWhenCreate(T t) {
+        // 填充uuid字段
         if (StrUtil.isBlank(t.getUuid())) {
-            String uuid = IdUtil.fastSimpleUUID();
-            log.debug("生成UUID：{}", uuid);
-            t.setUuid(uuid);
+            try {
+                String uuid = fillMetaFieldService.generateUuid(t);
+                log.debug("生成UUID：{}", uuid);
+                t.setUuid(uuid);
+            } catch (Exception e) {
+                // 如果有报错需要处理
+                log.error("TODO fillMetaFieldsWhenCreate uuid failed, " + e);
+                final EmailPushRequest emailPushRequest = new EmailPushRequest();
+                // 设置邮箱
+                emailPushRequest.setEmail(fillMetaFieldService.emailToReceiveErrorMsgWhenGenerating(t, e));
+                emailPushRequest.setTitle("创建时填充字段异常");
+                emailPushRequest.setContent("fillMetaFieldsWhenCreate uuid failed, " + ExceptionUtil.getMessage(e));
+                pushApi.email(emailPushRequest);
+            }
         }
+
         // 填充createBy字段，跳过免登接口
         String requestPath = SaHolder.getRequest().getRequestPath();
         if (PathConstants.NO_LOGIN_CREATE_PATHS.contains(requestPath)) {
