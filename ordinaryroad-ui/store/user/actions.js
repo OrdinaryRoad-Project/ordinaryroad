@@ -82,8 +82,5 @@ export default {
   },
   setRememberMe ({ commit }, rememberMe) {
     commit('SET_REMEMBER_ME', rememberMe)
-  },
-  setUserInfo ({ commit }, userInfo) {
-    commit('SET_TOKEN_INFO', userInfo)
   }
 }
