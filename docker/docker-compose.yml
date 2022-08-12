@@ -178,11 +178,3 @@ services:
       QQ_MAIL_AUTHORIZATION_CODE:
     hostname: ordinaryroad-push
     restart: always
-
-  ordinaryroad-im:
-    image: ordinaryroad-im
-    container_name: ordinaryroad-im
-    build:
-      context: ./ordinaryroad-im
-    hostname: ordinaryroad-im
-    restart: always
