@@ -425,4 +425,14 @@
             </properties>
         </profile>
     </profiles>
+
+    <!-- omitted xml -->
+    <distributionManagement>
+        <repository>
+            <!--必须与 settings.xml 的 id 一致-->
+            <id>ordinaryroad-ordinaryroad-maven-pro</id>
+            <name>maven-pro</name>
+            <url>https://ordinaryroad-maven.pkg.coding.net/repository/ordinaryroad/maven-pro/</url>
+        </repository>
+    </distributionManagement>
 </project>
