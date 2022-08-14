@@ -56,12 +56,11 @@ public class SaOAuth2TemplateImpl extends SaOAuth2Template {
         Result<OAuth2RegisteredClientDTO> byUniqueColumn = oAuth2RegisteredClientApi.findByUniqueColumn(request);
         if (byUniqueColumn.getSuccess()) {
             OAuth2RegisteredClientDTO data = byUniqueColumn.getData();
-            return new SaClientModel(
-                    data.getClientId(),
-                    data.getClientSecret(),
-                    data.getScopes(),
-                    data.getRedirectUris()
-            );
+            return new SaClientModel()
+                    .setClientId(data.getClientId())
+                    .setClientSecret(data.getClientSecret())
+                    .setContractScope(data.getScopes())
+                    .setAllowUrl(data.getRedirectUris());
         }
         return null;
     }
