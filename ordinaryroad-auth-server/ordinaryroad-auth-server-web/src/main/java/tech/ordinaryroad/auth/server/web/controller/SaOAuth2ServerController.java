@@ -61,6 +61,9 @@ public class SaOAuth2ServerController implements IOAuth2Api {
     @RequestMapping(value = "/oauth2/*", method = {RequestMethod.GET, RequestMethod.POST})
     public Object oauth2(@RequestParam(defaultValue = "false") Boolean wrapped) {
         Object o = SaOAuth2Handle.serverRequest();
+        if (SaHolder.getRequest().isPath(SaOAuth2Consts.Api.doConfirm)) {
+            return o;
+        }
         if (o instanceof SaResult) {
             SaResult saResult = (SaResult) o;
             Object data = saResult.getData();
