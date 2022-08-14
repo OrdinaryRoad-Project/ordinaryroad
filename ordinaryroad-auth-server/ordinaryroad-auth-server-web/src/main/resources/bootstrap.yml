@@ -10,7 +10,7 @@ spring:
     name: ordinaryroad-auth-server
   cloud:
     nacos:
-      server-addr: ordinaryroad-nacos:8848
+      server-addr: @nacos.url@
       config:
         file-extension: yaml
         shared-configs:

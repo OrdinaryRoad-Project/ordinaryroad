@@ -287,9 +287,9 @@ export default {
       if (!this.showSelect || this.showBaseHeadersWhenSelecting) {
         headers.push(
           { text: this.$t('createdTime'), value: 'createdTime', width: '220' },
-          { text: this.$t('createBy'), value: 'createBy' },
+          { text: this.$t('createBy'), value: 'createBy', width: '100' },
           { text: this.$t('updateTime'), value: 'updateTime', width: '220' },
-          { text: this.$t('updateBy'), value: 'updateBy' }
+          { text: this.$t('updateBy'), value: 'updateBy', width: '100' }
         )
       }
 

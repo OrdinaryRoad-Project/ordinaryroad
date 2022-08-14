@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.commons.mybatis.service;
 
+import cn.hutool.core.util.IdUtil;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
 /**
@@ -30,6 +31,16 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
  * @date 2022/3/26
  */
 public interface IFillMetaFieldService<T extends BaseDO> {
+
+    /**
+     * 创建时生成Uuid字段
+     *
+     * @param t BaseDO
+     * @return String
+     */
+    default String generateUuid(T t) {
+        return IdUtil.simpleUUID();
+    }
 
     /**
      * 创建时生成CreateBy字段
