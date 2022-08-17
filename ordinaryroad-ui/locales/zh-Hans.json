@@ -1,4 +1,5 @@
 {
+  "registeredClient": "第三方客户端",
   "document": "文档",
   "scopes": "授权范围",
   "redirectUris": "重定向链接",
