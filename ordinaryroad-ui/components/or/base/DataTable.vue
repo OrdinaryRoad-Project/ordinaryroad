@@ -64,7 +64,9 @@
               outlined
               @click="options={...options,page:1}"
             >
-              <v-icon>mdi-magnify</v-icon>
+              <v-icon left>
+                mdi-magnify
+              </v-icon>
               {{ $t('search') }}
             </v-btn>
             <v-btn
@@ -72,7 +74,9 @@
               outlined
               @click="resetSearch"
             >
-              <v-icon>mdi-refresh</v-icon>
+              <v-icon left>
+                mdi-refresh
+              </v-icon>
               {{ $t('reset') }}
             </v-btn>
           </v-col>
@@ -91,7 +95,9 @@
               dark
               @click="insertItem"
             >
-              <v-icon>mdi-plus</v-icon>
+              <v-icon left>
+                mdi-plus
+              </v-icon>
               {{ $t('insert') }}
             </v-btn>
           </slot>
@@ -102,7 +108,9 @@
             dark
             @click="getItems"
           >
-            <v-icon>mdi-reload</v-icon>
+            <v-icon left>
+              mdi-reload
+            </v-icon>
             {{ $t('refresh') }}
           </v-btn>
 
@@ -286,10 +294,26 @@ export default {
       // 基础headers
       if (!this.showSelect || this.showBaseHeadersWhenSelecting) {
         headers.push(
-          { text: this.$t('createdTime'), value: 'createdTime', width: '220' },
-          { text: this.$t('createBy'), value: 'createBy', width: '100' },
-          { text: this.$t('updateTime'), value: 'updateTime', width: '220' },
-          { text: this.$t('updateBy'), value: 'updateBy', width: '100' }
+          {
+            text: this.$t('createdTime'),
+            value: 'createdTime',
+            width: '220'
+          },
+          {
+            text: this.$t('createBy'),
+            value: 'createBy',
+            width: '100'
+          },
+          {
+            text: this.$t('updateTime'),
+            value: 'updateTime',
+            width: '220'
+          },
+          {
+            text: this.$t('updateBy'),
+            value: 'updateBy',
+            width: '100'
+          }
         )
       }
 
@@ -324,7 +348,11 @@ export default {
   },
   methods: {
     onClickRow (item, { isSelected }) {
-      this.showSelect && this.select({ item, value: !isSelected, emit: true })
+      this.showSelect && this.select({
+        item,
+        value: !isSelected,
+        emit: true
+      })
     },
     resetSearch () {
       this.$refs.searchForm.reset()
@@ -347,7 +375,8 @@ export default {
         // 删除
         if (dialog.isConfirm) {
           this.$emit('deleteItem', {
-            item: this.selectedItem, index: this.selectedIndex
+            item: this.selectedItem,
+            index: this.selectedIndex
           })
         }
       })
@@ -356,7 +385,8 @@ export default {
       this.selectedIndex = this.dataTableParams.items.indexOf(item)
       this.selectedItem = Object.assign({}, item)
       this.$emit('editItem', {
-        item: this.selectedItem, index: this.selectedIndex
+        item: this.selectedItem,
+        index: this.selectedIndex
       })
     },
     getItems () {
@@ -372,7 +402,10 @@ export default {
         sortDesc
       })
     },
-    onItemSelected ({ item, value }) {
+    onItemSelected ({
+      item,
+      value
+    }) {
       if (!item) {
         return
       }
@@ -386,7 +419,10 @@ export default {
       }
       this.$emit('itemsSelected', this.selectedItems)
     },
-    onToggleSelectAll ({ items, value }) {
+    onToggleSelectAll ({
+      items,
+      value
+    }) {
       // 考虑不在当前显示的items情况，items:1,2,3,4,5和selectedItems:1,3,5,7两个合并
       items.forEach((item) => {
         const searchElement = this.selectReturnObject ? Object.assign({}, item) : item.uuid
@@ -415,7 +451,11 @@ export default {
       this.dataTableParams.loading = loading
     },
 
-    select ({ item, value, emit }) {
+    select ({
+      item,
+      value,
+      emit
+    }) {
       this.$refs.table.select(item, value, emit)
     },
     /**
@@ -442,7 +482,11 @@ export default {
      * 加载完成后通过$refs手动调用
      */
     loadSuccessfully (items, totalItems) {
-      this.dataTableParams = { loading: false, items, totalItems }
+      this.dataTableParams = {
+        loading: false,
+        items,
+        totalItems
+      }
       if (this.showSelect) {
         // 每次加载完成需要设置选择的item
         this.setPresetSelectedItems()
@@ -485,7 +529,10 @@ export default {
         })
         // 剩余选中的，但是VDataTable还没有加载到
         this.presetSelectedItemsModel.forEach((item) => {
-          this.onItemSelected({ item, value: true })
+          this.onItemSelected({
+            item,
+            value: true
+          })
         })
       }, 200)
     }
