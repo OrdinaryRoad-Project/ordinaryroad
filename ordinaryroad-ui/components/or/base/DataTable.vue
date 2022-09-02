@@ -47,6 +47,7 @@
     @click:row="onClickRow"
     @item-selected="onItemSelected"
     @toggle-select-all="onToggleSelectAll"
+    @current-items="onCurrentItems"
   >
     <template #top>
       <slot name="searchFormBefore" />
@@ -347,6 +348,9 @@ export default {
   mounted () {
   },
   methods: {
+    onCurrentItems (items) {
+      this.$emit('currentItems', items)
+    },
     onClickRow (item, { isSelected }) {
       this.showSelect && this.select({
         item,
