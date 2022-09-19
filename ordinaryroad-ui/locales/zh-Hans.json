@@ -68,6 +68,7 @@
   },
   "invalidPassword": "必须包含大小写字母和数字的组合，可以使用特殊字符",
   "invalidEmail": "邮箱格式错误",
+  "maxNSize": "个数不能大于{0}",
   "minNChars": "长度不能小于{0}",
   "maxNChars": "长度不能大于{0}",
   "orUseORAccount": "或者使用OR账号",
