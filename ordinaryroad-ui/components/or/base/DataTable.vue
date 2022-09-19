@@ -238,6 +238,10 @@ export default {
       type: Array,
       default: () => []
     },
+    showUpdateHeaders: {
+      type: Boolean,
+      default: true
+    },
 
     tableHeaders: {
       type: Array,
@@ -304,18 +308,22 @@ export default {
             text: this.$t('createBy'),
             value: 'createBy',
             width: '100'
-          },
-          {
-            text: this.$t('updateTime'),
-            value: 'updateTime',
-            width: '220'
-          },
-          {
-            text: this.$t('updateBy'),
-            value: 'updateBy',
-            width: '100'
           }
         )
+        if (this.showUpdateHeaders) {
+          headers.push(
+            {
+              text: this.$t('updateTime'),
+              value: 'updateTime',
+              width: '220'
+            },
+            {
+              text: this.$t('updateBy'),
+              value: 'updateBy',
+              width: '100'
+            }
+          )
+        }
       }
 
       // 操作headers
