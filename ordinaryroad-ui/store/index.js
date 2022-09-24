@@ -28,6 +28,9 @@ import { SELECTED_LANG_OPTION_KEY } from 'static/js/utils/cookie/vuex/i18n'
 
 function parseCookieString (string) {
   const cookie = {}
+  if (!string) {
+    return cookie
+  }
   const cookies = string.split('; ')
   // 遍历Cookie，取得需要的值
   cookies.forEach((e) => {
