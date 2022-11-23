@@ -1,4 +1,5 @@
 {
+  "registeredClient": "Registered Client",
   "document": "Document",
   "scopes": "Scopes",
   "redirectUris": "Redirect Uris",
@@ -67,6 +68,7 @@
   },
   "invalidPassword": "Must contain a combination of uppercase and lowercase letters and numbers, special characters can be used.",
   "invalidEmail": "Invalid Email",
+  "maxNSize": "Size cannot be greater than {0}",
   "minNChars": "The length cannot be less than {0}",
   "maxNChars": "The length cannot be greater than {0}",
   "orUseORAccount": "Or use OR account",

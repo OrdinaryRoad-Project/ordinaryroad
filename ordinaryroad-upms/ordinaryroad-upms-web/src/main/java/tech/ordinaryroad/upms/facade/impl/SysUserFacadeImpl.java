@@ -118,8 +118,6 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<SysUserDTO> update(SysUserSaveRequest request) {
-        // 更新，只允许管理员和开发者
-        StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
         SysUserDO sysUserDO = objMapStruct.transfer(request);
         // 不允许更新密码
         sysUserDO.setPassword(null);
@@ -130,8 +128,6 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<Boolean> delete(BaseDeleteRequest request) {
-        // 删除，只允许管理员和开发者
-        StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
         return Result.success(sysUserService.delete(request.getUuid()));
     }
 
@@ -283,9 +279,6 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<?> resetPassword(SysUserResetPasswordRequest request) {
-        // 重置密码，只允许管理员和开发者
-        StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
-
         SysUserDO byUuid = sysUserService.findById(request.getUuid());
         if (Objects.isNull(byUuid)) {
             return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
@@ -302,9 +295,6 @@ public class SysUserFacadeImpl implements ISysUserFacade {
 
     @Override
     public Result<?> updateEnabled(SysUserUpdateEnabledRequest request) {
-        // 停用或启用账号，只允许管理员和开发者
-        StpUtil.checkRoleOr("ADMIN", "DEVELOPER");
-
         SysUserDO byUuid = sysUserService.findById(request.getUuid());
         if (Objects.isNull(byUuid)) {
             return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);

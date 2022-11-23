@@ -22,12 +22,16 @@
  * SOFTWARE.
  */
 
+import { setSelectedLangOption } from 'static/js/utils/cookie/vuex/i18n'
+
 export default {
   SET_LANG (state, { value, $i18n, $vuetify, $dayjs }) {
     if (state.locales.includes(value)) {
       $i18n.locale = value
       $vuetify.lang.current = value
       $dayjs.locale(value === 'zh-Hans' ? 'zh-cn' : value)
+
+      setSelectedLangOption(value)
 
       state.locale = value
     }

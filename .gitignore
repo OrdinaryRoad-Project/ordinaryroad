@@ -79,3 +79,4 @@ logs
 
 docker/**/*.jar
 docker/ordinaryroad-nginx/ssl
+/**/*/node_modules

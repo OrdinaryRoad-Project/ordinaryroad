@@ -28,9 +28,4 @@ package tech.ordinaryroad.commons.mybatis.type;
  * @date 2022/4/7
  */
 public class StringListTypeHandler extends BaseListTypeHandler<String> {
-
-    public StringListTypeHandler() {
-        super(String.class);
-    }
-
 }

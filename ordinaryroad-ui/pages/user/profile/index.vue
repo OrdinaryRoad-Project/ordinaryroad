@@ -54,7 +54,7 @@
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="usernameTextField.input"
-                  :rules="[$rules.required,$rules.max10Chars]"
+                  :rules="[$rules.notBlank,$rules.max10Chars]"
                   :loading="usernameTextField.loading"
                   :disabled="usernameTextField.disabled"
                   type="text"
@@ -254,7 +254,11 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title>{{ $dayjs(userInfo.user.createdTime).format('YYYY-MM-DD HH:mm:ss') }}</v-list-item-title>
+              <v-list-item-title>
+                {{
+                  $dayjs(userInfo.user.createdTime).format('YYYY-MM-DD HH:mm:ss')
+                }}
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
         </v-list>

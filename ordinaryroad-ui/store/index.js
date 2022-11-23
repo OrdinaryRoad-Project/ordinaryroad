@@ -24,9 +24,13 @@
 
 import { DRAWER_CLIPPED_KEY, DRAWER_MINI_VARIANT_KEY, SELECTED_THEME_OPTION_KEY } from 'static/js/utils/cookie/vuex/app'
 import { REMEMBER_ME_KEY, TOKEN_INFO_KEY } from 'static/js/utils/cookie/vuex/user'
+import { SELECTED_LANG_OPTION_KEY } from 'static/js/utils/cookie/vuex/i18n'
 
 function parseCookieString (string) {
   const cookie = {}
+  if (!string) {
+    return cookie
+  }
   const cookies = string.split('; ')
   // 遍历Cookie，取得需要的值
   cookies.forEach((e) => {
@@ -50,6 +54,11 @@ function getNumberFromCookie (string, key, defaultValue) {
   return fromCookie ? Number(fromCookie) : defaultValue
 }
 
+function getStringFromCookie (string, key, defaultValue) {
+  const fromCookie = getFromCookie(string, key)
+  return fromCookie ? String(fromCookie) : defaultValue
+}
+
 function getObjectFromCookie (string, key, defaultValue) {
   const fromCookie = getFromCookie(string, key)
   return fromCookie ? JSON.parse(decodeURIComponent(fromCookie)) : defaultValue
@@ -57,7 +66,8 @@ function getObjectFromCookie (string, key, defaultValue) {
 
 export const actions = {
   async nuxtServerInit ({ commit }, { $vuetify, $apisServer, $access, req, app }) {
-    const store = app.store
+    const { store, $dayjs, i18n } = app
+    const $i18n = i18n
     // 初始化，可以获取初始值
     if (typeof req !== 'undefined' && req.headers && req.headers.cookie) {
       const cookieString = req.headers.cookie
@@ -66,6 +76,12 @@ export const actions = {
       commit('app/SET_SELECTED_THEME_OPTION', {
         value: getNumberFromCookie(cookieString, SELECTED_THEME_OPTION_KEY, store.getters['app/getSelectedThemeOption']),
         $vuetify
+      })
+      commit('i18n/SET_LANG', {
+        value: getStringFromCookie(cookieString, SELECTED_LANG_OPTION_KEY, store.getters['i18n/getLocale']),
+        $i18n,
+        $vuetify,
+        $dayjs
       })
 
       commit('user/SET_REMEMBER_ME', getBooleanFromCookie(cookieString, REMEMBER_ME_KEY, store.getters['user/getRememberMe']))

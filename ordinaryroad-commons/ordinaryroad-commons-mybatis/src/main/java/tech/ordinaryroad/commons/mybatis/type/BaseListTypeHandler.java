@@ -42,12 +42,6 @@ import java.util.List;
  */
 public abstract class BaseListTypeHandler<E> extends BaseTypeHandler<List<E>> {
 
-    private final Class<E> clazz;
-
-    public BaseListTypeHandler(Class<E> clazz) {
-        this.clazz = clazz;
-    }
-
     @Override
     public void setNonNullParameter(PreparedStatement ps, int i, List<E> parameter, JdbcType jdbcType) throws SQLException {
         ps.setString(i, JSON.toJSONString(parameter));
@@ -68,8 +62,8 @@ public abstract class BaseListTypeHandler<E> extends BaseTypeHandler<List<E>> {
         return getObjectList(cs.getString(columnIndex));
     }
 
-    private List<E> getObjectList(String string) {
-        return JSON.parseObject(string, new TypeReference<List<E>>(clazz) {
+    public List<E> getObjectList(String string) {
+        return JSON.parseObject(string, new TypeReference<List<E>>() {
         });
     }
 

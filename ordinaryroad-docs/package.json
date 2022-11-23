@@ -1,0 +1,20 @@
+{
+  "name": "ordinaryroad-docs",
+  "version": "1.4.0",
+  "description": "OrdinaryRoad文档",
+  "main": "index.js",
+  "scripts": {
+    "docs:dev": "vuepress dev docs",
+    "docs:build": "vuepress build docs"
+  },
+  "keywords": [
+    "OrdinaryRoad",
+    "文档"
+  ],
+  "author": "苗锦洲",
+  "license": "MIT",
+  "devDependencies": {
+    "@vuepress/plugin-medium-zoom": "^1.9.7",
+    "vuepress": "^1.9.7"
+  }
+}
