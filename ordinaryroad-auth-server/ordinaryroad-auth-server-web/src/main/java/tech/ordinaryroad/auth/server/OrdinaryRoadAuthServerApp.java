@@ -28,16 +28,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Import;
 import org.springframework.util.StopWatch;
-import tech.ordinaryroad.commons.swagger.config.FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebMvc;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * 启动：Sa-OAuth2 Server端
  */
 @Slf4j
-@Import({FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebMvc.class})
 @EnableFeignClients({"tech.ordinaryroad.**.**.api"})
 @MapperScan({"tech.ordinaryroad.auth.server.dao"})
 @SpringBootApplication

@@ -36,7 +36,6 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
-import tech.ordinaryroad.push.api.IPushApi;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 import tk.mybatis.mapper.weekend.WeekendSqls;
@@ -66,8 +65,6 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
     protected D dao;
     @Autowired
     protected IFillMetaFieldService<T> fillMetaFieldService;
-    @Autowired
-    protected IPushApi pushApi;
 
     /**
      * 新增记录

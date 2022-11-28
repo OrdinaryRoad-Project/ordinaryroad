@@ -29,10 +29,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Import;
 import org.springframework.util.StopWatch;
 import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
-import tech.ordinaryroad.commons.swagger.config.FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebMvc;
 import tk.mybatis.spring.annotation.MapperScan;
 
 /**
@@ -40,7 +38,6 @@ import tk.mybatis.spring.annotation.MapperScan;
  * @date 2021/10/27
  */
 @Slf4j
-@Import({FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebMvc.class})
 @EnableConfigurationProperties({OrMinioProperties.class})
 @EnableDiscoveryClient
 @EnableFeignClients({"tech.ordinaryroad.**.**.api"})

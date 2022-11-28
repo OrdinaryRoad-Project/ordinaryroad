@@ -27,7 +27,7 @@ package tech.ordinaryroad.commons.swagger.config;
 
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ReflectionUtils;
@@ -47,7 +47,7 @@ import java.util.stream.Collectors;
  * @author <a href="https://blog.csdn.net/qq_35425070">StarJava_</a>
  */
 @Configuration(proxyBeanMethods = false)
-@ConditionalOnClass(WebMvcRequestHandlerProvider.class)
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
 public class FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebMvc {
 
     @Bean("springfoxHandlerProviderBeanPostProcessorWebMvc")

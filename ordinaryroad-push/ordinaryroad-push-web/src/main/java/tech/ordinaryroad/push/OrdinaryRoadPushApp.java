@@ -28,16 +28,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.context.annotation.Import;
 import org.springframework.util.StopWatch;
-import tech.ordinaryroad.commons.swagger.config.FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebMvc;
 
 /**
  * @author mjz
  * @date 2021/10/27
  */
 @Slf4j
-@Import({FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebMvc.class})
 @EnableDiscoveryClient
 @EnableFeignClients({"tech.ordinaryroad.**.**.api"})
 @SpringBootApplication
