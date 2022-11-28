@@ -66,7 +66,7 @@ public class ExceptionUtils {
             return Result.fail(StatusCode.NO_ROLE.getCode(), simpleMessage);
         } else if (saTokenException instanceof NotLoginException) {
             return Result.fail(StatusCode.USER_NOT_LOGIN.getCode(), simpleMessage);
-        } else if (saTokenException instanceof DisableLoginException) {
+        } else if (saTokenException instanceof DisableServiceException) {
             return Result.fail(StatusCode.USER_ACCOUNT_DISABLE.getCode(), simpleMessage);
         } else if (saTokenException instanceof SaOAuth2Exception) {
             return Result.fail(StatusCode.COMMON_EXCEPTION.getCode(), simpleMessage);

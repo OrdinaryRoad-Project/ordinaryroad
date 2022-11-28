@@ -44,31 +44,30 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <spring-boot.version>2.4.6</spring-boot.version>
-        <spring-cloud.version>2020.0.3</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.1</spring-cloud-alibaba.version>
+        <spring-boot.version>2.6.11</spring-boot.version>
+        <spring-cloud.version>2021.0.4</spring-cloud.version>
+        <spring-cloud-alibaba.version>2021.0.4.0</spring-cloud-alibaba.version>
 
         <knife4j.version>3.0.3</knife4j.version>
 
-        <mapper-spring-boot-starter.version>2.1.5</mapper-spring-boot-starter.version>
+        <mapper-spring-boot-starter.version>4.2.2</mapper-spring-boot-starter.version>
 
         <!--common-->
+        <hutool.version>5.8.9</hutool.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-lang.version>3.12.0</commons-lang.version>
         <commons-collections.version>4.4</commons-collections.version>
         <commons.io.version>2.11.0</commons.io.version>
-        <hutool.version>5.7.15</hutool.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <lombok.version>1.18.24</lombok.version>
-        <dynamic-datasource-spring-boot-starter.version>3.4.1</dynamic-datasource-spring-boot-starter.version>
-        <pagehelper-starter.version>1.4.3</pagehelper-starter.version>
+        <dynamic-datasource-spring-boot-starter.version>3.5.2</dynamic-datasource-spring-boot-starter.version>
+        <pagehelper-starter.version>1.4.5</pagehelper-starter.version>
         <swagger-annotations.version>1.5.22</swagger-annotations.version>
-        <sa-token.version>1.30.0</sa-token.version>
-        <spring-cloud-starter-loadbalancer.version>3.0.4</spring-cloud-starter-loadbalancer.version>
-        <fastjson2.version>2.0.4</fastjson2.version>
-        <pagehelper.version>5.3.1</pagehelper.version>
+        <sa-token.version>1.32.0</sa-token.version>
+        <fastjson2.version>2.0.19</fastjson2.version>
+        <pagehelper.version>5.3.2</pagehelper.version>
         <minio.version>8.0.0</minio.version>
         <thumbnailator.version>0.4.16</thumbnailator.version>
 
@@ -159,16 +158,6 @@
                 <groupId>tk.mybatis</groupId>
                 <artifactId>mapper-spring-boot-starter</artifactId>
                 <version>${mapper-spring-boot-starter.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <artifactId>mybatis</artifactId>
-                        <groupId>org.mybatis</groupId>
-                    </exclusion>
-                    <exclusion>
-                        <artifactId>mybatis-spring</artifactId>
-                        <groupId>org.mybatis</groupId>
-                    </exclusion>
-                </exclusions>
             </dependency>
 
             <!-- pagehelper -->

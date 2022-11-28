@@ -21,52 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.entity;
+package tech.ordinaryroad.upms.config;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import cn.hutool.extra.spring.SpringUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.annotation.Configuration;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
-
-import javax.persistence.Table;
+import tech.ordinaryroad.commons.mybatis.service.impl.FillMetaFieldServiceImpl;
+import tech.ordinaryroad.upms.entity.SysUserDO;
 
 /**
- * 字典项
- *
  * @author mjz
- * @date 2022/1/5
+ * @date 2022/11/25
  */
-@Getter
-@Setter
-@ToString
-@Table(name = "sys_dict_item")
-public class SysDictItemDO extends BaseDO {
+@Slf4j
+@Configuration
+public class SysFillMetaFieldServiceImpl<T extends BaseDO> extends FillMetaFieldServiceImpl<T> {
 
-    private static final long serialVersionUID = 2264003877437352206L;
-
-    /**
-     * 字典uuid
-     */
-    private String dictUuid;
-
-    /**
-     * 显示标签
-     */
-    private String label;
-
-    /**
-     * 值
-     */
-    private String value;
-
-    /**
-     * 显示排序
-     */
-    private Integer sort;
-
-    /**
-     * 备注
-     */
-    private String remark;
+    @Override
+    public void beforeInsert(T t) {
+        if (t instanceof SysUserDO) {
+            SysUserDO sysUserDO = (SysUserDO) t;
+            // or帐号生成服务
+            SysOrNumberService orNumberService = SpringUtil.getBean(SysOrNumberService.class);
+            sysUserDO.setOrNumber(orNumberService.genId());
+        }
+    }
 
 }

@@ -82,6 +82,7 @@ public class SaOAuth2Configuration {
                                     StpUtil.disable(orNumber, -1L);
                                 }
                             }
+                            StpUtil.checkDisable(data.getOrNumber());
                             StpUtil.login(data.getOrNumber());
                             log.info("登录成功：{}", orNumber);
                             return Result.success();

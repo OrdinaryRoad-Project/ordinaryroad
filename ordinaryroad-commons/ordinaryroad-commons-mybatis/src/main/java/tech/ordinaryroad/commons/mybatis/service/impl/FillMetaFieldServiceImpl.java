@@ -23,12 +23,18 @@
  */
 package tech.ordinaryroad.commons.mybatis.service.impl;
 
+import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.exceptions.ExceptionUtil;
+import cn.hutool.core.util.IdUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Configuration;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 import tech.ordinaryroad.commons.mybatis.service.IFillMetaFieldService;
+import tech.ordinaryroad.push.api.IPushApi;
+import tech.ordinaryroad.push.request.EmailPushRequest;
 
 /**
  * @author mjz
@@ -39,14 +45,52 @@ import tech.ordinaryroad.commons.mybatis.service.IFillMetaFieldService;
 @Configuration
 public class FillMetaFieldServiceImpl<T extends BaseDO> implements IFillMetaFieldService<T> {
 
+    @Autowired
+    protected IPushApi pushApi;
+
     @Override
-    public String generateCreateBy(T t) {
+    public String generateUuid(T t) {
+        return IdUtil.simpleUUID();
+    }
+
+    @Override
+    public void generateUuidFailed(T t, Exception e) {
+        String requestPath = SaHolder.getRequest().getRequestPath();
+        final EmailPushRequest emailPushRequest = new EmailPushRequest();
+        // 设置邮箱
+        emailPushRequest.setEmail(emailToReceiveErrorMsgWhenGenerating(t, e));
+        emailPushRequest.setTitle("创建时填充字段异常");
+        emailPushRequest.setContent("fillMetaFieldsWhenCreate uuid failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
+        pushApi.email(emailPushRequest);
+    }
+
+    @Override
+    public String generateCreateBy() {
         return StpUtil.getLoginIdAsString();
     }
 
     @Override
-    public String generateUpdateBy(T t) {
+    public void generateCreateByFailed(T t, Exception e) {
+        String requestPath = SaHolder.getRequest().getRequestPath();
+        final EmailPushRequest emailPushRequest = new EmailPushRequest();
+        emailPushRequest.setEmail(emailToReceiveErrorMsgWhenGenerating(t, e));
+        emailPushRequest.setTitle("创建时填充字段异常");
+        emailPushRequest.setContent("fillMetaFieldsWhenCreate createBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
+        pushApi.email(emailPushRequest);
+    }
+
+    @Override
+    public String generateUpdateBy() {
         return StpUtil.getLoginIdAsString();
     }
 
+    @Override
+    public void generateUpdateByFailed(T t, Exception e) {
+        String requestPath = SaHolder.getRequest().getRequestPath();
+        final EmailPushRequest emailPushRequest = new EmailPushRequest();
+        emailPushRequest.setEmail(emailToReceiveErrorMsgWhenGenerating(t, e));
+        emailPushRequest.setTitle("更新时填充字段异常");
+        emailPushRequest.setContent("fillMetaFieldsWhenCreate updateBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
+        pushApi.email(emailPushRequest);
+    }
 }

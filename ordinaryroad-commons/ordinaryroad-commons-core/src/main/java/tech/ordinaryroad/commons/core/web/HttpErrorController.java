@@ -60,11 +60,4 @@ public class HttpErrorController implements ErrorController {
             return HttpStatus.INTERNAL_SERVER_ERROR;
         }
     }
-
-
-    @Override
-    public String getErrorPath() {
-        return null;
-    }
-
 }

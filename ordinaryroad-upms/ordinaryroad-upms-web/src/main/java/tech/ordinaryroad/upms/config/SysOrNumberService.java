@@ -21,10 +21,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.service;
+package tech.ordinaryroad.upms.config;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.upms.service.SysUserService;
 
 /**
  * @author mjz
@@ -38,8 +39,8 @@ public class SysOrNumberService {
 
     public String genId() {
         // TODO 账号生成
-        Integer integer = userService.selectCount();
-        return String.valueOf(10000 + integer + 1);
+        long userCount = userService.selectCount();
+        return String.valueOf(10000 + userCount + 1);
     }
 
 }

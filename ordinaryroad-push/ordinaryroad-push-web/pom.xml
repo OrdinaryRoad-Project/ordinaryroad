@@ -62,10 +62,10 @@
         </dependency>
 
         <!-- ordinaryroad-commons-mybatis -->
-        <dependency>
-            <groupId>tech.ordinaryroad</groupId>
-            <artifactId>ordinaryroad-commons-mybatis</artifactId>
-        </dependency>
+        <!--        <dependency>-->
+        <!--            <groupId>tech.ordinaryroad</groupId>-->
+        <!--            <artifactId>ordinaryroad-commons-mybatis</artifactId>-->
+        <!--        </dependency>-->
 
         <dependency>
             <groupId>tech.ordinaryroad</groupId>

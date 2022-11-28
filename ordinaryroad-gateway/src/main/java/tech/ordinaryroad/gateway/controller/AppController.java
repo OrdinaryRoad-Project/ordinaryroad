@@ -100,6 +100,7 @@ public class AppController {
         JSONObject params = new JSONObject();
         params.put(SaOAuth2Consts.Param.grant_type, SaOAuth2Consts.GrantType.password);
         params.put(SaOAuth2Consts.Param.client_id, oAuth2ClientProperties.getClientId());
+        params.put(SaOAuth2Consts.Param.client_secret, oAuth2ClientProperties.getClientSecret());
         params.put(SaOAuth2Consts.Param.scope, "userinfo");
         params.put(SaOAuth2Consts.Param.username, orNumber);
         params.put(SaOAuth2Consts.Param.password, request.getPassword());
@@ -161,6 +162,7 @@ public class AppController {
         }
         String orNumber = orNumberResult.getData();
         // 返回相关参数
+        StpUtil.checkDisable(orNumber);
         StpUtil.login(orNumber, BooleanUtil.isTrue(rememberMe));
         String tokenValue = StpUtil.getTokenValue();
         data.put("satoken", tokenValue);

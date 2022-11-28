@@ -25,6 +25,7 @@ package tech.ordinaryroad.upms.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
 import javax.persistence.Table;
@@ -37,10 +38,11 @@ import javax.persistence.Table;
  */
 @Getter
 @Setter
+@ToString
 @Table(name = "sys_file")
 public class SysFileDO extends BaseDO {
 
-    private static final long serialVersionUID = 9075577780013301875L;
+    private static final long serialVersionUID = 1373427079137068203L;
 
     /**
      * 桶名称
