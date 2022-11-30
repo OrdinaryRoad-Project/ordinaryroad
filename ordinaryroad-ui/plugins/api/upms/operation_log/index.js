@@ -28,8 +28,8 @@ export default {
   initAxios (axios) {
     $axios = $axios || axios
   },
-  list: (offset, limit, sortBy, sortDesc, { type, method, status }) => {
-    const data = { offset, limit, sortBy, sortDesc, type, method, status }
+  list: (offset, limit, sortBy, sortDesc, { type, method, status, createBy }) => {
+    const data = { offset, limit, sortBy, sortDesc, type, method, status, createBy }
     return $axios({ url: '/upms/operation_log/list', method: 'post', data })
   },
   delete (id) {

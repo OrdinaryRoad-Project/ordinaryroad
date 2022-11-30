@@ -25,7 +25,7 @@
 <template>
   <div>
     <base-material-card
-      :icon="`mdi-file-multiple`"
+      :icon="`mdi-text-box-multiple`"
       :title="$t('menuTitles.operationLogManagement')"
     >
       <or-data-table-upms-operation-log />
