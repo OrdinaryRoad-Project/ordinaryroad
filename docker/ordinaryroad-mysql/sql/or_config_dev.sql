@@ -11,22 +11,23 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `config_info`;
 CREATE TABLE `config_info`
 (
-    `id`           bigint(0)                                        NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `data_id`      varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'data_id',
-    `group_id`     varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL,
-    `content`      longtext CHARACTER SET utf8 COLLATE utf8_bin     NOT NULL COMMENT 'content',
-    `md5`          varchar(32) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL COMMENT 'md5',
-    `gmt_create`   datetime(0)                                      NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-    `gmt_modified` datetime(0)                                      NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-    `src_user`     text CHARACTER SET utf8 COLLATE utf8_bin         NULL COMMENT 'source user',
-    `src_ip`       varchar(50) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL COMMENT 'source ip',
-    `app_name`     varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL,
-    `tenant_id`    varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT '' COMMENT '租户字段',
-    `c_desc`       varchar(256) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL,
-    `c_use`        varchar(64) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
-    `effect`       varchar(64) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
-    `type`         varchar(64) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
-    `c_schema`     text CHARACTER SET utf8 COLLATE utf8_bin         NULL,
+    `id`                 bigint(0)                                        NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `data_id`            varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL COMMENT 'data_id',
+    `group_id`           varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL,
+    `content`            longtext CHARACTER SET utf8 COLLATE utf8_bin     NOT NULL COMMENT 'content',
+    `md5`                varchar(32) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL COMMENT 'md5',
+    `gmt_create`         datetime(0)                                      NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+    `gmt_modified`       datetime(0)                                      NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+    `src_user`           text CHARACTER SET utf8 COLLATE utf8_bin         NULL COMMENT 'source user',
+    `src_ip`             varchar(50) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL COMMENT 'source ip',
+    `app_name`           varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL,
+    `tenant_id`          varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT '' COMMENT '租户字段',
+    `c_desc`             varchar(256) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL,
+    `c_use`              varchar(64) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
+    `effect`             varchar(64) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
+    `type`               varchar(64) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
+    `c_schema`           text CHARACTER SET utf8 COLLATE utf8_bin         NULL,
+    `encrypted_data_key` text                                             NOT NULL COMMENT '秘钥',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `uk_configinfo_datagrouptenant` (`data_id`, `group_id`, `tenant_id`) USING BTREE
 ) ENGINE = InnoDB
@@ -38,66 +39,501 @@ CREATE TABLE `config_info`
 -- ----------------------------
 -- Records of config_info
 -- ----------------------------
-INSERT INTO `config_info`
-VALUES (1, 'ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP',
-        'spring:\r\n  devtools:\r\n    livereload:\r\n      port: 39302\r\n  # 数据库配置\r\n  datasource:\r\n    dynamic:\r\n      datasource:\r\n        master:\r\n          driver-class-name: com.mysql.cj.jdbc.Driver\r\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\r\n          username: root\r\n          password: h2IRXM8k4Yne9Zii',
-        '4df68b481fc564de14c4e22e4ee956b2', '2021-12-14 00:36:20', '2022-01-11 14:45:03', 'nacos', '0:0:0:0:0:0:0:1',
-        '', 'demo', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (2, 'ordinaryroad-auth-server-dev.yaml', 'DEFAULT_GROUP',
-        'spring:\n  devtools:\n    livereload:\n      port: 39302\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root',
-        '4df68b481fc564de14c4e22e4ee956b2', '2021-12-14 00:36:55', '2022-01-05 13:05:41', 'nacos', '0:0:0:0:0:0:0:1',
-        '', 'dev', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (3, 'ordinaryroad-demo.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  commons:\n    swagger:\n      endpoints:\n        token-request:\n          url: https://auth-server.ordinaryroad.tech:8302/oauth2/authorize\n          client-id: ordinaryroad-knife\n          client-secret: secret\n        token:\n          url: https://auth-server.ordinaryroad.tech:8302/oauth2/token\n          token-name: access_token\n  minio:\n    endpoint: http://ordinaryroad-minio:9000\n    accessKey: minio\n    secretKey: TIVOo8nQZ2bjE7R5\n\nfeign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  servlet:\n    multipart:\n      # 单文件限制大小\n      max-file-size: 100MB\n      # 总文件限制的大小\n      max-request-size: 100MB\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0\n# MyBatis\nmybatis:\n  mapper-locations: classpath:mapper/*.xml\n  configuration:\n    map-underscore-to-camel-case: true',
-        '0105af763e52e77ba7ef125e65b09c62', '2021-12-14 00:36:20', '2022-03-11 22:37:01', 'nacos', '172.22.0.12', '',
-        'demo', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (4, 'ordinaryroad-dev.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  commons:\n    swagger:\n      endpoints:\n        token-request:\n          url: http://ordinaryroad-auth-server:9302/oauth2/authorize\n          client-id: ordinaryroad-knife\n          client-secret: secret\n        token:\n          url: http://ordinaryroad-auth-server:9302/oauth2/token\n          token-name: access_token\n  minio:\n    endpoint: http://play.min.io\n    accessKey: Q3AM3UQ867SPQQA43P2F\n    secretKey: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG\n\nfeign:\n  client:\n    config:\n      default:\n        loggerLevel: BASIC\nspring:\n  servlet:\n    multipart:\n      # 单文件限制大小\n      max-file-size: 100MB\n      # 总文件限制的大小\n      max-request-size: 100MB\n  # 邮箱配置\n  mail:\n    port: 465\n    #邮件协议smtp\n    host: smtp.qq.com\n    #发送者的邮件的用户名\n    username: 1962247851@qq.com\n    #移动端客户授权码(在邮箱中设置)\n    password: ${QQ_MAIL_AUTHORIZATION_CODE}\n    #使用的编码\n    default-encoding: utf-8\n    properties:\n      mail:\n        smtp:\n          auth: true\n          starttls:\n            enable: true\n            required: true\n          ssl:\n            enable: true\n          socketFactory:\n            port: 465\n            class: javax.net.ssl.SSLSocketFactory\n            fallback: false\n  # redis配置\n  redis:\n    # Redis数据库索引（默认为0）\n    database: 0\n    # Redis服务器地址\n    host: ordinaryroad-redis\n    # Redis服务器连接端口\n    port: 6379\n    # Redis服务器连接密码（默认为空）\n    password:\n    # 连接超时时间（毫秒）\n    timeout: 10000ms\n    lettuce:\n      pool:\n        # 连接池最大连接数\n        max-active: 200\n        # 连接池最大阻塞等待时间（使用负值表示没有限制）\n        max-wait: -1ms\n        # 连接池中的最大空闲连接\n        max-idle: 10\n        # 连接池中的最小空闲连接\n        min-idle: 0\n# MyBatis\nmybatis:\n  mapper-locations: classpath:mapper/*.xml\n  configuration:\n    map-underscore-to-camel-case: true',
-        'f18fc142afb2cca363cb5e80ec7f0f14', '2021-12-14 00:36:55', '2022-03-11 22:37:15', 'nacos', '172.22.0.12', '',
-        'dev', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (5, 'ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  gateway:\n    demoMode: true\n    authServerHost: https://auth-server.ordinaryroad.tech:8302\n\nsatoken:\n  client:\n    clientId: ${spring.application.name}\n    clientSecret: secret\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-im\n          uri: lb://ordinaryroad-im\n          predicates:\n            - Path=/im/**\n          filters:\n            - StripPrefix=1',
-        'b0f7f583d1209abe938a773e31434f98', '2021-12-14 00:36:20', '2022-03-09 18:00:34', 'nacos', '172.22.0.12', '',
-        'demo', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (6, 'ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  gateway:\n    demoMode: false\n    authServerHost: http://ordinaryroad-auth-server:9302\n\nsatoken:\n  client:\n    clientId: ${spring.application.name}\n    clientSecret: secret\n\nspring:\n  devtools:\n    livereload:\n      port: 39090\n  application:\n    # 应用名称\n    name: ordinaryroad-gateway\n  cloud:\n    gateway:\n      routes:\n        - id: ordinaryroad-auth-server\n          uri: lb://ordinaryroad-auth-server\n          predicates:\n            - Path=/auth/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-upms\n          uri: lb://ordinaryroad-upms\n          predicates:\n            - Path=/upms/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-push\n          uri: lb://ordinaryroad-push\n          predicates:\n            - Path=/push/**\n          filters:\n            - StripPrefix=1\n        - id: ordinaryroad-im\n          uri: lb://ordinaryroad-im\n          predicates:\n            - Path=/im/**\n          filters:\n            - StripPrefix=1\n        ',
-        '01fd405e287cb07d37e899e471ede066', '2021-12-14 00:36:55', '2022-07-12 06:55:19', 'nacos', '172.18.0.11', '',
-        'dev', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (7, 'ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  push:\n    jpush:\n      appKey: ${JPUSH_APP_KEY}\n      masterSecret: ${JPUSH_MASTER_SECRET}\n\n# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39402',
-        '0a42e928b2187368a75bc261f3db6fe0', '2021-12-14 00:36:20', '2022-03-13 16:31:48', 'nacos', '172.22.0.12', '',
-        'demo', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (8, 'ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  push:\n    jpush:\n      appKey: ${JPUSH_APP_KEY}\n      masterSecret: ${JPUSH_MASTER_SECRET}\n\n# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39402',
-        '0a42e928b2187368a75bc261f3db6fe0', '2021-12-14 00:36:55', '2022-03-13 16:31:58', 'nacos', '172.22.0.12', '',
-        'dev', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (9, 'ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: h2IRXM8k4Yne9Zii\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false',
-        '8d24d569bb9868ce4a2937dc880c8ed4', '2021-12-14 00:36:20', '2022-01-20 12:01:23', 'nacos', '172.18.0.11', '',
-        'demo', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (10, 'ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP',
-        '# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39401\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false\n# swagger配置\nswagger:\n  title: 系统模块接口文档\n  license: Powered By OrdinaryRoad\n  licenseUrl: https://ordinaryroad.top',
-        '5f1fdd9004c3b00eb19cda7a6c220f91', '2021-12-14 00:36:55', '2022-01-05 13:05:20', 'nacos', '0:0:0:0:0:0:0:1',
-        '', 'dev', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (11, 'ordinaryroad-im-demo.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  im:\n    mimc:\n      appId: ${MIMC_APP_ID}\n      appKey: ${MIMC_APP_KEY}\n      appSecret: ${MIMC_APP_SECRET}\n\n# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39403\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3307/or_im_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: h2IRXM8k4Yne9Zii\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false',
-        'bb758d2f5a41fcdbcc7ca12acfe4276d', '2022-03-07 21:13:23', '2022-03-07 21:16:46', 'nacos', '172.18.0.11', '',
-        'demo', '', '', '', 'yaml', '');
-INSERT INTO `config_info`
-VALUES (12, 'ordinaryroad-im-dev.yaml', 'DEFAULT_GROUP',
-        'ordinaryroad:\n  im:\n    # TODO MIMC 相关 此处appId/appKey/appSec为小米MimcDemo所有，会在一定时间后失效，建议开发者自行申请\n    mimc:\n      appId: 2882303761517669588\n      appKey: 5111766983588\n      appSecret: b0L3IOz/9Ob809v8H2FbVg==\n\n# 打印Debug日志\ndebug: true\nlogging:\n  level: { tech.ordinaryroad: debug }\nspring:\n  devtools:\n    livereload:\n      port: 39403\n  # 数据库配置\n  datasource:\n    dynamic:\n      datasource:\n        master:\n          driver-class-name: com.mysql.cj.jdbc.Driver\n          url: jdbc:mysql://ordinaryroad-mysql:3306/or_im_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true\n          username: root\n          password: root\n  # 出现错误时, 直接抛出异常\n  mvc:\n    throw-exception-if-no-handler-found: true\n  web:\n    resources:\n      add-mappings: false',
-        'ca83a9bf5595cfe172e5aa2bba488709', '2022-03-07 21:31:19', '2022-03-07 21:34:02', 'nacos', '172.18.0.11', '',
-        'dev', '', '', '', 'yaml', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', 'spring:
+  devtools:
+    livereload:
+      port: 39302
+  # 数据库配置
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: root
+          password: h2IRXM8k4Yne9Zii', '4df68b481fc564de14c4e22e4ee956b2', '2021-12-14 00:36:20', '2022-01-11 14:45:03',
+        'nacos', '0:0:0:0:0:0:0:1', '', 'demo', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-auth-server-dev.yaml', 'DEFAULT_GROUP', '# 打印Debug日志
+debug: true
+logging:
+  level: { tech.ordinaryroad: debug }
+spring:
+  devtools:
+    livereload:
+      port: 39302
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  # 数据库配置
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: ${MYSQL_USERNAME}
+          password: ${MYSQL_PASSWORD}', '4df68b481fc564de14c4e22e4ee956b2', '2021-12-14 00:36:55',
+        '2022-01-05 13:05:41', 'nacos', '0:0:0:0:0:0:0:1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-demo.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
+  commons:
+    swagger:
+      endpoints:
+        token-request:
+          url: https://auth-server.ordinaryroad.tech:8302/oauth2/authorize
+          client-id: ordinaryroad-knife
+          client-secret: secret
+        token:
+          url: https://auth-server.ordinaryroad.tech:8302/oauth2/token
+          token-name: access_token
+  minio:
+    endpoint: http://ordinaryroad-minio:9000
+    accessKey: minio
+    secretKey: TIVOo8nQZ2bjE7R5
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: BASIC
+spring:
+  servlet:
+    multipart:
+      # 单文件限制大小
+      max-file-size: 100MB
+      # 总文件限制的大小
+      max-request-size: 100MB
+  # 邮箱配置
+  mail:
+    port: 465
+    #邮件协议smtp
+    host: smtp.qq.com
+    #发送者的邮件的用户名
+    username: 1962247851@qq.com
+    #移动端客户授权码(在邮箱中设置)
+    password: ${QQ_MAIL_AUTHORIZATION_CODE}
+    #使用的编码
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+  # redis配置
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: ordinaryroad-redis
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password:
+    # 连接超时时间（毫秒）
+    timeout: 10000ms
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 200
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+# MyBatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true', '0105af763e52e77ba7ef125e65b09c62', '2021-12-14 00:36:20',
+        '2022-03-11 22:37:01', 'nacos', '172.22.0.12', '', 'demo', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-dev.yaml', 'DEFAULT_GROUP', 'MYSQL_HOST: ordinaryroad-mysql
+MYSQL_PORT: 3306
+MYSQL_USERNAME: root
+MYSQL_PASSWORD: ''Root123.''
+QQ_MAIL_AUTHORIZATION_CODE: fcrpsoubrweabche
+
+ordinaryroad:
+  commons:
+    swagger:
+      endpoints:
+        token-request:
+          url: http://ordinaryroad-auth-server:9302/oauth2/authorize
+          client-id: ordinaryroad-knife
+          client-secret: secret
+        token:
+          url: http://ordinaryroad-auth-server:9302/oauth2/token
+          token-name: access_token
+  minio:
+    endpoint: http://play.min.io
+    accessKey: Q3AM3UQ867SPQQA43P2F
+    secretKey: zuf+tfteSlswRu7BJ86wekitnifILbZam1KYY3TG
+
+feign:
+  client:
+    config:
+      default:
+        loggerLevel: BASIC
+spring:
+  # 数据库配置
+  datasource:
+    dynamic:
+      datasource:
+        or_commons_log:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_commons_log_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: ${MYSQL_USERNAME}
+          password: ${MYSQL_PASSWORD}
+  servlet:
+    multipart:
+      # 单文件限制大小
+      max-file-size: 100MB
+      # 总文件限制的大小
+      max-request-size: 100MB
+  # 邮箱配置
+  mail:
+    port: 465
+    #邮件协议smtp
+    host: smtp.qq.com
+    #发送者的邮件的用户名
+    username: 1962247851@qq.com
+    #移动端客户授权码(在邮箱中设置)
+    password: ${QQ_MAIL_AUTHORIZATION_CODE}
+    #使用的编码
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            enable: true
+          socketFactory:
+            port: 465
+            class: javax.net.ssl.SSLSocketFactory
+            fallback: false
+  # redis配置
+  redis:
+    # Redis数据库索引（默认为0）
+    database: 0
+    # Redis服务器地址
+    host: ordinaryroad-redis
+    # Redis服务器连接端口
+    port: 6379
+    # Redis服务器连接密码（默认为空）
+    password:
+    # 连接超时时间（毫秒）
+    timeout: 10000ms
+    lettuce:
+      pool:
+        # 连接池最大连接数
+        max-active: 200
+        # 连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-wait: -1ms
+        # 连接池中的最大空闲连接
+        max-idle: 10
+        # 连接池中的最小空闲连接
+        min-idle: 0
+# MyBatis
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    map-underscore-to-camel-case: true', 'eb4581b47741c82d8ccc14660428958c', '2021-12-14 00:36:55',
+        '2022-11-30 09:39:55', 'nacos', '172.17.0.1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
+  gateway:
+    demoMode: true
+    authServerHost: https://auth-server.ordinaryroad.tech:8302
+
+satoken:
+  client:
+    clientId: ${spring.application.name}
+    clientSecret: secret
+
+spring:
+  devtools:
+    livereload:
+      port: 39090
+  application:
+    # 应用名称
+    name: ordinaryroad-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: ordinaryroad-auth-server
+          uri: lb://ordinaryroad-auth-server
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+        - id: ordinaryroad-upms
+          uri: lb://ordinaryroad-upms
+          predicates:
+            - Path=/upms/**
+          filters:
+            - StripPrefix=1
+        - id: ordinaryroad-push
+          uri: lb://ordinaryroad-push
+          predicates:
+            - Path=/push/**
+          filters:
+            - StripPrefix=1
+        - id: ordinaryroad-im
+          uri: lb://ordinaryroad-im
+          predicates:
+            - Path=/im/**
+          filters:
+            - StripPrefix=1', 'b0f7f583d1209abe938a773e31434f98', '2021-12-14 00:36:20', '2022-03-09 18:00:34', 'nacos',
+        '172.22.0.12', '', 'demo', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-gateway-dev.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
+  gateway:
+    demoMode: false
+    authServerHost: http://ordinaryroad-auth-server:9302
+
+satoken:
+  client:
+    clientId: ${spring.application.name}
+    clientSecret: secret
+
+spring:
+  devtools:
+    livereload:
+      port: 39090
+  application:
+    # 应用名称
+    name: ordinaryroad-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: ordinaryroad-auth-server
+          uri: lb://ordinaryroad-auth-server
+          predicates:
+            - Path=/auth/**
+          filters:
+            - StripPrefix=1
+        - id: ordinaryroad-upms
+          uri: lb://ordinaryroad-upms
+          predicates:
+            - Path=/upms/**
+          filters:
+            - StripPrefix=1
+        - id: ordinaryroad-push
+          uri: lb://ordinaryroad-push
+          predicates:
+            - Path=/push/**
+          filters:
+            - StripPrefix=1
+        - id: ordinaryroad-im
+          uri: lb://ordinaryroad-im
+          predicates:
+            - Path=/im/**
+          filters:
+            - StripPrefix=1
+        - id: ordinaryroad-tth
+          uri: lb://ordinaryroad-tth
+          predicates:
+            - Path=/tth/**
+          filters:
+            - StripPrefix=1', 'a95a2ae04fd99e1e7fd24d483a485a80', '2021-12-14 00:36:55', '2022-11-29 10:06:00', 'nacos',
+        '172.17.0.1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
+  push:
+    jpush:
+      appKey: ${JPUSH_APP_KEY}
+      masterSecret: ${JPUSH_MASTER_SECRET}
+
+# 打印Debug日志
+debug: true
+logging:
+  level: { tech.ordinaryroad: debug }
+spring:
+  devtools:
+    livereload:
+      port: 39402', '0a42e928b2187368a75bc261f3db6fe0', '2021-12-14 00:36:20', '2022-03-13 16:31:48', 'nacos',
+        '172.22.0.12', '', 'demo', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
+  push:
+    jPushPropertiesList:
+      - packageName: tech.ordinaryroad.tth.android
+        appKey: 37c629a7349be2f8626ceaba
+        masterSecret: e0eb1c84050119848c616351
+      - packageName: tech.ordinaryroad.ioe.android
+        appKey: 11d89bcd9f8044840570215c
+        masterSecret: c0fcdb3231eeb20638370d08
+
+# 打印Debug日志
+debug: true
+logging:
+  level: { tech.ordinaryroad: debug }
+spring:
+  devtools:
+    livereload:
+      port: 39402
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  # 数据库配置
+  datasource:
+    dynamic:
+      primary: or_commons_log', '1a70a9f0733473c07ecbede09d579869', '2021-12-14 00:36:55', '2022-11-30 09:39:41',
+        'nacos', '172.17.0.1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-upms-demo.yaml', 'DEFAULT_GROUP', '# 打印Debug日志
+debug: true
+logging:
+  level: { tech.ordinaryroad: debug }
+spring:
+  devtools:
+    livereload:
+      port: 39401
+  # 数据库配置
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: root
+          password: h2IRXM8k4Yne9Zii
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false', '8d24d569bb9868ce4a2937dc880c8ed4', '2021-12-14 00:36:20', '2022-01-20 12:01:23', 'nacos',
+        '172.18.0.11', '', 'demo', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-upms-dev.yaml', 'DEFAULT_GROUP', '# 打印Debug日志
+debug: true
+logging:
+  level: { tech.ordinaryroad: debug }
+spring:
+  devtools:
+    livereload:
+      port: 39401
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  # 数据库配置
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: ${MYSQL_USERNAME}
+          password: ${MYSQL_PASSWORD}
+
+# swagger配置
+swagger:
+  title: 系统模块接口文档
+  license: Powered By OrdinaryRoad
+  licenseUrl: https://blog.ordinaryroad.tech', '03ccfc38aa3719c54acb99708c7aecbe', '2021-12-14 00:36:55',
+        '2022-11-29 15:10:56', 'nacos', '172.17.0.1', '', 'dev', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-im-demo.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
+  im:
+    mimc:
+      appId: ${MIMC_APP_ID}
+      appKey: ${MIMC_APP_KEY}
+      appSecret: ${MIMC_APP_SECRET}
+
+# 打印Debug日志
+debug: true
+logging:
+  level: { tech.ordinaryroad: debug }
+spring:
+  devtools:
+    livereload:
+      port: 39403
+  # 数据库配置
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://ordinaryroad-mysql:3307/or_im_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: root
+          password: h2IRXM8k4Yne9Zii
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false', 'bb758d2f5a41fcdbcc7ca12acfe4276d', '2022-03-07 21:13:23', '2022-03-07 21:16:46', 'nacos',
+        '172.18.0.11', '', 'demo', '', '', '', 'yaml', '', '');
+INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
+                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
+VALUES ('ordinaryroad-im-dev.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
+  im:
+    mimcPropertiesList:
+      # TODO MIMC 相关 此处appId/appKey/appSec为小米MimcDemo所有，会在一定时间后失效，建议开发者自行申请
+      - appId: 2882303761517669588
+        appKey: 5111766983588
+        appSecret: b0L3IOz/9Ob809v8H2FbVg==
+        packageName: xxx.xxx.xxx
+
+# 打印Debug日志
+debug: true
+logging:
+  level: { tech.ordinaryroad: debug }
+spring:
+  devtools:
+    livereload:
+      port: 39403
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  # 数据库配置
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_im_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: ${MYSQL_USERNAME}
+          password: ${MYSQL_PASSWORD}', 'ca83a9bf5595cfe172e5aa2bba488709', '2022-03-07 21:31:19',
+        '2022-03-07 21:34:02', 'nacos', '172.18.0.11', '', 'dev', '', '', '', 'yaml', '', '');
 
 -- ----------------------------
 -- Table structure for config_info_aggr
@@ -131,18 +567,19 @@ CREATE TABLE `config_info_aggr`
 DROP TABLE IF EXISTS `config_info_beta`;
 CREATE TABLE `config_info_beta`
 (
-    `id`           bigint(0)                                         NOT NULL AUTO_INCREMENT COMMENT 'id',
-    `data_id`      varchar(255) CHARACTER SET utf8 COLLATE utf8_bin  NOT NULL COMMENT 'data_id',
-    `group_id`     varchar(128) CHARACTER SET utf8 COLLATE utf8_bin  NOT NULL COMMENT 'group_id',
-    `app_name`     varchar(128) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL COMMENT 'app_name',
-    `content`      longtext CHARACTER SET utf8 COLLATE utf8_bin      NOT NULL COMMENT 'content',
-    `beta_ips`     varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL COMMENT 'betaIps',
-    `md5`          varchar(32) CHARACTER SET utf8 COLLATE utf8_bin   NULL     DEFAULT NULL COMMENT 'md5',
-    `gmt_create`   datetime(0)                                       NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
-    `gmt_modified` datetime(0)                                       NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
-    `src_user`     text CHARACTER SET utf8 COLLATE utf8_bin          NULL COMMENT 'source user',
-    `src_ip`       varchar(50) CHARACTER SET utf8 COLLATE utf8_bin   NULL     DEFAULT NULL COMMENT 'source ip',
-    `tenant_id`    varchar(128) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT '' COMMENT '租户字段',
+    `id`                 bigint(0)                                         NOT NULL AUTO_INCREMENT COMMENT 'id',
+    `data_id`            varchar(255) CHARACTER SET utf8 COLLATE utf8_bin  NOT NULL COMMENT 'data_id',
+    `group_id`           varchar(128) CHARACTER SET utf8 COLLATE utf8_bin  NOT NULL COMMENT 'group_id',
+    `app_name`           varchar(128) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL COMMENT 'app_name',
+    `content`            longtext CHARACTER SET utf8 COLLATE utf8_bin      NOT NULL COMMENT 'content',
+    `beta_ips`           varchar(1024) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL COMMENT 'betaIps',
+    `md5`                varchar(32) CHARACTER SET utf8 COLLATE utf8_bin   NULL     DEFAULT NULL COMMENT 'md5',
+    `gmt_create`         datetime(0)                                       NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+    `gmt_modified`       datetime(0)                                       NOT NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '修改时间',
+    `src_user`           text CHARACTER SET utf8 COLLATE utf8_bin          NULL COMMENT 'source user',
+    `src_ip`             varchar(50) CHARACTER SET utf8 COLLATE utf8_bin   NULL     DEFAULT NULL COMMENT 'source ip',
+    `tenant_id`          varchar(128) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT '' COMMENT '租户字段',
+    `encrypted_data_key` text                                              NOT NULL COMMENT '秘钥',
     PRIMARY KEY (`id`) USING BTREE,
     UNIQUE INDEX `uk_configinfobeta_datagrouptenant` (`data_id`, `group_id`, `tenant_id`) USING BTREE
 ) ENGINE = InnoDB
@@ -245,19 +682,20 @@ CREATE TABLE `group_capacity`
 DROP TABLE IF EXISTS `his_config_info`;
 CREATE TABLE `his_config_info`
 (
-    `id`           bigint(0) UNSIGNED                               NOT NULL,
-    `nid`          bigint(0) UNSIGNED                               NOT NULL AUTO_INCREMENT,
-    `data_id`      varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-    `group_id`     varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
-    `app_name`     varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL COMMENT 'app_name',
-    `content`      longtext CHARACTER SET utf8 COLLATE utf8_bin     NOT NULL,
-    `md5`          varchar(32) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
-    `gmt_create`   datetime(0)                                      NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `gmt_modified` datetime(0)                                      NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
-    `src_user`     text CHARACTER SET utf8 COLLATE utf8_bin         NULL,
-    `src_ip`       varchar(50) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
-    `op_type`      char(10) CHARACTER SET utf8 COLLATE utf8_bin     NULL     DEFAULT NULL,
-    `tenant_id`    varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT '' COMMENT '租户字段',
+    `id`                 bigint(0) UNSIGNED                               NOT NULL,
+    `nid`                bigint(0) UNSIGNED                               NOT NULL AUTO_INCREMENT,
+    `data_id`            varchar(255) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+    `group_id`           varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NOT NULL,
+    `app_name`           varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT NULL COMMENT 'app_name',
+    `content`            longtext CHARACTER SET utf8 COLLATE utf8_bin     NOT NULL,
+    `md5`                varchar(32) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
+    `gmt_create`         datetime(0)                                      NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `gmt_modified`       datetime(0)                                      NOT NULL DEFAULT CURRENT_TIMESTAMP(0),
+    `src_user`           text CHARACTER SET utf8 COLLATE utf8_bin         NULL,
+    `src_ip`             varchar(50) CHARACTER SET utf8 COLLATE utf8_bin  NULL     DEFAULT NULL,
+    `op_type`            char(10) CHARACTER SET utf8 COLLATE utf8_bin     NULL     DEFAULT NULL,
+    `tenant_id`          varchar(128) CHARACTER SET utf8 COLLATE utf8_bin NULL     DEFAULT '' COMMENT '租户字段',
+    `encrypted_data_key` text                                             NOT NULL COMMENT '秘钥',
     PRIMARY KEY (`nid`) USING BTREE,
     INDEX `idx_gmt_create` (`gmt_create`) USING BTREE,
     INDEX `idx_gmt_modified` (`gmt_modified`) USING BTREE,
