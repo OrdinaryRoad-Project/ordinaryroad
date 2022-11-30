@@ -169,7 +169,7 @@ VALUES ('ordinaryroad-dev.yaml', 'DEFAULT_GROUP', 'MYSQL_HOST: ordinaryroad-mysq
 MYSQL_PORT: 3306
 MYSQL_USERNAME: root
 MYSQL_PASSWORD: ''Root123.''
-QQ_MAIL_AUTHORIZATION_CODE: fcrpsoubrweabche
+QQ_MAIL_AUTHORIZATION_CODE: xxxxxxxxx
 
 ordinaryroad:
   commons:
