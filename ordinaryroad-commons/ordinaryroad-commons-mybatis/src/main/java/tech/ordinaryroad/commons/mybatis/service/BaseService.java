@@ -354,6 +354,8 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * @param t BaseDO
      */
     private void fillMetaFieldsWhenCreate(T t) {
+        t.setCreatedTime(LocalDateTime.now());
+
         // 填充uuid字段
         if (StrUtil.isBlank(t.getUuid())) {
             try {
@@ -389,6 +391,7 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      */
     private void fillMetaFieldsWhenUpdate(T t) {
         t.setUpdateTime(LocalDateTime.now());
+
         // 填充updateBy字段，跳过免登接口
         String requestPath = SaHolder.getRequest().getRequestPath();
         if (PathConstants.NO_LOGIN_UPDATE_PATHS.contains(requestPath)) {
