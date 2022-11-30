@@ -28,6 +28,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
@@ -50,22 +51,26 @@ public class BaseDO implements Serializable {
     /**
      * 自增主键
      */
+    @Column(updatable = false)
     private Long id;
 
     /**
      * uuid主键
      */
     @Id
+    @Column(updatable = false)
     private String uuid;
 
     /**
      * 创建时间
      */
+    @Column(updatable = false)
     private LocalDateTime createdTime;
 
     /**
      * 创建者OR账号
      */
+    @Column(updatable = false)
     private String createBy;
 
     /**

@@ -29,6 +29,7 @@ import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 import tk.mybatis.mapper.annotation.LogicDelete;
 
+import javax.persistence.Column;
 import javax.persistence.Table;
 
 /**
@@ -48,77 +49,92 @@ public class OperationLogDO extends BaseDO {
     /**
      * IP
      */
+    @Column(updatable = false)
     private String ip;
 
     /**
      * 请求路径
      */
+    @Column(updatable = false)
     private String path;
 
     /**
      * 请求方法
      */
+    @Column(updatable = false)
     private String method;
 
     /**
      * 请求头
      */
+    @Column(updatable = false)
     private String headers;
 
     /**
      * 请求Cookie
      */
+    @Column(updatable = false)
     private String cookies;
 
     /**
      * 路径参数
      */
+    @Column(updatable = false)
     private String pathParams;
 
     /**
      * 查询参数
      */
+    @Column(updatable = false)
     private String queryParams;
 
     /**
      * 请求体
      */
+    @Column(updatable = false)
     private String request;
 
     /**
      * 响应状态
      */
+    @Column(updatable = false)
     private String status;
 
     /**
      * 响应头
      */
+    @Column(updatable = false)
     private String responseHeaders;
 
     /**
      * 响应Cookie
      */
+    @Column(updatable = false)
     private String responseCookies;
 
     /**
      * 响应体
      */
+    @Column(updatable = false)
     private String response;
 
     /**
      * 耗时
      */
+    @Column(updatable = false)
     private Long consumedTime;
 
     /**
      * 类型
      */
+    @Column(updatable = false)
     private Integer type;
 
     /**
      * 是否删除
      */
     @LogicDelete
+    @Column(updatable = false)
     private Boolean deleted;
 
 }
