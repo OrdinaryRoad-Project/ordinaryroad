@@ -54,10 +54,10 @@
 
         <!--common-->
         <hutool.version>5.8.9</hutool.version>
+        <commons.io.version>2.11.0</commons.io.version>
         <commons-fileupload.version>1.4</commons-fileupload.version>
         <commons-lang.version>3.12.0</commons-lang.version>
         <commons-collections.version>4.4</commons-collections.version>
-        <commons.io.version>2.11.0</commons.io.version>
 
         <maven-compiler-plugin.version>3.8.1</maven-compiler-plugin.version>
         <mapstruct.version>1.4.1.Final</mapstruct.version>
@@ -178,70 +178,77 @@
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-base</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-commons-core -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-core</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-commons-mybatis -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-mybatis</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-commons-swagger -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-swagger</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-commons-satoken -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-satoken</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-commons-minio -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-minio</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-commons-kafka -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-kafka</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
+            </dependency>
+
+            <!-- ordinaryroad-commons-log -->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-commons-log</artifactId>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-auth-server-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-auth-server-api</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-upms-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-upms-api</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <!-- ordinaryroad-push-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-push-api</artifactId>
-                <version>1.4.0</version>
+                <version>${ordinaryroad.version}</version>
             </dependency>
 
             <dependency>
@@ -283,6 +290,13 @@
                 <groupId>cn.hutool</groupId>
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- commons-io -->
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${commons.io.version}</version>
             </dependency>
 
             <!-- fastjson2 -->

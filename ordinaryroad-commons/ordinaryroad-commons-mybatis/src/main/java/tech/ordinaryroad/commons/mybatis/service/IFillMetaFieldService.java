@@ -53,7 +53,7 @@ public interface IFillMetaFieldService<T extends BaseDO> {
      *
      * @return String
      */
-    String generateCreateBy();
+    String generateCreateBy(T t);
 
     /**
      * 创建时生成CreateBy字段失败
@@ -67,7 +67,7 @@ public interface IFillMetaFieldService<T extends BaseDO> {
      *
      * @return String
      */
-    String generateUpdateBy();
+    String generateUpdateBy(T t);
 
     /**
      * 更新时生成UpdateBy字段失败

@@ -33,6 +33,8 @@ import java.util.List;
 public class PathConstants {
 
     public static final String UPMS_FILE_UPLOAD = "/file/upload";
+
+    public static final String UPMS_FILE_DOWNLOAD = "/file/download";
     public static final String IM_MIMC_CALLBACK = "/mimc/callback";
     public static final String AUTH_OPENID_CREATE = "/openid/create";
 

@@ -21,33 +21,25 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package tech.ordinaryroad.commons.log.config;
 
-package tech.ordinaryroad.commons.core.filter;
-
-import com.alibaba.fastjson2.JSON;
-import lombok.extern.slf4j.Slf4j;
-import tech.ordinaryroad.commons.core.utils.ip.IpUtils;
-
-import javax.servlet.*;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import tech.ordinaryroad.commons.log.service.IOperationLogInterceptorService;
+import tech.ordinaryroad.commons.log.service.impl.DefaultOperationLogInterceptorServiceImpl;
 
 /**
  * @author mjz
- * @date 2021/9/9
+ * @date 2022/11/29
  */
-@Slf4j
-public class PreFilter implements Filter {
+@Configuration
+public class OperationLogAutoConfiguration {
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest servletRequest = (HttpServletRequest) request;
-        log.debug("来源IP：{}", IpUtils.getIpAddr(servletRequest));
-        log.debug("请求的地址：{}", servletRequest.getRequestURI());
-        log.debug("请求方式：{}", servletRequest.getMethod());
-//        log.debug("请求用户：{}", SecurityUtils.getUsername(servletRequest));
-        log.debug("请求参数：{}", JSON.toJSONString(servletRequest.getParameterMap()));
-        chain.doFilter(request, response);
+    @Bean
+    @ConditionalOnMissingBean(IOperationLogInterceptorService.class)
+    public IOperationLogInterceptorService defaultOperationLogInterceptorService() {
+        return new DefaultOperationLogInterceptorServiceImpl();
     }
 
 }

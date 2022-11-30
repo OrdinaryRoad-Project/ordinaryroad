@@ -21,36 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms;
+package tech.ordinaryroad.commons.core.config.web;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
-import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
-import tk.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
+import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
+import org.springframework.context.annotation.Bean;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.stereotype.Component;
+
+import java.util.stream.Collectors;
 
 /**
+ * https://blog.csdn.net/qq_33811736/article/details/115865879
+ *
  * @author mjz
- * @date 2021/10/27
+ * @date 2021/11/4
  */
-@Slf4j
-@EnableConfigurationProperties({OrMinioProperties.class})
-@EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@MapperScan({"tech.ordinaryroad.commons.log.dao", "tech.ordinaryroad.upms.dao"})
-@SpringBootApplication
-public class OrdinaryRoadUpmsApp {
-
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadUpmsApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
+@Component
+public class HttpConverters {
+    @Bean
+    @ConditionalOnMissingBean
+    public HttpMessageConverters messageConverters(ObjectProvider<HttpMessageConverter<?>> converters) {
+        return new HttpMessageConverters(converters.orderedStream().collect(Collectors.toList()));
     }
-
 }

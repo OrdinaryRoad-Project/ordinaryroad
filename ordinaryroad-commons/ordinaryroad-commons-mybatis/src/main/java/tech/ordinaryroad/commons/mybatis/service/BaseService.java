@@ -374,7 +374,7 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             return;
         }
         try {
-            t.setCreateBy(fillMetaFieldService.generateCreateBy());
+            t.setCreateBy(fillMetaFieldService.generateCreateBy(t));
         } catch (Exception e) {
             // 如果有报错需要处理
             log.error("TODO fillMetaFieldsWhenCreate createBy failed, " + requestPath, e);
@@ -396,7 +396,7 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             return;
         }
         try {
-            t.setUpdateBy(fillMetaFieldService.generateUpdateBy());
+            t.setUpdateBy(fillMetaFieldService.generateUpdateBy(t));
         } catch (Exception e) {
             // 如果有报错需要处理
             log.error("TODO fillMetaFieldsWhenUpdate updateBy failed, " + requestPath, e);
@@ -446,4 +446,7 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         return (Class<T>) actualTypeArguments[1];
     }
 
+    public D getDao() {
+        return dao;
+    }
 }

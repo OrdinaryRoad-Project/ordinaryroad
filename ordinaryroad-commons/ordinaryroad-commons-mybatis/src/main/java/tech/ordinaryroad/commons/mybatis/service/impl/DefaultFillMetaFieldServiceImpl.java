@@ -27,26 +27,26 @@ import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.IdUtil;
+import cn.hutool.core.util.StrUtil;
+import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.context.annotation.Configuration;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 import tech.ordinaryroad.commons.mybatis.service.IFillMetaFieldService;
 import tech.ordinaryroad.push.api.IPushApi;
 import tech.ordinaryroad.push.request.EmailPushRequest;
+
+import java.nio.charset.StandardCharsets;
 
 /**
  * @author mjz
  * @date 2022/3/26
  */
 @Slf4j
-@ConditionalOnMissingBean(IFillMetaFieldService.class)
-@Configuration
-public class FillMetaFieldServiceImpl<T extends BaseDO> implements IFillMetaFieldService<T> {
+public class DefaultFillMetaFieldServiceImpl<T extends BaseDO> implements IFillMetaFieldService<T> {
 
-    @Autowired
-    protected IPushApi pushApi;
+    private IPushApi getPushApi() {
+        return SpringUtil.getBean(IPushApi.class);
+    }
 
     @Override
     public String generateUuid(T t) {
@@ -61,12 +61,14 @@ public class FillMetaFieldServiceImpl<T extends BaseDO> implements IFillMetaFiel
         emailPushRequest.setEmail(emailToReceiveErrorMsgWhenGenerating(t, e));
         emailPushRequest.setTitle("创建时填充字段异常");
         emailPushRequest.setContent("fillMetaFieldsWhenCreate uuid failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
-        pushApi.email(emailPushRequest);
+        getPushApi().email(emailPushRequest);
     }
 
     @Override
-    public String generateCreateBy() {
-        return StpUtil.getLoginIdAsString();
+    public String generateCreateBy(T t) {
+        Object loginIdDefaultNull = StpUtil.getLoginIdDefaultNull();
+
+        return StrUtil.str(loginIdDefaultNull, StandardCharsets.UTF_8);
     }
 
     @Override
@@ -76,12 +78,14 @@ public class FillMetaFieldServiceImpl<T extends BaseDO> implements IFillMetaFiel
         emailPushRequest.setEmail(emailToReceiveErrorMsgWhenGenerating(t, e));
         emailPushRequest.setTitle("创建时填充字段异常");
         emailPushRequest.setContent("fillMetaFieldsWhenCreate createBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
-        pushApi.email(emailPushRequest);
+        getPushApi().email(emailPushRequest);
     }
 
     @Override
-    public String generateUpdateBy() {
-        return StpUtil.getLoginIdAsString();
+    public String generateUpdateBy(T t) {
+        Object loginIdDefaultNull = StpUtil.getLoginIdDefaultNull();
+
+        return StrUtil.str(loginIdDefaultNull, StandardCharsets.UTF_8);
     }
 
     @Override
@@ -91,6 +95,6 @@ public class FillMetaFieldServiceImpl<T extends BaseDO> implements IFillMetaFiel
         emailPushRequest.setEmail(emailToReceiveErrorMsgWhenGenerating(t, e));
         emailPushRequest.setTitle("更新时填充字段异常");
         emailPushRequest.setContent("fillMetaFieldsWhenCreate updateBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
-        pushApi.email(emailPushRequest);
+        getPushApi().email(emailPushRequest);
     }
 }

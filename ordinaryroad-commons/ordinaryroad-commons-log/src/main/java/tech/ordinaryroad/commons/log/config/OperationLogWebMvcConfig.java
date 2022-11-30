@@ -22,30 +22,28 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.auth.server;
+package tech.ordinaryroad.commons.log.config;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
-import tk.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import tech.ordinaryroad.commons.log.filter.OperationLogInterceptor;
 
-/**
- * 启动：Sa-OAuth2 Server端
- */
-@Slf4j
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@MapperScan({"tech.ordinaryroad.commons.log.dao", "tech.ordinaryroad.auth.server.dao"})
-@SpringBootApplication
-public class OrdinaryRoadAuthServerApp {
 
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadAuthServerApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
+@Configuration
+@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
+public class OperationLogWebMvcConfig implements WebMvcConfigurer {
+
+    @Autowired
+    private OperationLogInterceptor operationLogFilter;
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        if (operationLogFilter != null) {
+            registry.addInterceptor(operationLogFilter).addPathPatterns("/**");
+        }
     }
 
 }

@@ -21,36 +21,18 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms;
+package tech.ordinaryroad.commons.log.dao;
 
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
-import org.springframework.util.StopWatch;
-import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
-import tk.mybatis.spring.annotation.MapperScan;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import tech.ordinaryroad.commons.log.entity.OperationLogDO;
+import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 
 /**
+ * OR操作日志DAO类
+ *
  * @author mjz
- * @date 2021/10/27
+ * @date 2022/11/28
  */
-@Slf4j
-@EnableConfigurationProperties({OrMinioProperties.class})
-@EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@MapperScan({"tech.ordinaryroad.commons.log.dao", "tech.ordinaryroad.upms.dao"})
-@SpringBootApplication
-public class OrdinaryRoadUpmsApp {
-
-    public static void main(String[] args) {
-        StopWatch stopWatch = new StopWatch();
-        stopWatch.start("run");
-        SpringApplication.run(OrdinaryRoadUpmsApp.class, args);
-        stopWatch.stop();
-        log.info("run end！ {}", stopWatch.prettyPrint());
-    }
-
+@DS("or_commons_log")
+public interface OperationLogDAO extends IBaseMapper<OperationLogDO> {
 }

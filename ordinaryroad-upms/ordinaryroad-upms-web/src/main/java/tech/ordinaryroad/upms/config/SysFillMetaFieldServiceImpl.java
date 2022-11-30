@@ -27,7 +27,7 @@ import cn.hutool.extra.spring.SpringUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
-import tech.ordinaryroad.commons.mybatis.service.impl.FillMetaFieldServiceImpl;
+import tech.ordinaryroad.commons.mybatis.service.impl.DefaultFillMetaFieldServiceImpl;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 
 /**
@@ -36,7 +36,7 @@ import tech.ordinaryroad.upms.entity.SysUserDO;
  */
 @Slf4j
 @Configuration
-public class SysFillMetaFieldServiceImpl<T extends BaseDO> extends FillMetaFieldServiceImpl<T> {
+public class SysFillMetaFieldServiceImpl<T extends BaseDO> extends DefaultFillMetaFieldServiceImpl<T> {
 
     @Override
     public void beforeInsert(T t) {

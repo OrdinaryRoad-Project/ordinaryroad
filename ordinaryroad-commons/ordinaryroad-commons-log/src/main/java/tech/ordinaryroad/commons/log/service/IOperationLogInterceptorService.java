@@ -21,24 +21,43 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package tech.ordinaryroad.commons.log.service;
 
-package tech.ordinaryroad.commons.core.web;
+import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.log.RequestWrapper;
+import tech.ordinaryroad.commons.log.ResponseWrapper;
+import tech.ordinaryroad.commons.log.entity.OperationLogDO;
 
-import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.CorsRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import javax.validation.constraints.NotNull;
 
-@Configuration
-@ConditionalOnWebApplication(type = ConditionalOnWebApplication.Type.SERVLET)
-public class CrossConfig implements WebMvcConfigurer {
-    @Override
-    public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-                .allowedOriginPatterns("*")
-                .allowedMethods("*")
-                .allowCredentials(true)
-                .maxAge(3600)
-                .allowedHeaders("*");
-    }
+/**
+ * 操作日志拦截器服务类
+ *
+ * @author mjz
+ * @date 2022/11/29
+ */
+public interface IOperationLogInterceptorService {
+
+    /**
+     * 获取类型
+     *
+     * @param request  RequestWrapper
+     * @param response ResponseWrapper
+     * @param result   Result<?>
+     * @return 类型
+     * @see OperationLogDO#setType(Integer)
+     */
+    Integer getType(@NotNull RequestWrapper request, @NotNull ResponseWrapper response, Result<?> result);
+
+    /**
+     * 获取状态码
+     *
+     * @param request  RequestWrapper
+     * @param response ResponseWrapper
+     * @param result   Result<?>
+     * @return 状态
+     * @see OperationLogDO#setStatus(String)
+     */
+    String getStatus(@NotNull RequestWrapper request, @NotNull ResponseWrapper response, Result<?> result);
+
 }

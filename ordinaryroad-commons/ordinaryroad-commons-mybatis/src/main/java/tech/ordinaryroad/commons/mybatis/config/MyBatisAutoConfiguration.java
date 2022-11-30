@@ -21,28 +21,26 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.commons.core.web;
+package tech.ordinaryroad.commons.mybatis.config;
 
-import org.springframework.beans.factory.ObjectProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
-import org.springframework.boot.autoconfigure.http.HttpMessageConverters;
 import org.springframework.context.annotation.Bean;
-import org.springframework.http.converter.HttpMessageConverter;
-import org.springframework.stereotype.Component;
-
-import java.util.stream.Collectors;
+import org.springframework.context.annotation.Configuration;
+import tech.ordinaryroad.commons.mybatis.model.BaseDO;
+import tech.ordinaryroad.commons.mybatis.service.IFillMetaFieldService;
+import tech.ordinaryroad.commons.mybatis.service.impl.DefaultFillMetaFieldServiceImpl;
 
 /**
- * https://blog.csdn.net/qq_33811736/article/details/115865879
- *
  * @author mjz
- * @date 2021/11/4
+ * @date 2022/11/28
  */
-@Component
-public class HttpConverters {
+@Configuration
+public class MyBatisAutoConfiguration<T extends BaseDO> {
+
     @Bean
-    @ConditionalOnMissingBean
-    public HttpMessageConverters messageConverters(ObjectProvider<HttpMessageConverter<?>> converters) {
-        return new HttpMessageConverters(converters.orderedStream().collect(Collectors.toList()));
+    @ConditionalOnMissingBean(IFillMetaFieldService.class)
+    public IFillMetaFieldService<T> defaultFillMetaFieldService() {
+        return new DefaultFillMetaFieldServiceImpl<>();
     }
+
 }

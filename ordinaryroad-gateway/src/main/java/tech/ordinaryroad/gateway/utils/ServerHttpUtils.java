@@ -22,24 +22,28 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.commons.core.utils.server;
-
+package tech.ordinaryroad.gateway.utils;
 
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpRequestDecorator;
+import org.springframework.http.server.reactive.ServerHttpResponse;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
+import tech.ordinaryroad.commons.core.base.result.Result;
 
 import java.util.function.Consumer;
 
 /**
- * 过滤器请求/响应工具类
+ * 客户端工具类
  *
  * @author mjz
- * @date 2021/11/26
+ * @date 2021/11/27
  */
-public final class FilterRequestResponseUtil {
+public class ServerHttpUtils {
 
     public static ServerHttpRequest getNewHttpRequest(ServerHttpRequest httpRequest
             , Consumer<HttpHeaders> httpHeadersConsumer, Flux<DataBuffer> dataBufferFlux) {
@@ -61,9 +65,58 @@ public final class FilterRequestResponseUtil {
     }
 
     public static Consumer<HttpHeaders> getNewHttpHeadersConsumer(String satoken) {
-        Consumer<HttpHeaders> consumer = headers -> {
+        return headers -> {
             headers.set("satoken", satoken);
         };
-        return consumer;
+    }
+
+    /**
+     * 设置webflux模型响应
+     *
+     * @param response ServerHttpResponse
+     * @param data     响应成功的内容
+     * @return Mono<Void>
+     */
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, Object data) {
+        return webFluxResponseWriter(response, HttpStatus.OK, Result.success(data));
+    }
+
+    /**
+     * 设置webflux模型响应
+     *
+     * @param response ServerHttpResponse
+     * @param result   响应内容
+     * @return Mono<Void>
+     */
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, Result<?> result) {
+        return webFluxResponseWriter(response, HttpStatus.OK, result);
+    }
+
+    /**
+     * 设置webflux模型响应
+     *
+     * @param response ServerHttpResponse
+     * @param status   http状态码
+     * @param result   响应内容
+     * @return Mono<Void>
+     */
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, HttpStatus status, Result<?> result) {
+        return webFluxResponseWriter(response, MediaType.APPLICATION_JSON_VALUE, status, result);
+    }
+
+    /**
+     * 设置webflux模型响应
+     *
+     * @param response    ServerHttpResponse
+     * @param contentType content-type
+     * @param status      http状态码
+     * @param result      响应内容
+     * @return Mono<Void>
+     */
+    public static Mono<Void> webFluxResponseWriter(ServerHttpResponse response, String contentType, HttpStatus status, Result<?> result) {
+        response.setStatusCode(status);
+        response.getHeaders().add(HttpHeaders.CONTENT_TYPE, contentType);
+        DataBuffer dataBuffer = response.bufferFactory().wrap(result.toString().getBytes());
+        return response.writeWith(Mono.just(dataBuffer));
     }
 }

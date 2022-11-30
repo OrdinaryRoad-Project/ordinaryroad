@@ -39,8 +39,7 @@ import org.springframework.web.server.WebFilter;
 import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.commons.core.utils.server.FilterRequestResponseUtil;
-import tech.ordinaryroad.commons.core.utils.server.ServletUtils;
+import tech.ordinaryroad.gateway.utils.ServerHttpUtils;
 
 
 /**
@@ -71,12 +70,12 @@ public class TokenWebFilter implements WebFilter {
             try {
                 accessTokenModel = SaOAuth2Util.checkAccessToken(accessToken);
             } catch (Exception e) {
-                return ServletUtils.webFluxResponseWriter(exchange.getResponse(), Result.fail(e.getMessage()));
+                return ServerHttpUtils.webFluxResponseWriter(exchange.getResponse(), Result.fail(e.getMessage()));
             }
             String tokenValue = StpUtil.getTokenValueByLoginId(accessTokenModel.loginId);
             // 将Authorization解析为新header：satoken
-            ServerHttpRequest newHttpRequest = FilterRequestResponseUtil.getNewHttpRequest(
-                    request, FilterRequestResponseUtil.getNewHttpHeadersConsumer(tokenValue)
+            ServerHttpRequest newHttpRequest = ServerHttpUtils.getNewHttpRequest(
+                    request, ServerHttpUtils.getNewHttpHeadersConsumer(tokenValue)
             );
             return chain.filter(exchange.mutate().request(newHttpRequest).build());
         } else {
