@@ -22,40 +22,32 @@
  * SOFTWARE.
  */
 
-import roleApis from './role'
-import userApis from './user'
-import requestPathApis from './request_path'
-import permissionApis from './permission'
-import dictApis from './dict'
-import dictItemApis from './dict_item'
-import fileApis from './file'
-import operationLogApis from './operation_log'
-
 let $axios = null
 
 export default {
   initAxios (axios) {
     $axios = $axios || axios
-    userApis.initAxios(axios)
-    roleApis.initAxios(axios)
-    requestPathApis.initAxios(axios)
-    permissionApis.initAxios(axios)
-    dictApis.initAxios(axios)
-    dictItemApis.initAxios(axios)
-    fileApis.initAxios(axios)
-    operationLogApis.initAxios(axios)
   },
-  apis: {
-    role: roleApis,
-    user: userApis,
-    request_path: requestPathApis,
-    permission: permissionApis,
-    dict: dictApis,
-    dict_item: dictItemApis,
-    file: fileApis,
-    operation_log: operationLogApis,
-    userInfo: () => {
-      return $axios({ url: '/upms/userinfo', data: {}, method: 'post' })
-    }
+  list: (offset, limit, sortBy, sortDesc, { type, method, status }) => {
+    const data = { offset, limit, sortBy, sortDesc, type, method, status }
+    return $axios({ url: '/upms/operation_log/list', method: 'post', data })
+  },
+  delete (id) {
+    return $axios({
+      url: `/upms/operation_log/delete/${id}`,
+      method: 'delete'
+    })
+  },
+  findAllTypes () {
+    return $axios({
+      url: '/upms/operation_log/all/types',
+      method: 'get'
+    })
+  },
+  findAllStatus () {
+    return $axios({
+      url: '/upms/operation_log/all/status',
+      method: 'get'
+    })
   }
 }

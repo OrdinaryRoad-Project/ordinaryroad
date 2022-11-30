@@ -121,6 +121,14 @@ export default () => ({
           meta: {
             permission: 'auth:openid:list'
           }
+        },
+        {
+          titleKey: 'menuTitles.operationLogManagement',
+          to: '/upms/operation_log',
+          icon: 'mdi-text-box-multiple',
+          meta: {
+            permission: 'upms:operation_log:list'
+          }
         }
       ]
     }

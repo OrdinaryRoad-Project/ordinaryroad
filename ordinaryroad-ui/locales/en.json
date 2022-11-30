@@ -1,4 +1,25 @@
 {
+  "operationLogForm": {
+    "title": "Operation Log"
+  },
+  "parentheses": "({0})",
+  "parenthesesWithSpace": " ({0})",
+  "operationLog": {
+    "ip": "Ip",
+    "path": "Path",
+    "method": "Method",
+    "headers": "Headers",
+    "cookies": "Cookies",
+    "pathParams": "PathParams",
+    "queryParams": "QueryParams",
+    "request": "Request",
+    "status": "Status",
+    "responseHeaders": "ResponseHeaders",
+    "responseCookies": "ResponseCookies",
+    "response": "Response",
+    "consumedTime": "ConsumedTime",
+    "type": "Type"
+  },
   "registeredClient": "Registered Client",
   "document": "Document",
   "scopes": "Scopes",
@@ -121,6 +142,7 @@
     "fileManagement": "File Management",
     "registeredClientManagement": "Client Management",
     "openidManagement": "OpenID Management",
+    "operationLogManagement": "OperationLog Management",
     "accessControl": "Access Control",
     "userManagement": "User Management",
     "roleManagement": "Role Management",

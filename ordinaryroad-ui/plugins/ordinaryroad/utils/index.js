@@ -329,6 +329,86 @@ function urlEncode (param, key = null, encode = true) {
   return paramStr
 }
 
+/**
+ * 获取当前登录的浏览器
+ * @returns {string}
+ */
+function getBrowserInfo () {
+  // 取得浏览器的userAgent字符串
+  const userAgent = navigator.userAgent || ''
+  if (!userAgent) {
+    return ''
+  }
+  // 判断是否Opera浏览器
+  if (userAgent.includes('Opera')) {
+    return 'Opera'
+  }
+
+  // 判断是否Edge浏览器
+  if (userAgent.includes('Edg')) {
+    return 'Edge'
+  }
+
+  // 判断是否Firefox浏览器
+  if (userAgent.includes('Firefox')) {
+    return 'firefox'
+  }
+
+  // 判断是否Chrome浏览器
+  if (userAgent.includes('Chrome')) {
+    return 'Chrome'
+  }
+
+  // 判断是否Safari浏览器
+  if (userAgent.includes('Safari')) {
+    return 'Safari'
+  }
+
+  // 判断是否IE浏览器
+  if (userAgent.includes('compatible') && userAgent.includes('MSIE')) {
+    return 'IE'
+  }
+  if (userAgent.includes('Trident')) {
+    return 'IE'
+  }
+
+  return ''
+}
+
+/**
+ * 前序遍历树形结构
+ *
+ * @param root 根结点
+ * @param callback 回掉函数
+ * @param childrenKey children数组的key
+ * @return 数组
+ */
+function preorderTraversal (root, callback = null, childrenKey = 'children') {
+  let p = null
+  const stack = [root]
+  const res = []
+  while (stack.length > 0) {
+    p = stack.pop()
+    res.push(p)
+
+    let stop = false
+    if (callback) {
+      stop = callback(p) === true
+    }
+    if (stop) {
+      break
+    }
+
+    if (p[childrenKey]) {
+      const children = p[childrenKey]
+      for (let i = children.length - 1; i >= 0; i--) {
+        stack.push(children[i])
+      }
+    }
+  }
+  return res
+}
+
 module.exports = {
   formatSeconds,
   formatTime,
@@ -343,5 +423,7 @@ module.exports = {
   arrayEquals,
   indexOf,
   getFileSizeString,
-  urlEncode
+  urlEncode,
+  getBrowserInfo,
+  preorderTraversal
 }

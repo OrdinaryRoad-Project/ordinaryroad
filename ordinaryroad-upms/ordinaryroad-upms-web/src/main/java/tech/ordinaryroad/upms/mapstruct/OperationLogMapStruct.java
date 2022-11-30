@@ -21,41 +21,40 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package tech.ordinaryroad.upms.mapstruct;
 
-import roleApis from './role'
-import userApis from './user'
-import requestPathApis from './request_path'
-import permissionApis from './permission'
-import dictApis from './dict'
-import dictItemApis from './dict_item'
-import fileApis from './file'
-import operationLogApis from './operation_log'
+import cn.hutool.core.util.EnumUtil;
+import org.mapstruct.Mapper;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
+import tech.ordinaryroad.commons.log.entity.OperationLogDO;
+import tech.ordinaryroad.upms.dto.OperationLogDTO;
+import tech.ordinaryroad.upms.dto.OperationLogTypeDTO;
+import tech.ordinaryroad.upms.request.OperationLogQueryRequest;
 
-let $axios = null
+import java.util.Objects;
 
-export default {
-  initAxios (axios) {
-    $axios = $axios || axios
-    userApis.initAxios(axios)
-    roleApis.initAxios(axios)
-    requestPathApis.initAxios(axios)
-    permissionApis.initAxios(axios)
-    dictApis.initAxios(axios)
-    dictItemApis.initAxios(axios)
-    fileApis.initAxios(axios)
-    operationLogApis.initAxios(axios)
-  },
-  apis: {
-    role: roleApis,
-    user: userApis,
-    request_path: requestPathApis,
-    permission: permissionApis,
-    dict: dictApis,
-    dict_item: dictItemApis,
-    file: fileApis,
-    operation_log: operationLogApis,
-    userInfo: () => {
-      return $axios({ url: '/upms/userinfo', data: {}, method: 'post' })
+/**
+ * @author mjz
+ * @date 2022/11/30
+ */
+@Mapper(componentModel = "spring")
+public interface OperationLogMapStruct {
+
+    OperationLogDTO transfer(OperationLogDO operationLogDO);
+
+    OperationLogDO transfer(OperationLogQueryRequest request);
+
+    default OperationLogTypeDTO map(Integer type) {
+        StatusCode statusCode = EnumUtil.getBy(StatusCode::getCode, type);
+        if (Objects.isNull(statusCode)) {
+            return null;
+        }
+
+        OperationLogTypeDTO operationLogTypeDTO = new OperationLogTypeDTO();
+        
+        operationLogTypeDTO.setDescription(statusCode.name());
+        operationLogTypeDTO.setCode(statusCode.getCode());
+
+        return operationLogTypeDTO;
     }
-  }
 }

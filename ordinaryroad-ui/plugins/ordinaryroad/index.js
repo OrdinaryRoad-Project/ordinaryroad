@@ -24,10 +24,10 @@
 
 import Vue from 'vue'
 /* 自定义常量 */
-import constants from './constants'
+import constants from './constants/index'
 /* 自定义工具类 */
-import util from './utils/util'
-import rules from './utils/rules/index'
+import util from './utils/index'
+import rules from './rules/index'
 
 Vue.prototype.$constants = constants
 Vue.prototype.$util = util

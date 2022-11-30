@@ -21,41 +21,32 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+package tech.ordinaryroad.upms.dto;
 
-import roleApis from './role'
-import userApis from './user'
-import requestPathApis from './request_path'
-import permissionApis from './permission'
-import dictApis from './dict'
-import dictItemApis from './dict_item'
-import fileApis from './file'
-import operationLogApis from './operation_log'
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
-let $axios = null
+/**
+ * @author mjz
+ * @date 2022/11/30
+ */
+@Data
+@ApiModel
+public class OperationLogTypeDTO extends BaseDTO implements Cloneable {
 
-export default {
-  initAxios (axios) {
-    $axios = $axios || axios
-    userApis.initAxios(axios)
-    roleApis.initAxios(axios)
-    requestPathApis.initAxios(axios)
-    permissionApis.initAxios(axios)
-    dictApis.initAxios(axios)
-    dictItemApis.initAxios(axios)
-    fileApis.initAxios(axios)
-    operationLogApis.initAxios(axios)
-  },
-  apis: {
-    role: roleApis,
-    user: userApis,
-    request_path: requestPathApis,
-    permission: permissionApis,
-    dict: dictApis,
-    dict_item: dictItemApis,
-    file: fileApis,
-    operation_log: operationLogApis,
-    userInfo: () => {
-      return $axios({ url: '/upms/userinfo', data: {}, method: 'post' })
+    private static final long serialVersionUID = -3686508922282436298L;
+
+    private String description;
+
+    private Integer code;
+
+    @Override
+    public OperationLogTypeDTO clone() {
+        try {
+            return (OperationLogTypeDTO) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
     }
-  }
 }

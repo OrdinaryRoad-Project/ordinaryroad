@@ -23,10 +23,17 @@
  */
 package tech.ordinaryroad.commons.log.service;
 
+import cn.hutool.core.util.StrUtil;
 import org.springframework.stereotype.Service;
+import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.log.dao.OperationLogDAO;
 import tech.ordinaryroad.commons.log.entity.OperationLogDO;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
+import tk.mybatis.mapper.entity.Example;
+import tk.mybatis.mapper.weekend.WeekendSqls;
+
+import java.util.List;
+import java.util.Objects;
 
 /**
  * OR操作日志服务类
@@ -37,8 +44,25 @@ import tech.ordinaryroad.commons.mybatis.service.BaseService;
 @Service
 public class OperationLogService extends BaseService<OperationLogDAO, OperationLogDO> {
 
-    public int count() {
-        return super.dao.selectCountByExample(null);
+    public List<OperationLogDO> findAll(OperationLogDO operationLogDO, BaseQueryRequest baseQueryRequest) {
+        WeekendSqls<OperationLogDO> sqls = WeekendSqls.custom();
+
+        Integer type = operationLogDO.getType();
+        if (Objects.nonNull(type)) {
+            sqls.andEqualTo(OperationLogDO::getType, type);
+        }
+        String method = operationLogDO.getMethod();
+        if (StrUtil.isNotBlank(method)) {
+            sqls.andEqualTo(OperationLogDO::getMethod, method);
+        }
+        String status = operationLogDO.getStatus();
+        if (StrUtil.isNotBlank(status)) {
+            sqls.andEqualTo(OperationLogDO::getStatus, status);
+        }
+
+        Example.Builder exampleBuilder = Example.builder(OperationLogDO.class).where(sqls);
+
+        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
 }

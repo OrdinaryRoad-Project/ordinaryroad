@@ -34,7 +34,14 @@ export default function ({ $axios, app }, inject) {
   const $apis = {
     user: userApis.apis,
     upms: upmsApis.apis,
-    auth: authApis.apis
+    auth: authApis.apis,
+    statusColor (item) {
+      if (item.type.code === 200) {
+        return 'success'
+      } else {
+        return 'error'
+      }
+    }
   }
   // $apis
   inject('apis', $apis)

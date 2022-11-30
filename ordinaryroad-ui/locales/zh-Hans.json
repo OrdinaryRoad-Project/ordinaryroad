@@ -1,4 +1,25 @@
 {
+  "operationLogForm": {
+    "title": "操作日志"
+  },
+  "parentheses": "（{0}）",
+  "parenthesesWithSpace": "（{0}）",
+  "operationLog": {
+    "ip": "IP",
+    "path": "请求路径",
+    "method": "请求方法",
+    "headers": "请求头",
+    "cookies": "请求Cookie",
+    "pathParams": "路径参数",
+    "queryParams": "查询参数",
+    "request": "请求体",
+    "status": "状态",
+    "responseHeaders": "响应头",
+    "responseCookies": "响应Cookie",
+    "response": "响应体",
+    "consumedTime": "耗时",
+    "type": "类型"
+  },
   "registeredClient": "第三方客户端",
   "document": "文档",
   "scopes": "授权范围",
@@ -121,6 +142,7 @@
     "fileManagement": "文件管理",
     "registeredClientManagement": "第三方客户端管理",
     "openidManagement": "OpenID管理",
+    "operationLogManagement": "操作日志",
     "accessControl": "权限控制",
     "userManagement": "用户管理",
     "roleManagement": "角色管理",
