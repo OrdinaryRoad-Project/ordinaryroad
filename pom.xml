@@ -30,7 +30,7 @@
 
     <groupId>tech.ordinaryroad</groupId>
     <artifactId>ordinaryroad</artifactId>
-    <version>1.4.0</version>
+    <version>1.5.0</version>
     <packaging>pom</packaging>
 
     <name>ordinaryroad</name>
@@ -178,77 +178,77 @@
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-base</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-core -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-core</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-mybatis -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-mybatis</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-swagger -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-swagger</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-satoken -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-satoken</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-minio -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-minio</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-kafka -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-kafka</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-log -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-log</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-auth-server-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-auth-server-api</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-upms-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-upms-api</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <!-- ordinaryroad-push-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-push-api</artifactId>
-                <version>${ordinaryroad.version}</version>
+                <version>1.5.0</version>
             </dependency>
 
             <dependency>
