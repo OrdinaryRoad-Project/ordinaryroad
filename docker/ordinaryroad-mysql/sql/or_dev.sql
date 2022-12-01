@@ -795,16 +795,16 @@ VALUES ('16f6ce7e558a2004b80e5c66e288791b', CURRENT_TIMESTAMP, 'upms:operation_l
 # 角色关联权限
 # 开发者 所有
 INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
-VALUES ('', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
+VALUES ('eb7c33210a5df374693c628989d83dd3', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
         'a7a1a724c30eb08968a6c98fe67a92a7');
 INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
-VALUES ('', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
+VALUES ('346a6c057a354847a5a95ce8c2db7606', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
         'a392eff2e11574c95077b56ac21eb864');
 INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
-VALUES ('', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
+VALUES ('a1856a99fd12af13980262faaa43079b', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
         'f401f029274509792acce04c7b92bb8f');
 INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
-VALUES ('', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
+VALUES ('baebe3613987f28621308e5a1e104497', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
         '16f6ce7e558a2004b80e5c66e288791b');
 # 管理员 查询、创建
 INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)

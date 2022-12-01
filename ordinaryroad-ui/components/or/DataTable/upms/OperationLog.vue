@@ -148,6 +148,7 @@
           <v-icon>mdi-eye</v-icon>
         </v-btn>
         <v-btn
+          v-if="$access.has('upms:operation_log:delete')"
           icon
           color="error"
           @click="$refs.dataTable.deleteItem(item)"

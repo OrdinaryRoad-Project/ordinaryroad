@@ -34,7 +34,7 @@ export default {
   },
   delete (id) {
     return $axios({
-      url: `/upms/operation_log/delete/${id}`,
+      url: `/upms/operation_log/delete?id=${id}`,
       method: 'delete'
     })
   },
