@@ -29,6 +29,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.util.StopWatch;
+import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @author mjz
@@ -37,6 +38,7 @@ import org.springframework.util.StopWatch;
 @Slf4j
 @EnableDiscoveryClient
 @EnableFeignClients({"tech.ordinaryroad.**.**.api"})
+@MapperScan({"tech.ordinaryroad.commons.log.dao"})
 @SpringBootApplication
 public class OrdinaryRoadPushApp {
 

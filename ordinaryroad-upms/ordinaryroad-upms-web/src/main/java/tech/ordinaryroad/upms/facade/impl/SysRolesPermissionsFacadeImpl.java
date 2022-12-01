@@ -111,7 +111,7 @@ public class SysRolesPermissionsFacadeImpl implements ISysRolesPermissionsFacade
         if (CollUtil.isEmpty(uuids)) {
             return Result.success(Collections.emptyList());
         }
-        List<SysRolesPermissionsDO> all = sysSysRolesPermissionsService.findIds(SysRolesPermissionsDO.class, uuids);
+        List<SysRolesPermissionsDO> all = sysSysRolesPermissionsService.findIds(uuids);
         List<SysRolesPermissionsDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
         return Result.success(list);
     }

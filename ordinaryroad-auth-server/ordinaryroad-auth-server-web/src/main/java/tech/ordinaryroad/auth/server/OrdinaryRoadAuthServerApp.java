@@ -36,7 +36,7 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @Slf4j
 @EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@MapperScan({"tech.ordinaryroad.auth.server.dao"})
+@MapperScan({"tech.ordinaryroad.commons.log.dao", "tech.ordinaryroad.auth.server.dao"})
 @SpringBootApplication
 public class OrdinaryRoadAuthServerApp {
 

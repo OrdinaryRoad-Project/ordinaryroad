@@ -151,7 +151,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
         if (CollUtil.isEmpty(uuids)) {
             return Result.success(Collections.emptyList());
         }
-        List<SysRoleDO> all = sysRoleService.findIds(SysRoleDO.class, uuids);
+        List<SysRoleDO> all = sysRoleService.findIds(uuids);
         List<SysRoleDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
         return Result.success(list);
     }
@@ -232,7 +232,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
             return Result.success(Boolean.FALSE);
         } else {
             if (CollUtil.isNotEmpty(needDeleteList)) {
-                sysUsersRolesService.deleteByIdList(SysUsersRolesDO.class, needDeleteList);
+                sysUsersRolesService.deleteByIdList(needDeleteList);
             }
             if (CollUtil.isNotEmpty(needInsertList)) {
                 sysUsersRolesService.insertList(needInsertList);
@@ -285,7 +285,7 @@ public class SysRoleFacadeImpl implements ISysRoleFacade {
             return Result.success(Boolean.FALSE);
         } else {
             if (CollUtil.isNotEmpty(needDeleteList)) {
-                sysRolesPermissionsService.deleteByIdList(SysRolesPermissionsDO.class, needDeleteList);
+                sysRolesPermissionsService.deleteByIdList(needDeleteList);
             }
             if (CollUtil.isNotEmpty(needInsertList)) {
                 sysRolesPermissionsService.insertList(needInsertList);

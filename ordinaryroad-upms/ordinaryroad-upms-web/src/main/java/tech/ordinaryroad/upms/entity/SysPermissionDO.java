@@ -25,6 +25,7 @@ package tech.ordinaryroad.upms.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
 import javax.persistence.Table;
@@ -37,10 +38,11 @@ import javax.persistence.Table;
  */
 @Getter
 @Setter
+@ToString
 @Table(name = "sys_permission")
 public class SysPermissionDO extends BaseDO {
 
-    private static final long serialVersionUID = -4809045250630021569L;
+    private static final long serialVersionUID = 4454184361799283456L;
 
     /**
      * 权限code

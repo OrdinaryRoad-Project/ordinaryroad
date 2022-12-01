@@ -55,11 +55,14 @@ INSERT INTO `sys_permission`
 VALUES (10, '882df767d05440dcb3dd7507a17e0e29', '2021-12-12 10:17:56', NULL, NULL, NULL, 'upms:user:update:enabled',
         '帐号停用/启用');
 INSERT INTO `sys_permission`
-VALUES (11, '406d0fe89fcc49c181f1cf5728cd3e6a', '2021-12-12 10:38:48', NULL, NULL, NULL, 'upms:role:create', '创建角色');
+VALUES (11, '406d0fe89fcc49c181f1cf5728cd3e6a', '2021-12-12 10:38:48', NULL, NULL, NULL, 'upms:role:create',
+        '创建角色');
 INSERT INTO `sys_permission`
-VALUES (12, 'e03f347c1aab45618ad794f38beb2bec', '2021-12-12 10:39:15', NULL, NULL, NULL, 'upms:role:update', '更新角色');
+VALUES (12, 'e03f347c1aab45618ad794f38beb2bec', '2021-12-12 10:39:15', NULL, NULL, NULL, 'upms:role:update',
+        '更新角色');
 INSERT INTO `sys_permission`
-VALUES (13, '7e800fe9018b4f009e2b9527a3e4acc1', '2021-12-12 10:39:34', NULL, NULL, NULL, 'upms:role:list', '查询角色列表');
+VALUES (13, '7e800fe9018b4f009e2b9527a3e4acc1', '2021-12-12 10:39:34', NULL, NULL, NULL, 'upms:role:list',
+        '查询角色列表');
 INSERT INTO `sys_permission`
 VALUES (14, '63a44136bfe34c16bedf04887bb333c5', '2021-12-12 10:40:02', NULL, NULL, NULL, 'upms:role:update:role_users',
         '更新角色关联的用户');
@@ -88,13 +91,17 @@ INSERT INTO `sys_permission`
 VALUES (22, '73da3231b3164f05bf27625747138cc8', '2021-12-12 12:17:47', NULL, NULL, NULL, 'upms:permission:list',
         '查询权限列表');
 INSERT INTO `sys_permission`
-VALUES (23, '140462770d2945da85ed6f17863e4a64', '2022-01-06 18:03:20', NULL, NULL, NULL, 'upms:dict:create', '创建字典');
+VALUES (23, '140462770d2945da85ed6f17863e4a64', '2022-01-06 18:03:20', NULL, NULL, NULL, 'upms:dict:create',
+        '创建字典');
 INSERT INTO `sys_permission`
-VALUES (24, 'a2ef2a0497b54016b546478c05edde87', '2022-01-06 18:04:32', NULL, NULL, NULL, 'upms:dict:delete', '删除字典');
+VALUES (24, 'a2ef2a0497b54016b546478c05edde87', '2022-01-06 18:04:32', NULL, NULL, NULL, 'upms:dict:delete',
+        '删除字典');
 INSERT INTO `sys_permission`
-VALUES (25, '45e7cc43256b4d17a62b6ece7828d090', '2022-01-06 18:04:53', NULL, NULL, NULL, 'upms:dict:update', '更新字典');
+VALUES (25, '45e7cc43256b4d17a62b6ece7828d090', '2022-01-06 18:04:53', NULL, NULL, NULL, 'upms:dict:update',
+        '更新字典');
 INSERT INTO `sys_permission`
-VALUES (26, '5f4666f586d34509bfd55a3baa8da9fa', '2022-01-06 18:05:07', NULL, NULL, NULL, 'upms:dict:list', '查询字典列表');
+VALUES (26, '5f4666f586d34509bfd55a3baa8da9fa', '2022-01-06 18:05:07', NULL, NULL, NULL, 'upms:dict:list',
+        '查询字典列表');
 INSERT INTO `sys_permission`
 VALUES (27, '88ec00ed22044e2bbe8edfa7fc2ba30f', '2022-01-06 18:03:20', NULL, NULL, NULL, 'upms:dict_item:create',
         '创建字典项');
@@ -231,16 +238,20 @@ INSERT INTO `sys_request_path`
 VALUES (22, '6281a48c06094afdb475c73ee9079d73', '2021-12-12 12:14:59', NULL, '2021-12-12 13:14:28', NULL,
         '/upms/permission/list', '查询权限列表', '73da3231b3164f05bf27625747138cc8');
 INSERT INTO `sys_request_path`
-VALUES (23, '908f6eca4d4e4f3790d19cab653d3d4f', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/create', '创建字典',
+VALUES (23, '908f6eca4d4e4f3790d19cab653d3d4f', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/create',
+        '创建字典',
         '140462770d2945da85ed6f17863e4a64');
 INSERT INTO `sys_request_path`
-VALUES (24, 'a22760555af74d53b111e725508fa4a0', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/delete', '删除字典',
+VALUES (24, 'a22760555af74d53b111e725508fa4a0', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/delete',
+        '删除字典',
         'a2ef2a0497b54016b546478c05edde87');
 INSERT INTO `sys_request_path`
-VALUES (25, '4ec456f9767c47379204efc5a563b2d1', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/update', '更新字典',
+VALUES (25, '4ec456f9767c47379204efc5a563b2d1', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/update',
+        '更新字典',
         '45e7cc43256b4d17a62b6ece7828d090');
 INSERT INTO `sys_request_path`
-VALUES (26, 'f303717162f244329a748ef30f5243cf', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/list', '查询字典列表',
+VALUES (26, 'f303717162f244329a748ef30f5243cf', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict/list',
+        '查询字典列表',
         '5f4666f586d34509bfd55a3baa8da9fa');
 INSERT INTO `sys_request_path`
 VALUES (27, '8e96f6ca2641463da37062709df40180', '2022-01-06 18:09:24', NULL, NULL, NULL, '/upms/dict_item/create',
@@ -316,7 +327,8 @@ INSERT INTO `sys_role`
 VALUES (1, '1a18d9a41ff34abfa07b73340779d63e', '2021-11-04 14:59:24', NULL, '2021-12-06 21:10:22', NULL, '开发者',
         'DEVELOPER', b'1');
 INSERT INTO `sys_role`
-VALUES (2, '11aa7ccc1d194afabb7a303d48b07683', '2021-11-04 14:59:59', NULL, '2021-12-06 20:03:48', NULL, '管理员', 'ADMIN',
+VALUES (2, '11aa7ccc1d194afabb7a303d48b07683', '2021-11-04 14:59:59', NULL, '2021-12-06 20:03:48', NULL, '管理员',
+        'ADMIN',
         b'1');
 INSERT INTO `sys_role`
 VALUES (3, '63b55b8be8fe49af82a822aa9aa57868', '2021-12-06 20:00:34', NULL, NULL, NULL, '测试', 'TEST', b'1');
@@ -765,3 +777,91 @@ CREATE TABLE `sys_file`
 -- ----------------------------
 -- Records of sys_file
 -- ----------------------------
+
+
+#region 1.5.0 操作日志
+# 新增的权限
+INSERT INTO `sys_permission`(uuid, created_time, permission_code, description)
+VALUES ('a7a1a724c30eb08968a6c98fe67a92a7', CURRENT_TIMESTAMP, 'upms:operation_log:list', '查询操作日志列表');
+INSERT INTO `sys_permission`(uuid, created_time, permission_code, description)
+VALUES ('a392eff2e11574c95077b56ac21eb864', CURRENT_TIMESTAMP, 'upms:operation_log:delete', '删除操作日志');
+INSERT INTO `sys_permission`(uuid, created_time, permission_code, description)
+VALUES ('f401f029274509792acce04c7b92bb8f', CURRENT_TIMESTAMP, 'upms:operation_log:all:types',
+        '查询操作日志类型列表');
+INSERT INTO `sys_permission`(uuid, created_time, permission_code, description)
+VALUES ('16f6ce7e558a2004b80e5c66e288791b', CURRENT_TIMESTAMP, 'upms:operation_log:all:status',
+        '查询操作日志响应状态列表');
+
+# 角色关联权限
+# 开发者 所有
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('eb7c33210a5df374693c628989d83dd3', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
+        'a7a1a724c30eb08968a6c98fe67a92a7');
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('346a6c057a354847a5a95ce8c2db7606', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
+        'a392eff2e11574c95077b56ac21eb864');
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('a1856a99fd12af13980262faaa43079b', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
+        'f401f029274509792acce04c7b92bb8f');
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('baebe3613987f28621308e5a1e104497', CURRENT_TIMESTAMP, '1a18d9a41ff34abfa07b73340779d63e',
+        '16f6ce7e558a2004b80e5c66e288791b');
+# 管理员 查询、创建
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('dadaf5abd126f9c5e66c87d88b2e7b78', CURRENT_TIMESTAMP, '11aa7ccc1d194afabb7a303d48b07683',
+        'a7a1a724c30eb08968a6c98fe67a92a7');
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('35579d504fdb4ed23aa8864678b38ab7', CURRENT_TIMESTAMP, '11aa7ccc1d194afabb7a303d48b07683',
+        'f401f029274509792acce04c7b92bb8f');
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('2421cd9cae55fc7880bcbb159b001d63', CURRENT_TIMESTAMP, '11aa7ccc1d194afabb7a303d48b07683',
+        '16f6ce7e558a2004b80e5c66e288791b');
+# 测试 查询
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('f213732be4fee06f827b39d0c4ee3040', CURRENT_TIMESTAMP, '63b55b8be8fe49af82a822aa9aa57868',
+        'a7a1a724c30eb08968a6c98fe67a92a7');
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('5715e6ad4e13c0da783ec44d396b257d', CURRENT_TIMESTAMP, '63b55b8be8fe49af82a822aa9aa57868',
+        'f401f029274509792acce04c7b92bb8f');
+INSERT INTO `sys_roles_permissions` (uuid, created_time, role_uuid, permission_uuid)
+VALUES ('7ebe6ad32e94034064f83a8d23ca8160', CURRENT_TIMESTAMP, '63b55b8be8fe49af82a822aa9aa57868',
+        '16f6ce7e558a2004b80e5c66e288791b');
+
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 苗锦洲
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+
+# 新增的请求路径
+INSERT INTO `sys_request_path`(uuid, created_time, path, path_name, permission_uuid)
+VALUES ('1d87db5fd4761164eab1e2ec6f825415', CURRENT_TIMESTAMP, '/upms/operation_log/list', '查询操作日志列表',
+        'a7a1a724c30eb08968a6c98fe67a92a7');
+INSERT INTO `sys_request_path`(uuid, created_time, path, path_name, permission_uuid)
+VALUES ('e94b974ca62112a5e273a39ccb59b77b', CURRENT_TIMESTAMP, '/upms/operation_log/delete', '删除操作日志',
+        'a392eff2e11574c95077b56ac21eb864');
+INSERT INTO `sys_request_path`(uuid, created_time, path, path_name, permission_uuid)
+VALUES ('c852b4689439809c3ae34bc11ff9fb48', CURRENT_TIMESTAMP, '/upms/operation_log/all/types', '查询操作日志类型列表',
+        'f401f029274509792acce04c7b92bb8f');
+INSERT INTO `sys_request_path`(uuid, created_time, path, path_name, permission_uuid)
+VALUES ('de4eac804f2ff97239e04f1288543075', CURRENT_TIMESTAMP, '/upms/operation_log/all/status',
+        '查询操作日志响应状态列表', '16f6ce7e558a2004b80e5c66e288791b');
+#endregion

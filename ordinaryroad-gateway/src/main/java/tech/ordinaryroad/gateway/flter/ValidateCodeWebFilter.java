@@ -41,8 +41,8 @@ import org.springframework.web.server.WebFilterChain;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.commons.core.utils.server.ServletUtils;
 import tech.ordinaryroad.gateway.service.ICaptchaService;
+import tech.ordinaryroad.gateway.utils.ServerHttpUtils;
 
 import java.nio.charset.StandardCharsets;
 
@@ -111,7 +111,7 @@ public class ValidateCodeWebFilter implements WebFilter {
                                     }
                                     return chain.filter(exchange.mutate().request(mutatedRequest).build());
                                 } catch (Exception e) {
-                                    return ServletUtils.webFluxResponseWriter(exchange.getResponse(), Result.fail(e.getMessage()));
+                                    return ServerHttpUtils.webFluxResponseWriter(exchange.getResponse(), Result.fail(e.getMessage()));
                                 }
                             })
                     );

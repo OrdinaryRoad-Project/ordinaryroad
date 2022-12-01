@@ -56,8 +56,6 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
     private SysRolesPermissionsService sysRolesPermissionsService;
     @Autowired
     private SysRequestPathService sysRequestPathService;
-    @Autowired
-    private SysPermissionService sysPermissionService;
 
     public Optional<SysPermissionDO> findByPermissionCode(String permissionCode) {
         Example example = Example.builder(SysPermissionDO.class)
@@ -91,7 +89,7 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(roleUuidList);
         List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
         // 根据权限uuid查询所有权限
-        return this.findIds(SysPermissionDO.class, permissionUuids);
+        return this.findIds(permissionUuids);
     }
 
     public List<SysPermissionDO> findAllByRoleUuid(String roleUuid) {
@@ -99,7 +97,7 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(Collections.singletonList(roleUuid));
         List<String> permissionUuids = allByRoleUuids.stream().map(SysRolesPermissionsDO::getPermissionUuid).collect(Collectors.toList());
         // 根据权限uuid查询所有权限
-        return this.findIds(SysPermissionDO.class, permissionUuids);
+        return this.findIds(permissionUuids);
     }
 
     public Optional<SysPermissionDO> findByRequestPath(String path) {
@@ -109,7 +107,7 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         }
         SysRequestPathDO sysRequestPathDO = optional.get();
         String permissionUuid = sysRequestPathDO.getPermissionUuid();
-        return Optional.ofNullable(sysPermissionService.findById(permissionUuid));
+        return Optional.ofNullable(super.findById(permissionUuid));
     }
 
     public Optional<SysPermissionDO> findByRequestPathUuid(String requestPathUuid) {
@@ -118,7 +116,7 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
             return Optional.empty();
         }
         String permissionUuid = sysRequestPathDO.getPermissionUuid();
-        return Optional.ofNullable(sysPermissionService.findById(permissionUuid));
+        return Optional.ofNullable(super.findById(permissionUuid));
     }
 
 }

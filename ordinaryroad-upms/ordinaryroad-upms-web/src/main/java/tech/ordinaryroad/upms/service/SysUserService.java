@@ -96,7 +96,7 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
     public List<SysUserDO> findAllByRoleUuid(String roleUuid) {
         List<SysUsersRolesDO> allByRoleUuid = sysUsersRolesService.findAllByRoleUuid(roleUuid);
         List<String> userUuids = allByRoleUuid.stream().map(SysUsersRolesDO::getUserUuid).collect(Collectors.toList());
-        return this.findIds(SysUserDO.class, userUuids);
+        return this.findIds(userUuids);
     }
 
     public Integer selectCount() {

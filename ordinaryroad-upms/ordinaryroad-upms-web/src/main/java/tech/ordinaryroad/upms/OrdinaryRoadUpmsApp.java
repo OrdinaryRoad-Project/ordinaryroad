@@ -41,7 +41,7 @@ import tk.mybatis.spring.annotation.MapperScan;
 @EnableConfigurationProperties({OrMinioProperties.class})
 @EnableDiscoveryClient
 @EnableFeignClients({"tech.ordinaryroad.**.**.api"})
-@MapperScan({"tech.ordinaryroad.upms.dao"})
+@MapperScan({"tech.ordinaryroad.commons.log.dao", "tech.ordinaryroad.upms.dao"})
 @SpringBootApplication
 public class OrdinaryRoadUpmsApp {
 

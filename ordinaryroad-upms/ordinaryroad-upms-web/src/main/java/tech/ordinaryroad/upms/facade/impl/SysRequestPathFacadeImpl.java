@@ -157,7 +157,7 @@ public class SysRequestPathFacadeImpl implements ISysRequestPathFacade {
         if (CollUtil.isEmpty(uuids)) {
             return Result.success(Collections.emptyList());
         }
-        List<SysRequestPathDO> all = sysRequestPathService.findIds(SysRequestPathDO.class, uuids);
+        List<SysRequestPathDO> all = sysRequestPathService.findIds(uuids);
         List<SysRequestPathDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
         return Result.success(list);
     }

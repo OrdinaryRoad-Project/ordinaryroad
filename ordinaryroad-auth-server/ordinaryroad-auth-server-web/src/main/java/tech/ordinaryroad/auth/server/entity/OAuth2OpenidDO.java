@@ -25,6 +25,7 @@ package tech.ordinaryroad.auth.server.entity;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
 import javax.persistence.Table;
@@ -37,10 +38,11 @@ import javax.persistence.Table;
  */
 @Getter
 @Setter
+@ToString
 @Table(name = "oauth2_openid")
 public class OAuth2OpenidDO extends BaseDO {
 
-    private static final long serialVersionUID = 4154236609106009443L;
+    private static final long serialVersionUID = -7917651392205421338L;
 
     /**
      * or帐号

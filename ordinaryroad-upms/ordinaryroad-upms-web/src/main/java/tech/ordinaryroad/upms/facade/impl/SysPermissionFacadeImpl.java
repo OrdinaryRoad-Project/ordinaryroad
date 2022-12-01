@@ -134,7 +134,7 @@ public class SysPermissionFacadeImpl implements ISysPermissionFacade {
         if (CollUtil.isEmpty(uuids)) {
             return Result.success(Collections.emptyList());
         }
-        List<SysPermissionDO> all = sysPermissionService.findIds(SysPermissionDO.class, uuids);
+        List<SysPermissionDO> all = sysPermissionService.findIds(uuids);
         List<SysPermissionDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
         return Result.success(list);
     }

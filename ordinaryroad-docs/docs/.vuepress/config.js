@@ -24,7 +24,7 @@
 
 module.exports = {
     port: 80,
-    title: "OrdinaryRoad开源框架",
+    title: "OR开源框架",
     description: 'OrdinaryRoad开源框架',
     themeConfig: {
         displayAllHeaders: false,
@@ -32,6 +32,12 @@ module.exports = {
         smoothScroll: true,
         nav: [
             {text: '首页', link: '/'},
+            {
+                text: '通用模块',
+                items: [
+                    {text: '日志模块', link: '/commons/log/'},
+                ]
+            },
             {
                 text: 'OR生态',
                 items: [
@@ -66,6 +72,22 @@ module.exports = {
                             '/start/deploy/pro'
                         ]
                     }
+                ]
+            },
+            {
+                title: '通用模块',
+                path: '/commons/log/',
+                children: [
+                    {
+                        title: '日志模块',
+                        path: '/commons/log/',
+                    }
+                ]
+            },
+            {
+                title: "其他",
+                children: [
+                    '/others/changelog/',
                 ]
             },
             {

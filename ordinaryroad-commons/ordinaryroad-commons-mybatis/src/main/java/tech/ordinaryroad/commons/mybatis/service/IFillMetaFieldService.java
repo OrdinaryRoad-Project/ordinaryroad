@@ -33,30 +33,66 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 public interface IFillMetaFieldService<T extends BaseDO> {
 
     /**
-     * 创建时生成Uuid字段
+     * 创建时生成uuid字段
      *
-     * @param t BaseDO
      * @return String
      */
     default String generateUuid(T t) {
-        return IdUtil.simpleUUID();
+        return IdUtil.getSnowflake().nextIdStr();
+    }
+
+    /**
+     * 创建时生成uuid字段失败
+     */
+    default void generateUuidFailed(T t, Exception e) {
+        // ignore
     }
 
     /**
      * 创建时生成CreateBy字段
      *
-     * @param t BaseDO
      * @return String
      */
     String generateCreateBy(T t);
 
     /**
+     * 创建时生成CreateBy字段失败
+     */
+    default void generateCreateByFailed(T t, Exception e) {
+        // ignore
+    }
+
+    /**
      * 更新时生成UpdateBy字段
      *
-     * @param t BaseDO
      * @return String
      */
     String generateUpdateBy(T t);
+
+    /**
+     * 更新时生成UpdateBy字段失败
+     */
+    default void generateUpdateByFailed(T t, Exception e) {
+        // ignore
+    }
+
+    /**
+     * 插入前的回掉
+     *
+     * @param t BaseDO
+     */
+    default void beforeInsert(T t) {
+        // ignore
+    }
+
+    /**
+     * 更新前的回掉
+     *
+     * @param t BaseDO
+     */
+    default void beforeUpdate(T t) {
+        // ignore
+    }
 
     /**
      * 填充失败时错误信息收件箱

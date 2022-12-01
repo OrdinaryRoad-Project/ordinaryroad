@@ -42,6 +42,7 @@
         <module>ordinaryroad-commons-satoken</module>
         <module>ordinaryroad-commons-minio</module>
         <module>ordinaryroad-commons-kafka</module>
+        <module>ordinaryroad-commons-log</module>
     </modules>
 
     <artifactId>ordinaryroad-commons</artifactId>

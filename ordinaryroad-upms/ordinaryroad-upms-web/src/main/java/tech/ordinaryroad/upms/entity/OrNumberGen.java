@@ -24,7 +24,7 @@
 package tech.ordinaryroad.upms.entity;
 
 import cn.hutool.extra.spring.SpringUtil;
-import tech.ordinaryroad.upms.service.SysOrNumberService;
+import tech.ordinaryroad.upms.config.SysOrNumberService;
 import tk.mybatis.mapper.genid.GenId;
 
 /**

@@ -26,7 +26,6 @@ package tech.ordinaryroad.commons.mybatis.service;
 
 import cn.dev33.satoken.context.SaHolder;
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
@@ -37,12 +36,12 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
-import tech.ordinaryroad.push.api.IPushApi;
-import tech.ordinaryroad.push.request.EmailPushRequest;
 import tk.mybatis.mapper.entity.Example;
 import tk.mybatis.mapper.util.Sqls;
 import tk.mybatis.mapper.weekend.WeekendSqls;
 
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
@@ -60,14 +59,12 @@ import java.util.function.Predicate;
  * @date 2021/8/2
  */
 @Slf4j
-public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
+public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
 
     @Autowired
     protected D dao;
     @Autowired
     protected IFillMetaFieldService<T> fillMetaFieldService;
-    @Autowired
-    protected IPushApi pushApi;
 
     /**
      * 新增记录
@@ -289,18 +286,18 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
     /**
      * 按条件查询id列表
      */
-    public List<T> findIds(Class<T> tClass, String[] ids) {
-        return findIds(tClass, Arrays.asList(ids));
+    public List<T> findIds(String[] ids) {
+        return findIds(Arrays.asList(ids));
     }
 
     /**
      * 按条件查询id列表
      */
-    public List<T> findIds(Class<T> tClass, List<String> idList) {
+    public List<T> findIds(List<String> idList) {
         if (CollUtil.isEmpty(idList)) {
             return Collections.emptyList();
         }
-        Example example = Example.builder(tClass)
+        Example example = Example.builder(getEntityClass())
                 .where(Sqls.custom().andIn("uuid", idList))
                 .build();
         return dao.selectByExample(example);
@@ -341,11 +338,11 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      *
      * @return boolean
      */
-    public boolean deleteByIdList(Class<T> tClass, List<String> idList) {
+    public boolean deleteByIdList(List<String> idList) {
         if (CollUtil.isEmpty(idList)) {
             return true;
         }
-        Example example = Example.builder(tClass)
+        Example example = Example.builder(getEntityClass())
                 .where(Sqls.custom().andIn("uuid", idList))
                 .build();
         return dao.deleteByExample(example) != 0;
@@ -357,6 +354,8 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * @param t BaseDO
      */
     private void fillMetaFieldsWhenCreate(T t) {
+        t.setCreatedTime(LocalDateTime.now());
+
         // 填充uuid字段
         if (StrUtil.isBlank(t.getUuid())) {
             try {
@@ -366,12 +365,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             } catch (Exception e) {
                 // 如果有报错需要处理
                 log.error("TODO fillMetaFieldsWhenCreate uuid failed, " + e);
-                final EmailPushRequest emailPushRequest = new EmailPushRequest();
-                // 设置邮箱
-                emailPushRequest.setEmail(fillMetaFieldService.emailToReceiveErrorMsgWhenGenerating(t, e));
-                emailPushRequest.setTitle("创建时填充字段异常");
-                emailPushRequest.setContent("fillMetaFieldsWhenCreate uuid failed, " + ExceptionUtil.getMessage(e));
-                pushApi.email(emailPushRequest);
+                fillMetaFieldService.generateUuidFailed(t, e);
             }
         }
 
@@ -386,12 +380,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         } catch (Exception e) {
             // 如果有报错需要处理
             log.error("TODO fillMetaFieldsWhenCreate createBy failed, " + requestPath, e);
-            final EmailPushRequest emailPushRequest = new EmailPushRequest();
-            // 设置邮箱
-            emailPushRequest.setEmail(fillMetaFieldService.emailToReceiveErrorMsgWhenGenerating(t, e));
-            emailPushRequest.setTitle("创建时填充字段异常");
-            emailPushRequest.setContent("fillMetaFieldsWhenCreate createBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
-            pushApi.email(emailPushRequest);
+            fillMetaFieldService.generateCreateByFailed(t, e);
         }
     }
 
@@ -402,6 +391,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      */
     private void fillMetaFieldsWhenUpdate(T t) {
         t.setUpdateTime(LocalDateTime.now());
+
         // 填充updateBy字段，跳过免登接口
         String requestPath = SaHolder.getRequest().getRequestPath();
         if (PathConstants.NO_LOGIN_UPDATE_PATHS.contains(requestPath)) {
@@ -413,11 +403,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         } catch (Exception e) {
             // 如果有报错需要处理
             log.error("TODO fillMetaFieldsWhenUpdate updateBy failed, " + requestPath, e);
-            final EmailPushRequest emailPushRequest = new EmailPushRequest();
-            emailPushRequest.setEmail(fillMetaFieldService.emailToReceiveErrorMsgWhenGenerating(t, e));
-            emailPushRequest.setTitle("更新时填充字段异常");
-            emailPushRequest.setContent("fillMetaFieldsWhenCreate updateBy failed, " + requestPath + "\n" + ExceptionUtil.getMessage(e));
-            pushApi.email(emailPushRequest);
+            fillMetaFieldService.generateUpdateByFailed(t, e);
         }
     }
 
@@ -435,7 +421,7 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         if (ArrayUtil.isNotEmpty(sortBy)) {
             for (int i = 0; i < sortBy.length; i++) {
                 String columnName = sortBy[i];
-                Boolean isDesc = BooleanUtil.isTrue(ArrayUtil.get(sortDesc, i));
+                boolean isDesc = BooleanUtil.isTrue(ArrayUtil.get(sortDesc, i));
                 if (isDesc) {
                     exampleBuilder.orderByDesc(columnName);
                 } else {
@@ -456,4 +442,14 @@ public class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         return this.dao.selectByExample(exampleBuilder.build());
     }
 
+    @SuppressWarnings("unchecked")
+    protected Class<T> getEntityClass() {
+        ParameterizedType parameterizedType = (ParameterizedType) this.getClass().getGenericSuperclass();
+        Type[] actualTypeArguments = parameterizedType.getActualTypeArguments();
+        return (Class<T>) actualTypeArguments[1];
+    }
+
+    public D getDao() {
+        return dao;
+    }
 }

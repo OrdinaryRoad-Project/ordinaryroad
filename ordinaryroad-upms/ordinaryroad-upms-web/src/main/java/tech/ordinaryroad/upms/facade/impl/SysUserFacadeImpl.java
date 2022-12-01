@@ -367,7 +367,7 @@ public class SysUserFacadeImpl implements ISysUserFacade {
             return Result.success(Boolean.FALSE);
         } else {
             if (CollUtil.isNotEmpty(needDeleteList)) {
-                sysUsersRolesService.deleteByIdList(SysUsersRolesDO.class, needDeleteList);
+                sysUsersRolesService.deleteByIdList(needDeleteList);
             }
             if (CollUtil.isNotEmpty(needInsertList)) {
                 sysUsersRolesService.insertList(needInsertList);

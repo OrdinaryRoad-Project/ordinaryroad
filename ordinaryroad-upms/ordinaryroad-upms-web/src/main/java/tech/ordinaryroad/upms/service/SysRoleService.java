@@ -85,7 +85,7 @@ public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
         List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
         // 根据角色uuid查询角色
         List<String> roleUuidList = allByUserUuid.stream().map(SysUsersRolesDO::getRoleUuid).collect(Collectors.toList());
-        return this.findIds(SysRoleDO.class, roleUuidList);
+        return this.findIds(roleUuidList);
     }
 
 }

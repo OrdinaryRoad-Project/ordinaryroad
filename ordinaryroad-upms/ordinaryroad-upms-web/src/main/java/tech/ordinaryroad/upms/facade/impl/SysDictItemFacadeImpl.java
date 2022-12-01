@@ -169,7 +169,7 @@ public class SysDictItemFacadeImpl implements ISysDictItemFacade {
         if (CollUtil.isEmpty(uuids)) {
             return Result.success(Collections.emptyList());
         }
-        List<SysDictItemDO> all = sysDictItemService.findIds(SysDictItemDO.class, uuids);
+        List<SysDictItemDO> all = sysDictItemService.findIds(uuids);
         List<SysDictItemDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
         return Result.success(list);
     }

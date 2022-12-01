@@ -37,7 +37,7 @@ public class OrSwaggerProperties {
     private String title = "OrdinaryRoad";
     private String description = "<div style='font-size:14px;color:red;'>OrdinaryRoad APIs</div>";
     private String termsOfServiceUrl;
-    private String version = "1.0.0";
+    private String version = "1.4.0";
     private String license = "MIT License";
     private String licenseUrl = "https://github.com/1962247851/ordinaryroad/blob/main/LICENSE";
     private Contact contact = new Contact("OrdinaryRoad", "https://ordinaryroad.top", "1962247851@qq.com");

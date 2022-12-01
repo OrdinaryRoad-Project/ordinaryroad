@@ -29,6 +29,7 @@ import permissionApis from './permission'
 import dictApis from './dict'
 import dictItemApis from './dict_item'
 import fileApis from './file'
+import operationLogApis from './operation_log'
 
 let $axios = null
 
@@ -42,6 +43,7 @@ export default {
     dictApis.initAxios(axios)
     dictItemApis.initAxios(axios)
     fileApis.initAxios(axios)
+    operationLogApis.initAxios(axios)
   },
   apis: {
     role: roleApis,
@@ -51,6 +53,7 @@ export default {
     dict: dictApis,
     dict_item: dictItemApis,
     file: fileApis,
+    operation_log: operationLogApis,
     userInfo: () => {
       return $axios({ url: '/upms/userinfo', data: {}, method: 'post' })
     }

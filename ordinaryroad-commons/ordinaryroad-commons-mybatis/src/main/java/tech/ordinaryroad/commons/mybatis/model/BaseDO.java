@@ -24,13 +24,13 @@
 
 package tech.ordinaryroad.commons.mybatis.model;
 
-import com.alibaba.fastjson2.JSON;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.persistence.Transient;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -42,6 +42,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
+@ToString
 @MappedSuperclass
 public class BaseDO implements Serializable {
 
@@ -50,22 +51,26 @@ public class BaseDO implements Serializable {
     /**
      * 自增主键
      */
+    @Column(updatable = false)
     private Long id;
 
     /**
      * uuid主键
      */
     @Id
+    @Column(updatable = false)
     private String uuid;
 
     /**
      * 创建时间
      */
+    @Column(updatable = false)
     private LocalDateTime createdTime;
 
     /**
      * 创建者OR账号
      */
+    @Column(updatable = false)
     private String createBy;
 
     /**
@@ -77,22 +82,4 @@ public class BaseDO implements Serializable {
      * 更新者OR账号
      */
     private String updateBy;
-
-    /**
-     * 起始时间
-     */
-    @Transient
-    private LocalDateTime startTime;
-
-    /**
-     * 结束时间
-     */
-    @Transient
-    private LocalDateTime endTime;
-
-    @Override
-    public String toString() {
-        return JSON.toJSONString(this);
-    }
-
 }
