@@ -27,7 +27,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>OrdinaryRoad开源框架</title>
+    <title>开发环境部署 | OrdinaryRoad开源框架</title>
     <meta name="generator" content="VuePress 1.9.7">
 
     <meta name="description" content="OrdinaryRoad开源框架">
@@ -35,12 +35,11 @@
     <link rel="preload" href="/assets/css/0.styles.ed78d22d.css" as="style">
     <link rel="preload" href="/assets/js/app.fee77e48.js" as="script">
     <link rel="preload" href="/assets/js/2.c3ccb82e.js" as="script">
-    <link rel="preload" href="/assets/js/8.9e9dc5eb.js" as="script">
+    <link rel="preload" href="/assets/js/14.0db244b9.js" as="script">
     <link rel="prefetch" href="/assets/js/10.b7097bad.js">
     <link rel="prefetch" href="/assets/js/11.af966efb.js">
     <link rel="prefetch" href="/assets/js/12.8680b3d3.js">
     <link rel="prefetch" href="/assets/js/13.27abf17a.js">
-    <link rel="prefetch" href="/assets/js/14.0db244b9.js">
     <link rel="prefetch" href="/assets/js/15.0a190d2d.js">
     <link rel="prefetch" href="/assets/js/16.0ff03a6f.js">
     <link rel="prefetch" href="/assets/js/17.19aab485.js">
@@ -49,12 +48,13 @@
     <link rel="prefetch" href="/assets/js/5.d92e28f1.js">
     <link rel="prefetch" href="/assets/js/6.cd545465.js">
     <link rel="prefetch" href="/assets/js/7.c4b93efa.js">
+    <link rel="prefetch" href="/assets/js/8.9e9dc5eb.js">
     <link rel="prefetch" href="/assets/js/9.8d9e5ab3.js">
     <link rel="stylesheet" href="/assets/css/0.styles.ed78d22d.css">
 </head>
 <body>
 <div id="app" data-server-rendered="true">
-    <div class="theme-container no-sidebar">
+    <div class="theme-container">
         <header class="navbar">
             <div class="sidebar-button">
                 <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512"
@@ -63,14 +63,12 @@
                           d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path>
                 </svg>
             </div>
-            <a href="/" aria-current="page" class="home-link router-link-exact-active router-link-active"><!----> <span
-                    class="site-name">OrdinaryRoad开源框架</span></a>
+            <a href="/" class="home-link router-link-active"><!----> <span class="site-name">OrdinaryRoad开源框架</span></a>
             <div class="links">
                 <div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value="">
                     <!----></div>
                 <nav class="nav-links can-hide">
-                    <div class="nav-item"><a href="/" aria-current="page"
-                                             class="nav-link router-link-exact-active router-link-active">
+                    <div class="nav-item"><a href="/" class="nav-link">
                         首页
                     </a></div>
                     <div class="nav-item">
@@ -127,8 +125,7 @@
         <div class="sidebar-mask"></div>
         <aside class="sidebar">
             <nav class="nav-links">
-                <div class="nav-item"><a href="/" aria-current="page"
-                                         class="nav-link router-link-exact-active router-link-active">
+                <div class="nav-item"><a href="/" class="nav-link">
                     首页
                 </a></div>
                 <div class="nav-item">
@@ -183,14 +180,32 @@
             <ul class="sidebar-links">
                 <li>
                     <section class="sidebar-group collapsable depth-0"><a href="/start/"
-                                                                          class="sidebar-heading clickable open"><span>开始</span>
+                                                                          class="sidebar-heading clickable router-link-active open"><span>开始</span>
                         <span class="arrow down"></span></a>
                         <ul class="sidebar-links sidebar-group-items">
-                            <li><a href="/start/" class="sidebar-link">介绍</a></li>
+                            <li><a href="/start/" aria-current="page" class="sidebar-link">介绍</a></li>
                             <li>
                                 <section class="sidebar-group collapsable is-sub-group depth-1"><p
-                                        class="sidebar-heading"><span>部署</span> <span class="arrow right"></span></p>
-                                    <!----></section>
+                                        class="sidebar-heading open"><span>部署</span> <span class="arrow down"></span>
+                                </p>
+                                    <ul class="sidebar-links sidebar-group-items">
+                                        <li><a href="/start/deploy/dev.html" aria-current="page"
+                                               class="active sidebar-link">开发环境部署</a>
+                                            <ul class="sidebar-sub-headers">
+                                                <li class="sidebar-sub-header"><a
+                                                        href="/start/deploy/dev.html#开发环境准备" class="sidebar-link">开发环境准备</a>
+                                                </li>
+                                                <li class="sidebar-sub-header"><a
+                                                        href="/start/deploy/dev.html#项目构建与部署"
+                                                        class="sidebar-link">项目构建与部署</a></li>
+                                                <li class="sidebar-sub-header"><a
+                                                        href="/start/deploy/dev.html#系统账号说明" class="sidebar-link">系统账号说明</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li><a href="/start/deploy/pro.html" class="sidebar-link">生产环境部署</a></li>
+                                    </ul>
+                                </section>
                             </li>
                         </ul>
                     </section>
@@ -210,108 +225,233 @@
                 </li>
             </ul>
         </aside>
-        <main aria-labelledby="main-title" class="home">
-            <header class="hero"><!----> <h1 id="main-title">
-                OrdinaryRoad
-            </h1>
-                <p class="description">
-                    我的第一个微服务框架
-                </p>
-                <p class="action"><a href="/start/" class="nav-link action-button">
-                    了解更多 →
-                </a></p></header>
-            <div class="features">
-                <div class="feature"><h2>功能</h2>
-                    <p>OAuth2, RBAC, 对象存储</p></div>
-                <div class="feature"><h2>界面</h2>
-                    <p>Material Design</p></div>
-                <div class="feature"><h2>技术</h2>
-                    <p>Spring, Spring Cloud, Spring Cloud Alibaba, ...</p></div>
+        <main class="page">
+            <div class="theme-default-content content__default"><h1 id="开发环境部署"><a href="#开发环境部署"
+                                                                                         class="header-anchor">#</a>
+                开发环境部署</h1>
+                <h2 id="开发环境准备"><a href="#开发环境准备" class="header-anchor">#</a> 开发环境准备</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>工具</th>
+                        <th>版本</th>
+                        <th>说明</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>jdk</td>
+                        <td>1.8/11</td>
+                        <td>使用 <code>commons-thingsboard</code> 模块时需要11</td>
+                    </tr>
+                    <tr>
+                        <td>MySQL</td>
+                        <td>8.0+</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Redis</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Nacos</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Node.js</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Maven</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>IDEA</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <h2 id="项目构建与部署"><a href="#项目构建与部署" class="header-anchor">#</a> 项目构建与部署</h2>
+                <h3 id="_1-代码下载"><a href="#_1-代码下载" class="header-anchor">#</a> 1. 代码下载</h3>
+                <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">git</span> clone https://github.com/1962247851/ordinaryroad.git
+</code></pre>
+                </div>
+                <h3 id="_2-配置本地host"><a href="#_2-配置本地host" class="header-anchor">#</a> 2. 配置本地host</h3>
+                <p>推荐使用<a href="https://github.com/oldj/SwitchHosts" target="_blank" rel="noopener noreferrer">SwitchHosts<span><svg
+                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px"
+                        viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor"
+                                                                                                 d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon
+                        fill="currentColor"
+                        points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span
+                        class="sr-only">(opens new window)</span></span></a></p>
+                <div class="language-text extra-class"><pre class="language-text"><code># ordinaryroad Start
+127.0.0.1   ordinaryroad-mysql
+127.0.0.1   ordinaryroad-redis
+127.0.0.1   ordinaryroad-nacos
+127.0.0.1   ordinaryroad-gateway
+127.0.0.1   ordinaryroad-auth-server
+127.0.0.1   ordinaryroad-upms
+127.0.0.1   ordinaryroad-push
+127.0.0.1   ordinaryroad-im
+# ordinaryroad End
+</code></pre>
+                </div>
+                <h3 id="_3-数据库初始化"><a href="#_3-数据库初始化" class="header-anchor">#</a> 3. 数据库初始化</h3>
+                <ul>
+                    <li>Nacos数据库</li>
+                </ul>
+                <div class="language- extra-class"><pre class="language-text"><code>docker/ordinaryroad-mysql/sql/or_config_dev.sql
+</code></pre>
+                </div>
+                <ul>
+                    <li>OrdinaryRoad数据库</li>
+                </ul>
+                <div class="language- extra-class"><pre class="language-text"><code>docker/ordinaryroad-mysql/sql/or_dev.sql
+docker/ordinaryroad-mysql/sql/or_oauth2_dev.sql
+docker/ordinaryroad-mysql/sql/or_commons_log_dev.sql
+</code></pre>
+                </div>
+                <h3 id="_4-启动nacos"><a href="#_4-启动nacos" class="header-anchor">#</a> 4. 启动Nacos</h3>
+                <p>需要提前设置好数据库等信息</p>
+                <blockquote>
+                    <p><a href="https://nacos.io/zh-cn/docs/quick-start.html" target="_blank" rel="noopener noreferrer">Nacos
+                        快速开始<span><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false"
+                                           x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15"
+                                           class="icon outbound"><path fill="currentColor"
+                                                                       d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon
+                                fill="currentColor"
+                                points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span
+                                class="sr-only">(opens new window)</span></span></a></p>
+                </blockquote>
+                <p>使用Docker启动</p>
+                <blockquote><p>注意版本号<code>v2.1.2-slim</code>后缀<code>-slim</code>为arm架构处理器需要</p>
+                </blockquote>
+                <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token function">docker</span> run --name or-nacos-dev <span
+                        class="token punctuation">\</span>
+-e <span class="token assign-left variable">MODE</span><span class="token operator">=</span>standalone <span
+                            class="token punctuation">\</span>
+-e <span class="token assign-left variable">SPRING_DATASOURCE_PLATFORM</span><span class="token operator">=</span>mysql <span
+                            class="token punctuation">\</span>
+-e <span class="token assign-left variable">MYSQL_SERVICE_HOST</span><span class="token operator">=</span>xxxxxx <span
+                            class="token punctuation">\</span>
+-e <span class="token assign-left variable">MYSQL_SERVICE_DB_NAME</span><span class="token operator">=</span>or_config_dev <span
+                            class="token punctuation">\</span>
+-e <span class="token assign-left variable">MYSQL_SERVICE_PORT</span><span class="token operator">=</span><span
+                            class="token number">3306</span> <span class="token punctuation">\</span>
+-e <span class="token assign-left variable">MYSQL_SERVICE_USER</span><span class="token operator">=</span>root <span
+                            class="token punctuation">\</span>
+-e <span class="token assign-left variable">MYSQL_SERVICE_PASSWORD</span><span
+                            class="token operator">=</span>Root123. <span class="token punctuation">\</span>
+-e <span class="token assign-left variable">MYSQL_SERVICE_DB_PARAM</span><span class="token operator">=</span><span
+                            class="token string">'characterEncoding=utf8&amp;connectTimeout=1000&amp;socketTimeout=3000&amp;autoReconnect=true&amp;useSSL=false&amp;allowPublicKeyRetrieval=true'</span> <span
+                            class="token punctuation">\</span>
+-p <span class="token number">8848</span>:8848 -p <span class="token number">9848</span>:9848 -p <span
+                            class="token number">9555</span>:9555 <span class="token punctuation">\</span>
+-d nacos/nacos-server:v2.1.2-slim
+</code></pre>
+                </div>
+                <h3 id="_5-修改数据库连接相关信息"><a href="#_5-修改数据库连接相关信息" class="header-anchor">#</a> 5.
+                    修改数据库连接相关信息</h3>
+                <ul>
+                    <li>Redis</li>
+                </ul>
+                <div class="language- extra-class"><pre class="language-text"><code>ordinaryroad-dev.yaml
+</code></pre>
+                </div>
+                <ul>
+                    <li>MySQL</li>
+                </ul>
+                <div class="language- extra-class"><pre class="language-text"><code>ordinaryroad-dev.yaml
+ordinaryroad-auth-server-dev.yaml
+ordinaryroad-upms-dev.yaml
+</code></pre>
+                </div>
+                <h3 id="_6-启动后端"><a href="#_6-启动后端" class="header-anchor">#</a> 6. 启动后端</h3>
+                <p>直接运行下面几个类即可</p>
+                <ul>
+                    <li>OrdinaryRoadAuthServerApp.java</li>
+                    <li>OrdinaryRoadUpmsApp.java</li>
+                    <li>OrdinaryRoadPushApp.java</li>
+                    <li>OrdinaryRoadGatewayApp.java</li>
+                </ul>
+                <h3 id="_7-启动前端"><a href="#_7-启动前端" class="header-anchor">#</a> 7. 启动前端</h3>
+                <p>先在 <code>ordinaryroad-ui</code> 目录下创建 <code>.env</code> 文件，内容如下</p>
+                <div class="language-dotenv extra-class"><pre class="language-text"><code># https://www.nuxtjs.cn/guide/runtime-config#env-support
+BASE_URL=http://ordinaryroad-gateway:9090
+</code></pre>
+                </div>
+                <p>安装依赖</p>
+                <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># cd ordinaryroad-ui</span>
+<span class="token function">npm</span> <span class="token function">install</span>
+</code></pre>
+                </div>
+                <p>然后启动</p>
+                <div class="language-shell extra-class"><pre class="language-shell"><code><span class="token comment"># cd ordinaryroad-ui</span>
+<span class="token function">npm</span> run dev
+</code></pre>
+                </div>
+                <h2 id="系统账号说明"><a href="#系统账号说明" class="header-anchor">#</a> 系统账号说明</h2>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>模块</th>
+                        <th>地址</th>
+                        <th>账号信息</th>
+                        <th>说明</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>前端</td>
+                        <td>http://localhost:3001</td>
+                        <td>10001/Abc123</td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>Knife</td>
+                        <td>http://ordinaryroad-gateway:9090/doc.html</td>
+                        <td>ordinaryroad-knife/secret</td>
+                        <td>OAuth2认证，参考Knife文档https://doc.xiaominfo.com/knife4j/documentation/oauth2.html</td>
+                    </tr>
+                    <tr>
+                        <td>Nacos</td>
+                        <td>http://localhost:8848</td>
+                        <td>nacos/nacos</td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
-            <div class="theme-default-content custom content__default">
-                <hr>
-                <p>陌生人你好，这是我的也可能是你的<strong>第一个微服务项目</strong>，已完成UPMS模块基本框架，目前仍在持续开发中...
-                </p>
-                <p>我的个人博客 <a href="https://ordinaryroad.top" target="_blank" rel="noopener noreferrer">https://ordinaryroad.top<span><svg
+            <footer class="page-edit">
+                <div class="edit-link"><a
+                        href="https://github.com/1962247851/ordinaryroad/edit/dev/ordinaryroad-docs/docs/start/deploy/dev.md"
+                        target="_blank" rel="noopener noreferrer">帮助我们改善此页面！</a> <span><svg
                         xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px"
                         viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor"
                                                                                                  d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon
                         fill="currentColor"
                         points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span
-                        class="sr-only">(opens new window)</span></span></a></p>
-                <p>演示地址: <a href="https://ordinaryroad.tech:8021" target="_blank" rel="noopener noreferrer">https://ordinaryroad.tech:8021<span><svg
-                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px"
-                        viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor"
-                                                                                                 d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon
-                        fill="currentColor"
-                        points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span
-                        class="sr-only">(opens new window)</span></span></a> 帐号10001，密码Abc123
-                </p>
-                <p>在线文档： <a href="https://ordinaryroad.tech" target="_blank" rel="noopener noreferrer">https://ordinaryroad.tech<span><svg
-                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px"
-                        viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor"
-                                                                                                 d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon
-                        fill="currentColor"
-                        points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span
-                        class="sr-only">(opens new window)</span></span></a></p>
-                <p>截图</p>
-                <p>
-                    <img src="https://user-images.githubusercontent.com/43869694/145922744-0041f36d-5f7c-461e-b62f-321d556cd686.png"
-                         alt="OR注册"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922710-74825e88-22a1-4f1f-af51-3df8da6ea2f1.png"
-                        alt="OR登录"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922818-1e4d2f33-5c29-442e-9b58-cc5153e64f7c.png"
-                        alt="OR用户管理页"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922861-3dff9aac-e77f-4df5-9fd0-99e4dcec06dc.png"
-                        alt="OR角色管理页"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922875-12bc00e1-8431-4330-a64d-72abaa161a34.png"
-                        alt="OR角色用户管理页"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922895-e42e1a90-49be-4657-ae1b-eee28f92b2e9.png"
-                        alt="OR角色用户管理页选择用户"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922904-cc15644b-548a-438c-8ead-4fdefc3d94ee.png"
-                        alt="OR角色权限管理页"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922905-0ebd2f5e-2e58-4dc6-b80d-43a248eaf606.png"
-                        alt="OR角色权限管理页选择权限"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922928-47844ed4-f020-4840-8898-3620a578ef4f.png"
-                        alt="OR权限管理页"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145922932-da1559d0-1e6f-4677-ad99-869b621051ac.png"
-                        alt="OR请求路径管理页"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145923094-5ac1f4c0-e86b-4599-9d8b-088024c6fe54.png"
-                        alt="OR个人中心页"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145923101-15b7d813-1d69-4f84-a04f-282d302feae5.png"
-                        alt="OR个人中心页修改密码"></p>
-                <p>
-                    <img src="https://user-images.githubusercontent.com/43869694/145923020-be8c4c6b-8973-49bc-b518-e798eee43bcb.png"
-                         alt="OR深色主题"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145923004-3f47f856-cb45-427f-aac7-cb095b0f7a43.png"
-                        alt="OR猛男主题"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145923011-3694f8b9-990c-41be-8504-0bdfa23af1b8.png"
-                        alt="OR猛男主题深色模式"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145923027-4e27f3a7-04e2-4bec-a975-04a79ad4c826.png"
-                        alt="OR左侧栏clipped"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145923031-8f0c038c-4778-4967-9867-9edc8b23607d.png"
-                        alt="OR左侧栏clipped+迷你"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145923073-8d60ad91-8759-45fc-8a18-9782b157cb6d.png"
-                        alt="OR设置右侧栏"> <img
-                        src="https://user-images.githubusercontent.com/43869694/145923081-a76c54b6-2797-43fd-af20-1e8df76e91ee.png"
-                        alt="OR国际化"></p>
-                <hr>
-                <p>©2019-2022 苗锦洲 版权所有 <a href="https://beian.miit.gov.cn/" target="_blank"
-                                                 rel="noopener noreferrer">苏ICP备2020055920号-2<span><svg
-                        xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px"
-                        viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor"
-                                                                                                 d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon
-                        fill="currentColor"
-                        points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg> <span
-                        class="sr-only">(opens new window)</span></span></a></p>
-            </div>
-            <div class="footer content__footer"></div>
+                        class="sr-only">(opens new window)</span></span></div> <!----></footer>
+            <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/start/" class="prev router-link-active">
+        介绍
+      </a></span> <span class="next"><a href="/start/deploy/pro.html">
+        生产环境部署
+      </a>
+      →
+    </span></p></div>
         </main>
     </div>
     <div class="global-ui"></div>
 </div>
 <script src="/assets/js/app.fee77e48.js" defer></script>
 <script src="/assets/js/2.c3ccb82e.js" defer></script>
-<script src="/assets/js/8.9e9dc5eb.js" defer></script>
+<script src="/assets/js/14.0db244b9.js" defer></script>
 </body>
 </html>

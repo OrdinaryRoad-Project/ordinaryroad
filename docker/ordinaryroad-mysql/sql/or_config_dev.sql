@@ -258,7 +258,14 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
-    map-underscore-to-camel-case: true', 'eb4581b47741c82d8ccc14660428958c', '2021-12-14 00:36:55',
+    map-underscore-to-camel-case: true
+# TK MyBatis
+mapper:
+  wrapKeyword: "`{0}`"
+  notEmpty: false
+  safeDelete: true
+  safeUpdate: true
+  IDENTITY: MySQL', 'eb4581b47741c82d8ccc14660428958c', '2021-12-14 00:36:55',
         '2022-11-30 09:39:55', 'nacos', '172.17.0.1', '', 'dev', '', '', '', 'yaml', '', '');
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
@@ -382,12 +389,12 @@ INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_crea
 VALUES ('ordinaryroad-push-dev.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
   push:
     jPushPropertiesList:
-      - packageName: tech.ordinaryroad.tth.android
-        appKey: 37c629a7349be2f8626ceaba
-        masterSecret: e0eb1c84050119848c616351
-      - packageName: tech.ordinaryroad.ioe.android
-        appKey: 11d89bcd9f8044840570215c
-        masterSecret: c0fcdb3231eeb20638370d08
+      - packageName: xxxxxx
+        appKey: xxxxxx
+        masterSecret: xxxxxx
+      - packageName: xxxxxx
+        appKey: xxxxxx
+        masterSecret: xxxxxx
 
 # 打印Debug日志
 debug: true
