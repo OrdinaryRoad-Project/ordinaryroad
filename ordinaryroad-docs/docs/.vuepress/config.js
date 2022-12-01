@@ -24,7 +24,7 @@
 
 module.exports = {
     port: 80,
-    title: "OrdinaryRoad开源框架",
+    title: "OR开源框架",
     description: 'OrdinaryRoad开源框架',
     themeConfig: {
         displayAllHeaders: false,
