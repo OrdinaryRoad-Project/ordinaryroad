@@ -33,6 +33,12 @@ module.exports = {
         nav: [
             {text: '首页', link: '/'},
             {
+                text: '通用模块',
+                items: [
+                    {text: '日志模块', link: '/commons/log/'},
+                ]
+            },
+            {
                 text: 'OR生态',
                 items: [
                     {text: 'IM模块', link: '/or_module/im'},
@@ -66,6 +72,22 @@ module.exports = {
                             '/start/deploy/pro'
                         ]
                     }
+                ]
+            },
+            {
+                title: '通用模块',
+                path: '/commons/log/',
+                children: [
+                    {
+                        title: '日志模块',
+                        path: '/commons/log/',
+                    }
+                ]
+            },
+            {
+                title: "其他",
+                children: [
+                    '/others/changelog/',
                 ]
             },
             {
