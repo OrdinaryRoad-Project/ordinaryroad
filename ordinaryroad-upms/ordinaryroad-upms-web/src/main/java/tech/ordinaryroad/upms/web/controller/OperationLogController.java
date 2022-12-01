@@ -69,8 +69,8 @@ public class OperationLogController {
         return Result.success(objectPageInfo);
     }
 
-    @DeleteMapping(value = "/operation_log/delete/{id}")
-    Result<Boolean> delete(@PathVariable String id) {
+    @DeleteMapping(value = "/operation_log/delete")
+    Result<Boolean> delete(@RequestParam String id) {
         return Result.success(operationLogService.delete(id));
     }
 
