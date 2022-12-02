@@ -22,4 +22,4 @@
  * SOFTWARE.
  */
 
-(window.webpackJsonp=window.webpackJsonp||[]).push([[5],{249:function(t,e,a){},271:function(t,e,a){"use strict";a(249)},276:function(t,e,a){"use strict";a.r(e);var s={name:"CodeBlock",props:{title:{type:String,required:!0},active:{type:Boolean,default:!1}},mounted(){this.$parent&&this.$parent.loadTabs&&this.$parent.loadTabs()}},i=(a(271),a(13)),n=Object(i.a)(s,(function(){return(0,this._self._c)("div",{staticClass:"theme-code-block",class:{"theme-code-block__active":this.active}},[this._t("default")],2)}),[],!1,null,"759a7d02",null);e.default=n.exports}}]);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[13],{281:function(t,n,s){"use strict";s.r(n);var e=s(13),o=Object(e.a)({},(function(){return(0,this._self._c)("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}})}),[],!1,null,null,null);n.default=o.exports}}]);
