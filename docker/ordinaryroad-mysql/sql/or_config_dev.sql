@@ -41,19 +41,27 @@ CREATE TABLE `config_info`
 -- ----------------------------
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
-VALUES ('ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', 'spring:
+VALUES ('ordinaryroad-auth-server-demo.yaml', 'DEFAULT_GROUP', '# 打印Debug日志
+debug: true
+logging:
+  level: { tech.ordinaryroad: debug }
+spring:
   devtools:
     livereload:
       port: 39302
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
   # 数据库配置
   datasource:
     dynamic:
       datasource:
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://ordinaryroad-mysql:3307/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
-          username: root
-          password: h2IRXM8k4Yne9Zii', '4df68b481fc564de14c4e22e4ee956b2', '2021-12-14 00:36:20', '2022-01-11 14:45:03',
+          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_oauth2_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: ${MYSQL_USERNAME}
+          password: ${MYSQL_PASSWORD}', '4df68b481fc564de14c4e22e4ee956b2', '2021-12-14 00:36:20',
+        '2022-01-11 14:45:03',
         'nacos', '0:0:0:0:0:0:0:1', '', 'demo', '', '', '', 'yaml', '', '');
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
@@ -68,9 +76,6 @@ spring:
   # 出现错误时, 直接抛出异常
   mvc:
     throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false
   # 数据库配置
   datasource:
     dynamic:
@@ -83,16 +88,22 @@ spring:
         '2022-01-05 13:05:41', 'nacos', '0:0:0:0:0:0:0:1', '', 'dev', '', '', '', 'yaml', '', '');
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
-VALUES ('ordinaryroad-demo.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
+VALUES ('ordinaryroad-demo.yaml', 'DEFAULT_GROUP', 'MYSQL_HOST: ordinaryroad-mysql
+MYSQL_PORT: 3307
+MYSQL_USERNAME: root
+MYSQL_PASSWORD: "h2IRXM8k4Yne9Zii"
+QQ_MAIL_AUTHORIZATION_CODE: xxxxxx
+
+ordinaryroad:
   commons:
     swagger:
       endpoints:
         token-request:
-          url: https://auth-server.ordinaryroad.tech:8302/oauth2/authorize
+          url: https://ordinaryroad.tech:8302/oauth2/authorize
           client-id: ordinaryroad-knife
           client-secret: secret
         token:
-          url: https://auth-server.ordinaryroad.tech:8302/oauth2/token
+          url: https://ordinaryroad.tech:8302/oauth2/token
           token-name: access_token
   minio:
     endpoint: http://ordinaryroad-minio:9000
@@ -105,6 +116,15 @@ feign:
       default:
         loggerLevel: BASIC
 spring:
+  # 数据库配置
+  datasource:
+    dynamic:
+      datasource:
+        or_commons_log:
+          driver-class-name: com.mysql.cj.jdbc.Driver
+          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_commons_log_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: ${MYSQL_USERNAME}
+          password: ${MYSQL_PASSWORD}
   servlet:
     multipart:
       # 单文件限制大小
@@ -161,7 +181,14 @@ spring:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
-    map-underscore-to-camel-case: true', '0105af763e52e77ba7ef125e65b09c62', '2021-12-14 00:36:20',
+    map-underscore-to-camel-case: true
+# TK MyBatis
+mapper:
+  wrapKeyword: "`{0}`"
+  notEmpty: false
+  safeDelete: true
+  safeUpdate: true
+  IDENTITY: MySQL', '0105af763e52e77ba7ef125e65b09c62', '2021-12-14 00:36:20',
         '2022-03-11 22:37:01', 'nacos', '172.22.0.12', '', 'demo', '', '', '', 'yaml', '', '');
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
@@ -272,7 +299,7 @@ INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_crea
 VALUES ('ordinaryroad-gateway-demo.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
   gateway:
     demoMode: true
-    authServerHost: https://auth-server.ordinaryroad.tech:8302
+    authServerHost: https://ordinaryroad.tech:8302
 
 satoken:
   client:
@@ -371,9 +398,10 @@ INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_crea
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
 VALUES ('ordinaryroad-push-demo.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
   push:
-    jpush:
-      appKey: ${JPUSH_APP_KEY}
-      masterSecret: ${JPUSH_MASTER_SECRET}
+    jPushPropertiesList:
+      - packageName: xxxxxx
+        appKey: xxxxxx
+        masterSecret: xxxxxx
 
 # 打印Debug日志
 debug: true
@@ -382,7 +410,18 @@ logging:
 spring:
   devtools:
     livereload:
-      port: 39402', '0a42e928b2187368a75bc261f3db6fe0', '2021-12-14 00:36:20', '2022-03-13 16:31:48', 'nacos',
+      port: 39402
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
+  # 数据库配置
+  datasource:
+    dynamic:
+      primary: or_commons_log', '0a42e928b2187368a75bc261f3db6fe0', '2021-12-14 00:36:20', '2022-03-13 16:31:48',
+        'nacos',
         '172.22.0.12', '', 'demo', '', '', '', 'yaml', '', '');
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
@@ -425,21 +464,28 @@ spring:
   devtools:
     livereload:
       port: 39401
+  # 出现错误时, 直接抛出异常
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false
   # 数据库配置
   datasource:
     dynamic:
       datasource:
         master:
           driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://ordinaryroad-mysql:3307/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
-          username: root
-          password: h2IRXM8k4Yne9Zii
-  # 出现错误时, 直接抛出异常
-  mvc:
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false', '8d24d569bb9868ce4a2937dc880c8ed4', '2021-12-14 00:36:20', '2022-01-20 12:01:23', 'nacos',
+          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+          username: ${MYSQL_USERNAME}
+          password: ${MYSQL_PASSWORD}
+
+# swagger配置
+swagger:
+  title: 系统模块接口文档
+  license: Powered By OrdinaryRoad
+  licenseUrl: https://blog.ordinaryroad.tech', '8d24d569bb9868ce4a2937dc880c8ed4', '2021-12-14 00:36:20',
+        '2022-01-20 12:01:23', 'nacos',
         '172.18.0.11', '', 'demo', '', '', '', 'yaml', '', '');
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
@@ -473,74 +519,6 @@ swagger:
   license: Powered By OrdinaryRoad
   licenseUrl: https://blog.ordinaryroad.tech', '03ccfc38aa3719c54acb99708c7aecbe', '2021-12-14 00:36:55',
         '2022-11-29 15:10:56', 'nacos', '172.17.0.1', '', 'dev', '', '', '', 'yaml', '', '');
-INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
-VALUES ('ordinaryroad-im-demo.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
-  im:
-    mimc:
-      appId: ${MIMC_APP_ID}
-      appKey: ${MIMC_APP_KEY}
-      appSecret: ${MIMC_APP_SECRET}
-
-# 打印Debug日志
-debug: true
-logging:
-  level: { tech.ordinaryroad: debug }
-spring:
-  devtools:
-    livereload:
-      port: 39403
-  # 数据库配置
-  datasource:
-    dynamic:
-      datasource:
-        master:
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://ordinaryroad-mysql:3307/or_im_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
-          username: root
-          password: h2IRXM8k4Yne9Zii
-  # 出现错误时, 直接抛出异常
-  mvc:
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false', 'bb758d2f5a41fcdbcc7ca12acfe4276d', '2022-03-07 21:13:23', '2022-03-07 21:16:46', 'nacos',
-        '172.18.0.11', '', 'demo', '', '', '', 'yaml', '', '');
-INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
-                                       app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
-VALUES ('ordinaryroad-im-dev.yaml', 'DEFAULT_GROUP', 'ordinaryroad:
-  im:
-    mimcPropertiesList:
-      # TODO MIMC 相关 此处appId/appKey/appSec为小米MimcDemo所有，会在一定时间后失效，建议开发者自行申请
-      - appId: 2882303761517669588
-        appKey: 5111766983588
-        appSecret: b0L3IOz/9Ob809v8H2FbVg==
-        packageName: xxx.xxx.xxx
-
-# 打印Debug日志
-debug: true
-logging:
-  level: { tech.ordinaryroad: debug }
-spring:
-  devtools:
-    livereload:
-      port: 39403
-  # 出现错误时, 直接抛出异常
-  mvc:
-    throw-exception-if-no-handler-found: true
-  web:
-    resources:
-      add-mappings: false
-  # 数据库配置
-  datasource:
-    dynamic:
-      datasource:
-        master:
-          driver-class-name: com.mysql.cj.jdbc.Driver
-          url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_im_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
-          username: ${MYSQL_USERNAME}
-          password: ${MYSQL_PASSWORD}', 'ca83a9bf5595cfe172e5aa2bba488709', '2022-03-07 21:31:19',
-        '2022-03-07 21:34:02', 'nacos', '172.18.0.11', '', 'dev', '', '', '', 'yaml', '', '');
 
 -- ----------------------------
 -- Table structure for config_info_aggr
@@ -840,6 +818,30 @@ INSERT INTO `tenant_info`
 VALUES (2, '1', 'dev', 'dev', '开发环境', 'nacos', 1639413364335, 1639413364335);
 INSERT INTO `tenant_info`
 VALUES (3, '1', 'pro', 'pro', '生产环境', 'nacos', 1639413372280, 1639413372280);
+
+/*
+ * MIT License
+ *
+ * Copyright (c) 2021 苗锦洲
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
 
 -- ----------------------------
 -- Table structure for users
