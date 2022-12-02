@@ -21,17 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.facade;
+package tech.ordinaryroad.push.strategy;
 
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.request.base.BasePushRequest;
+import tech.ordinaryroad.push.request.EmailPushRequest;
+import tech.ordinaryroad.push.service.EmailPushService;
+import tech.ordinaryroad.push.strategy.base.PushStrategy;
 
 /**
  * @author mjz
  * @date 2021/11/27
  */
-public interface IPushFacade<R extends BasePushRequest> {
+@RequiredArgsConstructor
+@Component
+public class EmailPushStrategy extends PushStrategy<EmailPushRequest> {
 
-    Result<?> send(R request);
+    private final EmailPushService emailPushService;
 
+    @Override
+    public Result<?> send(EmailPushRequest request) {
+        if (emailPushService.send(request.getEmail(), request.getTitle(), request.getContent(), request.getMimeType())) {
+            return Result.success();
+        } else {
+            return Result.fail();
+        }
+    }
 }

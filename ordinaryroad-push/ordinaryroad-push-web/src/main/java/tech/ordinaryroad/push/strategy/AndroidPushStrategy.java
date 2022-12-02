@@ -21,28 +21,28 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.facade.impl;
+package tech.ordinaryroad.push.strategy;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.facade.IPushFacade;
-import tech.ordinaryroad.push.request.EmailPushRequest;
-import tech.ordinaryroad.push.service.EmailPushService;
+import tech.ordinaryroad.push.request.AndroidPushRequest;
+import tech.ordinaryroad.push.service.AndroidPushService;
+import tech.ordinaryroad.push.strategy.base.PushStrategy;
 
 /**
  * @author mjz
- * @date 2021/11/27
+ * @date 2022/3/13
  */
 @RequiredArgsConstructor
 @Component
-public class EmailPushFacadeImpl implements IPushFacade<EmailPushRequest> {
+public class AndroidPushStrategy extends PushStrategy<AndroidPushRequest> {
 
-    private final EmailPushService emailPushService;
+    private final AndroidPushService androidPushService;
 
     @Override
-    public Result<?> send(EmailPushRequest request) {
-        if (emailPushService.send(request.getEmail(), request.getTitle(), request.getContent(), request.getMimeType())) {
+    public Result<?> send(AndroidPushRequest request) {
+        if (androidPushService.send(request.getPackageName(), request.getToOrNumber(), request.getTitle(), request.getContent(), request.getChannel(), request.getIntent(), request.getExtras())) {
             return Result.success();
         } else {
             return Result.fail();

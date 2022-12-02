@@ -21,31 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.facade.impl;
+package tech.ordinaryroad.push.strategy.base;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.facade.IPushFacade;
-import tech.ordinaryroad.push.request.AndroidPushRequest;
-import tech.ordinaryroad.push.service.AndroidPushService;
+import tech.ordinaryroad.push.request.base.BasePushRequest;
 
 /**
  * @author mjz
- * @date 2022/3/13
+ * @date 2021/11/27
  */
-@RequiredArgsConstructor
-@Component
-public class AndroidPushFacadeImpl implements IPushFacade<AndroidPushRequest> {
+public abstract class PushStrategy<R extends BasePushRequest> {
 
-    private final AndroidPushService androidPushService;
+    /**
+     * 发送
+     *
+     * @param request {@link R}
+     * @return {@link Result}
+     */
+    public abstract Result<?> send(R request);
 
-    @Override
-    public Result<?> send(AndroidPushRequest request) {
-        if (androidPushService.send(request.getPackageName(), request.getToOrNumber(), request.getTitle(), request.getContent(), request.getChannel(), request.getIntent(), request.getExtras())) {
-            return Result.success();
-        } else {
-            return Result.fail();
-        }
-    }
 }
