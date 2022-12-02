@@ -27,6 +27,7 @@ package tech.ordinaryroad.auth.server.web.controller;
 import cn.dev33.satoken.context.SaHolder;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Handle;
+import cn.dev33.satoken.oauth2.logic.SaOAuth2Util;
 import cn.dev33.satoken.util.SaResult;
 import cn.hutool.core.util.BooleanUtil;
 import lombok.RequiredArgsConstructor;
@@ -35,12 +36,18 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
-import tech.ordinaryroad.auth.server.facade.IOAuth2Facade;
+import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
+import tech.ordinaryroad.auth.server.mapstruct.OAuth2UserinfoMapStruct;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
+import tech.ordinaryroad.auth.server.service.OAuth2OpenidService;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.satoken.util.OrOAuth2Util;
+import tech.ordinaryroad.upms.api.ISysUserApi;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
+import tech.ordinaryroad.upms.request.SysUserQueryRequest;
 
 import java.util.Map;
+import java.util.Optional;
 
 /**
  * Sa-OAuth2 Server端 控制器
@@ -49,7 +56,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class SaOAuth2ServerController implements IOAuth2Api {
 
-    private final IOAuth2Facade oAuth2Facade;
+    private final OAuth2OpenidService oAuth2OpenidService;
+    private final ISysUserApi sysUserApi;
+    private final OAuth2UserinfoMapStruct mapStruct;
 
     /**
      * 处理所有OAuth相关请求
@@ -84,12 +93,13 @@ public class SaOAuth2ServerController implements IOAuth2Api {
 
     @Override
     public Result<String> getOrNumber(@Validated @RequestBody OAuth2GetOrNumberRequest request) {
-        return oAuth2Facade.getOrNumber(request);
+        Optional<OAuth2OpenidDO> byClientIdAndOpenid = oAuth2OpenidService.findByClientIdAndOpenid(request.getClientId(), request.getOpenid());
+        return byClientIdAndOpenid.map(oAuth2OpenidDO -> Result.success(oAuth2OpenidDO.getOrNumber())).orElseGet(Result::fail);
     }
 
     @Override
     public Object userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestParam(name = "wrapped", defaultValue = "false") Boolean wrapped) {
-        Result<OAuth2UserInfoDTO> userinfo = oAuth2Facade.userinfo();
+        Result<OAuth2UserInfoDTO> userinfo = this.userinfo();
         if (BooleanUtil.isTrue(wrapped)) {
             return userinfo;
         } else {
@@ -99,7 +109,21 @@ public class SaOAuth2ServerController implements IOAuth2Api {
 
     @Override
     public Result<OAuth2UserInfoDTO> userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
-        return oAuth2Facade.userinfo();
+        return this.userinfo();
+    }
+
+    private Result<OAuth2UserInfoDTO> userinfo() {
+        String accessToken = OrOAuth2Util.getAccessToken();
+        // 获取 Access-Token 对应的账号id
+        String orNumber = (String) SaOAuth2Util.getLoginIdByAccessToken(accessToken);
+        // 校验 Access-Token 是否具有权限: userinfo
+        SaOAuth2Util.checkScope(accessToken, "userinfo");
+
+        // 获取User
+        SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+        sysUserQueryRequest.setOrNumber(orNumber);
+        SysUserDTO sysUserDTO = sysUserApi.findByUniqueColumn(sysUserQueryRequest).getData();
+        return Result.success(mapStruct.transfer(sysUserDTO));
     }
 
 }
