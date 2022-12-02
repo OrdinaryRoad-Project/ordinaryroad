@@ -21,30 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.auth.server.facade;
+package tech.ordinaryroad.upms.dto;
 
-import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
-import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
-import tech.ordinaryroad.commons.core.base.result.Result;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
 /**
+ * 操作日志请求路径DTO
+ *
  * @author mjz
- * @date 2022/1/15
+ * @date 2022/12/2
  */
-public interface IOAuth2Facade {
+@Data
+@ApiModel
+public class OperationLogRequestPathDTO extends BaseDTO implements Cloneable {
 
-    /**
-     * 根据clientId和openid获取or帐号
-     *
-     * @param request Request
-     * @return Result
-     */
-    Result<String> getOrNumber(OAuth2GetOrNumberRequest request);
+    private static final long serialVersionUID = 77294669280998496L;
 
-    /**
-     * Client端根据 Access-Token 置换用户信息
-     *
-     * @return OAuth2UserInfoDTO
-     */
-    Result<OAuth2UserInfoDTO> userinfo();
+    private String path;
+
+    private String pathName;
+
+    @Override
+    public OperationLogRequestPathDTO clone() {
+        try {
+            return (OperationLogRequestPathDTO) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 }

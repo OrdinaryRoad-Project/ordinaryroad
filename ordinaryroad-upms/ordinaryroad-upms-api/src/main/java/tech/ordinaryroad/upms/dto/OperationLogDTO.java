@@ -36,6 +36,8 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
 @ApiModel
 public class OperationLogDTO extends BaseModelDTO {
 
+    private static final long serialVersionUID = -2175243628914642534L;
+
     @ApiModelProperty("IP")
     private String ip;
 
@@ -76,6 +78,6 @@ public class OperationLogDTO extends BaseModelDTO {
     private Long consumedTime;
 
     @ApiModelProperty("类型")
-    private OperationLogTypeDTO type;
+    private Integer type;
 
 }

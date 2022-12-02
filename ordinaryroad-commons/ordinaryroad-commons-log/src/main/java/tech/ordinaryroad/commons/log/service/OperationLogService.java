@@ -59,6 +59,10 @@ public class OperationLogService extends BaseService<OperationLogDAO, OperationL
         if (StrUtil.isNotBlank(status)) {
             sqls.andEqualTo(OperationLogDO::getStatus, status);
         }
+        String path = operationLogDO.getPath();
+        if (StrUtil.isNotBlank(path)) {
+            sqls.andEqualTo(OperationLogDO::getPath, path);
+        }
         String createBy = operationLogDO.getCreateBy();
         if (StrUtil.isNotBlank(createBy)) {
             sqls.andEqualTo(OperationLogDO::getCreateBy, createBy);

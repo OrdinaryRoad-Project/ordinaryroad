@@ -23,15 +23,12 @@
  */
 package tech.ordinaryroad.upms.mapstruct;
 
-import cn.hutool.core.util.EnumUtil;
 import org.mapstruct.Mapper;
-import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.log.entity.OperationLogDO;
 import tech.ordinaryroad.upms.dto.OperationLogDTO;
-import tech.ordinaryroad.upms.dto.OperationLogTypeDTO;
+import tech.ordinaryroad.upms.dto.OperationLogRequestPathDTO;
+import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 import tech.ordinaryroad.upms.request.OperationLogQueryRequest;
-
-import java.util.Objects;
 
 /**
  * @author mjz
@@ -44,17 +41,5 @@ public interface OperationLogMapStruct {
 
     OperationLogDO transfer(OperationLogQueryRequest request);
 
-    default OperationLogTypeDTO map(Integer type) {
-        StatusCode statusCode = EnumUtil.getBy(StatusCode::getCode, type);
-        if (Objects.isNull(statusCode)) {
-            return null;
-        }
-
-        OperationLogTypeDTO operationLogTypeDTO = new OperationLogTypeDTO();
-        
-        operationLogTypeDTO.setDescription(statusCode.name());
-        operationLogTypeDTO.setCode(statusCode.getCode());
-
-        return operationLogTypeDTO;
-    }
+    OperationLogRequestPathDTO transfer(SysRequestPathDO sysRequestPathDO);
 }
