@@ -2,7 +2,14 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
-### 2022-12-01 v1.4.0
+### 2022-12-05 v1.5.1
+
+- feat(操作日志): 搜索条件增加请求路径
+- refactor: no facade
+
+---
+
+### 2022-12-01 v1.5.0
 
 - feat: 增加操作日志功能
 - feat: DO类增加updatable = false注解
