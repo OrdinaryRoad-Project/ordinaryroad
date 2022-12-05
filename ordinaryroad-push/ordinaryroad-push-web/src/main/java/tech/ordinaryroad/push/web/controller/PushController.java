@@ -42,17 +42,17 @@ import tech.ordinaryroad.push.strategy.EmailPushStrategy;
 @RestController
 public class PushController implements IPushApi {
 
-    private final EmailPushStrategy emailPushFacade;
-    private final AndroidPushStrategy androidPushFacade;
+    private final EmailPushStrategy emailPushStrategy;
+    private final AndroidPushStrategy androidPushStrategy;
 
     @Override
     public Result<?> email(@RequestBody @Validated EmailPushRequest request) {
-        return emailPushFacade.send(request);
+        return emailPushStrategy.send(request);
     }
 
     @Override
     public Result<?> android(@RequestBody @Validated AndroidPushRequest request) {
-        return androidPushFacade.send(request);
+        return androidPushStrategy.send(request);
     }
 
 }
