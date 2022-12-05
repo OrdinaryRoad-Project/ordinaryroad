@@ -36,7 +36,7 @@ export default function ({ $axios, app }, inject) {
     upms: upmsApis.apis,
     auth: authApis.apis,
     statusColor (item) {
-      if (item.type.code === 200) {
+      if (item.type === 200) {
         return 'success'
       } else {
         return 'error'

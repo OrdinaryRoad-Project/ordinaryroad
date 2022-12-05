@@ -29,10 +29,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.push.api.IPushApi;
-import tech.ordinaryroad.push.facade.impl.AndroidPushFacadeImpl;
-import tech.ordinaryroad.push.facade.impl.EmailPushFacadeImpl;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
 import tech.ordinaryroad.push.request.EmailPushRequest;
+import tech.ordinaryroad.push.strategy.AndroidPushStrategy;
+import tech.ordinaryroad.push.strategy.EmailPushStrategy;
 
 /**
  * @author mjz
@@ -42,17 +42,17 @@ import tech.ordinaryroad.push.request.EmailPushRequest;
 @RestController
 public class PushController implements IPushApi {
 
-    private final EmailPushFacadeImpl emailPushFacade;
-    private final AndroidPushFacadeImpl androidPushFacade;
+    private final EmailPushStrategy emailPushStrategy;
+    private final AndroidPushStrategy androidPushStrategy;
 
     @Override
     public Result<?> email(@RequestBody @Validated EmailPushRequest request) {
-        return emailPushFacade.send(request);
+        return emailPushStrategy.send(request);
     }
 
     @Override
     public Result<?> android(@RequestBody @Validated AndroidPushRequest request) {
-        return androidPushFacade.send(request);
+        return androidPushStrategy.send(request);
     }
 
 }

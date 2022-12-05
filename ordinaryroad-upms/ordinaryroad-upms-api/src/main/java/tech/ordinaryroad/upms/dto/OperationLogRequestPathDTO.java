@@ -21,31 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.facade.impl;
+package tech.ordinaryroad.upms.dto;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
-import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.facade.IPushFacade;
-import tech.ordinaryroad.push.request.AndroidPushRequest;
-import tech.ordinaryroad.push.service.AndroidPushService;
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
 /**
+ * 操作日志请求路径DTO
+ *
  * @author mjz
- * @date 2022/3/13
+ * @date 2022/12/2
  */
-@RequiredArgsConstructor
-@Component
-public class AndroidPushFacadeImpl implements IPushFacade<AndroidPushRequest> {
+@Data
+@ApiModel
+public class OperationLogRequestPathDTO extends BaseDTO implements Cloneable {
 
-    private final AndroidPushService androidPushService;
+    private static final long serialVersionUID = 77294669280998496L;
+
+    private String path;
+
+    private String pathName;
 
     @Override
-    public Result<?> send(AndroidPushRequest request) {
-        if (androidPushService.send(request.getPackageName(), request.getToOrNumber(), request.getTitle(), request.getContent(), request.getChannel(), request.getIntent(), request.getExtras())) {
-            return Result.success();
-        } else {
-            return Result.fail();
+    public OperationLogRequestPathDTO clone() {
+        try {
+            return (OperationLogRequestPathDTO) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
         }
     }
 }

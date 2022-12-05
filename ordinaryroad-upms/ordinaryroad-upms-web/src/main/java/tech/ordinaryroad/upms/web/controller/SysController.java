@@ -23,14 +23,33 @@
  */
 package tech.ordinaryroad.upms.web.controller;
 
+import cn.dev33.satoken.stp.StpUtil;
+import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.upms.api.ISysApi;
+import tech.ordinaryroad.upms.dto.SysRoleDTO;
+import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
-import tech.ordinaryroad.upms.facade.ISysFacade;
+import tech.ordinaryroad.upms.entity.SysPermissionDO;
+import tech.ordinaryroad.upms.entity.SysRequestPathDO;
+import tech.ordinaryroad.upms.entity.SysRoleDO;
+import tech.ordinaryroad.upms.entity.SysUserDO;
+import tech.ordinaryroad.upms.mapstruct.SysRoleMapStruct;
+import tech.ordinaryroad.upms.mapstruct.SysUserMapStruct;
 import tech.ordinaryroad.upms.request.SysUserInfoRequest;
+import tech.ordinaryroad.upms.service.SysPermissionService;
+import tech.ordinaryroad.upms.service.SysRequestPathService;
+import tech.ordinaryroad.upms.service.SysRoleService;
+import tech.ordinaryroad.upms.service.SysUserService;
+
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * @author mjz
@@ -40,10 +59,55 @@ import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 @RestController
 public class SysController implements ISysApi {
 
-    private final ISysFacade sysFacade;
+    private final SysUserService sysUserService;
+    private final SysUserMapStruct sysUserMapStruct;
+    private final SysRoleService sysRoleService;
+    private final SysRoleMapStruct sysRoleMapStruct;
+    private final SysPermissionService sysPermissionService;
+    private final SysRequestPathService sysRequestPathService;
 
     @Override
     public Result<SysUserInfoDTO> userInfo(@RequestBody(required = false) SysUserInfoRequest request) {
-        return sysFacade.userInfo(request);
+        SysUserInfoDTO userInfoDTO = new SysUserInfoDTO();
+        String orNumber = "";
+        // 优先根据传过来的orNumber查询
+        if (Objects.nonNull(request)) {
+            orNumber = request.getOrNumber();
+        }
+        if (StrUtil.isBlank(orNumber)) {
+            // 优先获取已经登录系统的tokenValue
+            String tokenValue = StpUtil.getTokenValue();
+            if (StrUtil.isBlank(tokenValue) && Objects.nonNull(request)) {
+                tokenValue = request.getSaToken();
+            }
+            orNumber = (String) StpUtil.getLoginIdByToken(tokenValue);
+        }
+
+        // 获取User
+        Optional<SysUserDO> optionalSysUserDO = sysUserService.findByOrNumber(orNumber);
+        if (!optionalSysUserDO.isPresent()) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+        SysUserDO sysUserDO = optionalSysUserDO.get();
+        SysUserDTO sysUserDTO = sysUserMapStruct.transfer(sysUserDO);
+        userInfoDTO.setUser(sysUserDTO);
+
+        // 获取Roles
+        List<SysRoleDO> roleDos = sysRoleService.findAllByUserUuid(sysUserDO.getUuid());
+        List<SysRoleDTO> roleDtos = roleDos.stream().map(sysRoleMapStruct::transfer).collect(Collectors.toList());
+        userInfoDTO.setRoles(roleDtos);
+
+        // 获取Permission
+        List<SysPermissionDO> permissionDos = sysPermissionService.findAllByUserUuid(sysUserDO.getUuid());
+        List<String> permissionCodes = permissionDos.stream().map(SysPermissionDO::getPermissionCode).collect(Collectors.toList());
+        userInfoDTO.setPermissions(permissionCodes);
+
+        // 获取RequestPath
+        List<String> permissionUuids = permissionDos.stream().map(SysPermissionDO::getUuid).collect(Collectors.toList());
+        List<SysRequestPathDO> requestPathDos = sysRequestPathService.findAllByPermissionUuids(permissionUuids);
+        List<String> requestPaths = requestPathDos.stream().map(SysRequestPathDO::getPath).collect(Collectors.toList());
+        userInfoDTO.setRequestPaths(requestPaths);
+
+        return Result.success(userInfoDTO);
     }
 }

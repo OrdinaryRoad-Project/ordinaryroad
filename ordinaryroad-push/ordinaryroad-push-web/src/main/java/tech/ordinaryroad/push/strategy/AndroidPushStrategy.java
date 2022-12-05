@@ -21,32 +21,31 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.facade;
+package tech.ordinaryroad.push.strategy;
 
-import com.github.pagehelper.PageInfo;
-import org.springframework.web.multipart.MultipartFile;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.dto.SysFileDTO;
-import tech.ordinaryroad.upms.request.SysFileQueryRequest;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import tech.ordinaryroad.push.request.AndroidPushRequest;
+import tech.ordinaryroad.push.service.AndroidPushService;
+import tech.ordinaryroad.push.strategy.base.PushStrategy;
 
 /**
  * @author mjz
- * @date 2022/1/13
+ * @date 2022/3/13
  */
-public interface ISysFileFacade {
+@RequiredArgsConstructor
+@Component
+public class AndroidPushStrategy extends PushStrategy<AndroidPushRequest> {
 
-    Result<String> upload(String clientId, String clientSecret, MultipartFile file);
+    private final AndroidPushService androidPushService;
 
-    void download(HttpServletRequest request, HttpServletResponse response, Boolean showInline);
-
-    /**
-     * 分页查询所有
-     *
-     * @param request Request
-     * @return Page
-     */
-    Result<PageInfo<SysFileDTO>> list(SysFileQueryRequest request);
+    @Override
+    public Result<?> send(AndroidPushRequest request) {
+        if (androidPushService.send(request.getPackageName(), request.getToOrNumber(), request.getTitle(), request.getContent(), request.getChannel(), request.getIntent(), request.getExtras())) {
+            return Result.success();
+        } else {
+            return Result.fail();
+        }
+    }
 }

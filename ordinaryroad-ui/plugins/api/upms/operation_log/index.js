@@ -28,8 +28,8 @@ export default {
   initAxios (axios) {
     $axios = $axios || axios
   },
-  list: (offset, limit, sortBy, sortDesc, { type, method, status, createBy }) => {
-    const data = { offset, limit, sortBy, sortDesc, type, method, status, createBy }
+  list: (offset, limit, sortBy, sortDesc, { type, method, status, path, createBy }) => {
+    const data = { offset, limit, sortBy, sortDesc, type, method, status, path, createBy }
     return $axios({ url: '/upms/operation_log/list', method: 'post', data })
   },
   delete (id) {
@@ -41,6 +41,12 @@ export default {
   findAllTypes () {
     return $axios({
       url: '/upms/operation_log/all/types',
+      method: 'get'
+    })
+  },
+  findAllPaths () {
+    return $axios({
+      url: '/upms/operation_log/all/paths',
       method: 'get'
     })
   },

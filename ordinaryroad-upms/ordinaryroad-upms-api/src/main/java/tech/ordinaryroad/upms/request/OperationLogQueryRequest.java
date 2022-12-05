@@ -38,7 +38,7 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 @ApiModel
 public class OperationLogQueryRequest extends BaseQueryRequest {
 
-    private static final long serialVersionUID = 1492882216390153814L;
+    private static final long serialVersionUID = -6798200151077215361L;
 
     @ApiModelProperty("类型")
     private Integer type;
@@ -49,4 +49,6 @@ public class OperationLogQueryRequest extends BaseQueryRequest {
     @ApiModelProperty("响应状态")
     private String status;
 
+    @ApiModelProperty("请求路径")
+    private String path;
 }
