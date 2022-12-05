@@ -21,34 +21,34 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.request;
+package tech.ordinaryroad.upms.dto;
 
 import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
-import lombok.Getter;
-import lombok.Setter;
-import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+import lombok.Data;
+import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
 /**
+ * 操作日志请求路径DTO
+ *
  * @author mjz
- * @date 2022/11/30
+ * @date 2022/12/2
  */
-@Getter
-@Setter
+@Data
 @ApiModel
-public class OperationLogQueryRequest extends BaseQueryRequest {
+public class OperationLogRequestPathDTO extends BaseDTO implements Cloneable {
 
-    private static final long serialVersionUID = -6798200151077215361L;
+    private static final long serialVersionUID = 77294669280998496L;
 
-    @ApiModelProperty("类型")
-    private Integer type;
-
-    @ApiModelProperty("请求方法")
-    private String method;
-
-    @ApiModelProperty("响应状态")
-    private String status;
-
-    @ApiModelProperty("请求路径")
     private String path;
+
+    private String pathName;
+
+    @Override
+    public OperationLogRequestPathDTO clone() {
+        try {
+            return (OperationLogRequestPathDTO) super.clone();
+        } catch (CloneNotSupportedException e) {
+            return null;
+        }
+    }
 }

@@ -23,6 +23,8 @@
  */
 package tech.ordinaryroad.upms.web.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -34,10 +36,14 @@ import tech.ordinaryroad.commons.log.entity.OperationLogDO;
 import tech.ordinaryroad.commons.log.service.OperationLogService;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.dto.OperationLogDTO;
+import tech.ordinaryroad.upms.dto.OperationLogRequestPathDTO;
 import tech.ordinaryroad.upms.dto.OperationLogTypeDTO;
+import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 import tech.ordinaryroad.upms.mapstruct.OperationLogMapStruct;
 import tech.ordinaryroad.upms.request.OperationLogQueryRequest;
+import tech.ordinaryroad.upms.service.SysRequestPathService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -56,6 +62,7 @@ public class OperationLogController {
     private final OperationLogService operationLogService;
 
     private final OperationLogMapStruct objMapStruct;
+    private final SysRequestPathService sysRequestPathService;
 
     @PostMapping("/operation_log/list")
     public Result<PageInfo<OperationLogDTO>> list(@RequestBody OperationLogQueryRequest request) {
@@ -89,6 +96,39 @@ public class OperationLogController {
                     return operationLogTypeDTO.get();
                 }
         ).collect(Collectors.toList()));
+    }
+
+    public static void main(String[] args) {
+        String path = "/1121";
+        int secondIndex = StrUtil.length(path);
+        if (StrUtil.indexOf(path, '/', 1) != -1) {
+            secondIndex = StrUtil.indexOf(path, '/', 1);
+        }
+        System.out.println(StrUtil.subSuf(path, secondIndex));
+    }
+
+    @GetMapping(value = "/operation_log/all/paths")
+    Result<List<OperationLogRequestPathDTO>> findAllPaths() {
+        List<OperationLogRequestPathDTO> operationLogRequestPathDTOList = new ArrayList<>();
+
+        List<SysRequestPathDO> allRequestPathList = sysRequestPathService.findAll();
+        if (CollUtil.isNotEmpty(allRequestPathList)) {
+            OperationLogRequestPathDTO operationLogRequestPathDTO = new OperationLogRequestPathDTO();
+            for (SysRequestPathDO sysRequestPathDO : allRequestPathList) {
+                // 去除网关的前缀
+                String path = sysRequestPathDO.getPath();
+                int secondIndex = StrUtil.length(path);
+                if (StrUtil.indexOf(path, '/', 1) != -1) {
+                    secondIndex = StrUtil.indexOf(path, '/', 1);
+                }
+                sysRequestPathDO.setPath(StrUtil.subSuf(path, secondIndex));
+
+                operationLogRequestPathDTO = operationLogRequestPathDTO.clone();
+                operationLogRequestPathDTOList.add(objMapStruct.transfer(sysRequestPathDO));
+            }
+        }
+
+        return Result.success(operationLogRequestPathDTOList);
     }
 
     @GetMapping(value = "/operation_log/all/status")

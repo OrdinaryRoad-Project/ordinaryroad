@@ -44,6 +44,7 @@
     >
       <template #searchFormBody>
         <v-col
+          v-if="false"
           cols="6"
           lg="3"
           md="4"
@@ -61,6 +62,31 @@
             return-object
             @input="onTypeSelect"
           />
+        </v-col>
+        <v-col
+          cols="6"
+          lg="3"
+          md="4"
+        >
+          <v-select
+            v-model="searchParams.path"
+            clearable
+            dense
+            hide-details
+            :items="pathOptions.items"
+            outlined
+            :loading="pathOptions.loading"
+            :label="$t('operationLog.path')"
+            item-text="pathName"
+            item-value="path"
+          >
+            <template #item="{ item }">
+              <v-list-item-content>
+                <v-list-item-title>{{ item.pathName }}</v-list-item-title>
+                <v-list-item-subtitle>{{ item.path }}</v-list-item-subtitle>
+              </v-list-item-content>
+            </template>
+          </v-select>
         </v-col>
         <v-col
           cols="6"
@@ -206,6 +232,10 @@ export default {
       loading: true,
       items: []
     },
+    pathOptions: {
+      loading: true,
+      items: []
+    },
     methodOptions: {
       loading: false,
       items: ['GET', 'POST', 'DELETE', 'PUT']
@@ -216,6 +246,7 @@ export default {
     },
     searchParams: {
       createBy: '',
+      path: '',
       type: {},
       method: '',
       status: ''
@@ -259,6 +290,7 @@ export default {
   },
   watch: {},
   created () {
+    this.findAllPaths()
     this.findAllTypes()
     this.findAllStatus()
   },
@@ -295,6 +327,16 @@ export default {
         })
         .catch(() => {
           this.typeOptions.loading = false
+        })
+    },
+    findAllPaths () {
+      this.$apis.upms.operation_log.findAllPaths()
+        .then(({ data }) => {
+          this.pathOptions.loading = false
+          this.pathOptions.items = data
+        })
+        .catch(() => {
+          this.pathOptions.loading = false
         })
     },
     onViewLogDetail (item) {
