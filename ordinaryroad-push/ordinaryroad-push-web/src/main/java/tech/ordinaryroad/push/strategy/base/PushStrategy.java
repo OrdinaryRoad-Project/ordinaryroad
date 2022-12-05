@@ -21,18 +21,23 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.facade;
+package tech.ordinaryroad.push.strategy.base;
 
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
-import tech.ordinaryroad.upms.request.SysUserInfoRequest;
+import tech.ordinaryroad.push.request.base.BasePushRequest;
 
 /**
  * @author mjz
- * @date 2021/12/9
+ * @date 2021/11/27
  */
-public interface ISysFacade {
+public abstract class PushStrategy<R extends BasePushRequest> {
 
-    Result<SysUserInfoDTO> userInfo(SysUserInfoRequest request);
+    /**
+     * 发送
+     *
+     * @param request {@link R}
+     * @return {@link Result}
+     */
+    public abstract Result<?> send(R request);
 
 }

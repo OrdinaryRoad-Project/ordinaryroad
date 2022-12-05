@@ -21,14 +21,14 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.facade.impl;
+package tech.ordinaryroad.push.strategy;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.facade.IPushFacade;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
 import tech.ordinaryroad.push.service.AndroidPushService;
+import tech.ordinaryroad.push.strategy.base.PushStrategy;
 
 /**
  * @author mjz
@@ -36,7 +36,7 @@ import tech.ordinaryroad.push.service.AndroidPushService;
  */
 @RequiredArgsConstructor
 @Component
-public class AndroidPushFacadeImpl implements IPushFacade<AndroidPushRequest> {
+public class AndroidPushStrategy extends PushStrategy<AndroidPushRequest> {
 
     private final AndroidPushService androidPushService;
 
