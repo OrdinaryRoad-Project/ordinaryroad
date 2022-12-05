@@ -58,7 +58,7 @@ public class OperationLogController {
     private final OperationLogMapStruct objMapStruct;
 
     @PostMapping("/operation_log/list")
-    Result<PageInfo<OperationLogDTO>> list(@RequestBody OperationLogQueryRequest request) {
+    public Result<PageInfo<OperationLogDTO>> list(@RequestBody OperationLogQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
         OperationLogDO operationLogDO = objMapStruct.transfer(request);
@@ -70,12 +70,12 @@ public class OperationLogController {
     }
 
     @DeleteMapping(value = "/operation_log/delete")
-    Result<Boolean> delete(@RequestParam String id) {
+    public Result<Boolean> delete(@RequestParam String id) {
         return Result.success(operationLogService.delete(id));
     }
 
     @GetMapping(value = "/operation_log/all/types")
-    Result<List<OperationLogTypeDTO>> findAllTypes() {
+    public Result<List<OperationLogTypeDTO>> findAllTypes() {
         AtomicReference<OperationLogTypeDTO> operationLogTypeDTO = new AtomicReference<>(new OperationLogTypeDTO());
         return Result.success(Arrays.stream(StatusCode.values()).map(statusCode -> {
                     operationLogTypeDTO.set(operationLogTypeDTO.get().clone());
