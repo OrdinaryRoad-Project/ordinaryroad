@@ -29,6 +29,8 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,6 +38,7 @@ import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.api.ISysPermissionApi;
 import tech.ordinaryroad.upms.dto.SysPermissionDTO;
@@ -76,11 +79,31 @@ public class SysPermissionController implements ISysPermissionApi {
         return Result.success(objMapStruct.transfer(sysPermissionService.createSelective(sysPermissionDO)));
     }
 
+    @Caching(evict = {
+            /* 删除根据请求路径获取权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSION_BY_REQUEST_PATH, allEntries = true, condition = "#result.data"),
+            /* 删除根据请求路径Id获取权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSION_BY_REQUEST_PATH_UUID, allEntries = true, condition = "#result.data"),
+            /* 删除根据用户Id获取用户拥有的所有权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, allEntries = true, condition = "#result.data"),
+            /* 删除根据角色Id获取角色拥有的所有权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, allEntries = true, condition = "#result.data"),
+    })
     @Override
     public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
         return Result.success(sysPermissionService.delete(request.getUuid()));
     }
 
+    @Caching(evict = {
+            /* 删除根据请求路径获取权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSION_BY_REQUEST_PATH, allEntries = true, condition = "#result.success"),
+            /* 删除根据请求路径Id获取权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSION_BY_REQUEST_PATH_UUID, allEntries = true, condition = "#result.success"),
+            /* 删除根据用户Id获取用户拥有的所有权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, allEntries = true, condition = "#result.success"),
+            /* 删除根据角色Id获取角色拥有的所有权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, allEntries = true, condition = "#result.success"),
+    })
     @Override
     public Result<SysPermissionDTO> update(@Validated @RequestBody SysPermissionSaveRequest request) {
         String uuid = request.getUuid();

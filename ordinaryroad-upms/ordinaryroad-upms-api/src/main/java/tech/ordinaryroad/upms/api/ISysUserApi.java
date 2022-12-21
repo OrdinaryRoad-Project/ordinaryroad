@@ -59,7 +59,7 @@ public interface ISysUserApi {
     Result<PageInfo<SysUserDTO>> list(@RequestBody SysUserQueryRequest request);
 
     @PostMapping(value = "/user/update")
-    Result<SysUserDTO> update(@Validated @RequestBody SysUserSaveRequest request);
+    Result<Boolean> update(@Validated @RequestBody SysUserSaveRequest request);
 
     @PostMapping(value = "/user/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
