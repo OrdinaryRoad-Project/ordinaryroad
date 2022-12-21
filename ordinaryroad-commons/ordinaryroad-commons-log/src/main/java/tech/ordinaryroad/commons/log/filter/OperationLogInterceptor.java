@@ -122,7 +122,12 @@ public class OperationLogInterceptor implements HandlerInterceptor {
         if (!PathConstants.UPMS_FILE_DOWNLOAD.equals(operationLogDO.getPath())) {
             String responseString = new String(((ResponseWrapper) response).toByteArray(), StandardCharsets.UTF_8);
             if (StrUtil.isNotBlank(responseString)) {
-                Result<?> result = JSON.parseObject(responseString, Result.class);
+                Result<?> result = null;
+                try {
+                    result = JSON.parseObject(responseString, Result.class);
+                } catch (Exception e) {
+                    // ignore
+                }
                 Optional.ofNullable(operationLogInterceptorService.getType((RequestWrapper) request, (ResponseWrapper) response, result)).ifPresent(operationLogDO::setType);
                 Optional.ofNullable(operationLogInterceptorService.getStatus((RequestWrapper) request, (ResponseWrapper) response, result)).ifPresent(operationLogDO::setStatus);
             }
