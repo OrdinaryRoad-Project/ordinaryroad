@@ -87,7 +87,7 @@ public class OperationLogInterceptor implements HandlerInterceptor {
 
         if (!PathConstants.UPMS_FILE_UPLOAD.equals(operationLogDO.getPath())) {
             // 长度最大一百万
-            operationLogDO.setRequest(StrUtil.subWithLength(new String(((RequestWrapper) request).toByteArray(), StandardCharsets.UTF_8), 0, MAX_BODY_LENGTH));
+            operationLogDO.setRequest(StrUtil.subWithLength(((RequestWrapper) request).getBody(), 0, MAX_BODY_LENGTH));
         }
 
         if (log.isDebugEnabled()) {

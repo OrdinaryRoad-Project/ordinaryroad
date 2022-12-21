@@ -24,28 +24,37 @@
 
 package tech.ordinaryroad.commons.log;
 
-import org.apache.commons.io.input.TeeInputStream;
+import cn.hutool.core.io.IoUtil;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class RequestWrapper extends HttpServletRequestWrapper {
 
-    private final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    private final String body;
     private long id;
 
 
     public RequestWrapper(Long requestId, HttpServletRequest request) {
         super(request);
+        try {
+            body = IoUtil.read(request.getInputStream(), StandardCharsets.UTF_8);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         this.id = requestId;
     }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
+
+        final ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8));
+
         return new ServletInputStream() {
             @Override
             public boolean isFinished() {
@@ -62,17 +71,15 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 
             }
 
-            private final TeeInputStream tee = new TeeInputStream(RequestWrapper.super.getInputStream(), bos);
-
             @Override
             public int read() throws IOException {
-                return tee.read();
+                return bais.read();
             }
         };
     }
 
-    public byte[] toByteArray() {
-        return bos.toByteArray();
+    public String getBody() {
+        return body;
     }
 
     public long getId() {
