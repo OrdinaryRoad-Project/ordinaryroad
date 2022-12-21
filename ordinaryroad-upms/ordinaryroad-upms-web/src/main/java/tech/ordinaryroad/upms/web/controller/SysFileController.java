@@ -156,6 +156,10 @@ public class SysFileController implements ISysFileApi {
             DownloadResponses downloadResponses = orMinioService.download(bucketName, filename);
             StatObjectResponse statObjectResponse = downloadResponses.getStatObjectResponse();
             String originalFilename = statObjectResponse.userMetadata().get(OrMinioService.METADATA_KEY_ORIGINAL_FILENAME);
+            if (StrUtil.isBlank(originalFilename)) {
+                int indexBetweenFilePathAndFilename = fullPath.lastIndexOf("/");
+                originalFilename = fullPath.substring(indexBetweenFilePathAndFilename);
+            }
             @Cleanup GetObjectResponse getObjectResponse = downloadResponses.getGetObjectResponse();
 
             String extName = FileUtil.extName(originalFilename);
