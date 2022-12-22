@@ -25,6 +25,8 @@
 package tech.ordinaryroad.commons.log;
 
 import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -36,46 +38,51 @@ import java.nio.charset.StandardCharsets;
 
 public class RequestWrapper extends HttpServletRequestWrapper {
 
-    private final String body;
+    private String body = StrUtil.EMPTY;
     private long id;
-
 
     public RequestWrapper(Long requestId, HttpServletRequest request) {
         super(request);
-        try {
-            body = IoUtil.read(request.getInputStream(), StandardCharsets.UTF_8);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         this.id = requestId;
+
+        if (!(request instanceof MultipartHttpServletRequest)) {
+            try {
+                this.body = IoUtil.read(request.getInputStream(), StandardCharsets.UTF_8);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
+        if (super.getRequest() instanceof MultipartHttpServletRequest) {
+            return super.getInputStream();
+        } else {
+            final ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8));
 
-        final ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8));
+            return new ServletInputStream() {
+                @Override
+                public boolean isFinished() {
+                    return false;
+                }
 
-        return new ServletInputStream() {
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
+                @Override
+                public boolean isReady() {
+                    return false;
+                }
 
-            @Override
-            public boolean isReady() {
-                return false;
-            }
+                @Override
+                public void setReadListener(ReadListener listener) {
 
-            @Override
-            public void setReadListener(ReadListener listener) {
+                }
 
-            }
-
-            @Override
-            public int read() throws IOException {
-                return bais.read();
-            }
-        };
+                @Override
+                public int read() throws IOException {
+                    return bais.read();
+                }
+            };
+        }
     }
 
     public String getBody() {

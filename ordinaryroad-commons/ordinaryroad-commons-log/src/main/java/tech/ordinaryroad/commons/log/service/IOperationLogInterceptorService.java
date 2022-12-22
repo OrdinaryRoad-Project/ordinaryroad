@@ -24,10 +24,10 @@
 package tech.ordinaryroad.commons.log.service;
 
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.commons.log.RequestWrapper;
 import tech.ordinaryroad.commons.log.ResponseWrapper;
 import tech.ordinaryroad.commons.log.entity.OperationLogDO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.constraints.NotNull;
 
 /**
@@ -41,23 +41,23 @@ public interface IOperationLogInterceptorService {
     /**
      * 获取类型
      *
-     * @param request  RequestWrapper
+     * @param request  RequestWrapper（content-type为json）/HttpServletRequest
      * @param response ResponseWrapper
      * @param result   Result<?>
      * @return 类型
      * @see OperationLogDO#setType(Integer)
      */
-    Integer getType(@NotNull RequestWrapper request, @NotNull ResponseWrapper response, Result<?> result);
+    Integer getType(@NotNull HttpServletRequest request, @NotNull ResponseWrapper response, Result<?> result);
 
     /**
      * 获取状态码
      *
-     * @param request  RequestWrapper
+     * @param request  RequestWrapper（content-type为json）/HttpServletRequest
      * @param response ResponseWrapper
      * @param result   Result<?>
      * @return 状态
      * @see OperationLogDO#setStatus(String)
      */
-    String getStatus(@NotNull RequestWrapper request, @NotNull ResponseWrapper response, Result<?> result);
+    String getStatus(@NotNull HttpServletRequest request, @NotNull ResponseWrapper response, Result<?> result);
 
 }
