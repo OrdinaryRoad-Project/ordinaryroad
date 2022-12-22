@@ -2,7 +2,25 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
-### 2022-12-01 v1.4.0
+### 2022-12-22 v1.5.2
+
+- perf(权限认证): 增加用户、角色、权限缓存
+- fix(日志拦截器): 捕获非json的响应体异常
+- fix(日志拦截器): 修复RequestWrapper拿不到请求体的问题
+- perf(日志拦截器): 支持MultipartHttpServletRequest
+- refactor: 常量类的类型从class改为interface
+- perf: Result.fail增加StatusCode
+
+---
+
+### 2022-12-05 v1.5.1
+
+- feat(操作日志): 搜索条件增加请求路径
+- refactor: no facade
+
+---
+
+### 2022-12-01 v1.5.0
 
 - feat: 增加操作日志功能
 - feat: DO类增加updatable = false注解

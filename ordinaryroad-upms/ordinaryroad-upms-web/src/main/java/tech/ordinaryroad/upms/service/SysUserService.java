@@ -25,8 +25,10 @@ package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysUserDAO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
@@ -49,6 +51,7 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
     @Autowired
     private SysUsersRolesService sysUsersRolesService;
 
+    @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_EMAIL, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #email")
     public Optional<SysUserDO> findByEmail(String email) {
         Example example = Example.builder(SysUserDO.class)
                 .where(Sqls.custom().andEqualTo("email", email))
@@ -56,6 +59,7 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
+    @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_USERNAME, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #username")
     public Optional<SysUserDO> findByUsername(String username) {
         Example example = Example.builder(SysUserDO.class)
                 .where(Sqls.custom().andEqualTo("username", username))
@@ -63,6 +67,7 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
         return Optional.ofNullable(super.dao.selectOneByExample(example));
     }
 
+    @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_OR_NUMBER, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #orNumber")
     public Optional<SysUserDO> findByOrNumber(String orNumber) {
         Example example = Example.builder(SysUserDO.class)
                 .where(Sqls.custom().andEqualTo("orNumber", orNumber))

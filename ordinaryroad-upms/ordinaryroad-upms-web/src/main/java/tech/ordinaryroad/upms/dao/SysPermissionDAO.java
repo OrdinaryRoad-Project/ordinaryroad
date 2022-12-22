@@ -25,7 +25,6 @@ package tech.ordinaryroad.upms.dao;
 
 import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
-import tech.ordinaryroad.upms.entity.SysRoleDO;
 
 /**
  * @author mjz

@@ -25,8 +25,10 @@ package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.util.StrUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysPermissionDAO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
@@ -81,6 +83,7 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         return super.findAll(baseQueryRequest, sqls, exampleBuilder);
     }
 
+    @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_PERMISSIONS + "' + #userUuid")
     public List<SysPermissionDO> findAllByUserUuid(String userUuid) {
         // 根据用户uuid查询所有角色uuid
         List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
@@ -92,6 +95,7 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         return this.findIds(permissionUuids);
     }
 
+    @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_ROLE_PERMISSIONS + "' + #roleUuid")
     public List<SysPermissionDO> findAllByRoleUuid(String roleUuid) {
         // 根据角色uuid查询所有权限
         List<SysRolesPermissionsDO> allByRoleUuids = sysRolesPermissionsService.findAllByRoleUuids(Collections.singletonList(roleUuid));
@@ -100,6 +104,7 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         return this.findIds(permissionUuids);
     }
 
+    @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSION_BY_REQUEST_PATH, key = "'" + CacheConstants.CACHEABLE_KEY_REQUEST_PATH_PERMISSION + "' + #path")
     public Optional<SysPermissionDO> findByRequestPath(String path) {
         Optional<SysRequestPathDO> optional = sysRequestPathService.findByPath(path);
         if (!optional.isPresent()) {
@@ -110,6 +115,7 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
         return Optional.ofNullable(super.findById(permissionUuid));
     }
 
+    @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSION_BY_REQUEST_PATH_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_REQUEST_PATH_PERMISSION + "' + #requestPathUuid")
     public Optional<SysPermissionDO> findByRequestPathUuid(String requestPathUuid) {
         SysRequestPathDO sysRequestPathDO = sysRequestPathService.findById(requestPathUuid);
         if (Objects.isNull(sysRequestPathDO)) {

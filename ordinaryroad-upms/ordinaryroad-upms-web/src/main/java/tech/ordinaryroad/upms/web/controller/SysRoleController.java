@@ -29,6 +29,9 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -37,6 +40,8 @@ import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.constant.CacheConstants;
+import tech.ordinaryroad.commons.core.service.RedisService;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.api.ISysRoleApi;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
@@ -67,6 +72,7 @@ public class SysRoleController implements ISysRoleApi {
     private final SysRoleMapStruct objMapStruct;
     private final SysUsersRolesService sysUsersRolesService;
     private final SysRolesPermissionsService sysRolesPermissionsService;
+    private final RedisService redisService;
 
     @Override
     public Result<SysRoleDTO> create(@RequestBody @Validated SysRoleSaveRequest request) {
@@ -86,11 +92,26 @@ public class SysRoleController implements ISysRoleApi {
         return Result.success(objMapStruct.transfer(sysRoleService.createSelective(sysRoleDO)));
     }
 
+    @Caching(evict = {
+            /* 删除根据用户Id查询用户拥有的所有角色缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID, condition = "#result.data", allEntries = true),
+            /* 删除根据用户Id查询用户拥有的所有权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, condition = "#result.data", allEntries = true),
+            /* 删除根据角色Id查询角色拥有的所有权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, condition = "#result.data", allEntries = true),
+    })
     @Override
     public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
         return Result.success(sysRoleService.delete(request.getUuid()));
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID, condition = "#result.success", allEntries = true),
+            /* 删除根据用户Id查询用户拥有的所有权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, condition = "#result.data", allEntries = true),
+            /* 删除根据角色Id查询角色拥有的所有权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, condition = "#result.data", allEntries = true),
+    })
     @Override
     public Result<SysRoleDTO> update(@RequestBody @Validated SysRoleSaveRequest request) {
         String uuid = request.getUuid();
@@ -143,7 +164,7 @@ public class SysRoleController implements ISysRoleApi {
         if (!optional.isPresent() && StrUtil.isNotBlank(roleName)) {
             optional = sysRoleService.findByRoleName(roleName);
         }
-        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.ROLE_NOT_EXIST));
     }
 
     @Override
@@ -193,6 +214,9 @@ public class SysRoleController implements ISysRoleApi {
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Result<Boolean> updateRoleUsers(@RequestBody @Validated SysRoleUsersSaveRequest request) {
+        // 需要删除用户拥有的角色缓存的用户uuid列表
+        List<String> needDeleteCacheUserUuids = new ArrayList<>();
+
         String roleUuid = request.getRoleUuid();
 
         // 最新的用户uuids
@@ -220,12 +244,14 @@ public class SysRoleController implements ISysRoleApi {
                 sysUsersRolesDO.setUserUuid(userUuid);
                 sysUsersRolesDO.setRoleUuid(roleUuid);
                 needInsertList.add(sysUsersRolesDO);
+                needDeleteCacheUserUuids.add(userUuid);
             }
         });
         allByRoleUuid.forEach(sysUsersRolesDO -> {
             // 最新的不存在，需要删除的
             if (!userUuids.contains(sysUsersRolesDO.getUserUuid())) {
                 needDeleteList.add(sysUsersRolesDO.getUuid());
+                needDeleteCacheUserUuids.add(sysUsersRolesDO.getUserUuid());
             }
         });
 
@@ -238,11 +264,26 @@ public class SysRoleController implements ISysRoleApi {
             if (CollUtil.isNotEmpty(needInsertList)) {
                 sysUsersRolesService.insertList(needInsertList);
             }
-        }
 
-        return Result.success(Boolean.TRUE);
+            if (CollUtil.isNotEmpty(needDeleteCacheUserUuids)) {
+                // 删除根据用户Id获取用户拥有的所有角色缓存
+                List<String> keys1 = needDeleteCacheUserUuids.stream().map(t -> CacheConstants.CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID + CacheKeyPrefix.SEPARATOR + CacheConstants.CACHEABLE_KEY_USER_ROLES + t).collect(Collectors.toList());
+                redisService.deleteObject(keys1);
+                // 删除根据用户Id获取用户拥有的所有权限缓存
+                List<String> keys2 = needDeleteCacheUserUuids.stream().map(t -> CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID + CacheKeyPrefix.SEPARATOR + CacheConstants.CACHEABLE_KEY_USER_PERMISSIONS + t).collect(Collectors.toList());
+                redisService.deleteObject(keys2);
+            }
+
+            return Result.success(Boolean.TRUE);
+        }
     }
 
+    @Caching(evict = {
+            /* 删除根据角色Id查询角色拥有的权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_ROLE_PERMISSIONS + "' + #request.roleUuid", condition = "#result.data"),
+            /* 删除所有根据用户Id查询用户拥有的权限缓存 */
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, allEntries = true, condition = "#result.data"),
+    })
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Result<Boolean> updateRolePermissions(@RequestBody @Validated SysRolePermissionsSaveRequest request) {
@@ -291,8 +332,7 @@ public class SysRoleController implements ISysRoleApi {
             if (CollUtil.isNotEmpty(needInsertList)) {
                 sysRolesPermissionsService.insertList(needInsertList);
             }
+            return Result.success(Boolean.TRUE);
         }
-
-        return Result.success(Boolean.TRUE);
     }
 }

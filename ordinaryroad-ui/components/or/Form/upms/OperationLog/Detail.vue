@@ -149,7 +149,7 @@
       <v-tab-item>
         <v-container fluid class="ma-0 px-0 py-2">
           <v-sheet
-            v-if="model.response.trim()"
+            v-if="model.response && model.response.trim()"
             rounded
             outlined
           >
@@ -184,7 +184,7 @@
       <v-tab-item>
         <v-container fluid class="ma-0 px-0 py-2">
           <v-sheet
-            v-if="model.request.trim()"
+            v-if="model.request && model.request.trim()"
             rounded
             outlined
           >

@@ -36,7 +36,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.log.RequestWrapper;
 import tech.ordinaryroad.commons.log.ResponseWrapper;
 import tech.ordinaryroad.commons.log.entity.OperationLogDO;
@@ -85,9 +84,9 @@ public class OperationLogInterceptor implements HandlerInterceptor {
         operationLogDO.setCookies(JSON.toJSONString(ServletUtils.readCookieMap(request)));
         operationLogDO.setQueryParams(JSON.toJSONString(ServletUtils.getQueryParamsMap(request)));
 
-        if (!PathConstants.UPMS_FILE_UPLOAD.equals(operationLogDO.getPath())) {
+        if (request instanceof RequestWrapper) {
             // 长度最大一百万
-            operationLogDO.setRequest(StrUtil.subWithLength(new String(((RequestWrapper) request).toByteArray(), StandardCharsets.UTF_8), 0, MAX_BODY_LENGTH));
+            operationLogDO.setRequest(StrUtil.subWithLength(((RequestWrapper) request).getBody(), 0, MAX_BODY_LENGTH));
         }
 
         if (log.isDebugEnabled()) {
@@ -113,22 +112,25 @@ public class OperationLogInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         OperationLogDO operationLogDO = TL_OPERATION_LOG.get();
 
-        operationLogDO.setType(operationLogInterceptorService.getType((RequestWrapper) request, (ResponseWrapper) response, null));
+        operationLogDO.setType(operationLogInterceptorService.getType(request, (ResponseWrapper) response, null));
         HttpStatus httpStatus = HttpStatus.resolve(response.getStatus());
         Optional.ofNullable(httpStatus).ifPresent(t -> operationLogDO.setStatus(t.name()));
 
         operationLogDO.setResponseHeaders(JSON.toJSONString(ServletUtils.getHeaderMap(response)));
 
-        if (!PathConstants.UPMS_FILE_DOWNLOAD.equals(operationLogDO.getPath())) {
-            String responseString = new String(((ResponseWrapper) response).toByteArray(), StandardCharsets.UTF_8);
-            if (StrUtil.isNotBlank(responseString)) {
-                Result<?> result = JSON.parseObject(responseString, Result.class);
-                Optional.ofNullable(operationLogInterceptorService.getType((RequestWrapper) request, (ResponseWrapper) response, result)).ifPresent(operationLogDO::setType);
-                Optional.ofNullable(operationLogInterceptorService.getStatus((RequestWrapper) request, (ResponseWrapper) response, result)).ifPresent(operationLogDO::setStatus);
+        String responseString = new String(((ResponseWrapper) response).toByteArray(), StandardCharsets.UTF_8);
+        if (StrUtil.isNotBlank(responseString)) {
+            Result<?> result = null;
+            try {
+                result = JSON.parseObject(responseString, Result.class);
+            } catch (Exception e) {
+                // ignore
             }
-            // 长度最大一百万
-            operationLogDO.setResponse(StrUtil.subWithLength(responseString, 0, MAX_BODY_LENGTH));
+            Optional.ofNullable(operationLogInterceptorService.getType(request, (ResponseWrapper) response, result)).ifPresent(operationLogDO::setType);
+            Optional.ofNullable(operationLogInterceptorService.getStatus(request, (ResponseWrapper) response, result)).ifPresent(operationLogDO::setStatus);
         }
+        // 长度最大一百万
+        operationLogDO.setResponse(StrUtil.subWithLength(responseString, 0, MAX_BODY_LENGTH));
 
         long consumedTime = System.currentTimeMillis() - TL_START_TIME.get();
         operationLogDO.setConsumedTime(consumedTime);

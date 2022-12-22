@@ -151,7 +151,7 @@ public class SysRequestPathController implements ISysRequestPathApi {
         if (!optional.isPresent() && StrUtil.isNotBlank(pathName)) {
             optional = sysRequestPathService.findByPathName(pathName);
         }
-        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.PATH_NOT_EXIST));
     }
 
     @Override

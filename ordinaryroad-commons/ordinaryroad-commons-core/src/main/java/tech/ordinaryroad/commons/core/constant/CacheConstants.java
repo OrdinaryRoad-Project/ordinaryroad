@@ -34,22 +34,77 @@ import javax.validation.constraints.NotNull;
  * @author mjz
  * @date 2021/11/27
  */
-public class CacheConstants {
+public interface CacheConstants {
 
     /**
      * 默认验证码的key
      */
-    public static String CAPTCHA_DEFAULT_KEY = "gateway:captcha.default:%s:string";
+    String CAPTCHA_DEFAULT_KEY = "gateway:captcha.default:%s:string";
 
     /**
      * 登录验证码的key，captchaId
      */
-    public static String CAPTCHA_LOGIN_KEY = "gateway:captcha.login:%s:string";
+    String CAPTCHA_LOGIN_KEY = "gateway:captcha.login:%s:string";
 
     /**
      * 注册验证码的key，captchaId
      */
-    public static String CAPTCHA_REGISTER_KEY = "gateway:captcha.register:%s:string";
+    String CAPTCHA_REGISTER_KEY = "gateway:captcha.register:%s:string";
+
+    // region Cache注解缓存相关
+    /**
+     * 根据用户Id查询用户拥有的角色
+     */
+    String CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID = "SysRoleService.findAllByUserUuid";
+    /**
+     * 根据用户邮箱查询用户
+     */
+    String CACHEABLE_CACHE_NAME_USER_BY_EMAIL = "SysUserService.findByEmail";
+    /**
+     * 根据用户用户名查询用户
+     */
+    String CACHEABLE_CACHE_NAME_USER_BY_USERNAME = "SysUserService.findByUsername";
+    /**
+     * 根据用户OR账号查询用户
+     */
+    String CACHEABLE_CACHE_NAME_USER_BY_OR_NUMBER = "SysUserService.findByOrNumber";
+    /**
+     * 根据用户Id查询用户拥有的权限
+     */
+    String CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID = "SysPermissionService.findAllByUserUuid";
+    /**
+     * 根据角色Id查询角色拥有的权限
+     */
+    String CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID = "SysPermissionService.findAllByRoleUuid";
+    /**
+     * 根据请求路径查询权限
+     */
+    String CACHEABLE_CACHE_NAME_PERMISSION_BY_REQUEST_PATH = "SysPermissionService.findByRequestPath";
+    /**
+     * 根据请求路径Id查询权限
+     */
+    String CACHEABLE_CACHE_NAME_PERMISSION_BY_REQUEST_PATH_UUID = "SysPermissionService.findByRequestPathUuid";
+    /**
+     * 用户拥有的角色
+     */
+    String CACHEABLE_KEY_USER_ROLES = "upms:user.roles:";
+    /**
+     * 用户
+     */
+    String CACHEABLE_KEY_USER = "upms:user:";
+    /**
+     * 用户拥有的权限
+     */
+    String CACHEABLE_KEY_USER_PERMISSIONS = "upms:user.permissions:";
+    /**
+     * 角色拥有的权限
+     */
+    String CACHEABLE_KEY_ROLE_PERMISSIONS = "upms:role.permissions:";
+    /**
+     * 请求路径权限
+     */
+    String CACHEABLE_KEY_REQUEST_PATH_PERMISSION = "upms:request.path.permission:";
+    // endregion
 
     /**
      * 生成登录验证码缓存key
@@ -58,7 +113,7 @@ public class CacheConstants {
      * @return KEY
      * @see CacheConstants#CAPTCHA_LOGIN_KEY
      */
-    public static String generateLoginCaptchaKey(@NotNull String captchaId) {
+    static String generateLoginCaptchaKey(@NotNull String captchaId) {
         return String.format(CacheConstants.CAPTCHA_LOGIN_KEY, captchaId);
     }
 
@@ -69,7 +124,7 @@ public class CacheConstants {
      * @return KEY
      * @see CacheConstants#CAPTCHA_REGISTER_KEY
      */
-    public static String generateRegisterCaptchaKey(@NotNull String email) {
+    static String generateRegisterCaptchaKey(@NotNull String email) {
         return String.format(CacheConstants.CAPTCHA_REGISTER_KEY, email);
     }
 

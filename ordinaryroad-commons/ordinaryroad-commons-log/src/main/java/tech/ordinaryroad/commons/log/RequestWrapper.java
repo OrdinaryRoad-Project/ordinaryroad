@@ -24,55 +24,69 @@
 
 package tech.ordinaryroad.commons.log;
 
-import org.apache.commons.io.input.TeeInputStream;
+import cn.hutool.core.io.IoUtil;
+import cn.hutool.core.util.StrUtil;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import java.io.ByteArrayOutputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class RequestWrapper extends HttpServletRequestWrapper {
 
-    private final ByteArrayOutputStream bos = new ByteArrayOutputStream();
+    private String body = StrUtil.EMPTY;
     private long id;
-
 
     public RequestWrapper(Long requestId, HttpServletRequest request) {
         super(request);
         this.id = requestId;
+
+        if (!(request instanceof MultipartHttpServletRequest)) {
+            try {
+                this.body = IoUtil.read(request.getInputStream(), StandardCharsets.UTF_8);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        return new ServletInputStream() {
-            @Override
-            public boolean isFinished() {
-                return false;
-            }
+        if (super.getRequest() instanceof MultipartHttpServletRequest) {
+            return super.getInputStream();
+        } else {
+            final ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8));
 
-            @Override
-            public boolean isReady() {
-                return false;
-            }
+            return new ServletInputStream() {
+                @Override
+                public boolean isFinished() {
+                    return false;
+                }
 
-            @Override
-            public void setReadListener(ReadListener listener) {
+                @Override
+                public boolean isReady() {
+                    return false;
+                }
 
-            }
+                @Override
+                public void setReadListener(ReadListener listener) {
 
-            private final TeeInputStream tee = new TeeInputStream(RequestWrapper.super.getInputStream(), bos);
+                }
 
-            @Override
-            public int read() throws IOException {
-                return tee.read();
-            }
-        };
+                @Override
+                public int read() throws IOException {
+                    return bais.read();
+                }
+            };
+        }
     }
 
-    public byte[] toByteArray() {
-        return bos.toByteArray();
+    public String getBody() {
+        return body;
     }
 
     public long getId() {
