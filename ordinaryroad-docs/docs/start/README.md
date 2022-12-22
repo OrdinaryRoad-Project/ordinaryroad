@@ -2,7 +2,7 @@
 
 陌生人你好，这是我的也可能是你的**第一个微服务项目**，已完成UPMS模块基础框架，目前仍在持续开发中...
 
-我的个人博客 [https://ordinaryroad.top](https://ordinaryroad.top)
+OR博客 [https://blog.ordinaryroad.tech](https://blog.ordinaryroad.tech)
 
 演示地址: [https://ordinaryroad.tech:8021](https://ordinaryroad.tech:8021) 帐号10001，密码Abc123
 
@@ -104,6 +104,10 @@
 
 ![OROpenid管理页](https://user-images.githubusercontent.com/43869694/150741051-4522210b-a9f3-4914-8583-0b02ddf5fb6c.png)
 
+### 操作日志管理页
+
+![OROpenid管理页](https://user-images.githubusercontent.com/43869694/209146882-c00999f4-65b5-4c4e-85c1-182e4daa6a69.png)
+![OROpenid管理页](https://user-images.githubusercontent.com/43869694/209146905-e800af0d-2bcd-4f05-ac1b-49935e9e48b9.png)
 ___
 
 # 主要技术栈

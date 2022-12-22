@@ -113,7 +113,7 @@
         <template #activator="{ on, attrs }">
           <v-btn
             icon
-            href="https://1962247851.github.io/ordinaryroad"
+            href="https://ordinaryroad.tech"
             target="_blank"
             v-bind="attrs"
             v-on="on"

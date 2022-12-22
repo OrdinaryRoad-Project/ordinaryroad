@@ -40,6 +40,7 @@ import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
 import tech.ordinaryroad.auth.server.mapstruct.OAuth2UserinfoMapStruct;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
 import tech.ordinaryroad.auth.server.service.OAuth2OpenidService;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.satoken.util.OrOAuth2Util;
 import tech.ordinaryroad.upms.api.ISysUserApi;
@@ -94,7 +95,7 @@ public class SaOAuth2ServerController implements IOAuth2Api {
     @Override
     public Result<String> getOrNumber(@Validated @RequestBody OAuth2GetOrNumberRequest request) {
         Optional<OAuth2OpenidDO> byClientIdAndOpenid = oAuth2OpenidService.findByClientIdAndOpenid(request.getClientId(), request.getOpenid());
-        return byClientIdAndOpenid.map(oAuth2OpenidDO -> Result.success(oAuth2OpenidDO.getOrNumber())).orElseGet(Result::fail);
+        return byClientIdAndOpenid.map(oAuth2OpenidDO -> Result.success(oAuth2OpenidDO.getOrNumber())).orElse(Result.fail(StatusCode.DATA_NOT_EXIST));
     }
 
     @Override

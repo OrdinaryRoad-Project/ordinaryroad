@@ -104,7 +104,6 @@ public class StpInterfaceImpl implements StpInterface {
 
     @Override
     public List<String> getRoleList(Object loginId, String loginType) {
-        // TODO 增加缓存
         String orNumber = (String) loginId;
 
         try {

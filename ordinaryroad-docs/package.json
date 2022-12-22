@@ -1,6 +1,6 @@
 {
   "name": "ordinaryroad-docs",
-  "version": "1.4.0",
+  "version": "1.5.2",
   "description": "OrdinaryRoad文档",
   "main": "index.js",
   "scripts": {

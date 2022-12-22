@@ -134,7 +134,7 @@ public class SysDictController implements ISysDictApi {
         if (!optional.isPresent() && StrUtil.isNotBlank(dictName)) {
             optional = sysDictService.findByDictName(dictName);
         }
-        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.DICT_NOT_EXIST));
     }
 
     @Override

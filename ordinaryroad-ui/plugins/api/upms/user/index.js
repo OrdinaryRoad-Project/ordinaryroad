@@ -36,8 +36,8 @@ export default {
     const data = { uuid }
     return $axios({ url: '/upms/user/delete', method: 'post', data })
   },
-  update: ({ uuid, email, username, password }) => {
-    const data = { uuid, email, username, password }
+  update: ({ uuid, password }) => {
+    const data = { uuid, password }
     return $axios({ url: '/upms/user/update', method: 'post', data })
   },
   register: ({ code, password, email, username }) => {

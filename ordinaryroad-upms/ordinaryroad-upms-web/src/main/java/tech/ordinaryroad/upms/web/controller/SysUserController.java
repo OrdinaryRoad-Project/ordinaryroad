@@ -31,6 +31,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
+import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -40,6 +43,8 @@ import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.constant.CacheConstants;
+import tech.ordinaryroad.commons.core.service.RedisService;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
 import tech.ordinaryroad.upms.api.ISysUserApi;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
@@ -67,6 +72,7 @@ public class SysUserController implements ISysUserApi {
     private final SysUsersRolesService sysUsersRolesService;
     private final SysUserMapStruct objMapStruct;
     private final PasswordEncoder passwordEncoder;
+    private final RedisService redisService;
     private final Pattern passwordPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$");
 
     @Transactional(rollbackFor = Exception.class)
@@ -121,18 +127,44 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
-    public Result<SysUserDTO> update(@RequestBody @Validated SysUserSaveRequest request) {
-        SysUserDO sysUserDO = objMapStruct.transfer(request);
-        // 不允许更新密码
-        sysUserDO.setPassword(null);
-        // 不允许更新邮箱
-        sysUserDO.setEmail(null);
-        return Result.success(objMapStruct.transfer(sysUserService.updateSelective(sysUserDO)));
+    public Result<Boolean> update(@RequestBody @Validated SysUserSaveRequest request) {
+        // 只更新用户名
+        Optional<SysUserDO> byId = Optional.ofNullable(sysUserService.findById(request.getUuid()));
+        if (!byId.isPresent()) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+        String newUsername = request.getUsername();
+        SysUserDO sysUserDO = byId.get();
+        String username = sysUserDO.getUsername();
+        if (newUsername.equals(username)) {
+            return Result.success(false);
+        }
+
+        Optional<SysUserDO> byUsername = sysUserService.findByUsername(newUsername);
+        if (byUsername.isPresent()) {
+            return Result.fail(StatusCode.USERNAME_ALREADY_EXIST);
+        }
+
+        SysUserDO newSysUserDO = new SysUserDO();
+        newSysUserDO.setUuid(sysUserDO.getUuid());
+        newSysUserDO.setUsername(newUsername);
+        if (sysUserService.doUpdateSelective(newSysUserDO)) {
+
+            evictUserCachesWhenUpdateOrDelete(sysUserDO);
+
+            return Result.success(true);
+        } else {
+            return Result.fail();
+        }
     }
 
     @Override
     public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
-        return Result.success(sysUserService.delete(request.getUuid()));
+        String userUuid = request.getUuid();
+
+        evictUserCachesWhenUpdateOrDelete(sysUserService.findById(userUuid));
+
+        return Result.success(sysUserService.delete(userUuid));
     }
 
     @Override
@@ -151,7 +183,7 @@ public class SysUserController implements ISysUserApi {
             optional = sysUserService.findByUsername(username);
         }
 
-        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.USER_NOT_EXIST));
     }
 
     @Override
@@ -178,6 +210,9 @@ public class SysUserController implements ISysUserApi {
         newSysUserDO.setUuid(sysUserDO.getUuid());
         newSysUserDO.setAvatar(StrUtil.blankToDefault(newAvatar, ""));
         if (sysUserService.doUpdateSelective(newSysUserDO)) {
+
+            evictUserCachesWhenUpdateOrDelete(sysUserDO);
+
             return Result.success(true);
         } else {
             return Result.fail();
@@ -208,6 +243,9 @@ public class SysUserController implements ISysUserApi {
         newSysUserDO.setUuid(sysUserDO.getUuid());
         newSysUserDO.setUsername(newUsername);
         if (sysUserService.doUpdateSelective(newSysUserDO)) {
+
+            evictUserCachesWhenUpdateOrDelete(sysUserDO);
+
             return Result.success(true);
         } else {
             return Result.fail();
@@ -238,6 +276,9 @@ public class SysUserController implements ISysUserApi {
         newSysUserDO.setUuid(sysUserDO.getUuid());
         newSysUserDO.setEmail(newEmail);
         if (sysUserService.doUpdateSelective(newSysUserDO)) {
+
+            evictUserCachesWhenUpdateOrDelete(sysUserDO);
+
             return Result.success(true);
         } else {
             return Result.fail();
@@ -269,6 +310,9 @@ public class SysUserController implements ISysUserApi {
         newSysUserDO.setUuid(sysUserDO.getUuid());
         // 密码加密
         newSysUserDO.setPassword(passwordEncoder.encode(newPassword));
+
+        evictUserCachesWhenUpdateOrDelete(sysUserDO);
+
         return Result.success(sysUserService.doUpdateSelective(newSysUserDO));
     }
 
@@ -299,6 +343,9 @@ public class SysUserController implements ISysUserApi {
         sysUserService.updateSelective(sysUserDO);
         // 重置密码后强制下线
         StpUtil.kickout(byUuid.getOrNumber());
+
+        evictUserCachesWhenUpdateOrDelete(byUuid);
+
         return Result.success();
     }
 
@@ -319,6 +366,8 @@ public class SysUserController implements ISysUserApi {
             StpUtil.disable(orNumber, -1L);
         }
 
+        evictUserCachesWhenUpdateOrDelete(byUuid);
+
         return Result.success();
     }
 
@@ -333,6 +382,10 @@ public class SysUserController implements ISysUserApi {
         return Result.success(list);
     }
 
+    @Caching(evict = {
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_ROLES + "' + #request.uuid", condition = "#result.data"),
+            @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_PERMISSIONS + "' + #request.uuid", condition = "#result.data"),
+    })
     @Transactional(rollbackFor = Exception.class)
     @Override
     public Result<Boolean> updateUserRoles(@RequestBody @Validated SysUserRolesSaveRequest request) {
@@ -381,9 +434,8 @@ public class SysUserController implements ISysUserApi {
             if (CollUtil.isNotEmpty(needInsertList)) {
                 sysUsersRolesService.insertList(needInsertList);
             }
+            return Result.success(true);
         }
-
-        return Result.success(true);
     }
 
     @Nullable
@@ -429,5 +481,23 @@ public class SysUserController implements ISysUserApi {
             }
         }
         return null;
+    }
+
+    /**
+     * 更新用户时删除相关缓存
+     *
+     * @param sysUserDO SysUserDO
+     * @see org.springframework.cache.Cache
+     * @see CacheEvict
+     * @see org.springframework.cache.annotation.Cacheable
+     */
+    private void evictUserCachesWhenUpdateOrDelete(SysUserDO sysUserDO) {
+        if (sysUserDO == null) {
+            return;
+        }
+        String key1 = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_EMAIL + CacheKeyPrefix.SEPARATOR + CacheConstants.CACHEABLE_KEY_USER + sysUserDO.getEmail();
+        String key2 = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_USERNAME + CacheKeyPrefix.SEPARATOR + CacheConstants.CACHEABLE_KEY_USER + sysUserDO.getUsername();
+        String key3 = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_OR_NUMBER + CacheKeyPrefix.SEPARATOR + CacheConstants.CACHEABLE_KEY_USER + sysUserDO.getOrNumber();
+        redisService.deleteObject(CollUtil.newArrayList(key1, key2, key3));
     }
 }

@@ -29,8 +29,8 @@ import java.awt.*;
  * @author mjz
  * @date 2021/12/10
  */
-public class ColorConstants {
+public interface ColorConstants {
 
-    public static final Color TRANSPARENT = new Color(255, 255, 255, 0);
+    Color TRANSPARENT = new Color(255, 255, 255, 0);
 
 }
