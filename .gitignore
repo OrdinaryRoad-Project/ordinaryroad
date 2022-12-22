@@ -82,3 +82,4 @@ docker/ordinaryroad-nginx/ssl
 /**/*/node_modules
 
 gitignore
+/**/*/dist
