@@ -183,7 +183,7 @@ public class SysUserController implements ISysUserApi {
             optional = sysUserService.findByUsername(username);
         }
 
-        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.USER_NOT_EXIST));
     }
 
     @Override

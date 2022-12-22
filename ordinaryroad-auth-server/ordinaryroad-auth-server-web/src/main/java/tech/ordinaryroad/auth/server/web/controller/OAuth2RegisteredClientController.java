@@ -131,7 +131,7 @@ public class OAuth2RegisteredClientController implements IOAuth2RegisteredClient
         if (!optional.isPresent() && StrUtil.isNotBlank(clientName)) {
             optional = oAuth2RegisteredClientService.findByClientName(clientName);
         }
-        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.DATA_NOT_EXIST));
     }
 
     @Override

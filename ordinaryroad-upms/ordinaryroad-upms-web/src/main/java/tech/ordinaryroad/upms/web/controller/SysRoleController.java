@@ -164,7 +164,7 @@ public class SysRoleController implements ISysRoleApi {
         if (!optional.isPresent() && StrUtil.isNotBlank(roleName)) {
             optional = sysRoleService.findByRoleName(roleName);
         }
-        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.ROLE_NOT_EXIST));
     }
 
     @Override

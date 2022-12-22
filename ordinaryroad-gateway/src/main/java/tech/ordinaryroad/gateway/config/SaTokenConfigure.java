@@ -164,11 +164,11 @@ public class SaTokenConfigure {
                         SysPermissionQueryRequest sysPermissionQueryRequest = new SysPermissionQueryRequest();
                         sysPermissionQueryRequest.setRequestPath(requestPath);
                         Future<Result<SysPermissionDTO>> resultFuture = executorService.submit(() -> sysPermissionApi.findByForeignColumn(sysPermissionQueryRequest));
-                        Result<SysPermissionDTO> byRequestPath = null;
+                        Result<SysPermissionDTO> byRequestPath;
                         try {
                             byRequestPath = resultFuture.get();
                         } catch (InterruptedException | ExecutionException e) {
-                            e.printStackTrace();
+                            throw new RuntimeException(e);
                         }
                         if (byRequestPath == null || !byRequestPath.getSuccess()) {
                             // 2.1 未查到，不需要权限

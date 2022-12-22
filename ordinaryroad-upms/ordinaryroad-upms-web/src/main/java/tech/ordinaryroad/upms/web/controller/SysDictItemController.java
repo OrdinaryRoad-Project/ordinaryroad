@@ -150,7 +150,7 @@ public class SysDictItemController implements ISysDictItemApi {
 
         SysDictItemDO sysDictItemDO = objMapStruct.transfer(request);
         Optional<SysDictItemDO> byDictIdAndId = sysDictItemService.findByDictIdAndId(sysDictItemDO);
-        return byDictIdAndId.map(dictItemDO -> Result.success(objMapStruct.transfer(dictItemDO))).orElseGet(() -> Result.fail(StatusCode.DATA_NOT_EXIST));
+        return byDictIdAndId.map(dictItemDO -> Result.success(objMapStruct.transfer(dictItemDO))).orElse(Result.fail(StatusCode.DICT_ITEM_NOT_EXIST));
     }
 
     @Override

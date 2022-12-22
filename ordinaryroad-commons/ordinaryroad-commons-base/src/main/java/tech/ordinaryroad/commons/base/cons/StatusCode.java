@@ -85,6 +85,8 @@ public enum StatusCode implements IStatusCode {
     CLIENT_ID_ALREADY_EXIST(4018, "clientId已存在"),
     CLIENT_NAME_ALREADY_EXIST(4019, "clientName已存在"),
     DATA_OUTDATED(4020, "数据已过期"),
+    PATH_NOT_EXIST(4021, "路径不存在"),
+    DICT_ITEM_NOT_EXIST(4022, "字典项不存在"),
     ;
 
     /**

@@ -150,7 +150,7 @@ public class SysPermissionController implements ISysPermissionApi {
             optional = sysPermissionService.findByRequestPath(requestPath);
         }
 
-        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElseGet(Result::fail);
+        return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.PERMISSION_NOT_EXIST));
     }
 
     @Override
