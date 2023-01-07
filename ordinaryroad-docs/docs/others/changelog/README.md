@@ -2,6 +2,13 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
+### 2023-01-07 v1.5.3
+
+- perf: 优化日志模块，适配文件上传Request
+- perf: 文件DataTable增加默认排序（创建时间倒序）
+
+---
+
 ### 2022-12-22 v1.5.2
 
 - perf(权限认证): 增加用户、角色、权限缓存
