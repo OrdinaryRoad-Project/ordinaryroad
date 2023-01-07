@@ -33,6 +33,8 @@
       :preset-selected-items="presetSelectedItems"
       :table-headers="headers"
       access-key="upms:file"
+      :sort-by="['createdTime']"
+      :sort-desc="[true]"
       @getItems="onGetItems"
       @deleteItem="onDeleteItem"
       @itemsSelected="onItemsSelected"

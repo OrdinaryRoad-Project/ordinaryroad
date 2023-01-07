@@ -26,6 +26,7 @@ package tech.ordinaryroad.commons.log.filter;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
+import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.log.RequestWrapper;
 import tech.ordinaryroad.commons.log.ResponseWrapper;
 
@@ -50,7 +51,9 @@ public class WrapHttpServletFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws ServletException, IOException {
         ServletRequest requestWrapper = servletRequest;
         if (servletRequest instanceof HttpServletRequest) {
-            requestWrapper = new RequestWrapper(Thread.currentThread().getId(), (HttpServletRequest) servletRequest);
+            if (!((HttpServletRequest) servletRequest).getRequestURI().equals(PathConstants.UPMS_FILE_UPLOAD)) {
+                requestWrapper = new RequestWrapper(Thread.currentThread().getId(), (HttpServletRequest) servletRequest);
+            }
         }
         ServletResponse responseWrapper = servletResponse;
         if (servletResponse instanceof HttpServletResponse) {
