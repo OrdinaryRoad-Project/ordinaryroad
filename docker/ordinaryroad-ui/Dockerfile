@@ -1,4 +1,4 @@
-FROM node:18.9.1
+FROM node:16.18.0
 
 MAINTAINER mjz(miaojinzhou@ordinaryroad.tech)
 
