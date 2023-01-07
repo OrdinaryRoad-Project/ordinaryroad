@@ -27,6 +27,7 @@ package tech.ordinaryroad.commons.log;
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
+import tech.ordinaryroad.commons.base.exception.BaseException;
 
 import javax.servlet.ReadListener;
 import javax.servlet.ServletInputStream;
@@ -36,6 +37,9 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
+/**
+ * 暂不支持MultipartRequest
+ */
 public class RequestWrapper extends HttpServletRequestWrapper {
 
     private String body = StrUtil.EMPTY;
@@ -45,12 +49,10 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         super(request);
         this.id = requestId;
 
-        if (!(request instanceof MultipartHttpServletRequest)) {
-            try {
-                this.body = IoUtil.read(request.getInputStream(), StandardCharsets.UTF_8);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+        try {
+            this.body = IoUtil.read(request.getInputStream(), StandardCharsets.UTF_8);
+        } catch (Exception e) {
+            throw new BaseException(e);
         }
     }
 
