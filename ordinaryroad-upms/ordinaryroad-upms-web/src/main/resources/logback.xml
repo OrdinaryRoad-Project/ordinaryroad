@@ -87,6 +87,7 @@
     <logger name="tech.ordinaryroad" level="debug"/>
     <!-- Spring日志级别控制  -->
     <logger name="org.springframework" level="warn"/>
+    <logger name="tech.ordinaryroad.commons.log.filter.OperationLogInterceptor" level="info"/>
 
     <root level="info">
         <appender-ref ref="console"/>
