@@ -46,6 +46,7 @@ module.exports = {
                 ]
             },
             {text: '在线演示', link: 'https://ordinaryroad.tech:8021'},
+            {text: 'OR博客', link: 'https://blog.ordinaryroad.tech'},
             /* TODO 历史版本 {
                 text: 'v1.3.2',
                 // ariaLabel: 'Language Menu',

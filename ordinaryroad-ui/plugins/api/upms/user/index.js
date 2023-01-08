@@ -40,8 +40,8 @@ export default {
     const data = { uuid, password }
     return $axios({ url: '/upms/user/update', method: 'post', data })
   },
-  register: ({ code, password, email, username }) => {
-    const data = { code, password, email, username }
+  register: ({ code, password, email }) => {
+    const data = { code, password, email }
     return $axios({ url: '/upms/user/register', method: 'post', data })
   },
   findByUniqueColumn: ({ orNumber, email, username }) => {

@@ -37,21 +37,6 @@
           <h2 class="font-weight-bold mb-2">
             {{ $t('register') }}
           </h2>
-          <v-btn icon>
-            <v-icon>
-              mdi-github
-            </v-icon>
-          </v-btn>
-          <v-btn icon>
-            <v-icon>
-              mdi-qqchat
-            </v-icon>
-          </v-btn>
-          <v-btn icon>
-            <v-icon>
-              mdi-wechat
-            </v-icon>
-          </v-btn>
         </div>
       </template>
 
@@ -190,7 +175,7 @@ export default {
     },
     codeKeydown (res) {
       if (res.which === 13) {
-        this.login()
+        this.register()
       }
     },
     codeChange () {
