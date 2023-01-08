@@ -57,7 +57,6 @@
 
       <template #default>
         <div class="text-center">
-          <div>{{ $t('orUseORAccount') }}{{ $t('login') }}</div>
           <div>
             还没有账号？
             <nuxt-link to="/user/register">

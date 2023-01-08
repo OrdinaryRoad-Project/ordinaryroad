@@ -36,11 +36,23 @@ export default function ({ $axios, app }, inject) {
     upms: upmsApis.apis,
     auth: authApis.apis,
     statusColor (item) {
-      if (item.type === 200) {
+      const type = item.type
+      if (type >= 100 && type <= 199) {
+        return 'info'
+      }
+      if (type >= 200 && type <= 299) {
         return 'success'
-      } else {
+      }
+      if (type >= 300 && type <= 399) {
+        return 'warning'
+      }
+      if (type >= 400 && type <= 499) {
         return 'error'
       }
+      if (type >= 500 && type <= 599) {
+        return 'error'
+      }
+      return ''
     }
   }
   // $apis
