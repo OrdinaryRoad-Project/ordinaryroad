@@ -52,10 +52,9 @@
                             <v-sheet
                                     rounded
                                     color="primary"
-                                    class="pa-7"
                                     width="100%"
                                     elevation="6"
-                                    class="text-start mb-n6"
+                                    class="pa-7 text-start mb-n6"
                                     style="position: relative;top: -40px;transition: .3s ease;z-index: 1"
                                     dark
                             >
@@ -71,7 +70,7 @@
                             <div>
                                 <v-text-field
                                         readonly
-                                        th:utext="${client_id}"
+                                        th:value="${client_id}"
                                         label="应用ID"
                                         type="text"
                                 />
@@ -79,7 +78,7 @@
                             <div>
                                 <v-text-field
                                         readonly
-                                        th:utext="${scope}"
+                                        th:value="${scope}"
                                         label="请求授权"
                                         type="text"
                                 />
