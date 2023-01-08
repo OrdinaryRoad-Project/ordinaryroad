@@ -110,4 +110,27 @@ public class CaptchaServiceImpl implements ICaptchaService {
         return pushApi.email(emailPushRequest);
     }
 
+    @Override
+    public String generateForgotPasswordCaptcha(String email) {
+        // 自定义纯数字的验证码（随机6位字符/数字，可重复）
+        String code = RandomUtil.randomString(RandomUtil.BASE_CHAR_NUMBER, 6);
+
+        String key = CacheConstants.generateForgotPasswordCaptchaKey(email);
+        redisService.setCacheObject(key, code);
+        return code;
+    }
+
+    @Override
+    public void checkForgotPasswordCaptcha(String email, String code) {
+        this.checkValid(CacheConstants.generateForgotPasswordCaptchaKey(email), code);
+    }
+
+    @Override
+    public Result<?> sendForgotPasswordCaptcha(String email, String code) {
+        EmailPushRequest emailPushRequest = new EmailPushRequest();
+        emailPushRequest.setEmail(email);
+        emailPushRequest.setTitle("密码重置验证码");
+        emailPushRequest.setContent("您的验证码为：" + code + "，五分钟内有效。为了您的账号安全，如非本人操作请勿转发。");
+        return pushApi.email(emailPushRequest);
+    }
 }

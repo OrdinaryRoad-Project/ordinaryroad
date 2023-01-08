@@ -51,6 +51,11 @@ public interface CacheConstants {
      */
     String CAPTCHA_REGISTER_KEY = "gateway:captcha.register:%s:string";
 
+    /**
+     * 重置密码验证码的key，captchaId
+     */
+    String CAPTCHA_FORGOT_PASSWORD_KEY = "gateway:captcha.forgot.password:%s:string";
+
     // region Cache注解缓存相关
     /**
      * 根据用户Id查询用户拥有的角色
@@ -128,4 +133,14 @@ public interface CacheConstants {
         return String.format(CacheConstants.CAPTCHA_REGISTER_KEY, email);
     }
 
+    /**
+     * 生成重置密码验证码缓存key
+     *
+     * @param email 邮箱
+     * @return KEY
+     * @see CacheConstants#CAPTCHA_FORGOT_PASSWORD_KEY
+     */
+    static String generateForgotPasswordCaptchaKey(String email) {
+        return String.format(CacheConstants.CAPTCHA_FORGOT_PASSWORD_KEY, email);
+    }
 }

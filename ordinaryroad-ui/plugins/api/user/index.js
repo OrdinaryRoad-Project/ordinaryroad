@@ -42,6 +42,10 @@ export default {
     getRegisterCaptcha: (email) => {
       const params = { email }
       return $axios({ url: '/captcha/register', method: 'get', params })
+    },
+    generateForgotPasswordCaptcha: (email) => {
+      const params = { email }
+      return $axios({ url: '/captcha/forgot_password', method: 'get', params })
     }
   }
 }

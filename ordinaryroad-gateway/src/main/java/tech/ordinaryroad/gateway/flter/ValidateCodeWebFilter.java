@@ -57,7 +57,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class ValidateCodeWebFilter implements WebFilter {
 
-    private static final String[] VALIDATE_URL = new String[]{"/login", "/upms/user/register"};
+    private static final String[] VALIDATE_URL = new String[]{"/login", "/upms/user/register", "/upms/user/reset/password_by_code"};
     public static final String CAPTCHA_ID = "captchaId";
     private static final String EMAIL = "email";
     private static final String CODE = "code";
@@ -106,6 +106,9 @@ public class ValidateCodeWebFilter implements WebFilter {
                                             break;
                                         case 1:
                                             captchaService.checkRegisterCaptcha(originalBody.getString(EMAIL), code);
+                                            break;
+                                        case 2:
+                                            captchaService.checkForgotPasswordCaptcha(originalBody.getString(EMAIL), code);
                                             break;
                                         default:
                                     }
