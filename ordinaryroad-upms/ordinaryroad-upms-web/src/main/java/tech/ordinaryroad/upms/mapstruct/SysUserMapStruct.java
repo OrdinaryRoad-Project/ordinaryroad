@@ -50,4 +50,6 @@ public interface SysUserMapStruct {
     SysUserDO transfer(SysUserResetPasswordRequest request);
 
     SysUserDO transfer(SysUserUpdateEnabledRequest request);
+
+    SysUserDO transfer(SysUserResetPasswordByCodeRequest request);
 }

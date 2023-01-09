@@ -77,4 +77,28 @@ public interface ICaptchaService {
      */
     Result<?> sendRegisterCaptcha(@NotNull String email, @NotNull String code);
 
+    /**
+     * 生成重置密码纯文字验证码
+     *
+     * @param email 邮箱，key的一部分 {@link CacheConstants#CAPTCHA_FORGOT_PASSWORD_KEY}
+     * @return code 生成的验证码
+     */
+    String generateForgotPasswordCaptcha(@NotNull String email);
+
+    /**
+     * 校验重置密码验证码
+     *
+     * @param email 邮箱，key的一部分 {@link CacheConstants#CAPTCHA_FORGOT_PASSWORD_KEY}
+     * @param code  用户输入的验证码
+     */
+    void checkForgotPasswordCaptcha(@NotNull String email, @NotNull String code);
+
+    /**
+     * 发送重置密码验证码
+     *
+     * @param email 需要发送的邮箱
+     * @param code  生成的重置密码验证码
+     * @return Result
+     */
+    Result<?> sendForgotPasswordCaptcha(@NotNull String email, @NotNull String code);
 }

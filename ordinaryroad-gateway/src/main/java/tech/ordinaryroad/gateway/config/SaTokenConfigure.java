@@ -69,6 +69,7 @@ public class SaTokenConfigure {
     private static final String DEMO_MODE_NOT_ALLOWED_PATH_PATTERN = "^.*(create|update|delete|reset).*$";
     private static final String REGISTER_PATH = "/upms/user/register";
     private static final String FILE_UPLOAD_PATH = "/upms/file/upload";
+    private static final String RESET_PASSWORD_BY_CODE_PATH = "/upms/user/reset/password_by_code";
     private static final String IM_MIMC_CALLBACK_PATH = "/im/mimc/callback";
 
     /**
@@ -135,6 +136,17 @@ public class SaTokenConfigure {
                             throw new BaseException(StatusCode.DEMO_MODE_FAIL);
                         } else {
                             // 非演示模式即时消息回调不需要校验权限
+                            r.stop();
+                        }
+                    });
+
+                    // 重置密码校验：演示模式
+                    SaRouter.match(RESET_PASSWORD_BY_CODE_PATH).check((r) -> {
+                        // 演示模式不允许重置密码
+                        if (properties.getDemoMode()) {
+                            throw new BaseException(StatusCode.DEMO_MODE_FAIL);
+                        } else {
+                            // 非演示模式重置密码不需要校验权限
                             r.stop();
                         }
                     });

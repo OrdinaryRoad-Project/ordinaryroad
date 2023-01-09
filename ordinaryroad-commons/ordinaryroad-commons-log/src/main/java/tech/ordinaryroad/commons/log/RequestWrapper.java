@@ -26,7 +26,7 @@ package tech.ordinaryroad.commons.log;
 
 import cn.hutool.core.io.IoUtil;
 import cn.hutool.core.util.StrUtil;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.util.MimeTypeUtils;
 import tech.ordinaryroad.commons.base.exception.BaseException;
 
 import javax.servlet.ReadListener;
@@ -44,23 +44,26 @@ public class RequestWrapper extends HttpServletRequestWrapper {
 
     private String body = StrUtil.EMPTY;
     private long id;
+    private final boolean jsonContentType;
 
     public RequestWrapper(Long requestId, HttpServletRequest request) {
         super(request);
         this.id = requestId;
+        String contentType = request.getContentType();
+        this.jsonContentType = StrUtil.isNotBlank(contentType) && MimeTypeUtils.APPLICATION_JSON.includes(MimeTypeUtils.parseMimeType(request.getContentType()));
 
-        try {
-            this.body = IoUtil.read(request.getInputStream(), StandardCharsets.UTF_8);
-        } catch (Exception e) {
-            throw new BaseException(e);
+        if (this.jsonContentType) {
+            try {
+                this.body = IoUtil.read(request.getInputStream(), StandardCharsets.UTF_8);
+            } catch (Exception e) {
+                throw new BaseException(e);
+            }
         }
     }
 
     @Override
     public ServletInputStream getInputStream() throws IOException {
-        if (super.getRequest() instanceof MultipartHttpServletRequest) {
-            return super.getInputStream();
-        } else {
+        if (this.jsonContentType) {
             final ByteArrayInputStream bais = new ByteArrayInputStream(body.getBytes(StandardCharsets.UTF_8));
 
             return new ServletInputStream() {
@@ -84,6 +87,8 @@ public class RequestWrapper extends HttpServletRequestWrapper {
                     return bais.read();
                 }
             };
+        } else {
+            return super.getInputStream();
         }
     }
 

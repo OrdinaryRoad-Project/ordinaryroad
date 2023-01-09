@@ -350,6 +350,29 @@ public class SysUserController implements ISysUserApi {
     }
 
     @Override
+    public Result<?> resetPasswordByCode(@Validated @RequestBody SysUserResetPasswordByCodeRequest request) {
+        // 校验邮箱
+        String email = request.getEmail();
+        Optional<SysUserDO> byEmail = sysUserService.findByEmail(email);
+        if (!byEmail.isPresent()) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
+
+        SysUserDO sysUser = byEmail.get();
+        SysUserDO sysUserDO = objMapStruct.transfer(request);
+        // 密码加密
+        sysUserDO.setPassword(passwordEncoder.encode(request.getPassword()));
+        sysUserDO.setUuid(sysUser.getUuid());
+        sysUserService.updateSelective(sysUserDO);
+        // 重置密码后强制下线
+        StpUtil.kickout(sysUser.getOrNumber());
+
+        evictUserCachesWhenUpdateOrDelete(sysUser);
+
+        return Result.success();
+    }
+
+    @Override
     public Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request) {
         SysUserDO byUuid = sysUserService.findById(request.getUuid());
         if (Objects.isNull(byUuid)) {
