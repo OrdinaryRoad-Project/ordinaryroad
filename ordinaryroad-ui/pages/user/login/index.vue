@@ -37,17 +37,17 @@
           <h2 class="font-weight-bold mb-2">
             {{ $t('login') }}
           </h2>
-          <v-btn icon>
+          <v-btn v-if="false" icon>
             <v-icon>
               mdi-github
             </v-icon>
           </v-btn>
-          <v-btn icon>
+          <v-btn v-if="false" icon>
             <v-icon>
               mdi-qqchat
             </v-icon>
           </v-btn>
-          <v-btn icon>
+          <v-btn v-if="false" icon>
             <v-icon>
               mdi-wechat
             </v-icon>
@@ -57,7 +57,6 @@
 
       <template #default>
         <div class="text-center">
-          <div>{{ $t('orUseORAccount') }}{{ $t('login') }}</div>
           <div>
             还没有账号？
             <nuxt-link to="/user/register">
@@ -79,7 +78,9 @@
             messages="Abc123"
             :label="$t('password')"
             prepend-icon="mdi-lock"
-            type="password"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
+            @click:append="showPassword=!showPassword"
           />
           <v-text-field
             v-model="code"
@@ -120,13 +121,19 @@
               </v-sheet>
             </template>
           </v-text-field>
-          <v-checkbox
-            v-model="rememberMeModel"
-            label="记住我"
-            hide-details="auto"
-            :messages="rememberMeModel?'不要在非自己设备上勾选哦':null"
-          />
-          <div class="text-center mt-10">
+
+          <div class="d-flex justify-space-between align-center">
+            <v-checkbox
+              v-model="rememberMeModel"
+              label="记住我"
+              :messages="rememberMeModel?'不要在非自己设备上勾选哦':null"
+            />
+            <v-btn text small to="/user/forgot_password">
+              忘记密码
+            </v-btn>
+          </div>
+
+          <div class="text-center mt-5">
             <v-btn
               x-large
               rounded
@@ -162,6 +169,7 @@ export default {
   },
   data () {
     return {
+      showPassword: false,
       loading: false,
       orNumber: '10001',
       username: '',
@@ -213,12 +221,15 @@ export default {
           $apis: this.$apis,
           $access: this.$access,
           $store: this.$store
-        }).then(() => {
-          this.loading = false
-          this.$router.replace({ path: this.redirect })
-        }).catch(() => {
-          this.loading = false
         })
+          .then(() => {
+            this.loading = false
+            this.$router.replace({ path: this.redirect })
+          })
+          .catch(() => {
+            this.loading = false
+            this.getCaptchaImage()
+          })
       }
     },
     getCaptchaImage () {

@@ -112,25 +112,27 @@ public class OperationLogInterceptor implements HandlerInterceptor {
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         OperationLogDO operationLogDO = TL_OPERATION_LOG.get();
 
-        operationLogDO.setType(operationLogInterceptorService.getType(request, (ResponseWrapper) response, null));
+        if (response instanceof ResponseWrapper) {
+            operationLogDO.setType(operationLogInterceptorService.getType(request, response, null));
+        }
         HttpStatus httpStatus = HttpStatus.resolve(response.getStatus());
         Optional.ofNullable(httpStatus).ifPresent(t -> operationLogDO.setStatus(t.name()));
 
         operationLogDO.setResponseHeaders(JSON.toJSONString(ServletUtils.getHeaderMap(response)));
 
-        String responseString = new String(((ResponseWrapper) response).toByteArray(), StandardCharsets.UTF_8);
-        if (StrUtil.isNotBlank(responseString)) {
-            Result<?> result = null;
+        Result<?> result = null;
+        if (response instanceof ResponseWrapper) {
+            String responseString = new String(((ResponseWrapper) response).toByteArray(), StandardCharsets.UTF_8);
             try {
                 result = JSON.parseObject(responseString, Result.class);
             } catch (Exception e) {
                 // ignore
             }
-            Optional.ofNullable(operationLogInterceptorService.getType(request, (ResponseWrapper) response, result)).ifPresent(operationLogDO::setType);
-            Optional.ofNullable(operationLogInterceptorService.getStatus(request, (ResponseWrapper) response, result)).ifPresent(operationLogDO::setStatus);
+            // 长度最大一百万
+            operationLogDO.setResponse(StrUtil.subWithLength(responseString, 0, MAX_BODY_LENGTH));
         }
-        // 长度最大一百万
-        operationLogDO.setResponse(StrUtil.subWithLength(responseString, 0, MAX_BODY_LENGTH));
+        Optional.ofNullable(operationLogInterceptorService.getType(request, response, result)).ifPresent(operationLogDO::setType);
+        Optional.ofNullable(operationLogInterceptorService.getStatus(request, response, result)).ifPresent(operationLogDO::setStatus);
 
         long consumedTime = System.currentTimeMillis() - TL_START_TIME.get();
         operationLogDO.setConsumedTime(consumedTime);

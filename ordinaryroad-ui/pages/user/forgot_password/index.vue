@@ -35,7 +35,7 @@
       <template #heading>
         <div class="text-center">
           <h2 class="font-weight-bold mb-2">
-            {{ $t('register') }}
+            密码重置
           </h2>
         </div>
       </template>
@@ -56,14 +56,6 @@
             :label="$t('email')"
             prepend-icon="mdi-email"
             type="text"
-          />
-          <v-text-field
-            v-model="password"
-            :counter="password&&password.length>10"
-            :rules="[$rules.required,$rules.min6Chars,$rules.max16Chars,$rules.password]"
-            :label="$t('password')"
-            prepend-icon="mdi-lock"
-            type="password"
           />
           <v-text-field
             v-model="code"
@@ -87,6 +79,16 @@
               </v-btn>
             </template>
           </v-text-field>
+          <v-text-field
+            v-model="password"
+            :counter="password&&password.length>10"
+            :rules="code?[$rules.required,$rules.min6Chars,$rules.max16Chars,$rules.password]:[]"
+            :label="$t('password')"
+            prepend-icon="mdi-lock"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
+            @click:append="showPassword=!showPassword"
+          />
           <div class="text-center mt-10">
             <v-btn
               :outlined="loading"
@@ -95,9 +97,9 @@
               rounded
               :loading="loading"
               color="primary"
-              @click="register"
+              @click="reset"
             >
-              {{ $t('register') }}
+              重置
             </v-btn>
           </div>
         </v-form>
@@ -111,6 +113,7 @@ export default {
   layout: 'empty',
   data () {
     return {
+      showPassword: false,
       loading: false,
       code: '',
       password: '',
@@ -128,30 +131,20 @@ export default {
     clearInterval(this.codeCountDownTimer)
   },
   methods: {
-    register () {
+    reset () {
       if (this.$refs.form.validate()) {
         if (this.code && this.code.length === 6) {
           this.loading = true
-          this.$apis.upms.user.register({
-            code: this.code,
-            password: this.password,
-            email: this.email
-          }).then((value) => {
-            this.loading = false
-            this.$dialog({
-              persistent: true,
-              title: this.$t('registrationSuccessDialog.title'),
-              content: this.$t('registrationSuccessDialog.content', [value.data.orNumber]),
-              confirmText: this.$t('registrationSuccessDialog.confirmText')
-            }).then((dialog) => {
-              if (dialog.isConfirm) {
-                dialog.cancel()
+          this.$apis.upms.user.resetPasswordByCode(this.code, this.email, this.password)
+            .then(() => {
+              this.loading = false
+              this.$snackbar.success('密码重置成功，请重新登录', () => {
                 this.$router.push({ path: '/user/login' })
-              }
+              })
             })
-          }).catch(() => {
-            this.loading = false
-          })
+            .catch(() => {
+              this.loading = false
+            })
         } else {
           this.codeErrorMsg = this.$t('captchaNotValidMsg')
         }
@@ -160,7 +153,7 @@ export default {
     getCaptchaCode () {
       if (this.$refs.form.validate()) {
         this.codeLoading = true
-        this.$apis.user.getRegisterCaptcha(this.email)
+        this.$apis.user.generateForgotPasswordCaptcha(this.email)
           .then(() => {
             this.codeLoading = false
             this.codeCountDownTimer = setInterval(this.countDown, 1000)
@@ -175,7 +168,7 @@ export default {
     },
     codeKeydown (res) {
       if (res.which === 13) {
-        this.register()
+        this.reset()
       }
     },
     codeChange () {

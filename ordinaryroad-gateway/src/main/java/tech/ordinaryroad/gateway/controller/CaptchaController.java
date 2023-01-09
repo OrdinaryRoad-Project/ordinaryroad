@@ -90,4 +90,27 @@ public class CaptchaController {
         }
     }
 
+    @GetMapping("forgot_password")
+    public Mono<Result<?>> generateForgotPasswordCaptcha(@RequestParam String email) {
+        Future<Result<SysUserDTO>> byEmail = executorService.submit(() -> {
+            SysUserQueryRequest sysUserQueryRequest = new SysUserQueryRequest();
+            sysUserQueryRequest.setEmail(email);
+            return sysUserApi.findByUniqueColumn(sysUserQueryRequest);
+        });
+        try {
+            if (!byEmail.get().getSuccess()) {
+                return Mono.just(Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST));
+            }
+        } catch (InterruptedException | ExecutionException e) {
+            return Mono.just(Result.fail(e.getMessage()));
+        }
+        String code = captchaService.generateForgotPasswordCaptcha(email);
+        Future<? extends Result<?>> future = executorService.submit(() -> captchaService.sendForgotPasswordCaptcha(email, code));
+        try {
+            return Mono.just(future.get());
+        } catch (InterruptedException | ExecutionException e) {
+            return Mono.just(Result.fail(e.getMessage()));
+        }
+    }
+
 }

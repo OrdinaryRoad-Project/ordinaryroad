@@ -27,10 +27,10 @@ import cn.hutool.core.util.EnumUtil;
 import org.springframework.http.HttpStatus;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.commons.log.ResponseWrapper;
 import tech.ordinaryroad.commons.log.service.IOperationLogInterceptorService;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
@@ -43,7 +43,7 @@ import java.util.Objects;
 public class DefaultOperationLogInterceptorServiceImpl implements IOperationLogInterceptorService {
 
     @Override
-    public Integer getType(@NotNull HttpServletRequest request, @NotNull ResponseWrapper response, Result<?> result) {
+    public Integer getType(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, Result<?> result) {
         Integer type;
 
         if (Objects.nonNull(result)) {
@@ -56,7 +56,7 @@ public class DefaultOperationLogInterceptorServiceImpl implements IOperationLogI
     }
 
     @Override
-    public String getStatus(@NotNull HttpServletRequest request, @NotNull ResponseWrapper response, Result<?> result) {
+    public String getStatus(@NotNull HttpServletRequest request, @NotNull HttpServletResponse response, Result<?> result) {
         String status = null;
 
         // 先设置HTTP状态码
