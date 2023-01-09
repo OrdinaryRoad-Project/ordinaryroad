@@ -2,6 +2,13 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
+### 2023-01-09 v1.5.4
+
+- feat: 增加重置密码功能
+- perf: 美化OAuth2登录授权页面
+
+---
+
 ### 2023-01-07 v1.5.3
 
 - perf: 优化日志模块，适配文件上传Request
