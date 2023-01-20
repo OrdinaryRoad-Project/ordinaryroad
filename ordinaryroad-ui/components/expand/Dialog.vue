@@ -112,9 +112,6 @@ export default {
         this.$destroy()
       }, 300)
     },
-    cancelLoading () {
-      this.loading = false
-    },
     destroyDom (v) {
       if (!v) {
         this.dialog = false
