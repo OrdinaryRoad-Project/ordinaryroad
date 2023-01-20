@@ -70,6 +70,10 @@ export default {
     // 路由插件
     '~/plugins/router/statistics/index.js',
     '~/plugins/router/title.js',
+    // rule插件
+    '~/plugins/rules/index.js',
+    // util插件
+    '~/plugins/utils/index.js',
     { src: '~/plugins/router/access.js', mode: 'client' },
     // vuetify client mode
     { src: '~/plugins/vuetify/index.js', mode: 'client' }

@@ -26,14 +26,14 @@
   <v-form ref="form">
     <v-text-field
       v-model="model.permissionCode"
-      :rules="[$rules.required,$rules.max100Chars]"
+      :rules="[$or.rules.required,$or.rules.max100Chars]"
       :label="$t('permissionCode')"
     />
     <v-textarea
       v-model="model.description"
       rows="1"
       auto-grow
-      :rules="[$rules.max200Chars]"
+      :rules="[$or.rules.max200Chars]"
       :label="$t('description')"
     />
   </v-form>
