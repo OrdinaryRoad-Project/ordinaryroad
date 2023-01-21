@@ -30,7 +30,7 @@
     content-class="rounded-0"
     :dark="params.dark"
     :light="params.light"
-    :persistent="loading||(params.persistent==null?params.loading:params.persistent)"
+    :persistent="params.persistent==null?params.loading:params.persistent"
     :internal-activator="params.internalActivator"
     :overlay-color="params.overlayColor"
     :overlay-opacity="params.overlayOpacity"
@@ -43,11 +43,9 @@
         <v-icon class="me-3">
           {{ params.icon || 'mdi-information' }}
         </v-icon>
-        {{ params.title || i18n.$t('attention') }}
+        {{ params.title || i18n.messages[i18n.locale].attention }}
       </v-card-title>
-      <v-card-text v-if="params.content" class="text-subtitle-1" style="white-space: pre-line">
-        {{ params.content }}
-      </v-card-text>
+      <v-card-text class="text-subtitle-1" v-html="params.content" />
       <v-card-actions v-show="!params.hideActions" class="pa-2">
         <v-spacer />
         <v-btn
@@ -57,7 +55,7 @@
           text
           @click="cancel"
         >
-          {{ params.cancelText || i18n.$t('cancel') }}
+          {{ params.cancelText || i18n.messages[i18n.locale].cancel }}
         </v-btn>
         <v-btn
           v-show="!params.hideConfirm"
@@ -66,7 +64,7 @@
           text
           @click="confirm"
         >
-          {{ params.confirmText || i18n.$t('confirm') }}
+          {{ params.confirmText || i18n.messages[i18n.locale].confirm }}
         </v-btn>
       </v-card-actions>
     </v-card>

@@ -32,7 +32,7 @@
     <v-text-field
       v-model="model.password"
       :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-      :rules="[$or.rules.required,$or.rules.min6Chars,$or.rules.max16Chars,$rules.password]"
+      :rules="[$rules.required,$rules.min6Chars,$rules.max16Chars,$rules.password]"
       :type="showPassword ? 'text' : 'password'"
       :label="$t('password')"
       @click:append="showPassword=!showPassword"

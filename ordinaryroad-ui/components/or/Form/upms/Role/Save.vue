@@ -26,12 +26,12 @@
   <v-form ref="form">
     <v-text-field
       v-model="model.roleName"
-      :rules="[$or.rules.required,$or.rules.max10Chars]"
+      :rules="[$rules.required,$rules.max10Chars]"
       :label="$t('roleName')"
     />
     <v-text-field
       v-model="model.roleCode"
-      :rules="[$or.rules.required,$or.rules.max10Chars]"
+      :rules="[$rules.required,$rules.max10Chars]"
       :label="$t('roleCode')"
     />
   </v-form>

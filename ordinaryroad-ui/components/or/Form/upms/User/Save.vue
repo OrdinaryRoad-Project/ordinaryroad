@@ -27,19 +27,19 @@
     <v-text-field
       v-model="model.email"
       :disabled="model.uuid"
-      :rules="[$or.rules.required,$or.rules.max100Chars,$rules.email]"
+      :rules="[$rules.required,$rules.max100Chars,$rules.email]"
       :label="$t('email')"
     />
     <v-text-field
       v-model="model.username"
-      :rules="[$or.rules.max10Chars]"
+      :rules="[$rules.max10Chars]"
       :label="$t('username')"
     />
     <v-text-field
       v-if="model.uuid===null"
       v-model="model.password"
       :hint="$t('hints.password')"
-      :rules="[$or.rules.min6Chars,$or.rules.max16Chars,$rules.password]"
+      :rules="[$rules.min6Chars,$rules.max16Chars,$rules.password]"
       :label="$t('password')"
     />
   </v-form>

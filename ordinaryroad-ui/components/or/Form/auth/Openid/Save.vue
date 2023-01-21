@@ -26,17 +26,17 @@
   <v-form ref="form">
     <v-text-field
       v-model="model.orNumber"
-      :rules="[$or.rules.required,$or.rules.max11Chars]"
+      :rules="[$rules.required,$rules.max11Chars]"
       :label="$t('orNumber')"
     />
     <v-text-field
       v-model="model.clientId"
-      :rules="[$or.rules.required,$or.rules.max20Chars]"
+      :rules="[$rules.required,$rules.max20Chars]"
       :label="$t('clientId')"
     />
     <v-text-field
       v-model="model.openid"
-      :rules="[$or.rules.required,$or.rules.max50Chars]"
+      :rules="[$rules.required,$rules.max50Chars]"
       :label="$t('openid')"
     />
   </v-form>

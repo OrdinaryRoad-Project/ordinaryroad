@@ -23,65 +23,59 @@
   -->
 
 <template>
-  <v-form ref="form">
-    <v-text-field
-      v-model="model.dictName"
-      :rules="[$rules.required,$rules.max100Chars]"
-      :label="$t('dictName')"
-    />
-    <v-text-field
-      v-model="model.dictCode"
-      :rules="[$rules.required,$rules.max100Chars]"
-      :label="$t('dictCode')"
-    />
-    <v-textarea
-      v-model="model.remark"
-      rows="1"
-      auto-grow
-      :rules="[$rules.max200Chars]"
-      :label="$t('remark')"
-    />
-  </v-form>
+  <v-menu
+    :min-width="minWidth"
+    :eager="eager&&eagerModel"
+    :offset-y="offsetY"
+    :open-on-hover="openOnHover"
+    :close-on-content-click="closeOnContentClick"
+  >
+    <template #activator="{ on, attrs }">
+      <slot name="activator" :on="on" :attrs="attrs" />
+    </template>
+    <slot />
+  </v-menu>
 </template>
 
 <script>
+
 export default {
-  name: 'OrFormUpmsDictSave',
+  name: 'OrBaseMenu',
   props: {
-    preset: {
-      type: Object,
-      default: () => ({
-        dictName: null,
-        dictCode: null,
-        remark: null
-      })
+    eager: {
+      type: Boolean,
+      default: false
+    },
+    closeOnContentClick: {
+      type: Boolean,
+      default: true
+    },
+    openOnHover: {
+      type: Boolean,
+      default: false
+    },
+    minWidth: {
+      type: String,
+      default: null
+    },
+    offsetY: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({
-    model: {}
+    eagerModel: false
   }),
-  watch: {
-    preset: {
-      handler (val) {
-        this.model = Object.assign({}, val)
-      },
-      deep: true,
-      immediate: true
-    },
-    model: {
-      handler (val) {
-        this.$emit('update', val)
-      },
-      deep: true,
-      immediate: true
-    }
+  created () {
   },
   mounted () {
-  },
-  methods: {
-    validate () {
-      return this.$refs.form.validate()
-    }
+    this.$nextTick(() => {
+      setTimeout(() => {
+        this.$nextTick(() => {
+          this.eagerModel = true
+        })
+      }, 500)
+    })
   }
 }
 </script>
