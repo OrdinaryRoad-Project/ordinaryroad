@@ -22,4 +22,4 @@
  * SOFTWARE.
  */
 
-(window.webpackJsonp=window.webpackJsonp||[]).push([[11],{306:function(t,r,e){"use strict";e.r(r);var i=e(13),s=Object(i.a)({},(function(){var t=this._self._c;return t("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}},[t("h1",{attrs:{id:"vuetify模块"}},[t("a",{staticClass:"header-anchor",attrs:{href:"#vuetify模块"}},[this._v("#")]),this._v(" Vuetify模块")]),this._v(" "),t("p",[this._v("GitHub: "),t("a",{attrs:{href:"https://github.com/1962247851/ordinaryroad-vuetify",target:"_blank",rel:"noopener noreferrer"}},[this._v("https://github.com/1962247851/ordinaryroad-vuetify"),t("OutboundLink")],1)])])}),[],!1,null,null,null);r.default=s.exports}}]);
+(window.webpackJsonp=window.webpackJsonp||[]).push([[16],{312:function(t,n,s){"use strict";s.r(n);var e=s(13),o=Object(e.a)({},(function(){var t=this._self._c;return t("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}},[t("p",[this._v("front end")])])}),[],!1,null,null,null);n.default=o.exports}}]);

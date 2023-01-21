@@ -54,7 +54,7 @@
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="usernameTextField.input"
-                  :rules="[$or.rules.notBlank,$or.rules.max10Chars]"
+                  :rules="[$rules.notBlank,$rules.max10Chars]"
                   :loading="usernameTextField.loading"
                   :disabled="usernameTextField.disabled"
                   type="text"
@@ -79,7 +79,7 @@
               <div class="d-flex align-center">
                 <v-text-field
                   v-model="emailTextField.value"
-                  :rules="[$or.rules.required,$or.rules.max100Chars,$rules.email]"
+                  :rules="[$rules.required,$rules.max100Chars,$rules.email]"
                   :loading="emailTextField.loading"
                   :disabled="emailTextField.disabled"
                   type="text"
@@ -105,7 +105,7 @@
                 v-model="passwordForm.oldPassword.value"
                 clearable
                 :append-icon="passwordForm.oldPassword.show ? 'mdi-eye' : 'mdi-eye-off'"
-                :rules="[$or.rules.required,$or.rules.min6Chars,$or.rules.max16Chars,$rules.password]"
+                :rules="[$rules.required,$rules.min6Chars,$rules.max16Chars,$rules.password]"
                 :type="passwordForm.oldPassword.show ? 'text' : 'password'"
                 :label="$t('oldPassword')"
                 @click:append="passwordForm.oldPassword.show=!passwordForm.oldPassword.show"
@@ -114,7 +114,7 @@
                 v-model="passwordForm.newPassword.value"
                 clearable
                 :label="$t('newPassword')"
-                :rules="[$or.rules.required,$or.rules.min6Chars,$or.rules.max16Chars,$rules.password]"
+                :rules="[$rules.required,$rules.min6Chars,$rules.max16Chars,$rules.password]"
                 :append-icon="passwordForm.newPassword.show ? 'mdi-eye' : 'mdi-eye-off'"
                 :type="passwordForm.newPassword.show ? 'text' : 'password'"
                 @click:append="passwordForm.newPassword.show = !passwordForm.newPassword.show"
@@ -122,7 +122,7 @@
               <v-text-field
                 v-model="passwordForm.confirmPassword.value"
                 clearable
-                :rules="[$or.rules.required,$or.rules.min6Chars,$or.rules.max16Chars,$rules.password]"
+                :rules="[$rules.required,$rules.min6Chars,$rules.max16Chars,$rules.password]"
                 :error-messages="passwordForm.confirmPassword.errorMessageKey?$t(passwordForm.confirmPassword.errorMessageKey):null"
                 :label="$t('confirmPassword')"
                 :append-icon="passwordForm.confirmPassword.show ? 'mdi-eye' : 'mdi-eye-off'"

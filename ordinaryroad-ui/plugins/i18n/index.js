@@ -29,33 +29,12 @@ Vue.use(VueI18n)
 export default ({ app, store }) => {
   // Set i18n instance on app
   // This way we can use it in middleware and pages asyncData/fetch
-  const enOr = require('ordinaryroad-vuetify/src/locales/en.json')
-  const zhHansOr = require('ordinaryroad-vuetify/src/locales/zh-Hans.json')
-
-  const enApp = require('~/locales/en.json')
-  const zhHansApp = require('~/locales/zh-Hans.json')
-
-  const en = {
-    ...enOr,
-    ...enApp
-  }
-  const zhHans = {
-    ...zhHansOr,
-    ...zhHansApp
-  }
-  const keysApp = Object.keys(zhHansApp)
-  for (const key in enOr) {
-    if (keysApp.includes(key)) {
-      console.warn('locales key有冲突', key)
-    }
-  }
-
   app.i18n = new VueI18n({
     locale: store.getters['i18n/getLocale'],
     fallbackLocale: 'zh-Hans',
     messages: {
-      en,
-      'zh-Hans': zhHans
+      en: require('~/locales/en.json'),
+      'zh-Hans': require('~/locales/zh-Hans.json')
     }
   })
   app.i18n.path = (link) => {

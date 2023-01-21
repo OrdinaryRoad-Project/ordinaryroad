@@ -49,12 +49,12 @@
     </v-autocomplete>
     <v-text-field
       v-model="model.path"
-      :rules="[$or.rules.required,$or.rules.max200Chars]"
+      :rules="[$rules.required,$rules.max200Chars]"
       :label="$t('path')"
     />
     <v-text-field
       v-model="model.pathName"
-      :rules="[$or.rules.required,$or.rules.max100Chars]"
+      :rules="[$rules.required,$rules.max100Chars]"
       :label="$t('pathName')"
     />
   </v-form>
