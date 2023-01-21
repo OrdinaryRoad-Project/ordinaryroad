@@ -56,4 +56,4 @@ OR博客 [https://blog.ordinaryroad.tech](https://blog.ordinaryroad.tech)
 ![OR国际化](./img/i18n.png)
 
 ---
-©2019-2022 苗锦洲 版权所有 [苏ICP备2020055920号-2](https://beian.miit.gov.cn/)
+©2019-2023 苗锦洲 版权所有 [苏ICP备2020055920号-2](https://beian.miit.gov.cn/)
