@@ -43,7 +43,6 @@ module.exports = {
                 items: [
                     {text: 'IM模块', link: '/or_module/im'},
                     {text: 'IoE模块', link: '/or_module/ioe'},
-                    {text: 'Vuetify模块', link: '/or_module/vuetify'},
                 ]
             },
             {text: '在线演示', link: 'https://ordinaryroad.tech:8021'},
@@ -96,8 +95,7 @@ module.exports = {
                 title: "OR生态",
                 children: [
                     '/or_module/im',
-                    '/or_module/ioe',
-                    '/or_module/vuetify',
+                    '/or_module/ioe'
                 ]
             }
         ],
