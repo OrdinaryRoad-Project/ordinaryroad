@@ -2,6 +2,14 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
+### 2023-01-21 v1.5.5
+
+- refactor: 使用[ordinaryroad-vuetify](https://github.com/1962247851/ordinaryroad-vuetify)
+- fix: JSON解析操作日志时没有默认值问题
+- perf: 设置loading的this.$dialog在提交时不能通过点击空白处关闭对话框
+
+---
+
 ### 2023-01-09 v1.5.4
 
 - feat: 增加重置密码功能
