@@ -26,27 +26,27 @@
   <v-form ref="form">
     <v-text-field
       v-model="model.clientId"
-      :rules="[$or.rules.required,$or.rules.max20Chars]"
+      :rules="[$rules.required,$rules.max20Chars]"
       :label="$t('clientId')"
     />
     <v-text-field
       v-model="model.clientSecret"
-      :rules="[$or.rules.required,$or.rules.max20Chars]"
+      :rules="[$rules.required,$rules.max20Chars]"
       :label="$t('clientSecret')"
     />
     <v-text-field
       v-model="model.clientName"
-      :rules="[$or.rules.required,$or.rules.max100Chars]"
+      :rules="[$rules.required,$rules.max100Chars]"
       :label="$t('clientName')"
     />
     <v-text-field
       v-model="model.redirectUris"
-      :rules="[$or.rules.max1000Chars]"
+      :rules="[$rules.max1000Chars]"
       :label="$t('redirectUris')"
     />
     <v-text-field
       v-model="model.scopes"
-      :rules="[$or.rules.max1000Chars]"
+      :rules="[$rules.max1000Chars]"
       :label="$t('scopes')"
     />
   </v-form>
