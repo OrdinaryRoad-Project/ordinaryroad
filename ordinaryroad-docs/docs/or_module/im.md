@@ -14,4 +14,4 @@ GitHub: [https://github.com/1962247851/ordinaryroad-im](https://github.com/19622
 
 ## 安卓客户端
 
-// TODO
+代码比较烂，暂不开源

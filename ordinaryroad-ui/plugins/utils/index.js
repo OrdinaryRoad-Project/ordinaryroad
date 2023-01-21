@@ -22,26 +22,6 @@
  * SOFTWARE.
  */
 
-import Vue from 'vue'
-import util from 'ordinaryroad-vuetify/src/utils'
-import rules from 'ordinaryroad-vuetify/src/rules'
-/* 自定义常量 */
-import constants from './constants/index'
-
 export default function (context, inject) {
-  const { app } = context
-  const i18n = app.i18n
-  rules.init(i18n.$t)
 
-  Vue.prototype.$or = {
-    constants,
-    util,
-    rules,
-    locales: {
-      en: require('ordinaryroad-vuetify/src/locales/en.json'),
-      zhHans: require('ordinaryroad-vuetify/src/locales/zh-Hans.json')
-    }
-  }
-
-  inject('or', Vue.prototype.$or)
 }

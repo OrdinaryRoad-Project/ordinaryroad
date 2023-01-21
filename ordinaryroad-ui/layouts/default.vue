@@ -266,7 +266,7 @@ export default {
         return this.drawerLeft
       },
       set (val) {
-        this.setDrawerLeft(val)
+        // this.setDrawerLeft(val)
       }
     },
     drawerRightModel: {
@@ -274,7 +274,7 @@ export default {
         return this.drawerRight
       },
       set (val) {
-        this.setDrawerRight(val)
+        // this.setDrawerRight(val)
       }
     }
   },

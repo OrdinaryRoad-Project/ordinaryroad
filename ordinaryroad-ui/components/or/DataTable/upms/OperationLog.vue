@@ -33,7 +33,7 @@
       :show-select="showSelect"
       :show-base-headers-when-selecting="showBaseHeadersWhenSelecting"
       :show-actions-when-selecting="showActionsWhenSelecting"
-      :show-update-headers="false"
+      hide-update-headers
       :preset-selected-items="presetSelectedItems"
       :table-headers="headers"
       access-key="upms:operation_log"

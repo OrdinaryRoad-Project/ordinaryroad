@@ -50,25 +50,25 @@
     </v-autocomplete>
     <v-text-field
       v-model="model.label"
-      :rules="[$rules.required,$rules.max50Chars]"
+      :rules="[$or.rules.required,$or.rules.max50Chars]"
       :label="$t('label')"
     />
     <v-text-field
       v-model="model.value"
-      :rules="[$rules.required,$rules.max10Chars]"
+      :rules="[$or.rules.required,$or.rules.max10Chars]"
       :label="$t('value')"
     />
     <v-text-field
       v-model="model.sort"
       type="number"
-      :rules="[$rules.max10Chars]"
+      :rules="[$or.rules.max10Chars]"
       :label="$t('sort')"
     />
     <v-textarea
       v-model="model.remark"
       rows="1"
       auto-grow
-      :rules="[$rules.max200Chars]"
+      :rules="[$or.rules.max200Chars]"
       :label="$t('remark')"
     />
   </v-form>
