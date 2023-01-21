@@ -22,26 +22,4 @@
  * SOFTWARE.
  */
 
-import Vue from 'vue'
-import util from 'ordinaryroad-vuetify/src/utils'
-import rules from 'ordinaryroad-vuetify/src/rules'
-/* 自定义常量 */
-import constants from './constants/index'
-
-export default function (context, inject) {
-  const { app } = context
-  const i18n = app.i18n
-  rules.init(i18n.$t)
-
-  Vue.prototype.$or = {
-    constants,
-    util,
-    rules,
-    locales: {
-      en: require('ordinaryroad-vuetify/src/locales/en.json'),
-      zhHans: require('ordinaryroad-vuetify/src/locales/zh-Hans.json')
-    }
-  }
-
-  inject('or', Vue.prototype.$or)
-}
+(window.webpackJsonp=window.webpackJsonp||[]).push([[18],{312:function(t,n,s){"use strict";s.r(n);var e=s(13),o=Object(e.a)({},(function(){return(0,this._self._c)("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}})}),[],!1,null,null,null);n.default=o.exports}}]);

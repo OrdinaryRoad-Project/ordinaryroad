@@ -137,7 +137,7 @@
       </template>
 
       <template #[`item.size`]="{item}">
-        {{ $util.getFileSizeString(item.size) }}
+        {{ $or.util.getFileSizeString(item.size) }}
       </template>
 
       <template #actions="{item}">
