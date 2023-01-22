@@ -22,4 +22,22 @@
  * SOFTWARE.
  */
 
-(window.webpackJsonp=window.webpackJsonp||[]).push([[16],{312:function(t,n,s){"use strict";s.r(n);var e=s(13),o=Object(e.a)({},(function(){var t=this._self._c;return t("ContentSlotsDistributor",{attrs:{"slot-key":this.$parent.slotKey}},[t("p",[this._v("front end")])])}),[],!1,null,null,null);n.default=o.exports}}]);
+export default function (context, inject) {
+  const { app } = context
+  const i18n = app.i18n
+  const $t = i18n.$t
+
+  const rules = {
+    email: (value) => {
+      const pattern = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      return pattern.test(value) || $t('invalidEmail')
+    },
+    password: (value) => {
+      const pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$/
+      return !value || pattern.test(value) || $t('invalidPassword')
+    }
+  }
+
+  // 将自定义form rules注入nuxt上下文 $rules
+  inject('rules', rules)
+}
