@@ -24,7 +24,7 @@
     "core-js": "^3.9.1",
     "js-cookie": "^3.0.1",
     "nuxt": "^2.15.3",
-    "ordinaryroad-vuetify": "^1.5.4",
+    "ordinaryroad-vuetify": "^1.5.5",
     "vue-i18n": "^8.26.7",
     "vue-json-viewer": "^2.2.22",
     "vuetify2-expand": "^1.1.2"
