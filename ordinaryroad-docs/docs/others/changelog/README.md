@@ -2,7 +2,7 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
-### 2023-01-21 v1.5.5
+### 2023-01-22 v1.5.5
 
 - refactor: 使用[ordinaryroad-vuetify](https://github.com/1962247851/ordinaryroad-vuetify)
 - fix: JSON解析操作日志时没有默认值问题
