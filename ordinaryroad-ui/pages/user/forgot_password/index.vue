@@ -52,7 +52,7 @@
           <v-text-field
             v-model="email"
             :counter="email&&email.length>80"
-            :rules="[$rules.required,$rules.max100Chars,$rules.email]"
+            :rules="[$or.rules.required,$or.rules.max100Chars,$rules.email]"
             :label="$t('email')"
             prepend-icon="mdi-email"
             type="text"
@@ -82,7 +82,7 @@
           <v-text-field
             v-model="password"
             :counter="password&&password.length>10"
-            :rules="code?[$rules.required,$rules.min6Chars,$rules.max16Chars,$rules.password]:[]"
+            :rules="code?[$or.rules.required,$or.rules.min6Chars,$or.rules.max16Chars,$rules.password]:[]"
             :label="$t('password')"
             prepend-icon="mdi-lock"
             :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"

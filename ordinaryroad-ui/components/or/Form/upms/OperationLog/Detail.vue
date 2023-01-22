@@ -456,12 +456,12 @@ export default {
     preset: {
       handler (val) {
         this.model = Object.assign({}, val)
-        this.pathParams = JSON.parse(this.model.pathParams)
-        this.queryParams = JSON.parse(this.model.queryParams)
-        this.headers = JSON.parse(this.model.headers)
-        this.cookies = JSON.parse(this.model.cookies)
-        this.responseHeaders = JSON.parse(this.model.responseHeaders)
-        this.responseCookies = JSON.parse(this.model.responseCookies)
+        this.pathParams = JSON.parse(this.model.pathParams || '{}')
+        this.queryParams = JSON.parse(this.model.queryParams || '{}')
+        this.headers = JSON.parse(this.model.headers || '{}')
+        this.cookies = JSON.parse(this.model.cookies || '{}')
+        this.responseHeaders = JSON.parse(this.model.responseHeaders || '{}')
+        this.responseCookies = JSON.parse(this.model.responseCookies || '{}')
       },
       deep: true,
       immediate: true
