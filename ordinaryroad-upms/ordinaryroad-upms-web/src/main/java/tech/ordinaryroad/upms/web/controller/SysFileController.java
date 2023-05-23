@@ -111,9 +111,9 @@ public class SysFileController implements ISysFileApi {
                         .outputQuality(0.4)
                         .toFile(tempFile);
                 // 保存缩略图
-                String realTempFilename = String.format("/%s/thumbnail/%s", dateString, filename);
+                String objectName = String.format("/%s/thumbnail/%s", dateString, filename);
                 @Cleanup FileInputStream tempFileInputStream = new FileInputStream(tempFile);
-                doUpload(tempFileInputStream, clientId, realTempFilename, originalFilename, tempFile.length());
+                doUpload(tempFileInputStream, clientId, objectName, originalFilename, tempFile.length());
             } catch (Exception e) {
                 e.printStackTrace();
                 // 图片创建缩略图报错
@@ -124,9 +124,9 @@ public class SysFileController implements ISysFileApi {
         // 保存源文件
         try {
             // 文件名改为UUID.扩展名
-            String realFilename = String.format("/%s/%s", dateString, filename);
+            String objectName = String.format("/%s/%s", dateString, filename);
             @Cleanup InputStream inputStream = file.getInputStream();
-            doUpload(inputStream, clientId, realFilename, originalFilename, file.getSize());
+            doUpload(inputStream, clientId, objectName, originalFilename, file.getSize());
         } catch (Exception e) {
             e.printStackTrace();
             log.error("file {} upload failed.", filename);
@@ -146,19 +146,19 @@ public class SysFileController implements ISysFileApi {
     @Override
     public void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) Boolean showInline) {
         String fullPath = request.getServletPath().replace("/file/download/", "");
-        int indexBetweenBucketAndFilename = fullPath.indexOf("/");
-        String bucketName = fullPath.substring(0, indexBetweenBucketAndFilename);
-        String filename = fullPath.substring(indexBetweenBucketAndFilename);
+        int indexBetweenBucketAndObject = fullPath.indexOf("/");
+        String bucketName = fullPath.substring(0, indexBetweenBucketAndObject);
+        String objectName = fullPath.substring(indexBetweenBucketAndObject);
         // 图片默认inline，其它默认attachment
         String showType;
 
         try {
-            DownloadResponses downloadResponses = orMinioService.download(bucketName, filename);
+            DownloadResponses downloadResponses = orMinioService.download(bucketName, objectName);
             StatObjectResponse statObjectResponse = downloadResponses.getStatObjectResponse();
             String originalFilename = statObjectResponse.userMetadata().get(OrMinioService.METADATA_KEY_ORIGINAL_FILENAME);
             if (StrUtil.isBlank(originalFilename)) {
                 int indexBetweenFilePathAndFilename = fullPath.lastIndexOf("/");
-                originalFilename = fullPath.substring(indexBetweenFilePathAndFilename);
+                originalFilename = fullPath.substring(indexBetweenFilePathAndFilename + 1);
             }
             @Cleanup GetObjectResponse getObjectResponse = downloadResponses.getGetObjectResponse();
 
@@ -189,7 +189,7 @@ public class SysFileController implements ISysFileApi {
             @Cleanup ServletOutputStream outputStream = response.getOutputStream();
             IoUtil.copy(getObjectResponse, outputStream);
         } catch (Exception e) {
-            log.error("file download failed. {} {}", bucketName, filename);
+            log.error("file download failed. {} {}", bucketName, objectName);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
@@ -211,17 +211,17 @@ public class SysFileController implements ISysFileApi {
      *
      * @param inputStream      InputStream
      * @param realBucketName   桶名称
-     * @param realFilename     对象名称
+     * @param objectName       对象名称
      * @param originalFilename 原文件名
      * @param length           文件大小
      * @throws Exception Exception
      */
-    private void doUpload(InputStream inputStream, String realBucketName, String realFilename, String originalFilename, long length) throws Exception {
-        orMinioService.upload(realBucketName, realFilename, originalFilename, inputStream);
+    private void doUpload(InputStream inputStream, String realBucketName, String objectName, String originalFilename, long length) throws Exception {
+        orMinioService.upload(realBucketName, objectName, originalFilename, inputStream);
         // 记录日志
         SysFileDO sysFileDO = new SysFileDO();
         sysFileDO.setBucketName(realBucketName);
-        sysFileDO.setObjectName(realFilename);
+        sysFileDO.setObjectName(objectName);
         sysFileDO.setOriginalFilename(originalFilename);
         sysFileDO.setSize(length);
         sysFileService.createSelective(sysFileDO);
