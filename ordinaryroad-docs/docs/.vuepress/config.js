@@ -53,9 +53,12 @@ module.exports = {
             {
                 text: 'OR生态',
                 items: [
-                    {text: 'IM模块', link: '/or_module/im'},
-                    {text: 'IoE模块', link: '/or_module/ioe'},
+                    {text: 'OR BLOG', link: '/or_module/blog'},
                     {text: 'Vuetify模块', link: '/or_module/vuetify'},
+                    {text: 'Barrage Fly', link: '/or_module/barrage-fly/'},
+                    {text: 'LiveChatClient模块', link: '/or_module/live-chat-client/'},
+                    {text: 'IM模块', link: '/or_module/im'},
+                    {text: 'IoE模块', link: '/or_module/ioe'}
                 ]
             },
             {text: '在线演示', link: 'https://ordinaryroad.tech:8021'},
@@ -107,9 +110,12 @@ module.exports = {
             {
                 title: "OR生态",
                 children: [
-                    '/or_module/im',
-                    '/or_module/ioe',
+                    '/or_module/blog',
                     '/or_module/vuetify',
+                    '/or_module/barrage-fly/',
+                    '/or_module/live-chat-client/',
+                    '/or_module/im',
+                    '/or_module/ioe'
                 ]
             }
         ],
