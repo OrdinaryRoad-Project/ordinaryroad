@@ -23,6 +23,18 @@
  */
 
 module.exports = {
+    // https://www.vuepress.cn/config/#head
+    head: [
+        ["script", {}, `
+            var _hmt = _hmt || [];
+            (function() {
+              var hm = document.createElement("script");
+              hm.src = "https://hm.baidu.com/hm.js?7970ffd8bbeba445a62733ea09ba7744";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+            })();
+        `]
+    ],
     port: 80,
     title: "OR开源框架",
     description: 'OrdinaryRoad开源框架',
@@ -41,9 +53,12 @@ module.exports = {
             {
                 text: 'OR生态',
                 items: [
-                    {text: 'IM模块', link: '/or_module/im'},
-                    {text: 'IoE模块', link: '/or_module/ioe'},
+                    {text: 'OR BLOG', link: '/or_module/blog'},
                     {text: 'Vuetify模块', link: '/or_module/vuetify'},
+                    {text: 'Barrage Fly', link: '/or_module/barrage-fly/'},
+                    {text: 'LiveChatClient模块', link: '/or_module/live-chat-client/'},
+                    {text: 'IM模块', link: '/or_module/im'},
+                    {text: 'IoE模块', link: '/or_module/ioe'}
                 ]
             },
             {text: '在线演示', link: 'https://ordinaryroad.tech:8021'},
@@ -95,9 +110,12 @@ module.exports = {
             {
                 title: "OR生态",
                 children: [
-                    '/or_module/im',
-                    '/or_module/ioe',
+                    '/or_module/blog',
                     '/or_module/vuetify',
+                    '/or_module/barrage-fly/',
+                    '/or_module/live-chat-client/',
+                    '/or_module/im',
+                    '/or_module/ioe'
                 ]
             }
         ],

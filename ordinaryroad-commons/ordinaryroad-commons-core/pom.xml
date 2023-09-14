@@ -29,7 +29,7 @@
     <parent>
         <artifactId>ordinaryroad-commons</artifactId>
         <groupId>tech.ordinaryroad</groupId>
-        <version>1.5.5</version>
+        <version>1.6.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -141,12 +141,6 @@
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
-        </dependency>
-
-        <!-- commons-io -->
-        <dependency>
-            <groupId>commons-io</groupId>
-            <artifactId>commons-io</artifactId>
         </dependency>
 
         <!-- fastjson2 -->

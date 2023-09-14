@@ -45,29 +45,29 @@ public class OrMinioService {
     private final MinioClient minioClient;
     public static final String METADATA_KEY_ORIGINAL_FILENAME = "original-filename";
 
-    public void upload(@NotNull String bucketName, @NotNull String filename, @NotNull String originalFilename, @NotNull InputStream inputStream) throws Exception {
+    public void upload(@NotNull String bucketName, @NotNull String objectName, @NotNull String originalFilename, @NotNull InputStream inputStream) throws Exception {
         makeBucketIfNotExists(bucketName);
         HashMap<String, String> userMetadata = new HashMap<>(1);
         userMetadata.put(METADATA_KEY_ORIGINAL_FILENAME, originalFilename);
         PutObjectArgs putObjectArgs = PutObjectArgs.builder()
                 .bucket(bucketName)
-                .object(filename)
+                .object(objectName)
                 .userMetadata(userMetadata)
                 .stream(inputStream, inputStream.available(), -1)
                 .build();
         minioClient.putObject(putObjectArgs);
     }
 
-    public DownloadResponses download(@NotNull String bucketName, @NotNull String filename) throws Exception {
+    public DownloadResponses download(@NotNull String bucketName, @NotNull String objectName) throws Exception {
         DownloadResponses downloadResponses = new DownloadResponses();
         GetObjectArgs getObjectArgs = GetObjectArgs.builder()
                 .bucket(bucketName)
-                .object(filename)
+                .object(objectName)
                 .build();
         downloadResponses.setGetObjectResponse(minioClient.getObject(getObjectArgs));
         StatObjectArgs statObjectArgs = StatObjectArgs.builder()
                 .bucket(bucketName)
-                .object(filename)
+                .object(objectName)
                 .build();
         downloadResponses.setStatObjectResponse(minioClient.statObject(statObjectArgs));
         return downloadResponses;

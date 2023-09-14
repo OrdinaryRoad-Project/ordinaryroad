@@ -65,7 +65,12 @@ export default ({ app, store }) => {
     return `/${app.i18n.locale}/${link}`
   }
   app.i18n.$t = function (key, array) {
-    let message = app.i18n.messages[app.i18n.locale][key]
+    const messages = app.i18n.messages[app.i18n.locale]
+    const keys = key.split('.')
+    let message = messages[keys[0]]
+    for (let i = 1; i < keys.length; i++) {
+      message = message[keys[i]]
+    }
     if (array) {
       for (let i = 0; i < array.length; i++) {
         message = message.replace(`{${i}}`, array[i])
