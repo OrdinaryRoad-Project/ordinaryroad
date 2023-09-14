@@ -61,7 +61,7 @@
         <dynamic-datasource-spring-boot-starter.version>3.5.2</dynamic-datasource-spring-boot-starter.version>
         <pagehelper-starter.version>1.4.5</pagehelper-starter.version>
         <swagger-annotations.version>1.5.22</swagger-annotations.version>
-        <sa-token.version>1.32.0</sa-token.version>
+        <sa-token.version>1.35.0.RC</sa-token.version>
         <fastjson2.version>2.0.39</fastjson2.version>
         <pagehelper.version>5.3.2</pagehelper.version>
         <minio.version>8.0.0</minio.version>
@@ -120,6 +120,15 @@
                 <groupId>com.alibaba.cloud</groupId>
                 <artifactId>spring-cloud-alibaba-dependencies</artifactId>
                 <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <!-- Sa-Token 权限认证, 在线文档：https://sa-token.cc -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-bom</artifactId>
+                <version>${sa-token.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -245,40 +254,6 @@
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-push-api</artifactId>
                 <version>1.6.0</version>
-            </dependency>
-
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-core</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-
-            <!-- Sa-Token 权限认证, 在线文档：http://sa-token.dev33.cn/ -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-spring-boot-starter</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-
-            <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：http://sa-token.dev33.cn/ -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-
-            <!-- Sa-Token-OAuth2.0 模块 -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-oauth2</artifactId>
-                <version>${sa-token.version}</version>
-            </dependency>
-
-            <!-- Sa-Token整合Redis (使用jackson序列化方式) -->
-            <dependency>
-                <groupId>cn.dev33</groupId>
-                <artifactId>sa-token-dao-redis-jackson</artifactId>
-                <version>${sa-token.version}</version>
             </dependency>
 
             <!-- hutool -->
