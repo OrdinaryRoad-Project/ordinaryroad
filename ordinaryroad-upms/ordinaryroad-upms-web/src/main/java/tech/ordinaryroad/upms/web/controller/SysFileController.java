@@ -107,8 +107,8 @@ public class SysFileController implements ISysFileApi {
                 File tempFile = FileUtil.createTempFile(prefix, suffix, null, true);
                 @Cleanup InputStream inputStream = file.getInputStream();
                 Thumbnails.of(inputStream)
-                        .scale(1.0)
-                        .outputQuality(0.4)
+                        .scale(0.5)
+                        .outputQuality(0.6)
                         .toFile(tempFile);
                 // 保存缩略图
                 String objectName = String.format("/%s/thumbnail/%s", dateString, filename);
