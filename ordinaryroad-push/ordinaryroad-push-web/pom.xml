@@ -107,7 +107,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>${maven-resources-plugin.version}</version>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>copy-resource</id>
