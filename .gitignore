@@ -83,3 +83,4 @@ docker/ordinaryroad-nginx/ssl
 
 gitignore
 /**/*/dist
+/**/*.zip
