@@ -37,6 +37,7 @@ services:
       - ordinaryroad-gateway
       - ordinaryroad-ui
       - ordinaryroad-minio
+      - ordinaryroad-barrage-fly-docs
     restart: always
 
   ordinaryroad-redis:
