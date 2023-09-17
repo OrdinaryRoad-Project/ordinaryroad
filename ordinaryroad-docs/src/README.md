@@ -6,7 +6,7 @@ bgImageStyle:
   background-attachment: fixed
 heroFullScreen: true
 heroText: OrdinaryRoad
-tagline: 一个微服务框架
+tagline: 一个微服务项目
 actions:
   - text: Get Started →
     link: /start/
