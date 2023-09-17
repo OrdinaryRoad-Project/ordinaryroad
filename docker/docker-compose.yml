@@ -37,6 +37,7 @@ services:
       - ordinaryroad-gateway
       - ordinaryroad-ui
       - ordinaryroad-minio
+      - ordinaryroad-barrage-fly-docs
     restart: always
 
   ordinaryroad-redis:
@@ -177,4 +178,12 @@ services:
     environment:
       QQ_MAIL_AUTHORIZATION_CODE:
     hostname: ordinaryroad-push
+    restart: always
+
+  ordinaryroad-barrage-fly-docs:
+    image: ordinaryroad-barrage-fly-docs
+    container_name: ordinaryroad-barrage-fly-docs
+    build:
+      context: ./ordinaryroad-barrage-fly-docs
+    hostname: ordinaryroad-barrage-fly-docs
     restart: always
