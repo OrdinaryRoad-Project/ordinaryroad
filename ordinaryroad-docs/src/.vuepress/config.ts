@@ -22,33 +22,30 @@
  * SOFTWARE.
  */
 
-export const baiduCountMobileArr = [
-  {
-    city: '',
-    code: ''
-  }
-]
+import {defineUserConfig} from "vuepress";
+import theme from "./theme.js";
 
-export function baiduCountAllCode (code) {
-  (function () {
-    // 会叠加 需要 每次执行前，先移除上次插入的代码
-    document.getElementById('g_baidu') && document.getElementById('g_baidu').remove()
-    const hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?' + code
-    hm.id = 'g_baidu'
-    const s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-}
+export default defineUserConfig({
+    base: process.env.BUILD_TYPE == "coding" ? "/" : '/ordinaryroad/',
 
-export function baiduCountCode (code) {
-  (function () {
-    // 会叠加 需要 每次执行前，先移除上次插入的代码
-    document.getElementById('w_baidu') && document.getElementById('w_baidu').remove()
-    const hm = document.createElement('script')
-    hm.src = 'https://hm.baidu.com/hm.js?' + code
-    hm.id = 'w_baidu'
-    const s = document.getElementsByTagName('script')[0]
-    s.parentNode.insertBefore(hm, s)
-  })()
-}
+    lang: "zh-CN",
+    title: "OR开源框架",
+    description: 'OrdinaryRoad开源框架',
+    // https://www.vuepress.cn/config/#head
+    head: [
+        ["script", {}, `
+            var _hmt = _hmt || [];
+            (function() {
+              var hm = document.createElement("script");
+              hm.src = "https://hm.baidu.com/hm.js?b72fe1c4ac70fa65fa7c3e2abca573d2";
+              var s = document.getElementsByTagName("script")[0]; 
+              s.parentNode.insertBefore(hm, s);
+            })();
+        `]
+    ],
+
+    theme,
+
+    // Enable it with pwa
+    // shouldPrefetch: false,
+});
