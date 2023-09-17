@@ -29,7 +29,7 @@ module.exports = {
             var _hmt = _hmt || [];
             (function() {
               var hm = document.createElement("script");
-              hm.src = "https://hm.baidu.com/hm.js?7970ffd8bbeba445a62733ea09ba7744";
+              hm.src = "https://hm.baidu.com/hm.js?b72fe1c4ac70fa65fa7c3e2abca573d2";
               var s = document.getElementsByTagName("script")[0]; 
               s.parentNode.insertBefore(hm, s);
             })();
