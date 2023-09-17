@@ -26,7 +26,7 @@ import {defineUserConfig} from "vuepress";
 import theme from "./theme.js";
 
 export default defineUserConfig({
-    base: process.env.BUILD_TYPE == "coding" ? "/" : '/ordinaryroad/',
+    base: process.env.BUILD_TYPE == "GIT_PAGE" ? '/ordinaryroad/' : '/',
 
     lang: "zh-CN",
     title: "OR开源框架",
