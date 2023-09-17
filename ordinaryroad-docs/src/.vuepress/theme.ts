@@ -49,9 +49,9 @@ export default hopeTheme({
     // sidebar
     sidebar,
 
-    footer: "©2019-2023 苗锦洲 版权所有 <a href='https://beian.miit.gov.cn/' target='_blank'>苏ICP备2020055920号-2</a>",
-
-    // displayFooter: false,
+    footer: "©2019-present OrdinaryRoad 版权所有 <a href='https://beian.miit.gov.cn/' target='_blank'>苏ICP备2020055920号-2</a>",
+    copyright: false,
+    displayFooter: true,
 
     encrypt: {
         config: {
