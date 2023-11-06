@@ -49,7 +49,7 @@ export default hopeTheme({
     // sidebar
     sidebar,
 
-    footer: "©2019-present OrdinaryRoad 版权所有 <a href='https://beian.miit.gov.cn/' target='_blank'>苏ICP备2020055920号-2</a>",
+    footer: "©2019-present OrdinaryRoad 版权所有<br/><div style='display: flex; align-content: center'><img src='/gongan.png' alt='备案图标'/><a href='https://beian.mps.gov.cn/#/query/webSearch?code=32021102001551' target='_blank' style='margin-left: 2px'>苏公网安备32021102001551号</a><a href='https://beian.miit.gov.cn/' target='_blank' style='margin-left: 4px'>苏ICP备2020055920号-2</a></div>",
     copyright: false,
     displayFooter: true,
 
