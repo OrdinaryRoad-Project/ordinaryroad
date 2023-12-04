@@ -42,7 +42,9 @@ export default {
       { hid: 'description', name: 'description', content: '' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://npm.elemecdn.com/@mdi/font@latest/css/materialdesignicons.min.css' },
+      { rel: 'stylesheet', type: 'text/css', href: 'https://unpkg.com/@fontsource/roboto@latest/400.css'}
     ]
   },
 
@@ -124,6 +126,16 @@ export default {
 
   // Vuetify module configuration: https://go.nuxtjs.dev/config-vuetify
   vuetify: {
+    defaultAssets: {
+      font: false,
+      icons: false
+    },
+    font: {
+      family: 'Roboto'
+    },
+    icons: {
+      iconfont: 'mdi'
+    },
     lang: {
       locales: { en, 'zh-Hans': zhHans },
       current: 'zh-Hans'

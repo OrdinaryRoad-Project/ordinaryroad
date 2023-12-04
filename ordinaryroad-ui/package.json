@@ -1,6 +1,6 @@
 {
   "name": "ordinaryroad-ui",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "private": true,
   "config": {
     "nuxt": {
@@ -16,7 +16,6 @@
     "lint": "npm run lint:js"
   },
   "dependencies": {
-    "@mdi/font": "^7.2.96",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/dayjs": "^1.4.1",
     "@nuxtjs/proxy": "^2.1.0",
