@@ -2,13 +2,18 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
+### 2023-12-04 v1.6.1
+
+- fix: CDN优化
+- docs: 增加indexnow统计代码
+- docs: 增加公安备案信息
+
 ### 2023-09-14 v1.6.0
 
 - perf: 图片压缩参数优化
 - fix: i18n
 - fix: 改正不恰当的变量名
 - feat: 增加百度统计代码
-
 
 ### 2023-01-22 v1.5.5
 
