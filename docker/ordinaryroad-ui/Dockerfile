@@ -19,4 +19,4 @@ ENV HOST=0.0.0.0
 
 # 提示nuxt权限不够，chmod -R 777 .
 #CMD npm install --no-package-lock; npm run build; npm run start
-CMD npm run build; npm run start
+CMD npm run start
