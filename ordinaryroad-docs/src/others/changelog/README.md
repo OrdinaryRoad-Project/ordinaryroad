@@ -2,6 +2,10 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
+### 2023-01-13 v1.6.2
+
+- perf: CDN从unpkg.com更换为fastly.jsdelivr.net
+
 ### 2023-12-04 v1.6.1
 
 - fix: CDN优化
