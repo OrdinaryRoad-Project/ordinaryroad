@@ -261,7 +261,7 @@ public class ClientModeExample {
 
 ## 交流讨论
 
-扫描二维码<img src="assets/QQ频道.jpg" width="200px">
+扫描二维码<img src="https://github.com/OrdinaryRoad-Project/ordinaryroad-live-chat-client/blob/main/assets/QQ频道.jpg?raw=true" width="200px">
 或点击链接加入QQ频道【OrdinaryRoad】：https://pd.qq.com/s/3id0n7fvs
 
 ## 感谢
