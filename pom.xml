@@ -53,7 +53,7 @@
         <mapper-spring-boot-starter.version>4.2.2</mapper-spring-boot-starter.version>
 
         <!--common-->
-        <hutool.version>5.8.21</hutool.version>
+        <hutool.version>5.8.27</hutool.version>
 
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <lombok.version>1.18.24</lombok.version>
