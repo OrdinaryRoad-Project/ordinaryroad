@@ -189,7 +189,7 @@ public class SysFileController implements ISysFileApi {
             @Cleanup ServletOutputStream outputStream = response.getOutputStream();
             IoUtil.copy(getObjectResponse, outputStream);
         } catch (Exception e) {
-            log.error("file download failed. {} {}", bucketName, objectName);
+            log.error("file download failed. bucketName: {} objectName: {}", bucketName, objectName, e);
             response.setStatus(HttpServletResponse.SC_NOT_FOUND);
         }
     }
