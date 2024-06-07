@@ -32,6 +32,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
@@ -200,7 +202,10 @@ public class SaTokenConfigure {
                     });
                 })
                 // 异常处理方法：每次setAuth函数出现异常时进入
-                .setError(ExceptionUtils::getResult);
+                .setError(throwable -> {
+                    SaHolder.getResponse().setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+                    return ExceptionUtils.getResult(throwable);
+                });
     }
 
 }
