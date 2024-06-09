@@ -1,4 +1,4 @@
-FROM moxm/java:1.8-full
+FROM unitfinance/jdk17-sbt-scala:sha-16fe531
 
 MAINTAINER mjz(miaojinzhou@ordinaryroad.tech)
 
