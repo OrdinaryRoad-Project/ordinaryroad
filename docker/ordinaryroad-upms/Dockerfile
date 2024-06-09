@@ -1,4 +1,4 @@
-FROM unitfinance/jdk17-sbt-scala:sha-16fe531
+FROM khipu/openjdk17-alpine
 
 MAINTAINER mjz(miaojinzhou@ordinaryroad.tech)
 
