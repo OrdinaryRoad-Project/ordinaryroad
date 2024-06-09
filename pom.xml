@@ -50,7 +50,9 @@
 
         <knife4j.version>4.5.0</knife4j.version>
 
-        <mapper-spring-boot-starter.version>4.3.0</mapper-spring-boot-starter.version>
+        <mybatis-spring-boot-starter.version>3.0.2</mybatis-spring-boot-starter.version>
+        <mybatis-mapper.version>2.2.3</mybatis-mapper.version>
+        <mybatis-spring.version>3.0.3</mybatis-spring.version>
 
         <!--common-->
         <hutool.version>5.8.27</hutool.version>
@@ -59,7 +61,7 @@
         <lombok.version>1.18.24</lombok.version>
         <dynamic-datasource-spring-boot3-starter.version>4.3.0</dynamic-datasource-spring-boot3-starter.version>
         <!-- https://github.com/pagehelper/pagehelper-spring-boot/issues/172 -->
-        <pagehelper-starter.version>2.1.0</pagehelper-starter.version>
+        <pagehelper-spring-boot-starter.version>2.1.0</pagehelper-spring-boot-starter.version>
         <swagger-annotations.version>1.6.14</swagger-annotations.version>
         <sa-token.version>1.38.0</sa-token.version>
         <fastjson2.version>2.0.50</fastjson2.version>
@@ -152,11 +154,17 @@
                 <version>${dynamic-datasource-spring-boot3-starter.version}</version>
             </dependency>
 
-            <!-- TK MyBatis -->
+            <!-- mybatis-spring-boot-starter -->
             <dependency>
-                <groupId>tk.mybatis</groupId>
-                <artifactId>mapper-spring-boot-starter</artifactId>
-                <version>${mapper-spring-boot-starter.version}</version>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis-spring-boot-starter.version}</version>
+            </dependency>
+            <!-- mybatis-mapper -->
+            <dependency>
+                <groupId>io.mybatis</groupId>
+                <artifactId>mybatis-mapper</artifactId>
+                <version>${mybatis-mapper.version}</version>
             </dependency>
 
             <!-- pagehelper -->
@@ -169,14 +177,14 @@
             <dependency>
                 <groupId>com.github.pagehelper</groupId>
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper-starter.version}</version>
+                <version>${pagehelper-spring-boot-starter.version}</version>
             </dependency>
             <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+            <!-- mybatis-spring -->
             <dependency>
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis-spring</artifactId>
-                <!--                <version>2.0.7</version>-->
-                <version>3.0.3</version>
+                <version>${mybatis-spring.version}</version>
             </dependency>
 
             <!-- ordinaryroad-commons-base -->

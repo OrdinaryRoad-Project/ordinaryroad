@@ -60,37 +60,17 @@
             <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
         </dependency>
 
+        <!-- mybatis-spring-boot-starter -->
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>3.0.2</version>
         </dependency>
 
+        <!-- mybatis-mapper -->
         <dependency>
             <groupId>io.mybatis</groupId>
             <artifactId>mybatis-mapper</artifactId>
-            <version>2.2.3</version>
         </dependency>
-        <!-- TODO 按需选择依赖 -->
-        <!-- 使用 Service 层封装时 -->
-        <!--        <dependency>-->
-        <!--            <groupId>io.mybatis</groupId>-->
-        <!--            <artifactId>mybatis-service</artifactId>-->
-        <!--            <version>2.2.3</version>-->
-        <!--        </dependency>-->
-        <!-- TODO 按需选择依赖 -->
-        <!-- 使用 ActiveRecord 模式时 -->
-        <!--        <dependency>-->
-        <!--            <groupId>io.mybatis</groupId>-->
-        <!--            <artifactId>mybatis-activerecord</artifactId>-->
-        <!--            <version>2.2.3</version>-->
-        <!--        </dependency>-->
-
-        <!--        &lt;!&ndash; TK MyBatis &ndash;&gt;-->
-        <!--        <dependency>-->
-        <!--            <groupId>tk.mybatis</groupId>-->
-        <!--            <artifactId>mapper-spring-boot-starter</artifactId>-->
-        <!--        </dependency>-->
 
         <!-- pagehelper-spring-boot-starter -->
         <dependency>
