@@ -24,13 +24,12 @@
 
 package tech.ordinaryroad.commons.mybatis.model;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -43,7 +42,6 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-@MappedSuperclass
 public class BaseDO implements Serializable {
 
     private static final long serialVersionUID = -5159871109171099140L;
@@ -51,35 +49,37 @@ public class BaseDO implements Serializable {
     /**
      * 自增主键
      */
-    @Column(updatable = false)
+    @Entity.Column(updatable = false)
     private Long id;
 
     /**
      * uuid主键
      */
     @Id
-    @Column(updatable = false)
+    @Entity.Column(id = true, updatable = false)
     private String uuid;
 
     /**
      * 创建时间
      */
-    @Column(updatable = false)
+    @Entity.Column(updatable = false)
     private LocalDateTime createdTime;
 
     /**
      * 创建者OR账号
      */
-    @Column(updatable = false)
+    @Entity.Column(updatable = false)
     private String createBy;
 
     /**
      * 更新时间
      */
+    @Entity.Column
     private LocalDateTime updateTime;
 
     /**
      * 更新者OR账号
      */
+    @Entity.Column
     private String updateBy;
 }

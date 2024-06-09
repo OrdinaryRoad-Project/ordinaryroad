@@ -25,14 +25,13 @@ package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.request.*;
 
@@ -43,31 +42,31 @@ import java.util.List;
  * @date 2021/10/27
  */
 @Api(value = "用户API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysUserApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysUserApi {
 
-    @PostMapping(value = "/user/create")
+    @PostExchange(value = "/user/create")
     Result<SysUserDTO> create(@Validated @RequestBody SysUserSaveRequest request);
 
-    @PostMapping(value = "/user/find/id")
+    @PostExchange(value = "/user/find/id")
     Result<SysUserDTO> findById(@RequestBody SysUserQueryRequest request);
 
-    @PostMapping(value = "/user/find_all")
+    @PostExchange(value = "/user/find_all")
     Result<List<SysUserDTO>> findAll(@RequestBody SysUserQueryRequest request);
 
-    @PostMapping(value = "/user/list")
+    @PostExchange(value = "/user/list")
     Result<PageInfo<SysUserDTO>> list(@RequestBody SysUserQueryRequest request);
 
-    @PostMapping(value = "/user/update")
+    @PostExchange(value = "/user/update")
     Result<Boolean> update(@Validated @RequestBody SysUserSaveRequest request);
 
-    @PostMapping(value = "/user/delete")
+    @PostExchange(value = "/user/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/user/find/unique")
+    @PostExchange(value = "/user/find/unique")
     Result<SysUserDTO> findByUniqueColumn(@RequestBody SysUserQueryRequest request);
 
-    @PostMapping(value = "/user/find_all/foreign")
+    @PostExchange(value = "/user/find_all/foreign")
     Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request);
 
     /**
@@ -78,33 +77,33 @@ public interface ISysUserApi {
      * @deprecated 暂时没搞懂怎么用
      */
     @Deprecated
-    @PostMapping(value = "/user/find/unique/async")
+    @PostExchange(value = "/user/find/unique/async")
     Mono<Result<SysUserDTO>> findByUniqueColumnAsync(@RequestBody SysUserQueryRequest request);
 
-    @PostMapping(value = "/user/update/avatar")
+    @PostExchange(value = "/user/update/avatar")
     Result<Boolean> updateAvatar(@Validated @RequestBody SysUserUpdateAvatarRequest request);
 
-    @PostMapping(value = "/user/update/username")
+    @PostExchange(value = "/user/update/username")
     Result<Boolean> updateUsername(@Validated @RequestBody SysUserUpdateUsernameRequest request);
 
-    @PostMapping(value = "/user/update/email")
+    @PostExchange(value = "/user/update/email")
     Result<Boolean> updateEmail(@Validated @RequestBody SysUserUpdateEmailRequest request);
 
-    @PostMapping(value = "/user/update/password")
+    @PostExchange(value = "/user/update/password")
     Result<Boolean> updatePassword(@Validated @RequestBody SysUserUpdatePasswordRequest request);
 
-    @PostMapping(value = "/user/register")
+    @PostExchange(value = "/user/register")
     Result<SysUserDTO> register(@Validated @RequestBody SysUserRegisterRequest request);
 
-    @PostMapping(value = "/user/reset/password")
+    @PostExchange(value = "/user/reset/password")
     Result<?> resetPassword(@Validated @RequestBody SysUserResetPasswordRequest request);
 
-    @PostMapping(value = "/user/reset/password_by_code")
+    @PostExchange(value = "/user/reset/password_by_code")
     Result<?> resetPasswordByCode(@Validated @RequestBody SysUserResetPasswordByCodeRequest request);
 
-    @PostMapping(value = "/user/update/enabled")
+    @PostExchange(value = "/user/update/enabled")
     Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request);
 
-    @PostMapping(value = "/user/update/user_roles")
+    @PostExchange(value = "/user/update/user_roles")
     Result<Boolean> updateUserRoles(@Validated @RequestBody SysUserRolesSaveRequest request);
 }

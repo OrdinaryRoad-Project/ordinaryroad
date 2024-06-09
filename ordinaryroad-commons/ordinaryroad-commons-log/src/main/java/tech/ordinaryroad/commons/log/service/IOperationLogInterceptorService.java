@@ -26,9 +26,9 @@ package tech.ordinaryroad.commons.log.service;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.log.entity.OperationLogDO;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.constraints.NotNull;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.constraints.NotNull;
 
 /**
  * 操作日志拦截器服务类

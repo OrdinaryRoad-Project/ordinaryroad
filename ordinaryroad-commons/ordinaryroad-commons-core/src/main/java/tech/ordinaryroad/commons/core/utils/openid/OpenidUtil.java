@@ -31,9 +31,9 @@ import cn.hutool.crypto.SecureUtil;
 import cn.hutool.crypto.asymmetric.KeyType;
 import cn.hutool.crypto.asymmetric.RSA;
 import cn.hutool.crypto.symmetric.AES;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.core.io.ClassPathResource;
 
-import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.security.SecureRandom;
 

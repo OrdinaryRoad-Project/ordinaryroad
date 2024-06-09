@@ -29,9 +29,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import tech.ordinaryroad.auth.server.api.IOAuth2RegisteredClientApi;
 import tech.ordinaryroad.auth.server.dto.OAuth2RegisteredClientDTO;
 import tech.ordinaryroad.auth.server.entity.OAuth2RegisteredClientDO;
 import tech.ordinaryroad.auth.server.mapstruct.OAuth2RegisteredClientMapStruct;
@@ -54,12 +54,12 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class OAuth2RegisteredClientController implements IOAuth2RegisteredClientApi {
+public class OAuth2RegisteredClientController {
 
     private final OAuth2RegisteredClientService oAuth2RegisteredClientService;
     private final OAuth2RegisteredClientMapStruct objMapStruct;
 
-    @Override
+    @PostMapping(value = "/registered_client/create")
     public Result<OAuth2RegisteredClientDTO> create(@Validated @RequestBody OAuth2RegisteredClientSaveRequest request) {
 
         // 唯一性校验
@@ -78,12 +78,12 @@ public class OAuth2RegisteredClientController implements IOAuth2RegisteredClient
         return Result.success(objMapStruct.transfer(oAuth2RegisteredClientService.createSelective(oAuth2RegisteredClientDO)));
     }
 
-    @Override
+    @PostMapping(value = "/registered_client/delete")
     public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
         return Result.success(oAuth2RegisteredClientService.delete(request.getUuid()));
     }
 
-    @Override
+    @PostMapping(value = "/registered_client/update")
     public Result<OAuth2RegisteredClientDTO> update(@Validated @RequestBody OAuth2RegisteredClientSaveRequest request) {
         String uuid = request.getUuid();
         if (StrUtil.isBlank(uuid)) {
@@ -111,7 +111,7 @@ public class OAuth2RegisteredClientController implements IOAuth2RegisteredClient
         return Result.success(objMapStruct.transfer(oAuth2RegisteredClientService.updateSelective(transfer)));
     }
 
-    @Override
+    @PostMapping(value = "/registered_client/find/id")
     public Result<OAuth2RegisteredClientDTO> findById(@RequestBody OAuth2RegisteredClientQueryRequest request) {
         OAuth2RegisteredClientDO byId = oAuth2RegisteredClientService.findById(request.getUuid());
         if (Objects.nonNull(byId)) {
@@ -120,7 +120,7 @@ public class OAuth2RegisteredClientController implements IOAuth2RegisteredClient
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/registered_client/find/unique")
     public Result<OAuth2RegisteredClientDTO> findByUniqueColumn(@RequestBody OAuth2RegisteredClientQueryRequest request) {
         Optional<OAuth2RegisteredClientDO> optional = Optional.empty();
         String clientId = request.getClientId();
@@ -134,7 +134,7 @@ public class OAuth2RegisteredClientController implements IOAuth2RegisteredClient
         return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.DATA_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/registered_client/find_all")
     public Result<List<OAuth2RegisteredClientDTO>> findAll(@RequestBody OAuth2RegisteredClientQueryRequest request) {
         OAuth2RegisteredClientDO oAuth2RegisteredClientDO = objMapStruct.transfer(request);
 
@@ -144,7 +144,7 @@ public class OAuth2RegisteredClientController implements IOAuth2RegisteredClient
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/registered_client/list")
     public Result<PageInfo<OAuth2RegisteredClientDTO>> list(@RequestBody OAuth2RegisteredClientQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

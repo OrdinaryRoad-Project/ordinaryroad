@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.upms.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 角色表
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@Table(name = "sys_role")
+@Entity.Table("sys_role")
 public class SysRoleDO extends BaseDO {
 
     private static final long serialVersionUID = 4409636526646694640L;
@@ -47,16 +47,19 @@ public class SysRoleDO extends BaseDO {
     /**
      * 角色名称
      */
+    @Entity.Column
     private String roleName;
 
     /**
      * 角色code
      */
+    @Entity.Column
     private String roleCode;
 
     /**
      * 角色是否可用。默认为1（可用）
      */
+    @Entity.Column
     private Boolean enabled;
 
 }

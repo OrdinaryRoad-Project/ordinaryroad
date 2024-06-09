@@ -25,11 +25,10 @@ package tech.ordinaryroad.auth.server.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import tech.ordinaryroad.auth.server.constants.ServiceNameCons;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.auth.server.dto.OAuth2RegisteredClientDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2RegisteredClientQueryRequest;
 import tech.ordinaryroad.auth.server.request.OAuth2RegisteredClientSaveRequest;
@@ -43,28 +42,28 @@ import java.util.List;
  * @date 2022/1/14
  */
 @Api(value = "已注册的第三方客户端API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iOAuth2RegisteredClientApi")
+@HttpExchange("http://ordinaryroad-auth-server")
 public interface IOAuth2RegisteredClientApi {
 
-    @PostMapping(value = "/registered_client/create")
+    @PostExchange(value = "/registered_client/create")
     Result<OAuth2RegisteredClientDTO> create(@Validated @RequestBody OAuth2RegisteredClientSaveRequest request);
 
-    @PostMapping(value = "/registered_client/delete")
+    @PostExchange(value = "/registered_client/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/registered_client/update")
+    @PostExchange(value = "/registered_client/update")
     Result<OAuth2RegisteredClientDTO> update(@Validated @RequestBody OAuth2RegisteredClientSaveRequest request);
 
-    @PostMapping(value = "/registered_client/find/id")
+    @PostExchange(value = "/registered_client/find/id")
     Result<OAuth2RegisteredClientDTO> findById(@RequestBody OAuth2RegisteredClientQueryRequest request);
 
-    @PostMapping(value = "/registered_client/find/unique")
+    @PostExchange(value = "/registered_client/find/unique")
     Result<OAuth2RegisteredClientDTO> findByUniqueColumn(@RequestBody OAuth2RegisteredClientQueryRequest request);
 
-    @PostMapping(value = "/registered_client/find_all")
+    @PostExchange(value = "/registered_client/find_all")
     Result<List<OAuth2RegisteredClientDTO>> findAll(@RequestBody OAuth2RegisteredClientQueryRequest request);
 
-    @PostMapping(value = "/registered_client/list")
+    @PostExchange(value = "/registered_client/list")
     Result<PageInfo<OAuth2RegisteredClientDTO>> list(@RequestBody OAuth2RegisteredClientQueryRequest request);
 
 }

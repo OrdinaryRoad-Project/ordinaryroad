@@ -32,6 +32,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
@@ -40,7 +41,6 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysPermissionApi;
 import tech.ordinaryroad.upms.dto.SysPermissionDTO;
 import tech.ordinaryroad.upms.entity.SysPermissionDO;
 import tech.ordinaryroad.upms.mapstruct.SysPermissionMapStruct;
@@ -60,12 +60,12 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysPermissionController implements ISysPermissionApi {
+public class SysPermissionController {
 
     private final SysPermissionService sysPermissionService;
     private final SysPermissionMapStruct objMapStruct;
 
-    @Override
+    @PostMapping(value = "/permission/create")
     public Result<SysPermissionDTO> create(@Validated @RequestBody SysPermissionSaveRequest request) {
         SysPermissionDO sysPermissionDO = objMapStruct.transfer(request);
 
@@ -89,7 +89,7 @@ public class SysPermissionController implements ISysPermissionApi {
             /* 删除根据角色Id获取角色拥有的所有权限缓存 */
             @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, allEntries = true, condition = "#result.data"),
     })
-    @Override
+    @PostMapping(value = "/permission/delete")
     public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
         return Result.success(sysPermissionService.delete(request.getUuid()));
     }
@@ -104,7 +104,7 @@ public class SysPermissionController implements ISysPermissionApi {
             /* 删除根据角色Id获取角色拥有的所有权限缓存 */
             @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, allEntries = true, condition = "#result.success"),
     })
-    @Override
+    @PostMapping(value = "/permission/update")
     public Result<SysPermissionDTO> update(@Validated @RequestBody SysPermissionSaveRequest request) {
         String uuid = request.getUuid();
         if (StrUtil.isBlank(uuid)) {
@@ -128,7 +128,7 @@ public class SysPermissionController implements ISysPermissionApi {
         return Result.success(objMapStruct.transfer(sysPermissionService.updateSelective(transfer)));
     }
 
-    @Override
+    @PostMapping(value = "/permission/find/id")
     public Result<SysPermissionDTO> findById(@RequestBody SysPermissionQueryRequest request) {
         SysPermissionDO sysPermissionDO = objMapStruct.transfer(request);
         SysPermissionDO byId = sysPermissionService.findById(sysPermissionDO);
@@ -138,7 +138,7 @@ public class SysPermissionController implements ISysPermissionApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/permission/find/foreign")
     public Result<SysPermissionDTO> findByForeignColumn(@RequestBody SysPermissionQueryRequest request) {
         Optional<SysPermissionDO> optional = Optional.empty();
         String requestRequestPathUuid = request.getRequestPathUuid();
@@ -153,7 +153,7 @@ public class SysPermissionController implements ISysPermissionApi {
         return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.PERMISSION_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/permission/find_all/ids")
     public Result<List<SysPermissionDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {
@@ -164,7 +164,7 @@ public class SysPermissionController implements ISysPermissionApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/permission/find_all")
     public Result<List<SysPermissionDTO>> findAll(@RequestBody SysPermissionQueryRequest request) {
         SysPermissionDO sysPermissionDO = objMapStruct.transfer(request);
 
@@ -174,7 +174,7 @@ public class SysPermissionController implements ISysPermissionApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/permission/find_all/foreign")
     public Result<List<SysPermissionDTO>> findAllByForeignColumn(@RequestBody SysPermissionQueryRequest request) {
         List<SysPermissionDO> all = Collections.emptyList();
 
@@ -191,7 +191,7 @@ public class SysPermissionController implements ISysPermissionApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/permission/list")
     public Result<PageInfo<SysPermissionDTO>> list(@RequestBody SysPermissionQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

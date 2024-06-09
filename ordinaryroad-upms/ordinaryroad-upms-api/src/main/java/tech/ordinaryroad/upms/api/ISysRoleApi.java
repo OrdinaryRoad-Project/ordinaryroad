@@ -25,14 +25,13 @@ package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.request.SysRolePermissionsSaveRequest;
 import tech.ordinaryroad.upms.request.SysRoleQueryRequest;
@@ -46,40 +45,40 @@ import java.util.List;
  * @date 2021/11/4
  */
 @Api(value = "角色API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysRoleApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysRoleApi {
 
-    @PostMapping(value = "/role/create")
+    @PostExchange(value = "/role/create")
     Result<SysRoleDTO> create(@Validated @RequestBody SysRoleSaveRequest request);
 
-    @PostMapping(value = "/role/delete")
+    @PostExchange(value = "/role/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/role/update")
+    @PostExchange(value = "/role/update")
     Result<SysRoleDTO> update(@Validated @RequestBody SysRoleSaveRequest request);
 
-    @PostMapping(value = "/role/find/id")
+    @PostExchange(value = "/role/find/id")
     Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request);
 
-    @PostMapping(value = "/role/find/unique")
+    @PostExchange(value = "/role/find/unique")
     Result<SysRoleDTO> findByUniqueColumn(@RequestBody SysRoleQueryRequest request);
 
-    @PostMapping(value = "/role/find_all/user_uuid")
+    @PostExchange(value = "/role/find_all/user_uuid")
     Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request);
 
-    @PostMapping(value = "/role/find_all/ids")
+    @PostExchange(value = "/role/find_all/ids")
     Result<List<SysRoleDTO>> findAllByIds(@RequestBody BaseQueryRequest request);
 
-    @PostMapping(value = "/role/find_all")
+    @PostExchange(value = "/role/find_all")
     Result<List<SysRoleDTO>> findAll(@RequestBody SysRoleQueryRequest request);
 
-    @PostMapping(value = "/role/list")
+    @PostExchange(value = "/role/list")
     Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request);
 
-    @PostMapping(value = "/role/update/role_users")
+    @PostExchange(value = "/role/update/role_users")
     Result<Boolean> updateRoleUsers(@Validated @RequestBody SysRoleUsersSaveRequest request);
 
-    @PostMapping(value = "/role/update/role_permissions")
+    @PostExchange(value = "/role/update/role_permissions")
     Result<Boolean> updateRolePermissions(@Validated @RequestBody SysRolePermissionsSaveRequest request);
 
 }

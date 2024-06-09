@@ -34,7 +34,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
 import tech.ordinaryroad.auth.server.mapstruct.OAuth2UserinfoMapStruct;
@@ -55,7 +54,7 @@ import java.util.Optional;
  */
 @RestController
 @RequiredArgsConstructor
-public class SaOAuth2ServerController implements IOAuth2Api {
+public class SaOAuth2ServerController {
 
     private final OAuth2OpenidService oAuth2OpenidService;
     private final ISysUserApi sysUserApi;
@@ -68,7 +67,7 @@ public class SaOAuth2ServerController implements IOAuth2Api {
      * @param wrapped 是否封装，默认为否
      * @return Object
      */
-    @RequestMapping(value = "/oauth2/*", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/oauth2/token", method = {RequestMethod.GET, RequestMethod.POST})
     public Object oauth2(@RequestParam(defaultValue = "false") Boolean wrapped) {
         Object o = SaOAuth2Handle.serverRequest();
         if (SaHolder.getRequest().isPath(SaOAuth2Consts.Api.doConfirm)) {
@@ -92,13 +91,13 @@ public class SaOAuth2ServerController implements IOAuth2Api {
         return o;
     }
 
-    @Override
+    @PostMapping("/oauth2/getOrNumber")
     public Result<String> getOrNumber(@Validated @RequestBody OAuth2GetOrNumberRequest request) {
         Optional<OAuth2OpenidDO> byClientIdAndOpenid = oAuth2OpenidService.findByClientIdAndOpenid(request.getClientId(), request.getOpenid());
         return byClientIdAndOpenid.map(oAuth2OpenidDO -> Result.success(oAuth2OpenidDO.getOrNumber())).orElse(Result.fail(StatusCode.DATA_NOT_EXIST));
     }
 
-    @Override
+    @GetMapping("/oauth2/userinfo")
     public Object userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestParam(name = "wrapped", defaultValue = "false") Boolean wrapped) {
         Result<OAuth2UserInfoDTO> userinfo = this.userinfo();
         if (BooleanUtil.isTrue(wrapped)) {
@@ -108,7 +107,7 @@ public class SaOAuth2ServerController implements IOAuth2Api {
         }
     }
 
-    @Override
+    @GetMapping("/oauth2/userinfo/wrapped")
     public Result<OAuth2UserInfoDTO> userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization) {
         return this.userinfo();
     }

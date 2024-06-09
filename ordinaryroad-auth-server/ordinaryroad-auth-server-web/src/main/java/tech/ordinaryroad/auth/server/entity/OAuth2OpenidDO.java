@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.auth.server.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 不同客户端下用户openid表
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@Table(name = "oauth2_openid")
+@Entity.Table("oauth2_openid")
 public class OAuth2OpenidDO extends BaseDO {
 
     private static final long serialVersionUID = -7917651392205421338L;
@@ -47,16 +47,19 @@ public class OAuth2OpenidDO extends BaseDO {
     /**
      * or帐号
      */
+    @Entity.Column
     private String orNumber;
 
     /**
      * clientId
      */
+    @Entity.Column
     private String clientId;
 
     /**
      * openid
      */
+    @Entity.Column
     private String openid;
 
 }

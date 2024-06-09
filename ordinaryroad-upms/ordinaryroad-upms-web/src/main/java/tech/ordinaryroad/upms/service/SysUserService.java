@@ -24,6 +24,7 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,9 +34,6 @@ import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysUserDAO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,49 +51,44 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
 
     @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_EMAIL, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #email")
     public Optional<SysUserDO> findByEmail(String email) {
-        Example example = Example.builder(SysUserDO.class)
-                .where(Sqls.custom().andEqualTo("email", email))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysUserDO::getEmail, email)
+                .one();
     }
 
     @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_USERNAME, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #username")
     public Optional<SysUserDO> findByUsername(String username) {
-        Example example = Example.builder(SysUserDO.class)
-                .where(Sqls.custom().andEqualTo("username", username))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysUserDO::getUsername, username)
+                .one();
     }
 
     @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_OR_NUMBER, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #orNumber")
     public Optional<SysUserDO> findByOrNumber(String orNumber) {
-        Example example = Example.builder(SysUserDO.class)
-                .where(Sqls.custom().andEqualTo("orNumber", orNumber))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysUserDO::getOrNumber, orNumber)
+                .one();
     }
 
     public List<SysUserDO> findAll(SysUserDO sysUserDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<SysUserDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<SysUserDO, String> wrapper = dao.wrapper();
 
         String email = sysUserDO.getEmail();
         if (StrUtil.isNotBlank(email)) {
-            sqls.andLike(SysUserDO::getEmail, "%" + email + "%");
+            wrapper.like(SysUserDO::getEmail, "%" + email + "%");
         }
 
         String username = sysUserDO.getUsername();
         if (StrUtil.isNotBlank(username)) {
-            sqls.andLike(SysUserDO::getUsername, "%" + username + "%");
+            wrapper.like(SysUserDO::getUsername, "%" + username + "%");
         }
 
         String orNumber = sysUserDO.getOrNumber();
         if (StrUtil.isNotBlank(orNumber)) {
-            sqls.andLike(SysUserDO::getOrNumber, "%" + orNumber + "%");
+            wrapper.like(SysUserDO::getOrNumber, "%" + orNumber + "%");
         }
 
-        Example.Builder exampleBuilder = Example.builder(SysUserDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
     public List<SysUserDO> findAllByRoleUuid(String roleUuid) {
@@ -104,8 +97,8 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
         return this.findIds(userUuids);
     }
 
-    public Integer selectCount() {
-        return super.dao.selectCount(null);
+    public long selectCount() {
+        return dao.wrapper().count();
     }
 
 }

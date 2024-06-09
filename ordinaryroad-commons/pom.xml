@@ -37,7 +37,7 @@
     <modules>
         <module>ordinaryroad-commons-base</module>
         <module>ordinaryroad-commons-core</module>
-        <module>ordinaryroad-commons-swagger</module>
+<!--        <module>ordinaryroad-commons-swagger</module>-->
         <module>ordinaryroad-commons-mybatis</module>
         <module>ordinaryroad-commons-satoken</module>
         <module>ordinaryroad-commons-minio</module>
@@ -48,8 +48,8 @@
     <artifactId>ordinaryroad-commons</artifactId>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
 </project>

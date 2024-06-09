@@ -29,6 +29,8 @@ import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.BooleanUtil;
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
+import io.mybatis.mapper.fn.Fn;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.Assert;
@@ -36,9 +38,6 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -297,10 +296,9 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         if (CollUtil.isEmpty(idList)) {
             return Collections.emptyList();
         }
-        Example example = Example.builder(getEntityClass())
-                .where(Sqls.custom().andIn("uuid", idList))
-                .build();
-        return dao.selectByExample(example);
+        return dao.wrapper()
+                .in(Fn.column(getEntityClass(), "uuid"), idList)
+                .list();
     }
 
     /**
@@ -314,14 +312,14 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
 
     public T findById(String id) {
         Assert.notNull(id, "id不能为空");
-        return dao.selectByPrimaryKey(id);
+        return dao.selectByPrimaryKey(id).orElse(null);
     }
 
     /**
      * 查询所有记录
      */
     public List<T> findAll() {
-        return dao.selectAll();
+        return dao.wrapper().list();
     }
 
     public boolean delete(String id) {
@@ -342,10 +340,9 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         if (CollUtil.isEmpty(idList)) {
             return true;
         }
-        Example example = Example.builder(getEntityClass())
-                .where(Sqls.custom().andIn("uuid", idList))
-                .build();
-        return dao.deleteByExample(example) != 0;
+        return dao.wrapper()
+                .in(Fn.column(getEntityClass(), "uuid"), idList)
+                .delete() != 0;
     }
 
     /**
@@ -411,11 +408,10 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
      * findAll自动增加排序创建时间条件
      *
      * @param baseQueryRequest BaseQueryRequest
-     * @param sqls             WeekendSqls<T>
-     * @param exampleBuilder   Example.Builder
+     * @param wrapper          ExampleWrapper
      * @return List<T>
      */
-    public List<T> findAll(BaseQueryRequest baseQueryRequest, WeekendSqls<T> sqls, Example.Builder exampleBuilder) {
+    public List<T> findAll(BaseQueryRequest baseQueryRequest, ExampleWrapper<T, String> wrapper) {
         String[] sortBy = baseQueryRequest.getSortBy();
         Boolean[] sortDesc = baseQueryRequest.getSortDesc();
         if (ArrayUtil.isNotEmpty(sortBy)) {
@@ -423,23 +419,23 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
                 String columnName = sortBy[i];
                 boolean isDesc = BooleanUtil.isTrue(ArrayUtil.get(sortDesc, i));
                 if (isDesc) {
-                    exampleBuilder.orderByDesc(columnName);
+                    wrapper.orderByDesc(Fn.column(getEntityClass(), columnName));
                 } else {
-                    exampleBuilder.orderByAsc(columnName);
+                    wrapper.orderByAsc(Fn.column(getEntityClass(), columnName));
                 }
             }
         }
 
         LocalDateTime startTime = baseQueryRequest.getStartTime();
         if (Objects.nonNull(startTime)) {
-            sqls.andGreaterThanOrEqualTo(T::getCreatedTime, startTime);
+            wrapper.ge(T::getCreatedTime, startTime);
         }
         LocalDateTime endTime = baseQueryRequest.getEndTime();
         if (Objects.nonNull(endTime)) {
-            sqls.andLessThanOrEqualTo(T::getCreatedTime, endTime);
+            wrapper.le(T::getCreatedTime, endTime);
         }
 
-        return this.dao.selectByExample(exampleBuilder.build());
+        return wrapper.list();
     }
 
     @SuppressWarnings("unchecked")

@@ -23,12 +23,11 @@
  */
 package tech.ordinaryroad.upms.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
-import tk.mybatis.mapper.annotation.KeySql;
 
-import javax.persistence.Table;
 
 /**
  * 用户表
@@ -38,7 +37,7 @@ import javax.persistence.Table;
  */
 @Getter
 @Setter
-@Table(name = "sys_user")
+@Entity.Table("sys_user")
 public class SysUserDO extends BaseDO {
 
     private static final long serialVersionUID = 1213747147371494092L;
@@ -46,39 +45,47 @@ public class SysUserDO extends BaseDO {
     /**
      * or帐号
      */
-    @KeySql(genId = OrNumberGen.class)
+    @Entity.Column
     private String orNumber;
     /**
      * 头像地址
      */
+    @Entity.Column
     private String avatar;
     /**
      * 邮箱
      */
+    @Entity.Column
     private String email;
     /**
      * 用户名
      */
+    @Entity.Column
     private String username;
     /**
      * 用户密码
      */
+    @Entity.Column
     private String password;
     /**
      * 账号是否可用。默认为1（可用）
      */
+    @Entity.Column
     private Boolean enabled;
     /**
      * 是否过期。默认为1（没有过期）
      */
+    @Entity.Column
     private Boolean notExpired;
     /**
      * 账号是否锁定。默认为1（没有锁定）
      */
+    @Entity.Column
     private Boolean notLocked;
     /**
      * 密码是否过期。默认为1（没有过期）
      */
+    @Entity.Column
     private Boolean passwordNotExpired;
 
 }

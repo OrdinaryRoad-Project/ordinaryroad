@@ -25,14 +25,13 @@ package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysPermissionDTO;
 import tech.ordinaryroad.upms.request.SysPermissionQueryRequest;
 import tech.ordinaryroad.upms.request.SysPermissionSaveRequest;
@@ -44,34 +43,34 @@ import java.util.List;
  * @date 2021/11/8
  */
 @Api(value = "权限API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysPermissionApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysPermissionApi {
 
-    @PostMapping(value = "/permission/create")
+    @PostExchange(value = "/permission/create")
     Result<SysPermissionDTO> create(@Validated @RequestBody SysPermissionSaveRequest request);
 
-    @PostMapping(value = "/permission/delete")
+    @PostExchange(value = "/permission/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/permission/update")
+    @PostExchange(value = "/permission/update")
     Result<SysPermissionDTO> update(@Validated @RequestBody SysPermissionSaveRequest request);
 
-    @PostMapping(value = "/permission/find/id")
+    @PostExchange(value = "/permission/find/id")
     Result<SysPermissionDTO> findById(@RequestBody SysPermissionQueryRequest request);
 
-    @PostMapping(value = "/permission/find/foreign")
+    @PostExchange(value = "/permission/find/foreign")
     Result<SysPermissionDTO> findByForeignColumn(@RequestBody SysPermissionQueryRequest request);
 
-    @PostMapping(value = "/permission/find_all/ids")
+    @PostExchange(value = "/permission/find_all/ids")
     Result<List<SysPermissionDTO>> findAllByIds(@RequestBody BaseQueryRequest request);
 
-    @PostMapping(value = "/permission/find_all")
+    @PostExchange(value = "/permission/find_all")
     Result<List<SysPermissionDTO>> findAll(@RequestBody SysPermissionQueryRequest request);
 
-    @PostMapping(value = "/permission/find_all/foreign")
+    @PostExchange(value = "/permission/find_all/foreign")
     Result<List<SysPermissionDTO>> findAllByForeignColumn(@RequestBody SysPermissionQueryRequest request);
 
-    @PostMapping(value = "/permission/list")
+    @PostExchange(value = "/permission/list")
     Result<PageInfo<SysPermissionDTO>> list(@RequestBody SysPermissionQueryRequest request);
 
 }

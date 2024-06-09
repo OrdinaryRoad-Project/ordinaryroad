@@ -25,14 +25,13 @@ package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysRolesPermissionsDTO;
 import tech.ordinaryroad.upms.request.SysRolesPermissionsQueryRequest;
 import tech.ordinaryroad.upms.request.SysRolesPermissionsSaveRequest;
@@ -44,25 +43,25 @@ import java.util.List;
  * @date 2021/11/4
  */
 @Api(value = "用户角色关联关系API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysRolesPermissionsApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysRolesPermissionsApi {
 
-    @PostMapping(value = "/roles_permissions/create")
+    @PostExchange(value = "/roles_permissions/create")
     Result<SysRolesPermissionsDTO> create(@Validated @RequestBody SysRolesPermissionsSaveRequest request);
 
-    @PostMapping(value = "/roles_permissions/delete")
+    @PostExchange(value = "/roles_permissions/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/roles_permissions/find/id")
+    @PostExchange(value = "/roles_permissions/find/id")
     Result<SysRolesPermissionsDTO> findById(@RequestBody SysRolesPermissionsQueryRequest request);
 
-    @PostMapping(value = "/roles_permissions/find_all")
+    @PostExchange(value = "/roles_permissions/find_all")
     Result<List<SysRolesPermissionsDTO>> findAll(@RequestBody SysRolesPermissionsQueryRequest request);
 
-    @PostMapping(value = "/roles_permissions/find_all/ids")
+    @PostExchange(value = "/roles_permissions/find_all/ids")
     Result<List<SysRolesPermissionsDTO>> findAllByIds(@RequestBody BaseQueryRequest request);
 
-    @PostMapping(value = "/roles_permissions/list")
+    @PostExchange(value = "/roles_permissions/list")
     Result<PageInfo<SysRolesPermissionsDTO>> list(@RequestBody SysRolesPermissionsQueryRequest request);
 
 }

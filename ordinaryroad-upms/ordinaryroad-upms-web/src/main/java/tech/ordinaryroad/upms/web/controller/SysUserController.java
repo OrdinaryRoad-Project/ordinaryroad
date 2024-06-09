@@ -29,6 +29,7 @@ import cn.hutool.core.util.StrUtil;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import org.jetbrains.annotations.Nullable;
 import org.springframework.cache.annotation.CacheEvict;
@@ -37,6 +38,7 @@ import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
@@ -46,7 +48,6 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.core.service.RedisService;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysUserApi;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.entity.SysUserDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
@@ -55,7 +56,6 @@ import tech.ordinaryroad.upms.request.*;
 import tech.ordinaryroad.upms.service.SysUserService;
 import tech.ordinaryroad.upms.service.SysUsersRolesService;
 
-import javax.validation.constraints.NotNull;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -66,7 +66,7 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysUserController implements ISysUserApi {
+public class SysUserController {
 
     private final SysUserService sysUserService;
     private final SysUsersRolesService sysUsersRolesService;
@@ -76,7 +76,7 @@ public class SysUserController implements ISysUserApi {
     private final Pattern passwordPattern = Pattern.compile("^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$");
 
     @Transactional(rollbackFor = Exception.class)
-    @Override
+    @PostMapping(value = "/user/create")
     public Result<SysUserDTO> create(@RequestBody @Validated SysUserSaveRequest request) {
 
         Result<SysUserDTO> validResult = checkValid(request);
@@ -94,7 +94,7 @@ public class SysUserController implements ISysUserApi {
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }
 
-    @Override
+    @PostMapping(value = "/user/find/id")
     public Result<SysUserDTO> findById(@RequestBody SysUserQueryRequest request) {
         SysUserDO sysUserDO = objMapStruct.transfer(request);
         SysUserDO byId = sysUserService.findById(sysUserDO);
@@ -104,7 +104,7 @@ public class SysUserController implements ISysUserApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/user/find_all")
     public Result<List<SysUserDTO>> findAll(@RequestBody SysUserQueryRequest request) {
         SysUserDO sysUserDO = objMapStruct.transfer(request);
 
@@ -114,7 +114,7 @@ public class SysUserController implements ISysUserApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/user/list")
     public Result<PageInfo<SysUserDTO>> list(@RequestBody SysUserQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
@@ -126,7 +126,7 @@ public class SysUserController implements ISysUserApi {
         return Result.success(objectPageInfo);
     }
 
-    @Override
+    @PostMapping(value = "/user/update")
     public Result<Boolean> update(@RequestBody @Validated SysUserSaveRequest request) {
         // 只更新用户名
         Optional<SysUserDO> byId = Optional.ofNullable(sysUserService.findById(request.getUuid()));
@@ -158,7 +158,7 @@ public class SysUserController implements ISysUserApi {
         }
     }
 
-    @Override
+    @PostMapping(value = "/user/delete")
     public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
         String userUuid = request.getUuid();
 
@@ -167,7 +167,7 @@ public class SysUserController implements ISysUserApi {
         return Result.success(sysUserService.delete(userUuid));
     }
 
-    @Override
+    @PostMapping(value = "/user/find/unique")
     public Result<SysUserDTO> findByUniqueColumn(@RequestBody SysUserQueryRequest request) {
         Optional<SysUserDO> optional = Optional.empty();
         String orNumber = request.getOrNumber();
@@ -186,12 +186,23 @@ public class SysUserController implements ISysUserApi {
         return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.USER_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/user/find_all/foreign")
+    public Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request) {
+        List<SysUserDO> all = Collections.emptyList();
+        String roleUuid = request.getRoleUuid();
+        if (StrUtil.isNotBlank(roleUuid)) {
+            all = sysUserService.findAllByRoleUuid(roleUuid);
+        }
+        List<SysUserDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
+        return Result.success(list);
+    }
+
+    @PostMapping(value = "/user/find/unique/async")
     public Mono<Result<SysUserDTO>> findByUniqueColumnAsync(@RequestBody SysUserQueryRequest request) {
         return Mono.just(this.findByUniqueColumn(request));
     }
 
-    @Override
+    @PostMapping(value = "/user/update/avatar")
     public Result<Boolean> updateAvatar(@RequestBody @Validated SysUserUpdateAvatarRequest request) {
         // 获取当前登录用户
         String orNumber = StpUtil.getLoginIdAsString();
@@ -219,7 +230,7 @@ public class SysUserController implements ISysUserApi {
         }
     }
 
-    @Override
+    @PostMapping(value = "/user/update/username")
     public Result<Boolean> updateUsername(@RequestBody @Validated SysUserUpdateUsernameRequest request) {
         // 获取当前登录用户
         String orNumber = StpUtil.getLoginIdAsString();
@@ -252,7 +263,7 @@ public class SysUserController implements ISysUserApi {
         }
     }
 
-    @Override
+    @PostMapping(value = "/user/update/email")
     public Result<Boolean> updateEmail(@RequestBody @Validated SysUserUpdateEmailRequest request) {
         // 获取当前登录用户
         String orNumber = StpUtil.getLoginIdAsString();
@@ -285,7 +296,7 @@ public class SysUserController implements ISysUserApi {
         }
     }
 
-    @Override
+    @PostMapping(value = "/user/update/password")
     public Result<Boolean> updatePassword(@RequestBody @Validated SysUserUpdatePasswordRequest request) {
         // 获取当前登录用户
         String orNumber = StpUtil.getLoginIdAsString();
@@ -316,7 +327,7 @@ public class SysUserController implements ISysUserApi {
         return Result.success(sysUserService.doUpdateSelective(newSysUserDO));
     }
 
-    @Override
+    @PostMapping(value = "/user/register")
     public Result<SysUserDTO> register(@Validated @RequestBody SysUserRegisterRequest request) {
         // 校验邮箱
         String email = request.getEmail();
@@ -330,7 +341,7 @@ public class SysUserController implements ISysUserApi {
         return Result.success(objMapStruct.transfer(sysUserService.createSelective(sysUserDO)));
     }
 
-    @Override
+    @PostMapping(value = "/user/reset/password")
     public Result<?> resetPassword(@Validated @RequestBody SysUserResetPasswordRequest request) {
         SysUserDO byUuid = sysUserService.findById(request.getUuid());
         if (Objects.isNull(byUuid)) {
@@ -349,7 +360,7 @@ public class SysUserController implements ISysUserApi {
         return Result.success();
     }
 
-    @Override
+    @PostMapping(value = "/user/reset/password_by_code")
     public Result<?> resetPasswordByCode(@Validated @RequestBody SysUserResetPasswordByCodeRequest request) {
         // 校验邮箱
         String email = request.getEmail();
@@ -372,7 +383,7 @@ public class SysUserController implements ISysUserApi {
         return Result.success();
     }
 
-    @Override
+    @PostMapping(value = "/user/update/enabled")
     public Result<?> updateEnabled(@Validated @RequestBody SysUserUpdateEnabledRequest request) {
         SysUserDO byUuid = sysUserService.findById(request.getUuid());
         if (Objects.isNull(byUuid)) {
@@ -394,23 +405,12 @@ public class SysUserController implements ISysUserApi {
         return Result.success();
     }
 
-    @Override
-    public Result<List<SysUserDTO>> findAllByForeignColumn(@RequestBody SysUserQueryRequest request) {
-        List<SysUserDO> all = Collections.emptyList();
-        String roleUuid = request.getRoleUuid();
-        if (StrUtil.isNotBlank(roleUuid)) {
-            all = sysUserService.findAllByRoleUuid(roleUuid);
-        }
-        List<SysUserDTO> list = all.stream().map(objMapStruct::transfer).collect(Collectors.toList());
-        return Result.success(list);
-    }
-
     @Caching(evict = {
             @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_ROLES + "' + #request.uuid", condition = "#result.data"),
             @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_PERMISSIONS + "' + #request.uuid", condition = "#result.data"),
     })
     @Transactional(rollbackFor = Exception.class)
-    @Override
+    @PostMapping(value = "/user/update/user_roles")
     public Result<Boolean> updateUserRoles(@RequestBody @Validated SysUserRolesSaveRequest request) {
         String uuid = request.getUuid();
 

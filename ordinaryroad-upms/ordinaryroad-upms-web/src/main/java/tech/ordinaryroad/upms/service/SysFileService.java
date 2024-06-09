@@ -24,13 +24,12 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysFileDAO;
 import tech.ordinaryroad.upms.entity.SysFileDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 
@@ -42,24 +41,22 @@ import java.util.List;
 public class SysFileService extends BaseService<SysFileDAO, SysFileDO> {
 
     public List<SysFileDO> findAll(SysFileDO sysFileDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<SysFileDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<SysFileDO, String> wrapper = dao.wrapper();
 
         String bucketName = sysFileDO.getBucketName();
         if (StrUtil.isNotBlank(bucketName)) {
-            sqls.andLike(SysFileDO::getBucketName, "%" + bucketName + "%");
+            wrapper.like(SysFileDO::getBucketName, "%" + bucketName + "%");
         }
         String objectName = sysFileDO.getObjectName();
         if (StrUtil.isNotBlank(objectName)) {
-            sqls.andLike(SysFileDO::getObjectName, "%" + objectName + "%");
+            wrapper.like(SysFileDO::getObjectName, "%" + objectName + "%");
         }
         String originalFilename = sysFileDO.getOriginalFilename();
         if (StrUtil.isNotBlank(originalFilename)) {
-            sqls.andLike(SysFileDO::getOriginalFilename, "%" + originalFilename + "%");
+            wrapper.like(SysFileDO::getOriginalFilename, "%" + originalFilename + "%");
         }
 
-        Example.Builder exampleBuilder = Example.builder(SysFileDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
 }

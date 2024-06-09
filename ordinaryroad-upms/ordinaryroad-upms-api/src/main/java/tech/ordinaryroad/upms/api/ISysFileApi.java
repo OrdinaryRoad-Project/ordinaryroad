@@ -25,25 +25,26 @@ package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.PathConstants;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysFileDTO;
 import tech.ordinaryroad.upms.request.SysFileQueryRequest;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 /**
  * @author mjz
  * @date 2022/1/11
  */
 @Api(value = "文件API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysFileApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysFileApi {
 
     /**
@@ -54,7 +55,7 @@ public interface ISysFileApi {
      * @param file         文件
      * @return Result
      */
-    @PostMapping(value = PathConstants.UPMS_FILE_UPLOAD)
+    @PostExchange(value = PathConstants.UPMS_FILE_UPLOAD)
     Result<String> upload(@RequestParam String clientId, @RequestParam String clientSecret, @RequestPart MultipartFile file);
 
     /**
@@ -64,10 +65,10 @@ public interface ISysFileApi {
      * @param response   HttpServletResponse
      * @param showInline 是否直接在网页中显示而不是直接下载
      */
-    @GetMapping(value = PathConstants.UPMS_FILE_DOWNLOAD + "/**", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    @GetExchange(value = PathConstants.UPMS_FILE_DOWNLOAD + "/**")
     void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) Boolean showInline);
 
-    @PostMapping(value = "/file/list")
+    @PostExchange(value = "/file/list")
     Result<PageInfo<SysFileDTO>> list(@RequestBody SysFileQueryRequest request);
 
 }

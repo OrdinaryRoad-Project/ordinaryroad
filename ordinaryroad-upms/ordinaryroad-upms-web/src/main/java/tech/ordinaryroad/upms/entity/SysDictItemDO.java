@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.upms.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 字典项
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@Table(name = "sys_dict_item")
+@Entity.Table("sys_dict_item")
 public class SysDictItemDO extends BaseDO {
 
     private static final long serialVersionUID = 2264003877437352206L;
@@ -47,26 +47,31 @@ public class SysDictItemDO extends BaseDO {
     /**
      * 字典uuid
      */
+    @Entity.Column
     private String dictUuid;
 
     /**
      * 显示标签
      */
+    @Entity.Column
     private String label;
 
     /**
      * 值
      */
+    @Entity.Column
     private String value;
 
     /**
      * 显示排序
      */
+    @Entity.Column
     private Integer sort;
 
     /**
      * 备注
      */
+    @Entity.Column
     private String remark;
 
 }

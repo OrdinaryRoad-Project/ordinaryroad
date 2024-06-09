@@ -29,9 +29,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import tech.ordinaryroad.auth.server.api.IOAuth2OpenidApi;
 import tech.ordinaryroad.auth.server.dto.OAuth2OpenidDTO;
 import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
 import tech.ordinaryroad.auth.server.mapstruct.OAuth2OpenidMapStruct;
@@ -54,12 +54,12 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class OAuth2OpenidController implements IOAuth2OpenidApi {
+public class OAuth2OpenidController {
 
     private final OAuth2OpenidService oAuth2OpenidService;
     private final OAuth2OpenidMapStruct objMapStruct;
 
-    @Override
+    @PostMapping(value = "/openid/create")
     public Result<OAuth2OpenidDTO> create(@Validated @RequestBody OAuth2OpenidSaveRequest request) {
         // 唯一性校验
         String openid = request.getOpenid();
@@ -78,12 +78,12 @@ public class OAuth2OpenidController implements IOAuth2OpenidApi {
         return Result.success(objMapStruct.transfer(oAuth2OpenidService.createSelective(oAuth2OpenidDO)));
     }
 
-    @Override
+    @PostMapping(value = "/openid/delete")
     public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
         return Result.success(oAuth2OpenidService.delete(request.getUuid()));
     }
 
-    @Override
+    @PostMapping(value = "/openid/update")
     public Result<OAuth2OpenidDTO> update(@Validated @RequestBody OAuth2OpenidSaveRequest request) {
         String uuid = request.getUuid();
         if (StrUtil.isBlank(uuid)) {
@@ -116,7 +116,7 @@ public class OAuth2OpenidController implements IOAuth2OpenidApi {
         return Result.success(objMapStruct.transfer(oAuth2OpenidService.updateSelective(transfer)));
     }
 
-    @Override
+    @PostMapping(value = "/openid/find/id")
     public Result<OAuth2OpenidDTO> findById(@RequestBody OAuth2OpenidQueryRequest request) {
         OAuth2OpenidDO byId = oAuth2OpenidService.findById(request.getUuid());
         if (Objects.nonNull(byId)) {
@@ -125,19 +125,19 @@ public class OAuth2OpenidController implements IOAuth2OpenidApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/openid/find/clientIdAndOrNumber")
     public Result<OAuth2OpenidDTO> findByClientIdAndOrNumber(@RequestBody OAuth2OpenidQueryRequest request) {
         Optional<OAuth2OpenidDO> byClientIdAndOrNumber = oAuth2OpenidService.findByClientIdAndOrNumber(request.getClientId(), request.getOrNumber());
         return byClientIdAndOrNumber.map(auth2OpenidDO -> Result.success(objMapStruct.transfer(auth2OpenidDO))).orElseGet(() -> Result.fail(StatusCode.DATA_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/openid/find/clientIdAndOpenid")
     public Result<OAuth2OpenidDTO> findByClientIdAndOpenid(@RequestBody OAuth2OpenidQueryRequest request) {
         Optional<OAuth2OpenidDO> byClientIdAndOrNumber = oAuth2OpenidService.findByClientIdAndOpenid(request.getClientId(), request.getOpenid());
         return byClientIdAndOrNumber.map(auth2OpenidDO -> Result.success(objMapStruct.transfer(auth2OpenidDO))).orElseGet(() -> Result.fail(StatusCode.DATA_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/openid/find_all")
     public Result<List<OAuth2OpenidDTO>> findAll(@RequestBody OAuth2OpenidQueryRequest request) {
         OAuth2OpenidDO oAuth2OpenidDO = objMapStruct.transfer(request);
 
@@ -147,7 +147,7 @@ public class OAuth2OpenidController implements IOAuth2OpenidApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/openid/list")
     public Result<PageInfo<OAuth2OpenidDTO>> list(@RequestBody OAuth2OpenidQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

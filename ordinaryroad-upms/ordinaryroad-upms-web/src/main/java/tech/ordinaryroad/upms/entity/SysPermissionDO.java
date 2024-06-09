@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.upms.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 权限表
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@Table(name = "sys_permission")
+@Entity.Table("sys_permission")
 public class SysPermissionDO extends BaseDO {
 
     private static final long serialVersionUID = 4454184361799283456L;
@@ -47,11 +47,13 @@ public class SysPermissionDO extends BaseDO {
     /**
      * 权限code
      */
+    @Entity.Column
     private String permissionCode;
 
     /**
      * 权限描述
      */
+    @Entity.Column
     private String description;
 
 }

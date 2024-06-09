@@ -25,11 +25,11 @@
 package tech.ordinaryroad.commons.core.base.request.delete;
 
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
-import javax.validation.constraints.NotBlank;
 
 /**
  * 删除请求抽象类

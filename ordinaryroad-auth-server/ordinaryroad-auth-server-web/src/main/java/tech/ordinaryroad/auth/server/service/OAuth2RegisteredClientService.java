@@ -24,14 +24,12 @@
 package tech.ordinaryroad.auth.server.service;
 
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2RegisteredClientDAO;
 import tech.ordinaryroad.auth.server.entity.OAuth2RegisteredClientDO;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,42 +42,38 @@ import java.util.Optional;
 public class OAuth2RegisteredClientService extends BaseService<OAuth2RegisteredClientDAO, OAuth2RegisteredClientDO> {
 
     public Optional<OAuth2RegisteredClientDO> findByClientId(String clientId) {
-        Example example = Example.builder(OAuth2RegisteredClientDO.class)
-                .where(Sqls.custom().andEqualTo("clientId", clientId))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(OAuth2RegisteredClientDO::getClientId, clientId)
+                .one();
     }
 
     public Optional<OAuth2RegisteredClientDO> findByClientName(String clientName) {
-        Example example = Example.builder(OAuth2RegisteredClientDO.class)
-                .where(Sqls.custom().andEqualTo("clientName", clientName))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(OAuth2RegisteredClientDO::getClientName, clientName)
+                .one();
     }
 
     public List<OAuth2RegisteredClientDO> findAll(OAuth2RegisteredClientDO oAuth2RegisteredClientDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<OAuth2RegisteredClientDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<OAuth2RegisteredClientDO, String> wrapper = dao.wrapper();
 
         String clientId = oAuth2RegisteredClientDO.getClientId();
         if (StrUtil.isNotBlank(clientId)) {
-            sqls.andLike(OAuth2RegisteredClientDO::getClientId, "%" + clientId + "%");
+            wrapper.like(OAuth2RegisteredClientDO::getClientId, "%" + clientId + "%");
         }
         String clientName = oAuth2RegisteredClientDO.getClientName();
         if (StrUtil.isNotBlank(clientName)) {
-            sqls.andLike(OAuth2RegisteredClientDO::getClientName, "%" + clientName + "%");
+            wrapper.like(OAuth2RegisteredClientDO::getClientName, "%" + clientName + "%");
         }
         String redirectUris = oAuth2RegisteredClientDO.getRedirectUris();
         if (StrUtil.isNotBlank(redirectUris)) {
-            sqls.andLike(OAuth2RegisteredClientDO::getRedirectUris, "%" + redirectUris + "%");
+            wrapper.like(OAuth2RegisteredClientDO::getRedirectUris, "%" + redirectUris + "%");
         }
         String scopes = oAuth2RegisteredClientDO.getScopes();
         if (StrUtil.isNotBlank(scopes)) {
-            sqls.andLike(OAuth2RegisteredClientDO::getScopes, "%" + scopes + "%");
+            wrapper.like(OAuth2RegisteredClientDO::getScopes, "%" + scopes + "%");
         }
 
-        Example.Builder exampleBuilder = Example.builder(OAuth2RegisteredClientDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
 }

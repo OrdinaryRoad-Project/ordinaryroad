@@ -25,11 +25,10 @@ package tech.ordinaryroad.auth.server.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import tech.ordinaryroad.auth.server.constants.ServiceNameCons;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.auth.server.dto.OAuth2OpenidDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2OpenidQueryRequest;
 import tech.ordinaryroad.auth.server.request.OAuth2OpenidSaveRequest;
@@ -43,30 +42,30 @@ import java.util.List;
  * @date 2022/1/14
  */
 @Api(value = "Openid API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iOAuth2OpenidApi")
+@HttpExchange("http://ordinaryroad-auth-server")
 public interface IOAuth2OpenidApi {
 
-    @PostMapping(value = "/openid/create")
+    @PostExchange(value = "/openid/create")
     Result<OAuth2OpenidDTO> create(@Validated @RequestBody OAuth2OpenidSaveRequest request);
 
-    @PostMapping(value = "/openid/delete")
+    @PostExchange(value = "/openid/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/openid/update")
+    @PostExchange(value = "/openid/update")
     Result<OAuth2OpenidDTO> update(@Validated @RequestBody OAuth2OpenidSaveRequest request);
 
-    @PostMapping(value = "/openid/find/id")
+    @PostExchange(value = "/openid/find/id")
     Result<OAuth2OpenidDTO> findById(@RequestBody OAuth2OpenidQueryRequest request);
 
-    @PostMapping(value = "/openid/find/clientIdAndOrNumber")
+    @PostExchange(value = "/openid/find/clientIdAndOrNumber")
     Result<OAuth2OpenidDTO> findByClientIdAndOrNumber(@RequestBody OAuth2OpenidQueryRequest request);
 
-    @PostMapping(value = "/openid/find/clientIdAndOpenid")
+    @PostExchange(value = "/openid/find/clientIdAndOpenid")
     Result<OAuth2OpenidDTO> findByClientIdAndOpenid(@RequestBody OAuth2OpenidQueryRequest request);
 
-    @PostMapping(value = "/openid/find_all")
+    @PostExchange(value = "/openid/find_all")
     Result<List<OAuth2OpenidDTO>> findAll(@RequestBody OAuth2OpenidQueryRequest request);
 
-    @PostMapping(value = "/openid/list")
+    @PostExchange(value = "/openid/list")
     Result<PageInfo<OAuth2OpenidDTO>> list(@RequestBody OAuth2OpenidQueryRequest request);
 }

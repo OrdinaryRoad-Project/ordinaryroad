@@ -24,6 +24,7 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -35,9 +36,6 @@ import tech.ordinaryroad.upms.entity.SysPermissionDO;
 import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.Collections;
 import java.util.List;
@@ -60,27 +58,24 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
     private SysRequestPathService sysRequestPathService;
 
     public Optional<SysPermissionDO> findByPermissionCode(String permissionCode) {
-        Example example = Example.builder(SysPermissionDO.class)
-                .where(Sqls.custom().andEqualTo("permissionCode", permissionCode))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysPermissionDO::getPermissionCode, permissionCode)
+                .one();
     }
 
     public List<SysPermissionDO> findAll(SysPermissionDO sysPermissionDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<SysPermissionDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<SysPermissionDO, String> wrapper = dao.wrapper();
 
         String permissionCode = sysPermissionDO.getPermissionCode();
         if (StrUtil.isNotBlank(permissionCode)) {
-            sqls.andLike(SysPermissionDO::getPermissionCode, "%" + permissionCode + "%");
+            wrapper.like(SysPermissionDO::getPermissionCode, "%" + permissionCode + "%");
         }
         String description = sysPermissionDO.getDescription();
         if (StrUtil.isNotBlank(description)) {
-            sqls.andLike(SysPermissionDO::getDescription, "%" + description + "%");
+            wrapper.like(SysPermissionDO::getDescription, "%" + description + "%");
         }
 
-        Example.Builder exampleBuilder = Example.builder(SysPermissionDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
     @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_PERMISSIONS + "' + #userUuid")

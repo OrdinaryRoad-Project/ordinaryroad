@@ -30,6 +30,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
@@ -37,7 +38,6 @@ import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysRequestPathApi;
 import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
 import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 import tech.ordinaryroad.upms.mapstruct.SysRequestPathMapStruct;
@@ -59,15 +59,14 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysRequestPathController implements ISysRequestPathApi {
+public class SysRequestPathController {
 
     private final SysRequestPathService sysRequestPathService;
     private final SysRequestPathMapStruct objMapStruct;
     private final SysPermissionService sysPermissionService;
     private final SysDtoService sysDtoService;
 
-
-    @Override
+    @PostMapping(value = "/request_path/create")
     public Result<SysRequestPathDTO> create(@Validated @RequestBody SysRequestPathSaveRequest request) {
         // 校验permissionUuid
         String permissionUuid = request.getPermissionUuid();
@@ -93,12 +92,12 @@ public class SysRequestPathController implements ISysRequestPathApi {
         return Result.success(objMapStruct.transfer(sysRequestPathService.createSelective(sysRequestPathDO)));
     }
 
-    @Override
+    @PostMapping(value = "/request_path/delete")
     public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
         return Result.success(sysRequestPathService.delete(request.getUuid()));
     }
 
-    @Override
+    @PostMapping(value = "/request_path/update")
     public Result<SysRequestPathDTO> update(@Validated @RequestBody SysRequestPathSaveRequest request) {
         String uuid = request.getUuid();
         if (StrUtil.isBlank(uuid)) {
@@ -130,7 +129,7 @@ public class SysRequestPathController implements ISysRequestPathApi {
         return Result.success(objMapStruct.transfer(sysRequestPathService.updateSelective(transfer)));
     }
 
-    @Override
+    @PostMapping(value = "/request_path/find/id")
     public Result<SysRequestPathDTO> findById(@RequestBody SysRequestPathQueryRequest request) {
         SysRequestPathDO sysRequestPathDO = objMapStruct.transfer(request);
         SysRequestPathDO byId = sysRequestPathService.findById(sysRequestPathDO);
@@ -140,7 +139,7 @@ public class SysRequestPathController implements ISysRequestPathApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/request_path/find/unique")
     public Result<SysRequestPathDTO> findByUniqueColumn(@RequestBody SysRequestPathQueryRequest request) {
         Optional<SysRequestPathDO> optional = Optional.empty();
         String path = request.getPath();
@@ -154,7 +153,7 @@ public class SysRequestPathController implements ISysRequestPathApi {
         return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.PATH_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/request_path/find_all/permission_uuids")
     public Result<List<SysRequestPathDTO>> findAllByPermissionUuids(@RequestBody SysRequestPathQueryRequest request) {
         List<String> permissionUuids = request.getPermissionUuids();
         if (CollUtil.isEmpty(permissionUuids)) {
@@ -167,7 +166,7 @@ public class SysRequestPathController implements ISysRequestPathApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/request_path/find_all/user_uuids")
     public Result<List<SysRequestPathDTO>> findAllByUserUuid(@RequestBody SysRequestPathQueryRequest request) {
         String userUuid = request.getUserUuid();
         if (StrUtil.isBlank(userUuid)) {
@@ -180,7 +179,7 @@ public class SysRequestPathController implements ISysRequestPathApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/request_path/find_all/ids")
     public Result<List<SysRequestPathDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {
@@ -191,7 +190,7 @@ public class SysRequestPathController implements ISysRequestPathApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/request_path/find_all")
     public Result<List<SysRequestPathDTO>> findAll(@RequestBody SysRequestPathQueryRequest request) {
         SysRequestPathDO sysRequestPathDO = objMapStruct.transfer(request);
 
@@ -201,7 +200,7 @@ public class SysRequestPathController implements ISysRequestPathApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/request_path/list")
     public Result<PageInfo<SysRequestPathDTO>> list(@RequestBody SysRequestPathQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

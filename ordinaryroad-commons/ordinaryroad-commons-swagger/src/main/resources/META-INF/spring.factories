@@ -1,5 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  tech.ordinaryroad.commons.swagger.config.SwaggerConfiguration, \
-  tech.ordinaryroad.commons.swagger.config.FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebMvc, \
-  tech.ordinaryroad.commons.swagger.config.FixNpeForSpringfoxHandlerProviderBeanPostProcessorConfigurationWebFlux, \
-  tech.ordinaryroad.commons.swagger.properties.OrSwaggerProperties

@@ -30,9 +30,9 @@ import lombok.Setter;
 import org.springframework.util.MimeType;
 import tech.ordinaryroad.push.request.base.BasePushRequest;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 /**
  * 邮箱推送请求

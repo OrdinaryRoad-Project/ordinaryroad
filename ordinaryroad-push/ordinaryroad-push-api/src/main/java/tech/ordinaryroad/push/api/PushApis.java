@@ -21,23 +21,21 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.upms.entity;
+package tech.ordinaryroad.push.api;
 
-import cn.hutool.extra.spring.SpringUtil;
-import tech.ordinaryroad.upms.config.SysOrNumberService;
-import tk.mybatis.mapper.genid.GenId;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
 /**
  * @author mjz
- * @date 2021/10/27
+ * @date 2024/6/9
  */
-public class OrNumberGen implements GenId<String> {
+@Component
+public class PushApis {
 
-    @Override
-    public String genId(String table, String column) {
-        // or帐号生成服务
-        SysOrNumberService orNumberService = SpringUtil.getBean(SysOrNumberService.class);
-        return orNumberService.genId();
+    @Bean
+    public IPushApi pushApi(HttpServiceProxyFactory factory) {
+        return factory.createClient(IPushApi.class);
     }
-
 }

@@ -26,7 +26,7 @@ package tech.ordinaryroad.commons.log.dao;
 import com.baomidou.dynamic.datasource.annotation.DS;
 import org.apache.ibatis.annotations.Select;
 import tech.ordinaryroad.commons.log.entity.OperationLogDO;
-import tech.ordinaryroad.commons.mybatis.mapper.IBaseMapper;
+import tech.ordinaryroad.commons.mybatis.mapper.IBaseLogicalMapper;
 
 import java.util.List;
 
@@ -37,7 +37,7 @@ import java.util.List;
  * @date 2022/11/28
  */
 @DS("or_commons_log")
-public interface OperationLogDAO extends IBaseMapper<OperationLogDO> {
+public interface OperationLogDAO extends IBaseLogicalMapper<OperationLogDO> {
 
     /**
      * 查询日志状态列表

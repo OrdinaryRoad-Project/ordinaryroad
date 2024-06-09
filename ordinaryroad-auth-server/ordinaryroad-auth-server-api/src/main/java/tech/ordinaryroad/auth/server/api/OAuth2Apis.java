@@ -22,26 +22,28 @@
  * SOFTWARE.
  */
 
-package tech.ordinaryroad.gateway.config;
+package tech.ordinaryroad.auth.server.api;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cloud.client.loadbalancer.reactive.ReactorLoadBalancerExchangeFilterFunction;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.stereotype.Component;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 
-@Configuration
-public class WebClientConfig {
-
-    // https://www.jianshu.com/p/08b195806895
-    @Autowired
-    private ReactorLoadBalancerExchangeFilterFunction lbFunction;
+@Component
+public class OAuth2Apis {
 
     @Bean
-    public WebClient webClient() {
-        return WebClient.builder()
-                .filter(lbFunction)
-                .build();
+    public IOAuth2Api oAuth2Api(HttpServiceProxyFactory factory) {
+        return factory.createClient(IOAuth2Api.class);
+    }
+
+    @Bean
+    public IOAuth2OpenidApi oAuth2OpenidApi(HttpServiceProxyFactory factory) {
+        return factory.createClient(IOAuth2OpenidApi.class);
+    }
+
+    @Bean
+    public IOAuth2RegisteredClientApi oAuth2RegisteredClientApi(HttpServiceProxyFactory factory) {
+        return factory.createClient(IOAuth2RegisteredClientApi.class);
     }
 
 }

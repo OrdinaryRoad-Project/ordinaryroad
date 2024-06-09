@@ -29,9 +29,9 @@ import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 /**
  * @author mjz

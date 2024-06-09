@@ -36,32 +36,30 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.minio.GetObjectResponse;
 import io.minio.StatObjectResponse;
+import jakarta.servlet.ServletOutputStream;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import net.coobird.thumbnailator.util.ThumbnailatorUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.minio.response.DownloadResponses;
 import tech.ordinaryroad.commons.minio.service.OrMinioService;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysFileApi;
 import tech.ordinaryroad.upms.dto.SysFileDTO;
 import tech.ordinaryroad.upms.entity.SysFileDO;
 import tech.ordinaryroad.upms.mapstruct.SysFileMapStruct;
 import tech.ordinaryroad.upms.request.SysFileQueryRequest;
 import tech.ordinaryroad.upms.service.SysFileService;
 
-import javax.servlet.ServletOutputStream;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -75,14 +73,14 @@ import java.time.LocalDateTime;
 @Slf4j
 @RequiredArgsConstructor
 @RestController
-public class SysFileController implements ISysFileApi {
+public class SysFileController {
 
     private final SysFileService sysFileService;
     private final SysFileMapStruct objMapStruct;
     private final OrMinioService orMinioService;
 
     @Transactional(rollbackFor = Exception.class)
-    @Override
+    @PostMapping(value = PathConstants.UPMS_FILE_UPLOAD)
     public Result<String> upload(@RequestParam String clientId, @RequestParam String clientSecret, @RequestPart MultipartFile file) {
         // Client校验
         SaOAuth2Util.checkClientSecret(clientId, clientSecret);
@@ -143,7 +141,7 @@ public class SysFileController implements ISysFileApi {
         return Result.success(path);
     }
 
-    @Override
+    @GetMapping(value = PathConstants.UPMS_FILE_DOWNLOAD + "/**", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     public void download(HttpServletRequest request, HttpServletResponse response, @RequestParam(required = false) Boolean showInline) {
         String fullPath = request.getServletPath().replace("/file/download/", "");
         int indexBetweenBucketAndObject = fullPath.indexOf("/");
@@ -194,7 +192,7 @@ public class SysFileController implements ISysFileApi {
         }
     }
 
-    @Override
+    @PostMapping(value = "/file/list")
     public Result<PageInfo<SysFileDTO>> list(@RequestBody SysFileQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

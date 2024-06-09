@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.auth.server.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 注册的客户端表
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@Table(name = "oauth2_registered_client")
+@Entity.Table("oauth2_registered_client")
 public class OAuth2RegisteredClientDO extends BaseDO {
 
     private static final long serialVersionUID = 2549033559539795933L;
@@ -47,26 +47,31 @@ public class OAuth2RegisteredClientDO extends BaseDO {
     /**
      * clientId
      */
+    @Entity.Column
     private String clientId;
 
     /**
      * clientSecret
      */
+    @Entity.Column
     private String clientSecret;
 
     /**
      * clientName
      */
+    @Entity.Column
     private String clientName;
 
     /**
      * 重定向链接
      */
+    @Entity.Column
     private String redirectUris;
 
     /**
      * 授权范围
      */
+    @Entity.Column
     private String scopes;
 
 }

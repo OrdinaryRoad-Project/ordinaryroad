@@ -26,11 +26,12 @@ package tech.ordinaryroad.push.request;
 import com.alibaba.fastjson2.JSONObject;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import jakarta.validation.constraints.NotBlank;
+
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.push.request.base.BasePushRequest;
 
-import javax.validation.constraints.NotBlank;
 
 /**
  * 安卓客户端推送请求（极光推送）

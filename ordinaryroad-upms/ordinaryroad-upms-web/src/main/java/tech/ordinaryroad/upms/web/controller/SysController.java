@@ -26,11 +26,11 @@ package tech.ordinaryroad.upms.web.controller;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.api.ISysApi;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
@@ -57,7 +57,7 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysController implements ISysApi {
+public class SysController {
 
     private final SysUserService sysUserService;
     private final SysUserMapStruct sysUserMapStruct;
@@ -66,7 +66,7 @@ public class SysController implements ISysApi {
     private final SysPermissionService sysPermissionService;
     private final SysRequestPathService sysRequestPathService;
 
-    @Override
+    @PostMapping(value = "/userinfo")
     public Result<SysUserInfoDTO> userInfo(@RequestBody(required = false) SysUserInfoRequest request) {
         SysUserInfoDTO userInfoDTO = new SysUserInfoDTO();
         String orNumber = "";

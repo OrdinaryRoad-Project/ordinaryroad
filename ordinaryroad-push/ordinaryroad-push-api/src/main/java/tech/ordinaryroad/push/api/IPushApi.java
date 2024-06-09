@@ -24,12 +24,11 @@
 package tech.ordinaryroad.push.api;
 
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.constants.ServiceNameCons;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
 import tech.ordinaryroad.push.request.EmailPushRequest;
 
@@ -38,7 +37,7 @@ import tech.ordinaryroad.push.request.EmailPushRequest;
  * @date 2021/11/27
  */
 @Api(value = "推送API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iPushApi")
+@HttpExchange("http://ordinaryroad-push")
 public interface IPushApi {
 
     @PostMapping(value = "/email/send")

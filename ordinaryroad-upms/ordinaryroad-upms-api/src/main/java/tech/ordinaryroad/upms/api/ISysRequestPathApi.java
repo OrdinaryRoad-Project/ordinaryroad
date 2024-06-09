@@ -25,14 +25,13 @@ package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
 import tech.ordinaryroad.upms.request.SysRequestPathQueryRequest;
 import tech.ordinaryroad.upms.request.SysRequestPathSaveRequest;
@@ -44,37 +43,37 @@ import java.util.List;
  * @date 2021/11/9
  */
 @Api(value = "请求路径API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysRequestPathApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysRequestPathApi {
 
-    @PostMapping(value = "/request_path/create")
+    @PostExchange(value = "/request_path/create")
     Result<SysRequestPathDTO> create(@Validated @RequestBody SysRequestPathSaveRequest request);
 
-    @PostMapping(value = "/request_path/delete")
+    @PostExchange(value = "/request_path/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/request_path/update")
+    @PostExchange(value = "/request_path/update")
     Result<SysRequestPathDTO> update(@Validated @RequestBody SysRequestPathSaveRequest request);
 
-    @PostMapping(value = "/request_path/find/id")
+    @PostExchange(value = "/request_path/find/id")
     Result<SysRequestPathDTO> findById(@RequestBody SysRequestPathQueryRequest request);
 
-    @PostMapping(value = "/request_path/find/unique")
+    @PostExchange(value = "/request_path/find/unique")
     Result<SysRequestPathDTO> findByUniqueColumn(@RequestBody SysRequestPathQueryRequest request);
 
-    @PostMapping(value = "/request_path/find_all/permission_uuids")
+    @PostExchange(value = "/request_path/find_all/permission_uuids")
     Result<List<SysRequestPathDTO>> findAllByPermissionUuids(@RequestBody SysRequestPathQueryRequest request);
 
-    @PostMapping(value = "/request_path/find_all/user_uuids")
+    @PostExchange(value = "/request_path/find_all/user_uuids")
     Result<List<SysRequestPathDTO>> findAllByUserUuid(@RequestBody SysRequestPathQueryRequest request);
 
-    @PostMapping(value = "/request_path/find_all/ids")
+    @PostExchange(value = "/request_path/find_all/ids")
     Result<List<SysRequestPathDTO>> findAllByIds(@RequestBody BaseQueryRequest request);
 
-    @PostMapping(value = "/request_path/find_all")
+    @PostExchange(value = "/request_path/find_all")
     Result<List<SysRequestPathDTO>> findAll(@RequestBody SysRequestPathQueryRequest request);
 
-    @PostMapping(value = "/request_path/list")
+    @PostExchange(value = "/request_path/list")
     Result<PageInfo<SysRequestPathDTO>> list(@RequestBody SysRequestPathQueryRequest request);
 
 }

@@ -26,8 +26,10 @@ package tech.ordinaryroad.gateway.controller;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.BooleanUtil;
+import cn.hutool.http.HttpResponse;
+import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONObject;
-import com.ejlchina.okhttps.OkHttps;
+import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -127,12 +129,9 @@ public class AppController {
     private Result<JSONObject> exchangeToken(JSONObject params, Boolean rememberMe) {
         // 需要将结果封装
         params.put("wrapped", true);
-        Result<JSONObject> response = Result.parse(
-                OkHttps.sync(gatewayProperties.getAuthServerHost() + SaOAuth2Consts.Api.token)
-                        .addUrlPara(params)
-                        .get()
-                        .getBody().toString()
-        );
+        @Cleanup
+        HttpResponse tokenHttpResponse = HttpUtil.createGet(gatewayProperties.getAuthServerHost() + SaOAuth2Consts.Api.token + "?" + HttpUtil.toParams(params)).execute();
+        Result<JSONObject> response = Result.parse(tokenHttpResponse.body());
         // code不等于200  代表请求失败
         if (response == null) {
             return Result.fail();

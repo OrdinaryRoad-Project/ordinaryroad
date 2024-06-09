@@ -1,3 +1,0 @@
-org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  tech.ordinaryroad.commons.minio.config.OrMinioConfig, \
-  tech.ordinaryroad.commons.minio.service.OrMinioService

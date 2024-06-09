@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.upms.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 角色权限关联关系表
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@Table(name = "sys_roles_permissions")
+@Entity.Table("sys_roles_permissions")
 public class SysRolesPermissionsDO extends BaseDO {
 
     private static final long serialVersionUID = -1394591595230137433L;
@@ -47,11 +47,13 @@ public class SysRolesPermissionsDO extends BaseDO {
     /**
      * 角色uuid
      */
+    @Entity.Column
     private String roleUuid;
 
     /**
      * 权限uuid
      */
+    @Entity.Column
     private String permissionUuid;
 
 }

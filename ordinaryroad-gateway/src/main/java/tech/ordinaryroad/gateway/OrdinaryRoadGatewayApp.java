@@ -25,13 +25,14 @@ package tech.ordinaryroad.gateway;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.ImportAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.util.StopWatch;
 import tech.ordinaryroad.commons.satoken.properties.OAuth2ClientProperties;
 import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
+import tech.ordinaryroad.push.api.PushApis;
 
 /**
  * @author mjz
@@ -40,7 +41,7 @@ import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
 @Slf4j
 @EnableConfigurationProperties({OrGatewayProperties.class, OAuth2ClientProperties.class})
 @EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
+@ImportAutoConfiguration({PushApis.class})
 @SpringBootApplication
 public class OrdinaryRoadGatewayApp {
 

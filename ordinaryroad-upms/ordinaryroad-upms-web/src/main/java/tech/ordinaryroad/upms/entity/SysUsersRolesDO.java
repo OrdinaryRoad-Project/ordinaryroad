@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.upms.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 用户角色关联关系表
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Getter
 @Setter
-@Table(name = "sys_users_roles")
+@Entity.Table("sys_users_roles")
 public class SysUsersRolesDO extends BaseDO {
 
     private static final long serialVersionUID = -9201735128236630040L;
@@ -48,12 +48,14 @@ public class SysUsersRolesDO extends BaseDO {
      * 用户uuid
      */
     @EqualsAndHashCode.Include
+    @Entity.Column
     private String userUuid;
 
     /**
      * 角色uuid
      */
     @EqualsAndHashCode.Include
+    @Entity.Column
     private String roleUuid;
 
 }

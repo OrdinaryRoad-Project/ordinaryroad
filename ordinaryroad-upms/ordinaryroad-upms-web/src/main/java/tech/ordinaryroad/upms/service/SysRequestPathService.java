@@ -25,6 +25,7 @@ package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
@@ -33,9 +34,6 @@ import tech.ordinaryroad.upms.dao.SysRequestPathDAO;
 import tech.ordinaryroad.upms.entity.SysRequestPathDO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.Collections;
 import java.util.List;
@@ -55,44 +53,39 @@ public class SysRequestPathService extends BaseService<SysRequestPathDAO, SysReq
     private SysRolesPermissionsService sysRolesPermissionsService;
 
     public Optional<SysRequestPathDO> findByPath(String path) {
-        Example example = Example.builder(SysRequestPathDO.class)
-                .where(Sqls.custom().andEqualTo("path", path))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysRequestPathDO::getPath, path)
+                .one();
     }
 
     public Optional<SysRequestPathDO> findByPathName(String pathName) {
-        Example example = Example.builder(SysRequestPathDO.class)
-                .where(Sqls.custom().andEqualTo("pathName", pathName))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysRequestPathDO::getPathName, pathName)
+                .one();
     }
 
     public List<SysRequestPathDO> findAll(SysRequestPathDO sysRequestPathDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<SysRequestPathDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<SysRequestPathDO, String> wrapper = dao.wrapper();
 
         String path = sysRequestPathDO.getPath();
         if (StrUtil.isNotBlank(path)) {
-            sqls.andLike(SysRequestPathDO::getPath, "%" + path + "%");
+            wrapper.like(SysRequestPathDO::getPath, "%" + path + "%");
         }
         String pathName = sysRequestPathDO.getPathName();
         if (StrUtil.isNotBlank(pathName)) {
-            sqls.andLike(SysRequestPathDO::getPathName, "%" + pathName + "%");
+            wrapper.like(SysRequestPathDO::getPathName, "%" + pathName + "%");
         }
 
-        Example.Builder exampleBuilder = Example.builder(SysRequestPathDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
     public List<SysRequestPathDO> findAllByPermissionUuids(List<String> permissionUuids) {
         if (CollUtil.isEmpty(permissionUuids)) {
             return Collections.emptyList();
         }
-        Example example = Example.builder(SysRequestPathDO.class)
-                .where(Sqls.custom().andIn("permissionUuid", permissionUuids))
-                .build();
-        return super.dao.selectByExample(example);
+        return dao.wrapper()
+                .in(SysRequestPathDO::getPermissionUuid, permissionUuids)
+                .list();
     }
 
     public List<SysRequestPathDO> findAllByUserUuid(String userUuid) {

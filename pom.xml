@@ -38,39 +38,40 @@
     <description>OrdinaryRoad</description>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
-        <!-- https://sca.aliyun.com/zh-cn/docs/2022.0.0.0/overview/version-explain -->
-        <spring-boot.version>2.6.13</spring-boot.version>
-        <spring-cloud.version>2021.0.5</spring-cloud.version>
-        <spring-cloud-alibaba.version>2021.0.5.0</spring-cloud-alibaba.version>
+        <!-- https://sca.aliyun.com/docs/2023/overview/version-explain/ -->
+        <spring-boot.version>3.2.4</spring-boot.version>
+        <spring-cloud.version>2023.0.1</spring-cloud.version>
+        <spring-cloud-alibaba.version>2023.0.1.0</spring-cloud-alibaba.version>
 
-        <knife4j.version>3.0.3</knife4j.version>
+        <knife4j.version>4.5.0</knife4j.version>
 
-        <mapper-spring-boot-starter.version>4.2.2</mapper-spring-boot-starter.version>
+        <mapper-spring-boot-starter.version>4.3.0</mapper-spring-boot-starter.version>
 
         <!--common-->
         <hutool.version>5.8.27</hutool.version>
 
         <mapstruct.version>1.4.1.Final</mapstruct.version>
         <lombok.version>1.18.24</lombok.version>
-        <dynamic-datasource-spring-boot-starter.version>3.5.2</dynamic-datasource-spring-boot-starter.version>
-        <pagehelper-starter.version>1.4.5</pagehelper-starter.version>
-        <swagger-annotations.version>1.5.22</swagger-annotations.version>
-        <sa-token.version>1.35.0.RC</sa-token.version>
-        <fastjson2.version>2.0.39</fastjson2.version>
-        <pagehelper.version>5.3.2</pagehelper.version>
-        <minio.version>8.0.0</minio.version>
+        <dynamic-datasource-spring-boot3-starter.version>4.3.0</dynamic-datasource-spring-boot3-starter.version>
+        <!-- https://github.com/pagehelper/pagehelper-spring-boot/issues/172 -->
+        <pagehelper-starter.version>2.1.0</pagehelper-starter.version>
+        <swagger-annotations.version>1.6.14</swagger-annotations.version>
+        <sa-token.version>1.38.0</sa-token.version>
+        <fastjson2.version>2.0.50</fastjson2.version>
+        <pagehelper.version>6.1.0</pagehelper.version>
+        <minio.version>8.5.10</minio.version>
         <thumbnailator.version>0.4.20</thumbnailator.version>
 
-        <metadata-extractor.version>2.16.0</metadata-extractor.version>
-        <jiguang-common.version>1.2.0</jiguang-common.version>
-        <jpush-client.version>3.6.1</jpush-client.version>
-        <jts.version>1.18.2</jts.version>
-        <spatial4j.version>0.7</spatial4j.version>
+        <metadata-extractor.version>2.19.0</metadata-extractor.version>
+        <jiguang-common.version>1.2.6</jiguang-common.version>
+        <jpush-client.version>3.7.6</jpush-client.version>
+        <jts.version>1.19.0</jts.version>
+        <spatial4j.version>0.8</spatial4j.version>
     </properties>
 
     <modules>
@@ -134,12 +135,7 @@
             <!-- knife4j 依赖配置 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-micro-spring-boot-starter</artifactId>
-                <version>${knife4j.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-spring-boot-starter</artifactId>
+                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
                 <version>${knife4j.version}</version>
             </dependency>
             <!-- swagger-annotations -->
@@ -152,8 +148,8 @@
             <!-- dynamic-datasource-spring-boot-starter -->
             <dependency>
                 <groupId>com.baomidou</groupId>
-                <artifactId>dynamic-datasource-spring-boot-starter</artifactId>
-                <version>${dynamic-datasource-spring-boot-starter.version}</version>
+                <artifactId>dynamic-datasource-spring-boot3-starter</artifactId>
+                <version>${dynamic-datasource-spring-boot3-starter.version}</version>
             </dependency>
 
             <!-- TK MyBatis -->
@@ -175,83 +171,89 @@
                 <artifactId>pagehelper-spring-boot-starter</artifactId>
                 <version>${pagehelper-starter.version}</version>
             </dependency>
-
+            <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis-spring -->
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis-spring</artifactId>
+                <!--                <version>2.0.7</version>-->
+                <version>3.0.3</version>
+            </dependency>
 
             <!-- ordinaryroad-commons-base -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-base</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-core -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-core</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-mybatis -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-mybatis</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-swagger -->
-            <dependency>
-                <groupId>tech.ordinaryroad</groupId>
-                <artifactId>ordinaryroad-commons-swagger</artifactId>
-                <version>1.7.0</version>
-            </dependency>
+            <!--            <dependency>-->
+            <!--                <groupId>tech.ordinaryroad</groupId>-->
+            <!--                <artifactId>ordinaryroad-commons-swagger</artifactId>-->
+            <!--                <version>2.0.0</version>-->
+            <!--            </dependency>-->
 
             <!-- ordinaryroad-commons-satoken -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-satoken</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-minio -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-minio</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-kafka -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-kafka</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-commons-log -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-commons-log</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-auth-server-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-auth-server-api</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-upms-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-upms-api</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- ordinaryroad-push-api -->
             <dependency>
                 <groupId>tech.ordinaryroad</groupId>
                 <artifactId>ordinaryroad-push-api</artifactId>
-                <version>1.7.0</version>
+                <version>2.0.0</version>
             </dependency>
 
             <!-- hutool -->
@@ -338,6 +340,9 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
                     <annotationProcessorPaths>
                         <path>
                             <groupId>org.projectlombok</groupId>

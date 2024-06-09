@@ -25,10 +25,9 @@
 package tech.ordinaryroad.commons.mybatis.mapper;
 
 
+import io.mybatis.mapper.BaseMapper;
+import io.mybatis.mapper.list.ListMapper;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
-import tk.mybatis.mapper.common.Mapper;
-import tk.mybatis.mapper.common.ids.DeleteByIdsMapper;
-import tk.mybatis.mapper.common.ids.SelectByIdsMapper;
 
 /**
  * Dao基类
@@ -37,7 +36,7 @@ import tk.mybatis.mapper.common.ids.SelectByIdsMapper;
  * @author mjz
  * @date 2021/9/3
  */
-public interface IBaseMapper<DO extends BaseDO> extends Mapper<DO>,
-        DeleteByIdsMapper<DO>, SelectByIdsMapper<DO> {
+public interface IBaseMapper<DO extends BaseDO> extends BaseMapper<DO, String>,
+        ListMapper<DO> {
 
 }

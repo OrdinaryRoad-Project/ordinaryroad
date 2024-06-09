@@ -25,13 +25,12 @@ package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysDictItemDTO;
 import tech.ordinaryroad.upms.request.SysDictItemQueryRequest;
 import tech.ordinaryroad.upms.request.SysDictItemSaveRequest;
@@ -43,30 +42,30 @@ import java.util.List;
  * @date 2022/1/5
  */
 @Api(value = "字典项API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysDictItemApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysDictItemApi {
 
-    @PostMapping(value = "/dict_item/create")
+    @PostExchange(value = "/dict_item/create")
     Result<SysDictItemDTO> create(@Validated @RequestBody SysDictItemSaveRequest request);
 
-    @PostMapping(value = "/dict_item/delete")
+    @PostExchange(value = "/dict_item/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/dict_item/update")
+    @PostExchange(value = "/dict_item/update")
     Result<SysDictItemDTO> update(@Validated @RequestBody SysDictItemSaveRequest request);
 
-    @PostMapping(value = "/dict_item/find/id")
+    @PostExchange(value = "/dict_item/find/id")
     Result<SysDictItemDTO> findById(@RequestBody SysDictItemQueryRequest request);
 
-    @PostMapping(value = "/dict_item/detail")
+    @PostExchange(value = "/dict_item/detail")
     Result<SysDictItemDTO> detail(@RequestBody SysDictItemQueryRequest request);
 
-    @PostMapping(value = "/dict_item/find_all")
+    @PostExchange(value = "/dict_item/find_all")
     Result<List<SysDictItemDTO>> findAll(@RequestBody SysDictItemQueryRequest request);
 
-    @PostMapping(value = "/dict_item/find_all/foreign")
+    @PostExchange(value = "/dict_item/find_all/foreign")
     Result<List<SysDictItemDTO>> findAllByForeignColumn(@RequestBody SysDictItemQueryRequest request);
 
-    @PostMapping(value = "/dict_item/list")
+    @PostExchange(value = "/dict_item/list")
     Result<PageInfo<SysDictItemDTO>> list(@RequestBody SysDictItemQueryRequest request);
 }

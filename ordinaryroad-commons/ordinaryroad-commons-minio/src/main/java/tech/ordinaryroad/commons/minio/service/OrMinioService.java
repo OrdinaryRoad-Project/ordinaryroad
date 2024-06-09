@@ -28,7 +28,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import tech.ordinaryroad.commons.minio.response.DownloadResponses;
 
-import javax.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotNull;
 import java.io.InputStream;
 import java.util.HashMap;
 

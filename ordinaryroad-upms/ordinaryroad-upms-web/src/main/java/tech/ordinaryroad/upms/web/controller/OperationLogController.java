@@ -66,10 +66,11 @@ public class OperationLogController {
 
     @PostMapping("/operation_log/list")
     public Result<PageInfo<OperationLogDTO>> list(@RequestBody OperationLogQueryRequest request) {
-        PageHelper.offsetPage(request.getOffset(), request.getLimit());
-
         OperationLogDO operationLogDO = objMapStruct.transfer(request);
-        Page<OperationLogDO> all = (Page<OperationLogDO>) operationLogService.findAll(operationLogDO, request);
+
+        Page<OperationLogDO> all = PageHelper.offsetPage(request.getOffset(), request.getLimit()).doSelectPage(() -> {
+            operationLogService.findAll(operationLogDO, request);
+        });
 
         PageInfo<OperationLogDTO> objectPageInfo = PageUtils.pageInfoDo2PageInfoDto(all, objMapStruct::transfer);
 

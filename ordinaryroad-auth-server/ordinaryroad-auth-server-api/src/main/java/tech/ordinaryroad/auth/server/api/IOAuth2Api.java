@@ -24,11 +24,14 @@
 package tech.ordinaryroad.auth.server.api;
 
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
-import tech.ordinaryroad.auth.server.constants.ServiceNameCons;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.service.annotation.GetExchange;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
@@ -38,7 +41,7 @@ import tech.ordinaryroad.commons.core.base.result.Result;
  * @date 2022/1/15
  */
 @Api(value = "OAuth2 API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iOAuth2Api")
+@HttpExchange("http://ordinaryroad-auth-server")
 public interface IOAuth2Api {
 
     /**
@@ -47,7 +50,7 @@ public interface IOAuth2Api {
      * @param request Request
      * @return Result
      */
-    @PostMapping("/oauth2/getOrNumber")
+    @PostExchange("/oauth2/getOrNumber")
     Result<String> getOrNumber(@Validated @RequestBody OAuth2GetOrNumberRequest request);
 
     /**
@@ -57,7 +60,7 @@ public interface IOAuth2Api {
      * @param wrapped       是否使用Result包裹起来，默认False
      * @return Result / OAuth2UserInfoDTO
      */
-    @GetMapping("/oauth2/userinfo")
+    @GetExchange("/oauth2/userinfo")
     Object userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization, @RequestParam(name = "wrapped", defaultValue = "false") Boolean wrapped);
 
     /**
@@ -66,7 +69,7 @@ public interface IOAuth2Api {
      * @param authorization AUTHORIZATION：Bearer ${access_token}
      * @return Result
      */
-    @GetMapping("/oauth2/userinfo/wrapped")
+    @GetExchange("/oauth2/userinfo/wrapped")
     Result<OAuth2UserInfoDTO> userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization);
 
 }

@@ -27,11 +27,11 @@ import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.base.exception.CaptchaException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.CacheConstants;
-import tech.ordinaryroad.commons.core.service.RedisService;
 import tech.ordinaryroad.commons.core.utils.captcha.TransparentBackgroundLineCaptcha;
 import tech.ordinaryroad.gateway.dto.CaptchaLoginDTO;
 import tech.ordinaryroad.gateway.service.ICaptchaService;
@@ -46,7 +46,7 @@ import tech.ordinaryroad.push.request.EmailPushRequest;
 @Service
 public class CaptchaServiceImpl implements ICaptchaService {
 
-    private final RedisService redisService;
+    private final RedisTemplate<String, String> redisTemplate;
     private final IPushApi pushApi;
 
     @Override
@@ -54,14 +54,14 @@ public class CaptchaServiceImpl implements ICaptchaService {
         if (StrUtil.isBlank(code)) {
             throw new CaptchaException("验证码不能为空");
         }
-        if (!redisService.hasKey(key)) {
+        if (Boolean.FALSE.equals(redisTemplate.hasKey(key))) {
             throw new CaptchaException("验证码已失效");
         }
-        String captcha = redisService.getCacheObject(key);
+        String captcha = redisTemplate.opsForValue().get(key);
         if (!code.equalsIgnoreCase(captcha)) {
             throw new CaptchaException("验证码错误");
         } else {
-            redisService.deleteObject(key);
+            redisTemplate.delete(key);
         }
     }
 
@@ -73,7 +73,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
         String code = lineCaptcha.getCode();
         String imageBase64 = lineCaptcha.getImageBase64();
 
-        redisService.setCacheObject(CacheConstants.generateLoginCaptchaKey(uuid), code);
+        redisTemplate.opsForValue().set(CacheConstants.generateLoginCaptchaKey(uuid), code);
 
         CaptchaLoginDTO captchaLoginDTO = new CaptchaLoginDTO();
         captchaLoginDTO.setCaptchaId(uuid);
@@ -92,7 +92,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
         String code = RandomUtil.randomString(RandomUtil.BASE_NUMBER, 6);
 
         String key = CacheConstants.generateRegisterCaptchaKey(email);
-        redisService.setCacheObject(key, code);
+        redisTemplate.opsForValue().set(key, code);
         return code;
     }
 
@@ -116,7 +116,7 @@ public class CaptchaServiceImpl implements ICaptchaService {
         String code = RandomUtil.randomString(RandomUtil.BASE_CHAR_NUMBER, 6);
 
         String key = CacheConstants.generateForgotPasswordCaptchaKey(email);
-        redisService.setCacheObject(key, code);
+        redisTemplate.opsForValue().set(key, code);
         return code;
     }
 

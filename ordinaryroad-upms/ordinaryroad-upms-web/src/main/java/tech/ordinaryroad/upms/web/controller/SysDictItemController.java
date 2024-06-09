@@ -29,13 +29,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysDictItemApi;
 import tech.ordinaryroad.upms.dto.SysDictItemDTO;
 import tech.ordinaryroad.upms.entity.SysDictDO;
 import tech.ordinaryroad.upms.entity.SysDictItemDO;
@@ -57,13 +57,13 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysDictItemController implements ISysDictItemApi {
+public class SysDictItemController {
 
     private final SysDictService sysDictService;
     private final SysDictItemService sysDictItemService;
     private final SysDictItemMapStruct objMapStruct;
 
-    @Override
+    @PostMapping(value = "/dict_item/create")
     public Result<SysDictItemDTO> create(@RequestBody @Validated SysDictItemSaveRequest request) {
         // 唯一性校验
         String dictUuid = request.getDictUuid();
@@ -83,12 +83,12 @@ public class SysDictItemController implements ISysDictItemApi {
         return Result.success(objMapStruct.transfer(sysDictItemService.createSelective(sysDictItemDO)));
     }
 
-    @Override
+    @PostMapping(value = "/dict_item/delete")
     public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
         return Result.success(sysDictItemService.delete(request.getUuid()));
     }
 
-    @Override
+    @PostMapping(value = "/dict_item/update")
     public Result<SysDictItemDTO> update(@RequestBody @Validated SysDictItemSaveRequest request) {
         String uuid = request.getUuid();
         if (StrUtil.isBlank(uuid)) {
@@ -125,7 +125,7 @@ public class SysDictItemController implements ISysDictItemApi {
         return Result.success(objMapStruct.transfer(sysDictItemService.updateSelective(transfer)));
     }
 
-    @Override
+    @PostMapping(value = "/dict_item/find/id")
     public Result<SysDictItemDTO> findById(@RequestBody SysDictItemQueryRequest request) {
         SysDictItemDO sysDictDO = objMapStruct.transfer(request);
         SysDictItemDO byId = sysDictItemService.findById(sysDictDO);
@@ -135,7 +135,7 @@ public class SysDictItemController implements ISysDictItemApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/dict_item/detail")
     public Result<SysDictItemDTO> detail(@RequestBody SysDictItemQueryRequest request) {
         final SysDictDO sysDictDO = new SysDictDO();
         sysDictDO.setUuid(request.getDictUuid());
@@ -153,7 +153,7 @@ public class SysDictItemController implements ISysDictItemApi {
         return byDictIdAndId.map(dictItemDO -> Result.success(objMapStruct.transfer(dictItemDO))).orElse(Result.fail(StatusCode.DICT_ITEM_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/dict_item/find_all")
     public Result<List<SysDictItemDTO>> findAll(@RequestBody SysDictItemQueryRequest request) {
         SysDictItemDO sysDictDO = objMapStruct.transfer(request);
 
@@ -163,7 +163,7 @@ public class SysDictItemController implements ISysDictItemApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/dict_item/find_all/foreign")
     public Result<List<SysDictItemDTO>> findAllByForeignColumn(@RequestBody SysDictItemQueryRequest request) {
         List<SysDictItemDO> all = Collections.emptyList();
 
@@ -188,7 +188,7 @@ public class SysDictItemController implements ISysDictItemApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/dict_item/list")
     public Result<PageInfo<SysDictItemDTO>> list(@RequestBody SysDictItemQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

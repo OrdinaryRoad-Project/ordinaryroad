@@ -34,7 +34,7 @@ import org.springframework.util.ReflectionUtils;
 import org.springframework.web.reactive.result.method.RequestMappingInfoHandlerMapping;
 import springfox.documentation.spring.web.plugins.WebFluxRequestHandlerProvider;
 
-import javax.annotation.Nonnull;
+import jakarta.annotation.Nonnull;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.stream.Collectors;

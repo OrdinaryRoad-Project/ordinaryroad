@@ -24,14 +24,12 @@
 package tech.ordinaryroad.auth.server.service;
 
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.auth.server.dao.OAuth2OpenidDAO;
 import tech.ordinaryroad.auth.server.entity.OAuth2OpenidDO;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -44,57 +42,42 @@ import java.util.Optional;
 public class OAuth2OpenidService extends BaseService<OAuth2OpenidDAO, OAuth2OpenidDO> {
 
     public Optional<OAuth2OpenidDO> findByClientIdAndOrNumber(String clientId, String orNumber) {
-        Sqls sqls = Sqls.custom();
-
-        sqls.andEqualTo("clientId", clientId);
-        sqls.andEqualTo("orNumber", orNumber);
-
-        Example example = Example.builder(OAuth2OpenidDO.class)
-                .where(sqls)
-                .build();
-
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(OAuth2OpenidDO::getClientId, clientId)
+                .eq(OAuth2OpenidDO::getOrNumber, orNumber)
+                .one();
     }
 
     public Optional<OAuth2OpenidDO> findByClientIdAndOpenid(String clientId, String openid) {
-        Sqls sqls = Sqls.custom();
-
-        sqls.andEqualTo("clientId", clientId);
-        sqls.andEqualTo("openid", openid);
-
-        Example example = Example.builder(OAuth2OpenidDO.class)
-                .where(sqls)
-                .build();
-
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(OAuth2OpenidDO::getClientId, clientId)
+                .eq(OAuth2OpenidDO::getOpenid, openid)
+                .one();
     }
 
     public Optional<OAuth2OpenidDO> findByOpenid(String openid) {
-        Example example = Example.builder(OAuth2OpenidDO.class)
-                .where(Sqls.custom().andEqualTo("openid", openid))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(OAuth2OpenidDO::getOpenid, openid)
+                .one();
     }
 
     public List<OAuth2OpenidDO> findAll(OAuth2OpenidDO oAuth2OpenidDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<OAuth2OpenidDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<OAuth2OpenidDO, String> wrapper = dao.wrapper();
 
         String orNumber = oAuth2OpenidDO.getOrNumber();
         if (StrUtil.isNotBlank(orNumber)) {
-            sqls.andLike(OAuth2OpenidDO::getOrNumber, "%" + orNumber + "%");
+            wrapper.like(OAuth2OpenidDO::getOrNumber, "%" + orNumber + "%");
         }
         String clientId = oAuth2OpenidDO.getClientId();
         if (StrUtil.isNotBlank(clientId)) {
-            sqls.andLike(OAuth2OpenidDO::getClientId, "%" + clientId + "%");
+            wrapper.like(OAuth2OpenidDO::getClientId, "%" + clientId + "%");
         }
         String openid = oAuth2OpenidDO.getOpenid();
         if (StrUtil.isNotBlank(openid)) {
-            sqls.andLike(OAuth2OpenidDO::getOpenid, "%" + openid + "%");
+            wrapper.like(OAuth2OpenidDO::getOpenid, "%" + openid + "%");
         }
 
-        Example.Builder exampleBuilder = Example.builder(OAuth2OpenidDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
 }

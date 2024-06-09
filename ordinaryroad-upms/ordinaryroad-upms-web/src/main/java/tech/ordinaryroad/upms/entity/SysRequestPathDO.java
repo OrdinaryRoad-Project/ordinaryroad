@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.upms.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 请求路径表
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@Table(name = "sys_request_path")
+@Entity.Table("sys_request_path")
 public class SysRequestPathDO extends BaseDO {
 
     private static final long serialVersionUID = 5006835641946136314L;
@@ -47,16 +47,19 @@ public class SysRequestPathDO extends BaseDO {
     /**
      * 请求路径所需要的权限uuid
      */
+    @Entity.Column
     private String permissionUuid;
 
     /**
      * 路径url
      */
+    @Entity.Column
     private String path;
 
     /**
      * 路径名称
      */
+    @Entity.Column
     private String pathName;
 
 }

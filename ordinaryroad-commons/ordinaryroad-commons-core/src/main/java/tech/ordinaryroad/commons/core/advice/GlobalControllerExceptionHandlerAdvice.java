@@ -26,6 +26,7 @@ package tech.ordinaryroad.commons.core.advice;
 import cn.dev33.satoken.exception.SaTokenException;
 import cn.hutool.core.exceptions.ExceptionUtil;
 import cn.hutool.core.util.StrUtil;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.http.HttpStatus;
@@ -41,8 +42,6 @@ import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.base.exception.BaseException;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.utils.exception.ExceptionUtils;
-
-import javax.servlet.http.HttpServletResponse;
 
 
 /**

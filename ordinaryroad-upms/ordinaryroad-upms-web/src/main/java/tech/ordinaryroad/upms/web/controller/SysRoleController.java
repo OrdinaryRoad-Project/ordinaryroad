@@ -34,6 +34,7 @@ import org.springframework.cache.annotation.Caching;
 import org.springframework.data.redis.cache.CacheKeyPrefix;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
@@ -43,7 +44,6 @@ import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.core.service.RedisService;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysRoleApi;
 import tech.ordinaryroad.upms.dto.SysRoleDTO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
@@ -66,7 +66,7 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysRoleController implements ISysRoleApi {
+public class SysRoleController {
 
     private final SysRoleService sysRoleService;
     private final SysRoleMapStruct objMapStruct;
@@ -74,7 +74,7 @@ public class SysRoleController implements ISysRoleApi {
     private final SysRolesPermissionsService sysRolesPermissionsService;
     private final RedisService redisService;
 
-    @Override
+    @PostMapping(value = "/role/create")
     public Result<SysRoleDTO> create(@RequestBody @Validated SysRoleSaveRequest request) {
         // 唯一性校验
         String roleName = request.getRoleName();
@@ -100,7 +100,7 @@ public class SysRoleController implements ISysRoleApi {
             /* 删除根据角色Id查询角色拥有的所有权限缓存 */
             @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, condition = "#result.data", allEntries = true),
     })
-    @Override
+    @PostMapping(value = "/role/delete")
     public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
         return Result.success(sysRoleService.delete(request.getUuid()));
     }
@@ -112,7 +112,7 @@ public class SysRoleController implements ISysRoleApi {
             /* 删除根据角色Id查询角色拥有的所有权限缓存 */
             @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_ROLE_UUID, condition = "#result.data", allEntries = true),
     })
-    @Override
+    @PostMapping(value = "/role/update")
     public Result<SysRoleDTO> update(@RequestBody @Validated SysRoleSaveRequest request) {
         String uuid = request.getUuid();
         if (StrUtil.isBlank(uuid)) {
@@ -143,7 +143,7 @@ public class SysRoleController implements ISysRoleApi {
         return Result.success(objMapStruct.transfer(sysRoleService.updateSelective(transfer)));
     }
 
-    @Override
+    @PostMapping(value = "/role/find/id")
     public Result<SysRoleDTO> findById(@RequestBody SysRoleQueryRequest request) {
         SysRoleDO sysRoleDO = objMapStruct.transfer(request);
         SysRoleDO byId = sysRoleService.findById(sysRoleDO);
@@ -153,7 +153,7 @@ public class SysRoleController implements ISysRoleApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/role/find/unique")
     public Result<SysRoleDTO> findByUniqueColumn(@RequestBody SysRoleQueryRequest request) {
         Optional<SysRoleDO> optional = Optional.empty();
         String roleCode = request.getRoleCode();
@@ -167,7 +167,7 @@ public class SysRoleController implements ISysRoleApi {
         return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.ROLE_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/role/find_all/user_uuid")
     public Result<List<SysRoleDTO>> findAllByUserUuid(@RequestBody SysRoleQueryRequest request) {
         String userUuid = request.getUserUuid();
         if (StrUtil.isBlank(userUuid)) {
@@ -178,7 +178,7 @@ public class SysRoleController implements ISysRoleApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/role/find_all/ids")
     public Result<List<SysRoleDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {
@@ -189,7 +189,7 @@ public class SysRoleController implements ISysRoleApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/role/find_all")
     public Result<List<SysRoleDTO>> findAll(@RequestBody SysRoleQueryRequest request) {
         SysRoleDO sysRoleDO = objMapStruct.transfer(request);
 
@@ -199,7 +199,7 @@ public class SysRoleController implements ISysRoleApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/role/list")
     public Result<PageInfo<SysRoleDTO>> list(@RequestBody SysRoleQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 
@@ -212,7 +212,7 @@ public class SysRoleController implements ISysRoleApi {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    @Override
+    @PostMapping(value = "/role/update/role_users")
     public Result<Boolean> updateRoleUsers(@RequestBody @Validated SysRoleUsersSaveRequest request) {
         // 需要删除用户拥有的角色缓存的用户uuid列表
         List<String> needDeleteCacheUserUuids = new ArrayList<>();
@@ -285,7 +285,7 @@ public class SysRoleController implements ISysRoleApi {
             @CacheEvict(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_PERMISSIONS_BY_USER_UUID, allEntries = true, condition = "#result.data"),
     })
     @Transactional(rollbackFor = Exception.class)
-    @Override
+    @PostMapping(value = "/role/update/role_permissions")
     public Result<Boolean> updateRolePermissions(@RequestBody @Validated SysRolePermissionsSaveRequest request) {
         String roleUuid = request.getRoleUuid();
 

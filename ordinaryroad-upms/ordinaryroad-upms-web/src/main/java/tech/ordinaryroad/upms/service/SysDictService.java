@@ -24,15 +24,13 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysDictDAO;
 import tech.ordinaryroad.upms.entity.SysDictDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -64,38 +62,34 @@ public class SysDictService extends BaseService<SysDictDAO, SysDictDO> {
     }
 
     public Optional<SysDictDO> findByDictName(String dictName) {
-        Example example = Example.builder(SysDictDO.class)
-                .where(Sqls.custom().andEqualTo("dictName", dictName))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysDictDO::getDictName, dictName)
+                .one();
     }
 
     public Optional<SysDictDO> findByDictCode(String dictCode) {
-        Example example = Example.builder(SysDictDO.class)
-                .where(Sqls.custom().andEqualTo("dictCode", dictCode))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysDictDO::getDictCode, dictCode)
+                .one();
     }
 
     public List<SysDictDO> findAll(SysDictDO sysDictDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<SysDictDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<SysDictDO, String> wrapper = dao.wrapper();
 
         String dictName = sysDictDO.getDictName();
         if (StrUtil.isNotBlank(dictName)) {
-            sqls.andLike(SysDictDO::getDictName, "%" + dictName + "%");
+            wrapper.like(SysDictDO::getDictName, "%" + dictName + "%");
         }
         String dictCode = sysDictDO.getDictCode();
         if (StrUtil.isNotBlank(dictCode)) {
-            sqls.andLike(SysDictDO::getDictCode, "%" + dictCode + "%");
+            wrapper.like(SysDictDO::getDictCode, "%" + dictCode + "%");
         }
         String remark = sysDictDO.getRemark();
         if (StrUtil.isNotBlank(remark)) {
-            sqls.andLike(SysDictDO::getRemark, "%" + remark + "%");
+            wrapper.like(SysDictDO::getRemark, "%" + remark + "%");
         }
 
-        Example.Builder exampleBuilder = Example.builder(SysDictDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
 }

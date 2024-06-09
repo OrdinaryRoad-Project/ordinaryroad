@@ -24,11 +24,10 @@
 package tech.ordinaryroad.upms.api;
 
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
 import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 
@@ -37,7 +36,7 @@ import tech.ordinaryroad.upms.request.SysUserInfoRequest;
  * @date 2021/12/10
  */
 @Api(value = "API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysApi {
 
     /**
@@ -46,7 +45,7 @@ public interface ISysApi {
      * @param request Request
      * @return Result
      */
-    @PostMapping(value = "/userinfo")
+    @PostExchange(value = "/userinfo")
     Result<SysUserInfoDTO> userInfo(@RequestBody(required = false) SysUserInfoRequest request);
 
 }

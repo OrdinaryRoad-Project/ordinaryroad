@@ -25,13 +25,12 @@ package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
-import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.upms.constants.ServiceNameCons;
 import tech.ordinaryroad.upms.dto.SysUsersRolesDTO;
 import tech.ordinaryroad.upms.request.SysUsersRolesQueryRequest;
 import tech.ordinaryroad.upms.request.SysUsersRolesSaveRequest;
@@ -43,22 +42,22 @@ import java.util.List;
  * @date 2021/11/4
  */
 @Api(value = "用户角色关联关系API")
-@FeignClient(name = ServiceNameCons.SERVICE_NAME, contextId = "iSysUsersRolesApi")
+@HttpExchange("http://ordinaryroad-upms")
 public interface ISysUsersRolesApi {
 
-    @PostMapping(value = "/users_roles/create")
+    @PostExchange(value = "/users_roles/create")
     Result<SysUsersRolesDTO> create(@Validated @RequestBody SysUsersRolesSaveRequest request);
 
-    @PostMapping(value = "/users_roles/delete")
+    @PostExchange(value = "/users_roles/delete")
     Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request);
 
-    @PostMapping(value = "/users_roles/find/id")
+    @PostExchange(value = "/users_roles/find/id")
     Result<SysUsersRolesDTO> findById(@RequestBody SysUsersRolesQueryRequest request);
 
-    @PostMapping(value = "/users_roles/find_all")
+    @PostExchange(value = "/users_roles/find_all")
     Result<List<SysUsersRolesDTO>> findAll(@RequestBody SysUsersRolesQueryRequest request);
 
-    @PostMapping(value = "/users_roles/list")
+    @PostExchange(value = "/users_roles/list")
     Result<PageInfo<SysUsersRolesDTO>> list(@RequestBody SysUsersRolesQueryRequest request);
 
 }

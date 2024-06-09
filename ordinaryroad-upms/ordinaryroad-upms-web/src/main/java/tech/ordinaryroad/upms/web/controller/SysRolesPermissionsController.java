@@ -29,6 +29,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
@@ -36,7 +37,6 @@ import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysRolesPermissionsApi;
 import tech.ordinaryroad.upms.dto.SysRolesPermissionsDTO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
 import tech.ordinaryroad.upms.mapstruct.SysRolesPermissionsMapStruct;
@@ -58,14 +58,14 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysRolesPermissionsController implements ISysRolesPermissionsApi {
+public class SysRolesPermissionsController {
 
     private final SysRolesPermissionsService sysSysRolesPermissionsService;
     private final SysRolesPermissionsMapStruct objMapStruct;
     private final SysRoleService sysRoleService;
     private final SysPermissionService sysPermissionService;
 
-    @Override
+    @PostMapping(value = "/roles_permissions/create")
     public Result<SysRolesPermissionsDTO> create(@Validated @RequestBody SysRolesPermissionsSaveRequest request) {
         String roleUuid = request.getRoleUuid();
         if (Objects.isNull(sysRoleService.findById(roleUuid))) {
@@ -87,12 +87,12 @@ public class SysRolesPermissionsController implements ISysRolesPermissionsApi {
 
     }
 
-    @Override
+    @PostMapping(value = "/roles_permissions/delete")
     public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
         return Result.success(sysSysRolesPermissionsService.delete(request.getUuid()));
     }
 
-    @Override
+    @PostMapping(value = "/roles_permissions/find/id")
     public Result<SysRolesPermissionsDTO> findById(@RequestBody SysRolesPermissionsQueryRequest request) {
         SysRolesPermissionsDO sysSysRolesPermissionsDO = objMapStruct.transfer(request);
         SysRolesPermissionsDO byId = sysSysRolesPermissionsService.findById(sysSysRolesPermissionsDO);
@@ -102,7 +102,7 @@ public class SysRolesPermissionsController implements ISysRolesPermissionsApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/roles_permissions/find_all")
     public Result<List<SysRolesPermissionsDTO>> findAll(@RequestBody SysRolesPermissionsQueryRequest request) {
         SysRolesPermissionsDO sysSysRolesPermissionsDO = objMapStruct.transfer(request);
 
@@ -112,7 +112,7 @@ public class SysRolesPermissionsController implements ISysRolesPermissionsApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/roles_permissions/find_all/ids")
     public Result<List<SysRolesPermissionsDTO>> findAllByIds(@RequestBody BaseQueryRequest request) {
         List<String> uuids = request.getUuids();
         if (CollUtil.isEmpty(uuids)) {
@@ -123,7 +123,7 @@ public class SysRolesPermissionsController implements ISysRolesPermissionsApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/roles_permissions/list")
     public Result<PageInfo<SysRolesPermissionsDTO>> list(@RequestBody SysRolesPermissionsQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

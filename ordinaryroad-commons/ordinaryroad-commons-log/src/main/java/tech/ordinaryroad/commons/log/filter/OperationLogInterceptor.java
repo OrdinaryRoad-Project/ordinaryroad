@@ -25,8 +25,9 @@ package tech.ordinaryroad.commons.log.filter;
 
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.StrUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import com.alibaba.fastjson2.JSON;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -43,8 +44,6 @@ import tech.ordinaryroad.commons.log.service.IOperationLogInterceptorService;
 import tech.ordinaryroad.commons.log.service.OperationLogService;
 import tech.ordinaryroad.commons.log.utils.ServletUtils;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 
@@ -77,7 +76,7 @@ public class OperationLogInterceptor implements HandlerInterceptor {
         OperationLogDO operationLogDO = new OperationLogDO();
         TL_OPERATION_LOG.set(operationLogDO);
 
-        operationLogDO.setIp(ServletUtil.getClientIP(request));
+        operationLogDO.setIp(ServletUtils.getClientIP(request));
         operationLogDO.setPath(request.getRequestURI());
         operationLogDO.setMethod(request.getMethod());
         operationLogDO.setHeaders(JSON.toJSONString(ServletUtils.getHeaderMap(request)));
@@ -139,7 +138,7 @@ public class OperationLogInterceptor implements HandlerInterceptor {
 
         if (operationLogDO.getType() != null) {
             // save
-            operationLogService.create(operationLogDO);
+            operationLogService.createSelective(operationLogDO);
         } else {
             if (!HttpMethod.GET.matches(operationLogDO.getMethod())) {
                 log.warn("OperationLog type is null when not GET");

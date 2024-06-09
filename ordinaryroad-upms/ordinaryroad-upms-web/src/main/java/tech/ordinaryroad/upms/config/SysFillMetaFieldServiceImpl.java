@@ -42,7 +42,7 @@ public class SysFillMetaFieldServiceImpl<T extends BaseDO> extends DefaultFillMe
     public void beforeInsert(T t) {
         if (t instanceof SysUserDO) {
             SysUserDO sysUserDO = (SysUserDO) t;
-            // or帐号生成服务
+            // TODO 测试一下 or帐号生成服务
             SysOrNumberService orNumberService = SpringUtil.getBean(SysOrNumberService.class);
             sysUserDO.setOrNumber(orNumberService.genId());
         }

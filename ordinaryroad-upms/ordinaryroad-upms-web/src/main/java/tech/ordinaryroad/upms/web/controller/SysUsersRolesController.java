@@ -28,13 +28,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysUsersRolesApi;
 import tech.ordinaryroad.upms.dto.SysUsersRolesDTO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
 import tech.ordinaryroad.upms.mapstruct.SysUsersRolesMapStruct;
@@ -55,14 +55,14 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysUsersRolesController implements ISysUsersRolesApi {
+public class SysUsersRolesController {
 
     private final SysUsersRolesService sysUsersRolesService;
     private final SysUsersRolesMapStruct objMapStruct;
     private final SysUserService sysUserService;
     private final SysRoleService sysRoleService;
 
-    @Override
+    @PostMapping(value = "/users_roles/create")
     public Result<SysUsersRolesDTO> create(@Validated @RequestBody SysUsersRolesSaveRequest request) {
 
         String userUuid = request.getUserUuid();
@@ -84,12 +84,12 @@ public class SysUsersRolesController implements ISysUsersRolesApi {
         return Result.success(objMapStruct.transfer(sysUsersRolesService.createSelective(sysRoleDO)));
     }
 
-    @Override
+    @PostMapping(value = "/users_roles/delete")
     public Result<Boolean> delete(@Validated @RequestBody BaseDeleteRequest request) {
         return Result.success(sysUsersRolesService.delete(request.getUuid()));
     }
 
-    @Override
+    @PostMapping(value = "/users_roles/find/id")
     public Result<SysUsersRolesDTO> findById(@RequestBody SysUsersRolesQueryRequest request) {
         SysUsersRolesDO sysRoleDO = objMapStruct.transfer(request);
         SysUsersRolesDO byId = sysUsersRolesService.findById(sysRoleDO);
@@ -99,7 +99,7 @@ public class SysUsersRolesController implements ISysUsersRolesApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/users_roles/find_all")
     public Result<List<SysUsersRolesDTO>> findAll(@RequestBody SysUsersRolesQueryRequest request) {
         SysUsersRolesDO sysRoleDO = objMapStruct.transfer(request);
 
@@ -109,7 +109,7 @@ public class SysUsersRolesController implements ISysUsersRolesApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/users_roles/list")
     public Result<PageInfo<SysUsersRolesDTO>> list(@RequestBody SysUsersRolesQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

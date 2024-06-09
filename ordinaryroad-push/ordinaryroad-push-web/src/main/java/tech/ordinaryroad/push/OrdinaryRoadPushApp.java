@@ -24,12 +24,11 @@
 package tech.ordinaryroad.push;
 
 import lombok.extern.slf4j.Slf4j;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
-import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.util.StopWatch;
-import tk.mybatis.spring.annotation.MapperScan;
 
 /**
  * @author mjz
@@ -37,7 +36,6 @@ import tk.mybatis.spring.annotation.MapperScan;
  */
 @Slf4j
 @EnableDiscoveryClient
-@EnableFeignClients({"tech.ordinaryroad.**.**.api"})
 @MapperScan({"tech.ordinaryroad.commons.log.dao"})
 @SpringBootApplication
 public class OrdinaryRoadPushApp {

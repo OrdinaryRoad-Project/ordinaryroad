@@ -29,13 +29,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
-import tech.ordinaryroad.upms.api.ISysDictApi;
 import tech.ordinaryroad.upms.dto.SysDictDTO;
 import tech.ordinaryroad.upms.entity.SysDictDO;
 import tech.ordinaryroad.upms.mapstruct.SysDictMapStruct;
@@ -54,12 +54,12 @@ import java.util.stream.Collectors;
  */
 @RequiredArgsConstructor
 @RestController
-public class SysDictController implements ISysDictApi {
+public class SysDictController {
 
     private final SysDictService sysDictService;
     private final SysDictMapStruct objMapStruct;
 
-    @Override
+    @PostMapping(value = "/dict/create")
     public Result<SysDictDTO> create(@RequestBody @Validated SysDictSaveRequest request) {
         // 唯一性校验
         String dictName = request.getDictName();
@@ -77,12 +77,12 @@ public class SysDictController implements ISysDictApi {
         return Result.success(objMapStruct.transfer(sysDictService.createSelective(sysDictDO)));
     }
 
-    @Override
+    @PostMapping(value = "/dict/delete")
     public Result<Boolean> delete(@RequestBody @Validated BaseDeleteRequest request) {
         return Result.success(sysDictService.delete(request.getUuid()));
     }
 
-    @Override
+    @PostMapping(value = "/dict/update")
     public Result<SysDictDTO> update(@RequestBody @Validated SysDictSaveRequest request) {
         String uuid = request.getUuid();
         if (StrUtil.isBlank(uuid)) {
@@ -113,7 +113,7 @@ public class SysDictController implements ISysDictApi {
         return Result.success(objMapStruct.transfer(sysDictService.updateSelective(transfer)));
     }
 
-    @Override
+    @PostMapping(value = "/dict/find/id")
     public Result<SysDictDTO> findById(@RequestBody SysDictQueryRequest request) {
         SysDictDO sysDictDO = objMapStruct.transfer(request);
         SysDictDO byId = sysDictService.findById(sysDictDO);
@@ -123,7 +123,7 @@ public class SysDictController implements ISysDictApi {
         return Result.fail(StatusCode.DATA_NOT_EXIST);
     }
 
-    @Override
+    @PostMapping(value = "/dict/find/unique")
     public Result<SysDictDTO> findByUniqueColumn(@RequestBody SysDictQueryRequest request) {
         Optional<SysDictDO> optional = Optional.empty();
         String dictCode = request.getDictCode();
@@ -137,7 +137,7 @@ public class SysDictController implements ISysDictApi {
         return optional.map(data -> Result.success(objMapStruct.transfer(data))).orElse(Result.fail(StatusCode.DICT_NOT_EXIST));
     }
 
-    @Override
+    @PostMapping(value = "/dict/find_all")
     public Result<List<SysDictDTO>> findAll(@RequestBody SysDictQueryRequest request) {
         SysDictDO sysDictDO = objMapStruct.transfer(request);
 
@@ -147,7 +147,7 @@ public class SysDictController implements ISysDictApi {
         return Result.success(list);
     }
 
-    @Override
+    @PostMapping(value = "/dict/list")
     public Result<PageInfo<SysDictDTO>> list(@RequestBody SysDictQueryRequest request) {
         PageHelper.offsetPage(request.getOffset(), request.getLimit());
 

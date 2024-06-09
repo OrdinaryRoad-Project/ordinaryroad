@@ -24,6 +24,7 @@
 package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
@@ -33,9 +34,6 @@ import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRoleDAO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
 import tech.ordinaryroad.upms.entity.SysUsersRolesDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Optional;
@@ -52,34 +50,30 @@ public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
     private SysUsersRolesService sysUsersRolesService;
 
     public Optional<SysRoleDO> findByRoleName(String roleName) {
-        Example example = Example.builder(SysRoleDO.class)
-                .where(Sqls.custom().andEqualTo("roleName", roleName))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysRoleDO::getRoleName, roleName)
+                .one();
     }
 
     public Optional<SysRoleDO> findByRoleCode(String roleCode) {
-        Example example = Example.builder(SysRoleDO.class)
-                .where(Sqls.custom().andEqualTo("roleCode", roleCode))
-                .build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysRoleDO::getRoleCode, roleCode)
+                .one();
     }
 
     public List<SysRoleDO> findAll(SysRoleDO sysRoleDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<SysRoleDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<SysRoleDO, String> wrapper = dao.wrapper();
 
         String roleName = sysRoleDO.getRoleName();
         if (StrUtil.isNotBlank(roleName)) {
-            sqls.andLike(SysRoleDO::getRoleName, "%" + roleName + "%");
+            wrapper.like(SysRoleDO::getRoleName, "%" + roleName + "%");
         }
         String roleCode = sysRoleDO.getRoleCode();
         if (StrUtil.isNotBlank(roleCode)) {
-            sqls.andLike(SysRoleDO::getRoleCode, "%" + roleCode + "%");
+            wrapper.like(SysRoleDO::getRoleCode, "%" + roleCode + "%");
         }
 
-        Example.Builder exampleBuilder = Example.builder(SysRoleDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
     @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_ROLES + "' + #userUuid")

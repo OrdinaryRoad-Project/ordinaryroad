@@ -24,13 +24,13 @@
 package tech.ordinaryroad.commons.log.service;
 
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.dynamic.datasource.annotation.DS;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.log.dao.OperationLogDAO;
 import tech.ordinaryroad.commons.log.entity.OperationLogDO;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.List;
 import java.util.Objects;
@@ -42,35 +42,34 @@ import java.util.Objects;
  * @date 2022/11/28
  */
 @Service
+@DS("or_commons_log")
 public class OperationLogService extends BaseService<OperationLogDAO, OperationLogDO> {
 
     public List<OperationLogDO> findAll(OperationLogDO operationLogDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<OperationLogDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<OperationLogDO, String> wrapper = dao.wrapper();
 
         Integer type = operationLogDO.getType();
         if (Objects.nonNull(type)) {
-            sqls.andEqualTo(OperationLogDO::getType, type);
+            wrapper.eq(OperationLogDO::getType, type);
         }
         String method = operationLogDO.getMethod();
         if (StrUtil.isNotBlank(method)) {
-            sqls.andEqualTo(OperationLogDO::getMethod, method);
+            wrapper.eq(OperationLogDO::getMethod, method);
         }
         String status = operationLogDO.getStatus();
         if (StrUtil.isNotBlank(status)) {
-            sqls.andEqualTo(OperationLogDO::getStatus, status);
+            wrapper.eq(OperationLogDO::getStatus, status);
         }
         String path = operationLogDO.getPath();
         if (StrUtil.isNotBlank(path)) {
-            sqls.andEqualTo(OperationLogDO::getPath, path);
+            wrapper.eq(OperationLogDO::getPath, path);
         }
         String createBy = operationLogDO.getCreateBy();
         if (StrUtil.isNotBlank(createBy)) {
-            sqls.andEqualTo(OperationLogDO::getCreateBy, createBy);
+            wrapper.eq(OperationLogDO::getCreateBy, createBy);
         }
 
-        Example.Builder exampleBuilder = Example.builder(OperationLogDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
 }

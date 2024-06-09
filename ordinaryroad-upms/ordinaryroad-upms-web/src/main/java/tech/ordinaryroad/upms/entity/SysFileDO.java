@@ -23,12 +23,12 @@
  */
 package tech.ordinaryroad.upms.entity;
 
+import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
-import javax.persistence.Table;
 
 /**
  * 文件表
@@ -39,7 +39,7 @@ import javax.persistence.Table;
 @Getter
 @Setter
 @ToString
-@Table(name = "sys_file")
+@Entity.Table("sys_file")
 public class SysFileDO extends BaseDO {
 
     private static final long serialVersionUID = 1373427079137068203L;
@@ -47,21 +47,25 @@ public class SysFileDO extends BaseDO {
     /**
      * 桶名称
      */
+    @Entity.Column
     private String bucketName;
 
     /**
      * 对象名称
      */
+    @Entity.Column
     private String objectName;
 
     /**
      * 原文件名
      */
+    @Entity.Column
     private String originalFilename;
 
     /**
      * 文件大小（byte）
      */
+    @Entity.Column
     private Long size;
 
 }

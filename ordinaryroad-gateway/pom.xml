@@ -36,8 +36,8 @@
     <artifactId>ordinaryroad-gateway</artifactId>
 
     <properties>
-        <maven.compiler.source>8</maven.compiler.source>
-        <maven.compiler.target>8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -59,7 +59,7 @@
         <!-- Sa-Token 权限认证（Reactor响应式集成）, 在线文档：http://sa-token.dev33.cn/ -->
         <dependency>
             <groupId>cn.dev33</groupId>
-            <artifactId>sa-token-reactor-spring-boot-starter</artifactId>
+            <artifactId>sa-token-reactor-spring-boot3-starter</artifactId>
         </dependency>
 
         <!-- OkHttps网络请求库： http://okhttps.ejlchina.com/ -->
@@ -75,7 +75,7 @@
         <!--        </dependency>-->
         <dependency>
             <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -85,7 +85,7 @@
                 <!-- 和网关有冲突 -->
                 <exclusion>
                     <groupId>cn.dev33</groupId>
-                    <artifactId>sa-token-spring-boot-starter</artifactId>
+                    <artifactId>sa-token-spring-boot3-starter</artifactId>
                 </exclusion>
                 <exclusion>
                     <artifactId>spring-webmvc</artifactId>
@@ -94,17 +94,17 @@
             </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>tech.ordinaryroad</groupId>
-            <artifactId>ordinaryroad-commons-swagger</artifactId>
-            <exclusions>
-                <!-- 和网关有冲突 -->
-                <exclusion>
-                    <artifactId>spring-webmvc</artifactId>
-                    <groupId>org.springframework</groupId>
-                </exclusion>
-            </exclusions>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>tech.ordinaryroad</groupId>-->
+<!--            <artifactId>ordinaryroad-commons-swagger</artifactId>-->
+<!--            <exclusions>-->
+<!--                &lt;!&ndash; 和网关有冲突 &ndash;&gt;-->
+<!--                <exclusion>-->
+<!--                    <artifactId>spring-webmvc</artifactId>-->
+<!--                    <groupId>org.springframework</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>tech.ordinaryroad</groupId>

@@ -25,14 +25,12 @@ package tech.ordinaryroad.upms.service;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
+import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRolesPermissionsDAO;
 import tech.ordinaryroad.upms.entity.SysRolesPermissionsDO;
-import tk.mybatis.mapper.entity.Example;
-import tk.mybatis.mapper.util.Sqls;
-import tk.mybatis.mapper.weekend.WeekendSqls;
 
 import java.util.Collections;
 import java.util.List;
@@ -49,45 +47,40 @@ public class SysRolesPermissionsService extends BaseService<SysRolesPermissionsD
         if (CollUtil.isEmpty(roleUuids)) {
             return Collections.emptyList();
         }
-        Example example = Example.builder(SysRolesPermissionsDO.class)
-                .where(Sqls.custom().andIn("roleUuid", roleUuids))
-                .build();
-        return super.dao.selectByExample(example);
+        return dao.wrapper()
+                .in(SysRolesPermissionsDO::getRoleUuid, roleUuids)
+                .list();
     }
 
     public List<SysRolesPermissionsDO> findAllByPermissionUuids(List<String> permissionUuids) {
         if (CollUtil.isEmpty(permissionUuids)) {
             return Collections.emptyList();
         }
-        Example example = Example.builder(SysRolesPermissionsDO.class)
-                .where(Sqls.custom().andIn("permissionUuid", permissionUuids))
-                .build();
-        return super.dao.selectByExample(example);
+        return dao.wrapper()
+                .in(SysRolesPermissionsDO::getPermissionUuid, permissionUuids)
+                .list();
     }
 
     public Optional<SysRolesPermissionsDO> findByRoleUuidAndPermissionUuid(String roleUuid, String permissionUuid) {
-        Sqls sqls = Sqls.custom();
-        sqls.andEqualTo("roleUuid", roleUuid);
-        sqls.andEqualTo("permissionUuid", permissionUuid);
-        Example example = Example.builder(SysRolesPermissionsDO.class).where(sqls).build();
-        return Optional.ofNullable(super.dao.selectOneByExample(example));
+        return dao.wrapper()
+                .eq(SysRolesPermissionsDO::getRoleUuid, roleUuid)
+                .eq(SysRolesPermissionsDO::getPermissionUuid, permissionUuid)
+                .one();
     }
 
     public List<SysRolesPermissionsDO> findAll(SysRolesPermissionsDO sysRolesPermissionsDO, BaseQueryRequest baseQueryRequest) {
-        WeekendSqls<SysRolesPermissionsDO> sqls = WeekendSqls.custom();
+        ExampleWrapper<SysRolesPermissionsDO, String> wrapper = dao.wrapper();
 
         String roleUuid = sysRolesPermissionsDO.getRoleUuid();
         if (StrUtil.isNotBlank(roleUuid)) {
-            sqls.andEqualTo(SysRolesPermissionsDO::getRoleUuid, roleUuid);
+            wrapper.eq(SysRolesPermissionsDO::getRoleUuid, roleUuid);
         }
         String permissionUuid = sysRolesPermissionsDO.getPermissionUuid();
         if (StrUtil.isNotBlank(permissionUuid)) {
-            sqls.andEqualTo(SysRolesPermissionsDO::getPermissionUuid, permissionUuid);
+            wrapper.eq(SysRolesPermissionsDO::getPermissionUuid, permissionUuid);
         }
 
-        Example.Builder exampleBuilder = Example.builder(SysRolesPermissionsDO.class).where(sqls);
-
-        return super.findAll(baseQueryRequest, sqls, exampleBuilder);
+        return super.findAll(baseQueryRequest, wrapper);
     }
 
 }

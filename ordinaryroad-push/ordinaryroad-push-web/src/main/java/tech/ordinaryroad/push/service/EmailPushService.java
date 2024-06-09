@@ -30,8 +30,8 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.springframework.util.MimeType;
 
-import javax.mail.internet.MimeMessage;
-import javax.validation.constraints.NotNull;
+import jakarta.mail.internet.MimeMessage;
+import jakarta.validation.constraints.NotNull;
 import java.nio.charset.StandardCharsets;
 
 /**
