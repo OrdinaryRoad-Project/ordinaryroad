@@ -1,4 +1,4 @@
-FROM khipu/openjdk17-alpine
+FROM amazoncorretto:17.0.11
 
 MAINTAINER mjz(miaojinzhou@ordinaryroad.tech)
 
