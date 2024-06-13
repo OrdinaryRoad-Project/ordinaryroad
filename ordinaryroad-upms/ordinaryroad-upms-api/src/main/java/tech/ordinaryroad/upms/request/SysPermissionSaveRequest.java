@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -38,17 +39,18 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysPermissionSaveRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = 783453100910961731L;
 
-    @ApiModelProperty("权限code")
+    @Schema(title = "权限code")
     @NotBlank(message = "权限code不能为空")
     @Size(max = 100, message = "权限code长度不能超过100")
     private String permissionCode;
 
-    @ApiModelProperty("权限描述")
+    @Schema(title = "权限描述")
     @Size(max = 200, message = "权限描述长度不能超过200")
     private String description;
 }

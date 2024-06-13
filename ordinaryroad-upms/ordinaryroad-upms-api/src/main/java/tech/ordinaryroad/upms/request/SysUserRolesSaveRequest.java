@@ -23,14 +23,14 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -41,17 +41,18 @@ import java.util.List;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysUserRolesSaveRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = -3613401589600347626L;
 
-    @ApiModelProperty(value = "主键uuid", required = true)
+    @Schema(title = "主键uuid", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "主键uuid不能为空")
     @Size(max = 32, message = "主键uuid长度不能超过32")
     private String uuid;
 
-    @ApiModelProperty("角色uuid列表")
+    @Schema(title = "角色uuid列表")
     private List<String> roleUuids;
 
 }

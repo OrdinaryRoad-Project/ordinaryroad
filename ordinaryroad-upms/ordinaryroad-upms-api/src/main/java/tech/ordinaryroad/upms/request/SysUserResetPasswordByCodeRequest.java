@@ -23,15 +23,15 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -39,23 +39,24 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysUserResetPasswordByCodeRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = 4116229023153435443L;
 
-    @ApiModelProperty(value = "验证码", required = true)
+    @Schema(title = "验证码", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "验证码不能为空")
     @Size(max = 10, message = "验证码长度不能超过10")
     private String code;
 
-    @ApiModelProperty(value = "邮箱", required = true)
+    @Schema(title = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "邮箱不能为空")
     @Size(max = 255, message = "邮箱长度不能超过255")
     @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
     private String email;
 
-    @ApiModelProperty(value = "密码", required = true)
+    @Schema(title = "密码", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "密码不能为空")
     @Size(min = 6, max = 16, message = "密码长度 6-16")
     @Pattern(regexp = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z]).{6,16}$", message = "必须包含大小写字母和数字的组合，可以使用特殊字符")

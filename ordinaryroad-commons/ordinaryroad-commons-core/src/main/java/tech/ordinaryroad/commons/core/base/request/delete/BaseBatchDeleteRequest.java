@@ -24,11 +24,12 @@
 
 package tech.ordinaryroad.commons.core.base.request.delete;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -41,12 +42,13 @@ import java.util.List;
 @Setter
 public class BaseBatchDeleteRequest extends BaseRequest {
 
+    @Serial
     private static final long serialVersionUID = -1429115501643362949L;
 
     /**
      * 主键uuid列表
      */
-    @ApiModelProperty("主键uuid列表")
+    @Schema(title = "主键uuid列表")
     private List<String> uuids;
 
 }

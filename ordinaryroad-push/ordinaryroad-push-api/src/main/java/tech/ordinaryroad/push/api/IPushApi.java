@@ -23,7 +23,7 @@
  */
 package tech.ordinaryroad.push.api;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;
@@ -36,7 +36,7 @@ import tech.ordinaryroad.push.request.EmailPushRequest;
  * @author mjz
  * @date 2021/11/27
  */
-@Api(value = "推送API")
+@Tag(name = "推送API")
 @HttpExchange("http://ordinaryroad-push")
 public interface IPushApi {
 

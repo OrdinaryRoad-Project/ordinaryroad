@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.auth.server.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -38,22 +39,23 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class OAuth2OpenidSaveRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = 883534349322415339L;
 
-    @ApiModelProperty("OR帐号")
+    @Schema(title = "OR帐号")
     @NotBlank(message = "OR帐号不能为空")
     @Size(max = 11, message = "or帐号长度不能超过11")
     private String orNumber;
 
-    @ApiModelProperty("clientId")
+    @Schema(title = "clientId")
     @NotBlank(message = "clientId不能为空")
     @Size(max = 20, message = "clientId长度不能超过20")
     private String clientId;
 
-    @ApiModelProperty("openid")
+    @Schema(title = "openid")
     @NotBlank(message = "openid不能为空")
     @Size(max = 50, message = "openid长度不能超过50")
     private String openid;

@@ -29,6 +29,8 @@ import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
+import java.io.Serial;
+
 
 /**
  * 用户角色关联关系表
@@ -42,6 +44,7 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 @Entity.Table("sys_users_roles")
 public class SysUsersRolesDO extends BaseDO {
 
+    @Serial
     private static final long serialVersionUID = -9201735128236630040L;
 
     /**

@@ -30,6 +30,8 @@ import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
+import java.io.Serial;
+
 
 /**
  * OR操作日志表
@@ -43,6 +45,7 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 @Entity.Table("operation_log")
 public class OperationLogDO extends BaseDO {
 
+    @Serial
     private static final long serialVersionUID = -7052935939908928718L;
 
     /**

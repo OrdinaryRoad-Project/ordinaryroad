@@ -24,6 +24,8 @@
 
 package tech.ordinaryroad.commons.base.exception;
 
+import java.io.Serial;
+
 /**
  * 批量删除失败
  *
@@ -32,6 +34,7 @@ package tech.ordinaryroad.commons.base.exception;
  */
 public class BatchDeleteException extends BaseException {
 
+    @Serial
     private static final long serialVersionUID = 2003468869648113132L;
 
     public BatchDeleteException(String msg) {

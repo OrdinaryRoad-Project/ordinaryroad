@@ -23,10 +23,11 @@
  */
 package tech.ordinaryroad.commons.core.base.dto;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tech.ordinaryroad.commons.base.dto.BaseDTO;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 
 /**
@@ -38,21 +39,22 @@ import java.time.LocalDateTime;
 @Data
 public class BaseModelDTO extends BaseDTO {
 
+    @Serial
     private static final long serialVersionUID = 2451951873209762729L;
 
-    @ApiModelProperty("主键uuid")
+    @Schema(title = "主键uuid")
     private String uuid;
 
-    @ApiModelProperty("创建时间")
+    @Schema(title = "创建时间")
     private LocalDateTime createdTime;
 
-    @ApiModelProperty("创建者OR账号")
+    @Schema(title = "创建者OR账号")
     private String createBy;
 
-    @ApiModelProperty("更新时间")
+    @Schema(title = "更新时间")
     private LocalDateTime updateTime;
 
-    @ApiModelProperty("更新者OR账号")
+    @Schema(title = "更新者OR账号")
     private String updateBy;
 
 }

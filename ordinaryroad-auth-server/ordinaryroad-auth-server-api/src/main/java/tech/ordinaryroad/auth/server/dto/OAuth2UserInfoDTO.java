@@ -23,10 +23,12 @@
  */
 package tech.ordinaryroad.auth.server.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tech.ordinaryroad.commons.base.dto.BaseDTO;
+
+import java.io.Serial;
 
 /**
  * 用户相关信息DTO：User
@@ -35,21 +37,22 @@ import tech.ordinaryroad.commons.base.dto.BaseDTO;
  * @date 2021/12/1
  */
 @Data
-@ApiModel
+@Schema
 public class OAuth2UserInfoDTO extends BaseDTO {
 
+    @Serial
     private static final long serialVersionUID = 2264708854063291438L;
 
-    @ApiModelProperty("or帐号")
+    @Schema(title = "or帐号")
     private String orNumber;
 
-    @ApiModelProperty("头像地址")
+    @Schema(title = "头像地址")
     private String avatar;
 
-    @ApiModelProperty("邮箱")
+    @Schema(title = "邮箱")
     private String email;
 
-    @ApiModelProperty("用户名")
+    @Schema(title = "用户名")
     private String username;
 
 }

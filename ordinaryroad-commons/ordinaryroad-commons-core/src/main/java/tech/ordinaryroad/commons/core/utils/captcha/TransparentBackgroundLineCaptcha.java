@@ -32,6 +32,7 @@ import tech.ordinaryroad.commons.core.constant.ColorConstants;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.Serial;
 import java.util.concurrent.ThreadLocalRandom;
 
 /**
@@ -42,6 +43,7 @@ import java.util.concurrent.ThreadLocalRandom;
  */
 public class TransparentBackgroundLineCaptcha extends LineCaptcha {
 
+    @Serial
     private static final long serialVersionUID = 859119990571062093L;
 
     public TransparentBackgroundLineCaptcha(int width, int height) {

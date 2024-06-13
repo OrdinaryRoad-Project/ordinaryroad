@@ -24,13 +24,13 @@
 package tech.ordinaryroad.push.request;
 
 import com.alibaba.fastjson2.JSONObject;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
-
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.push.request.base.BasePushRequest;
+
+import java.io.Serial;
 
 
 /**
@@ -41,26 +41,27 @@ import tech.ordinaryroad.push.request.base.BasePushRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class AndroidPushRequest extends BasePushRequest {
 
+    @Serial
     private static final long serialVersionUID = -159777254626407907L;
 
-    @ApiModelProperty(value = "安卓APP包名", required = true)
+    @Schema(title = "安卓APP包名", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "安卓APP包名不能为空")
     private String packageName;
 
-    @ApiModelProperty(value = "接收方OR账号", required = true)
+    @Schema(title = "接收方OR账号", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "接收方OR账号不能为空")
     private String toOrNumber;
 
-    @ApiModelProperty(value = "Channel Id")
+    @Schema(title = "Channel Id")
     private String channel = "default";
 
-    @ApiModelProperty(value = "intent")
+    @Schema(title = "intent")
     private JSONObject intent = new JSONObject();
 
-    @ApiModelProperty(value = "extras")
+    @Schema(title = "extras")
     private JSONObject extras = new JSONObject();
 
 }

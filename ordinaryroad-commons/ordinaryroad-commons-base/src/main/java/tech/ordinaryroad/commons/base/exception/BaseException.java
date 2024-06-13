@@ -28,6 +28,8 @@ package tech.ordinaryroad.commons.base.exception;
 import tech.ordinaryroad.commons.base.cons.IStatusCode;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 
+import java.io.Serial;
+
 /**
  * 异常基类
  *
@@ -36,6 +38,7 @@ import tech.ordinaryroad.commons.base.cons.StatusCode;
  */
 public class BaseException extends RuntimeException {
 
+    @Serial
     private static final long serialVersionUID = -522952657202704068L;
 
     private IStatusCode statusCode = StatusCode.COMMON_EXCEPTION;

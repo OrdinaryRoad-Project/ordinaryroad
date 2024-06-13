@@ -23,6 +23,8 @@
  */
 package tech.ordinaryroad.commons.base.dto;
 
+import java.io.Serial;
+
 /**
  * DTO DTO抽象类
  *
@@ -31,6 +33,7 @@ package tech.ordinaryroad.commons.base.dto;
  */
 public abstract class BaseDTO implements IBaseDTO {
 
+    @Serial
     private static final long serialVersionUID = -4406187362812160064L;
 
 }

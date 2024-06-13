@@ -24,7 +24,7 @@
 package tech.ordinaryroad.auth.server.api;
 
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;
@@ -41,7 +41,7 @@ import java.util.List;
  * @author mjz
  * @date 2022/1/14
  */
-@Api(value = "Openid API")
+@Tag(name = "Openid API")
 @HttpExchange("http://ordinaryroad-auth-server")
 public interface IOAuth2OpenidApi {
 

@@ -23,25 +23,28 @@
  */
 package tech.ordinaryroad.upms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+
+import java.io.Serial;
 
 /**
  * @author mjz
  * @date 2021/11/3
  */
 @Data
-@ApiModel
+@Schema
 public class SysUsersRolesDTO extends BaseModelDTO {
 
+    @Serial
     private static final long serialVersionUID = -7044382516510759473L;
 
-    @ApiModelProperty("用户uuid")
+    @Schema(title = "用户uuid")
     private String userUuid;
 
-    @ApiModelProperty("角色uuid")
+    @Schema(title = "角色uuid")
     private String roleUuid;
 
 }

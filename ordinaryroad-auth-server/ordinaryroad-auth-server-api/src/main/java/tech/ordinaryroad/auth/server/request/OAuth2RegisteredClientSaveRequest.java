@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.auth.server.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -38,31 +39,32 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class OAuth2RegisteredClientSaveRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = 1861107411791536053L;
 
-    @ApiModelProperty("clientId")
+    @Schema(title = "clientId")
     @NotBlank(message = "clientId不能为空")
     @Size(max = 20, message = "clientId长度不能超过20")
     private String clientId;
 
-    @ApiModelProperty("clientSecret")
+    @Schema(title = "clientSecret")
     @NotBlank(message = "clientSecret不能为空")
     @Size(max = 200, message = "clientSecret长度不能超过200")
     private String clientSecret;
 
-    @ApiModelProperty("clientName")
+    @Schema(title = "clientName")
     @NotBlank(message = "clientName不能为空")
     @Size(max = 200, message = "clientName长度不能超过200")
     private String clientName;
 
-    @ApiModelProperty("重定向链接")
+    @Schema(title = "重定向链接")
     @Size(max = 1000, message = "重定向链接长度不能超过1000")
     private String redirectUris;
 
-    @ApiModelProperty("授权范围")
+    @Schema(title = "授权范围")
     @Size(max = 1000, message = "授权范围长度不能超过1000")
     private String scopes;
 

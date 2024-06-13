@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,18 +37,19 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysFileQueryRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = -7101937844774644471L;
 
-    @ApiModelProperty("桶名称")
+    @Schema(title = "桶名称")
     private String bucketName;
 
-    @ApiModelProperty("对象名称")
+    @Schema(title = "对象名称")
     private String objectName;
 
-    @ApiModelProperty("原文件名")
+    @Schema(title = "原文件名")
     private String originalFilename;
 
 }

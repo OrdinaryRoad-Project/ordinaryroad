@@ -24,10 +24,13 @@
 
 package tech.ordinaryroad.commons.core.base.request.save;
 
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
+
+import java.io.Serial;
 
 /**
  * 新增/更新请求抽象类
@@ -39,12 +42,13 @@ import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 @Setter
 public abstract class BaseSaveRequest extends BaseRequest {
 
+    @Serial
     private static final long serialVersionUID = -879891710040240181L;
 
     /**
      * 主键uuid
      */
-    @ApiModelProperty("主键uuid")
+    @Schema(title = "主键uuid")
     private String uuid;
 
 }

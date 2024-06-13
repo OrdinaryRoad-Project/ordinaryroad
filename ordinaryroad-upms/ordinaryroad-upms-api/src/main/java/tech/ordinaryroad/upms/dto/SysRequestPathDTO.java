@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,23 +37,24 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
  */
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
-@ApiModel
+@Schema
 public class SysRequestPathDTO extends BaseModelDTO {
 
+    @Serial
     private static final long serialVersionUID = -3446058922874347759L;
 
-    @ApiModelProperty("请求路径所需要的权限uuid")
+    @Schema(title = "请求路径所需要的权限uuid")
     private String permissionUuid;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("路径url")
+    @Schema(title = "路径url")
     private String path;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("路径名称")
+    @Schema(title = "路径名称")
     private String pathName;
 
-    @ApiModelProperty("请求路径所需要的权限DTO")
+    @Schema(title = "请求路径所需要的权限DTO")
     private SysPermissionDTO permission;
 
 }

@@ -23,15 +23,15 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -39,12 +39,13 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysUserUpdateEmailRequest extends BaseRequest {
 
+    @Serial
     private static final long serialVersionUID = -8856703747918186253L;
 
-    @ApiModelProperty(value = "邮箱", required = true)
+    @Schema(title = "邮箱", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "邮箱不能为空")
     @Size(max = 255, message = "邮箱长度不能超过255")
     @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")

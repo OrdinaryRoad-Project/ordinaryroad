@@ -24,6 +24,8 @@
 
 package tech.ordinaryroad.commons.base.exception;
 
+import java.io.Serial;
+
 /**
  * 验证码错误异常类
  *
@@ -31,6 +33,7 @@ package tech.ordinaryroad.commons.base.exception;
  */
 public class CaptchaException extends BaseException {
 
+    @Serial
     private static final long serialVersionUID = 9036656405436182436L;
 
     public CaptchaException(String msg) {

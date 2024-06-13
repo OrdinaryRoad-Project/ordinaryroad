@@ -23,10 +23,12 @@
  */
 package tech.ordinaryroad.auth.server.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+
+import java.io.Serial;
 
 /**
  * 注册的客户端表
@@ -35,24 +37,25 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
  * @date 2022/1/14
  */
 @Data
-@ApiModel
+@Schema
 public class OAuth2RegisteredClientDTO extends BaseModelDTO {
 
+    @Serial
     private static final long serialVersionUID = 1521366983325255029L;
 
-    @ApiModelProperty("clientId")
+    @Schema(title = "clientId")
     private String clientId;
 
-    @ApiModelProperty("clientSecret")
+    @Schema(title = "clientSecret")
     private String clientSecret;
 
-    @ApiModelProperty("clientName")
+    @Schema(title = "clientName")
     private String clientName;
 
-    @ApiModelProperty("重定向链接")
+    @Schema(title = "重定向链接")
     private String redirectUris;
 
-    @ApiModelProperty("授权范围")
+    @Schema(title = "授权范围")
     private String scopes;
 
 }

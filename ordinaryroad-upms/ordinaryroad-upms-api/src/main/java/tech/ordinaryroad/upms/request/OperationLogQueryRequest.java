@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,20 +37,21 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class OperationLogQueryRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = -6798200151077215361L;
 
-    @ApiModelProperty("类型")
+    @Schema(title = "类型")
     private Integer type;
 
-    @ApiModelProperty("请求方法")
+    @Schema(title = "请求方法")
     private String method;
 
-    @ApiModelProperty("响应状态")
+    @Schema(title = "响应状态")
     private String status;
 
-    @ApiModelProperty("请求路径")
+    @Schema(title = "请求路径")
     private String path;
 }

@@ -23,15 +23,15 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -39,21 +39,22 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysUserUpdateEnabledRequest extends BaseRequest {
 
+    @Serial
     private static final long serialVersionUID = 5282199712444997943L;
 
-    @ApiModelProperty(value = "主键uuid", required = true)
+    @Schema(title = "主键uuid", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "主键uuid不能为空")
     @Size(max = 32, message = "主键uuid长度不能超过32")
     private String uuid;
 
-    @ApiModelProperty(value = "账号是否可用", required = true)
+    @Schema(title = "账号是否可用", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotNull(message = "账号是否可用不能为空")
     private Boolean enabled;
 
-    @ApiModelProperty(value = "停用时间，单位秒，-1永久封禁，当前为永久封禁", hidden = true)
+    @Schema(title = "停用时间，单位秒，-1永久封禁，当前为永久封禁", accessMode = Schema.AccessMode.READ_ONLY)
     private Long disableTime = -1L;
 
 }

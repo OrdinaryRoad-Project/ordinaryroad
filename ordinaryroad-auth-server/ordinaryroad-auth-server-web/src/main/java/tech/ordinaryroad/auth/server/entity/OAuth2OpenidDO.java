@@ -29,6 +29,8 @@ import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
+import java.io.Serial;
+
 
 /**
  * 不同客户端下用户openid表
@@ -42,6 +44,7 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 @Entity.Table("oauth2_openid")
 public class OAuth2OpenidDO extends BaseDO {
 
+    @Serial
     private static final long serialVersionUID = -7917651392205421338L;
 
     /**

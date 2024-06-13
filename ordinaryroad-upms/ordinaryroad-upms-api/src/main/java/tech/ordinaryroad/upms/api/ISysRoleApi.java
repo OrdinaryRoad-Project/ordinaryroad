@@ -24,7 +24,7 @@
 package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;
@@ -44,7 +44,7 @@ import java.util.List;
  * @author mjz
  * @date 2021/11/4
  */
-@Api(value = "角色API")
+@Tag(name = "角色API")
 @HttpExchange("http://ordinaryroad-upms")
 public interface ISysRoleApi {
 

@@ -23,7 +23,7 @@
  */
 package tech.ordinaryroad.auth.server.api;
 
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -40,7 +40,7 @@ import tech.ordinaryroad.commons.core.base.result.Result;
  * @author mjz
  * @date 2022/1/15
  */
-@Api(value = "OAuth2 API")
+@Tag(name = "OAuth2 API")
 @HttpExchange("http://ordinaryroad-auth-server")
 public interface IOAuth2Api {
 

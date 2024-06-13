@@ -24,11 +24,13 @@
 
 package tech.ordinaryroad.commons.core.base.request.query;
 
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
+import java.io.Serial;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -42,66 +44,67 @@ import java.util.List;
 @Setter
 public class BaseQueryRequest extends BaseRequest {
 
+    @Serial
     private static final long serialVersionUID = -6517407721981279173L;
 
     /**
      * 主键uuid
      */
-    @ApiModelProperty("主键uuid")
+    @Schema(title = "主键uuid")
     private String uuid;
 
     /**
      * 创建者OR账号
      */
-    @ApiModelProperty("创建者OR账号")
+    @Schema(title = "创建者OR账号")
     private String createBy;
 
     /**
      * 更新者OR账号
      */
-    @ApiModelProperty("更新者OR账号")
+    @Schema(title = "更新者OR账号")
     private String updateBy;
 
     /**
      * 主键uuid列表
      */
-    @ApiModelProperty("主键uuid列表")
+    @Schema(title = "主键uuid列表")
     private List<String> uuids;
 
     /**
      * 个数
      */
-    @ApiModelProperty("个数")
+    @Schema(title = "个数")
     private Integer limit = 20;
 
     /**
      * 偏移量
      */
-    @ApiModelProperty("偏移量")
+    @Schema(title = "偏移量")
     private Integer offset = 0;
 
     /**
      * 根据哪些字段排序
      */
-    @ApiModelProperty("排序字段列表")
+    @Schema(title = "排序字段列表")
     private String[] sortBy;
 
     /**
      * 是否为降序排序
      */
-    @ApiModelProperty("是否为降序排序")
+    @Schema(title = "是否为降序排序")
     private Boolean[] sortDesc;
 
     /**
      * 起始时间
      */
-    @ApiModelProperty("起始时间")
+    @Schema(title = "起始时间")
     private LocalDateTime startTime;
 
     /**
      * 结束时间
      */
-    @ApiModelProperty("结束时间")
+    @Schema(title = "结束时间")
     private LocalDateTime endTime;
 
 }

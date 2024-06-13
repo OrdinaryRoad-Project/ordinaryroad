@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,20 +37,21 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
  */
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
-@ApiModel
+@Schema
 public class SysRoleDTO extends BaseModelDTO {
 
+    @Serial
     private static final long serialVersionUID = 7448271006522452148L;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("角色名称")
+    @Schema(title = "角色名称")
     private String roleName;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("角色code")
+    @Schema(title = "角色code")
     private String roleCode;
 
-    @ApiModelProperty("角色是否可用。默认为1（可用）")
+    @Schema(title = "角色是否可用。默认为1（可用）")
     private Boolean enabled;
 
 }

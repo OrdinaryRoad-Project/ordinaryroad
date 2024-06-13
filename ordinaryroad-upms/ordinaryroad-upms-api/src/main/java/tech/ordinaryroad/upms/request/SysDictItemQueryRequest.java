@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,26 +37,27 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysDictItemQueryRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = -5315988336265546391L;
 
-    @ApiModelProperty("字典uuid")
+    @Schema(title = "字典uuid")
     private String dictUuid;
 
-    @ApiModelProperty("字典code")
+    @Schema(title = "字典code")
     private String dictCode;
 
-    @ApiModelProperty("字典名称")
+    @Schema(title = "字典名称")
     private String dictName;
 
-    @ApiModelProperty("显示标签")
+    @Schema(title = "显示标签")
     private String label;
 
-    @ApiModelProperty("值")
+    @Schema(title = "值")
     private String value;
 
-    @ApiModelProperty("备注")
+    @Schema(title = "备注")
     private String remark;
 }

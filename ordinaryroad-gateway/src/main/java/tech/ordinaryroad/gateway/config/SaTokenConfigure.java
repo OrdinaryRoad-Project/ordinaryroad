@@ -94,7 +94,7 @@ public class SaTokenConfigure {
 
                 // 开放地址 Knife
                 // https://sa-token.dev33.cn/doc/index.html#/more/common-questions?id=%e6%88%91%e4%bd%bf%e7%94%a8%e8%bf%87%e6%bb%a4%e5%99%a8%e9%89%b4%e6%9d%83-or-%e5%85%a8%e5%b1%80%e6%8b%a6%e6%88%aa%e5%99%a8%e9%89%b4%e6%9d%83%ef%bc%8c%e7%bb%93%e6%9e%9c-swagger-%e4%b8%8d%e8%83%bd%e8%ae%bf%e9%97%ae%e4%ba%86%ef%bc%8c%e6%88%91%e5%ba%94%e8%af%a5%e6%8e%92%e9%99%a4%e5%93%aa%e4%ba%9b%e5%9c%b0%e5%9d%80%ef%bc%9f
-                .addExclude("/swagger-resources/*", "/*/v2/*", "/doc.html/*")
+                .addExclude("/swagger-resources/*", "/*/v3/*", "/doc.html*")
 
                 // 开放地址 登录 登出 登录回调
                 .addExclude("/login", "/logout", "/authorized")

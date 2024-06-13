@@ -137,14 +137,10 @@
             <!-- knife4j 依赖配置 -->
             <dependency>
                 <groupId>com.github.xiaoymin</groupId>
-                <artifactId>knife4j-gateway-spring-boot-starter</artifactId>
+                <artifactId>knife4j-dependencies</artifactId>
                 <version>${knife4j.version}</version>
-            </dependency>
-            <!-- swagger-annotations -->
-            <dependency>
-                <groupId>io.swagger</groupId>
-                <artifactId>swagger-annotations</artifactId>
-                <version>${swagger-annotations.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
             <!-- dynamic-datasource-spring-boot-starter -->
@@ -209,11 +205,11 @@
             </dependency>
 
             <!-- ordinaryroad-commons-swagger -->
-            <!--            <dependency>-->
-            <!--                <groupId>tech.ordinaryroad</groupId>-->
-            <!--                <artifactId>ordinaryroad-commons-swagger</artifactId>-->
-            <!--                <version>2.0.0</version>-->
-            <!--            </dependency>-->
+            <dependency>
+                <groupId>tech.ordinaryroad</groupId>
+                <artifactId>ordinaryroad-commons-swagger</artifactId>
+                <version>2.0.0</version>
+            </dependency>
 
             <!-- ordinaryroad-commons-satoken -->
             <dependency>

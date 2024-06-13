@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,18 +37,19 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysRoleQueryRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = -6238975321407916564L;
 
-    @ApiModelProperty("角色名称")
+    @Schema(title = "角色名称")
     private String roleName;
 
-    @ApiModelProperty("角色code")
+    @Schema(title = "角色code")
     private String roleCode;
 
-    @ApiModelProperty("用户uuid")
+    @Schema(title = "用户uuid")
     private String userUuid;
 
 }

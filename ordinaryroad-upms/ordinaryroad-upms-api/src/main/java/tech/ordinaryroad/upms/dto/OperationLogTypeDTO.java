@@ -23,18 +23,21 @@
  */
 package tech.ordinaryroad.upms.dto;
 
-import io.swagger.annotations.ApiModel;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tech.ordinaryroad.commons.base.dto.BaseDTO;
+
+import java.io.Serial;
 
 /**
  * @author mjz
  * @date 2022/11/30
  */
 @Data
-@ApiModel
+@Schema
 public class OperationLogTypeDTO extends BaseDTO implements Cloneable {
 
+    @Serial
     private static final long serialVersionUID = -3686508922282436298L;
 
     private String description;

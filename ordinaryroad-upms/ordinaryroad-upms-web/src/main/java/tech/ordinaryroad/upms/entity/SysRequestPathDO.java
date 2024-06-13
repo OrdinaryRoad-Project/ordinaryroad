@@ -29,6 +29,8 @@ import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
+import java.io.Serial;
+
 
 /**
  * 请求路径表
@@ -42,6 +44,7 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 @Entity.Table("sys_request_path")
 public class SysRequestPathDO extends BaseDO {
 
+    @Serial
     private static final long serialVersionUID = 5006835641946136314L;
 
     /**

@@ -23,14 +23,14 @@
  */
 package tech.ordinaryroad.push.request.base;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * 推送请求基类
@@ -40,17 +40,18 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class BasePushRequest extends BaseRequest {
 
+    @Serial
     private static final long serialVersionUID = 5109042323164088395L;
 
-    @ApiModelProperty(value = "标题", required = true)
+    @Schema(title = "标题", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "标题不能为空")
     @Size(max = 50, message = "标题长度不能超过50")
     private String title;
 
-    @ApiModelProperty(value = "内容", required = true)
+    @Schema(title = "内容", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "内容不能为空")
     @Size(max = 1000, message = "内容长度不能超过1000")
     private String content;

@@ -29,6 +29,8 @@ import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
+import java.io.Serial;
+
 
 /**
  * 字典项
@@ -42,6 +44,7 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 @Entity.Table("sys_dict_item")
 public class SysDictItemDO extends BaseDO {
 
+    @Serial
     private static final long serialVersionUID = 2264003877437352206L;
 
     /**

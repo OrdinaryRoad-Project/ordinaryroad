@@ -23,11 +23,12 @@
  */
 package tech.ordinaryroad.upms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,19 +36,20 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
  */
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
-@ApiModel
+@Schema
 public class SysDictDTO extends BaseModelDTO {
 
+    @Serial
     private static final long serialVersionUID = -9117237387309730595L;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("角色名称")
+    @Schema(title = "角色名称")
     private String dictName;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("角色code")
+    @Schema(title = "角色code")
     private String dictCode;
 
-    @ApiModelProperty("备注")
+    @Schema(title = "备注")
     private String remark;
 }

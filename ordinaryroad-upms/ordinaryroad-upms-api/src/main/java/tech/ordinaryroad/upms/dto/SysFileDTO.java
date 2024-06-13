@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,25 +37,26 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
  */
 @EqualsAndHashCode(onlyExplicitlyIncluded = true, callSuper = false)
 @Data
-@ApiModel
+@Schema
 public class SysFileDTO extends BaseModelDTO {
 
+    @Serial
     private static final long serialVersionUID = -5956078428416671355L;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("桶名称")
+    @Schema(title = "桶名称")
     private String bucketName;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("对象名称")
+    @Schema(title = "对象名称")
     private String objectName;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("原文件名")
+    @Schema(title = "原文件名")
     private String originalFilename;
 
     @EqualsAndHashCode.Include
-    @ApiModelProperty("文件大小（byte）")
+    @Schema(title = "文件大小（byte）")
     private Long size;
 
 }

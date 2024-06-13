@@ -24,6 +24,8 @@
 
 package tech.ordinaryroad.commons.base.exception;
 
+import java.io.Serial;
+
 /**
  * 删除失败
  *
@@ -32,6 +34,7 @@ package tech.ordinaryroad.commons.base.exception;
  */
 public class DeleteException extends BaseException {
 
+    @Serial
     private static final long serialVersionUID = -5746564229957308928L;
 
     public DeleteException(String msg) {

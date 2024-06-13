@@ -23,61 +23,64 @@
  */
 package tech.ordinaryroad.upms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+
+import java.io.Serial;
 
 /**
  * @author mjz
  * @date 2022/11/30
  */
 @Data
-@ApiModel
+@Schema
 public class OperationLogDTO extends BaseModelDTO {
 
+    @Serial
     private static final long serialVersionUID = -2175243628914642534L;
 
-    @ApiModelProperty("IP")
+    @Schema(title = "IP")
     private String ip;
 
-    @ApiModelProperty("请求路径")
+    @Schema(title = "请求路径")
     private String path;
 
-    @ApiModelProperty("请求方法")
+    @Schema(title = "请求方法")
     private String method;
 
-    @ApiModelProperty("请求头")
+    @Schema(title = "请求头")
     private String headers;
 
-    @ApiModelProperty("请求Cookie")
+    @Schema(title = "请求Cookie")
     private String cookies;
 
-    @ApiModelProperty("路径参数")
+    @Schema(title = "路径参数")
     private String pathParams;
 
-    @ApiModelProperty("查询参数")
+    @Schema(title = "查询参数")
     private String queryParams;
 
-    @ApiModelProperty("请求体")
+    @Schema(title = "请求体")
     private String request;
 
-    @ApiModelProperty("响应状态")
+    @Schema(title = "响应状态")
     private String status;
 
-    @ApiModelProperty("响应头")
+    @Schema(title = "响应头")
     private String responseHeaders;
 
-    @ApiModelProperty("响应Cookie")
+    @Schema(title = "响应Cookie")
     private String responseCookies;
 
-    @ApiModelProperty("响应体")
+    @Schema(title = "响应体")
     private String response;
 
-    @ApiModelProperty("耗时")
+    @Schema(title = "耗时")
     private Long consumedTime;
 
-    @ApiModelProperty("类型")
+    @Schema(title = "类型")
     private Integer type;
 
 }

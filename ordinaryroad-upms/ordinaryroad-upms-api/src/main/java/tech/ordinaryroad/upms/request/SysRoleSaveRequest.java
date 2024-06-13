@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -38,17 +39,18 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysRoleSaveRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = -1321418637203502222L;
 
-    @ApiModelProperty("角色名称")
+    @Schema(title = "角色名称")
     @NotBlank(message = "角色名称不能为空")
     @Size(max = 10, message = "角色名称长度不能超过10")
     private String roleName;
 
-    @ApiModelProperty("角色code")
+    @Schema(title = "角色code")
     @NotBlank(message = "角色code不能为空")
     @Size(max = 10, message = "角色code长度不能超过10")
     private String roleCode;

@@ -24,11 +24,13 @@
 
 package tech.ordinaryroad.commons.core.base.request.delete;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
+
+import java.io.Serial;
 
 
 /**
@@ -41,12 +43,13 @@ import tech.ordinaryroad.commons.core.base.request.BaseRequest;
 @Setter
 public class BaseDeleteRequest extends BaseRequest {
 
+    @Serial
     private static final long serialVersionUID = 3183898936938983687L;
 
     /**
      * 主键uuid
      */
-    @ApiModelProperty("主键uuid")
+    @Schema(title = "主键uuid")
     @NotBlank(message = "主键uuid不能为空")
     private String uuid;
 

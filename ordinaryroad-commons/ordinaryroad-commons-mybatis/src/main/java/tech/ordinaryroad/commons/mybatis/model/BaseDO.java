@@ -30,6 +30,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 
@@ -44,6 +45,7 @@ import java.time.LocalDateTime;
 @ToString
 public class BaseDO implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = -5159871109171099140L;
 
     /**

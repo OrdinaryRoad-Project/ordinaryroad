@@ -29,6 +29,8 @@ import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
+import java.io.Serial;
+
 
 /**
  * 权限表
@@ -42,6 +44,7 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 @Entity.Table("sys_permission")
 public class SysPermissionDO extends BaseDO {
 
+    @Serial
     private static final long serialVersionUID = 4454184361799283456L;
 
     /**

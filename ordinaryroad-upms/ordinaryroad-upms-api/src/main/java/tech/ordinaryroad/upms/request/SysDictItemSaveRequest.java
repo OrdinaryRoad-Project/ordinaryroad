@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -38,29 +39,30 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysDictItemSaveRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = 7822992415286092761L;
 
-    @ApiModelProperty("字典uuid")
+    @Schema(title = "字典uuid")
     @NotBlank(message = "字典uuid不能为空")
     @Size(max = 32, message = "字典uuid长度不能超过32")
     private String dictUuid;
 
-    @ApiModelProperty("显示标签")
+    @Schema(title = "显示标签")
     @NotBlank(message = "显示标签不能为空")
     @Size(max = 50, message = "显示标签长度不能超过50")
     private String label;
 
-    @ApiModelProperty("值")
+    @Schema(title = "值")
     @NotBlank(message = "值不能为空")
     @Size(max = 10, message = "值长度不能超过10")
     private String value;
 
-    @ApiModelProperty("显示排序")
+    @Schema(title = "显示排序")
     private Integer sort;
 
-    @ApiModelProperty("备注")
+    @Schema(title = "备注")
     private String remark;
 }

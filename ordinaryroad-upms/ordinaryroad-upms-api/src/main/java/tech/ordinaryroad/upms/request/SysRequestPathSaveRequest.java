@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -38,21 +39,22 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysRequestPathSaveRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = 4625071935575346909L;
 
-    @ApiModelProperty("请求路径所需要的权限uuid")
+    @Schema(title = "请求路径所需要的权限uuid")
     @Size(max = 32, message = "请求路径所需要的权限uuid长度不能超过32")
     private String permissionUuid;
 
-    @ApiModelProperty("路径url")
+    @Schema(title = "路径url")
     @NotBlank(message = "路径url不能为空")
     @Size(max = 200, message = "路径url长度不能超过200")
     private String path;
 
-    @ApiModelProperty("路径名称")
+    @Schema(title = "路径名称")
     @NotBlank(message = "路径名称不能为空")
     @Size(max = 100, message = "路径名称长度不能超过100")
     private String pathName;

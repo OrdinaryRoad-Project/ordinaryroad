@@ -23,9 +23,9 @@
  */
 package tech.ordinaryroad.commons.swagger.properties;
 
+import io.swagger.v3.oas.models.info.Contact;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import springfox.documentation.service.Contact;
 
 /**
  * @author mjz
@@ -37,10 +37,10 @@ public class OrSwaggerProperties {
     private String title = "OrdinaryRoad";
     private String description = "<div style='font-size:14px;color:red;'>OrdinaryRoad APIs</div>";
     private String termsOfServiceUrl;
-    private String version = "1.4.0";
+    private String version = "2.0.0";
     private String license = "MIT License";
     private String licenseUrl = "https://github.com/1962247851/ordinaryroad/blob/main/LICENSE";
-    private Contact contact = new Contact("OrdinaryRoad", "https://ordinaryroad.top", "1962247851@qq.com");
+    private Contact contact = new Contact().name("OrdinaryRoad").url("https://ordinaryroad.top").email("1962247851@qq.com");
     private EndpointsProperties endpoints = new EndpointsProperties();
 
     @Data

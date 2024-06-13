@@ -29,6 +29,8 @@ import lombok.Setter;
 import lombok.ToString;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
+import java.io.Serial;
+
 
 /**
  * 注册的客户端表
@@ -42,6 +44,7 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 @Entity.Table("oauth2_registered_client")
 public class OAuth2RegisteredClientDO extends BaseDO {
 
+    @Serial
     private static final long serialVersionUID = 2549033559539795933L;
 
     /**

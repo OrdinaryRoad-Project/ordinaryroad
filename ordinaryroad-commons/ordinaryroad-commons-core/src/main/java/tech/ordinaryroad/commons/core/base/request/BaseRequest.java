@@ -23,10 +23,12 @@
  */
 package tech.ordinaryroad.commons.core.base.request;
 
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.base.request.IBaseRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -36,12 +38,13 @@ import tech.ordinaryroad.commons.base.request.IBaseRequest;
 @Setter
 public abstract class BaseRequest implements IBaseRequest {
 
+    @Serial
     private static final long serialVersionUID = -892693379052534276L;
 
     /**
      * 用户uuid，由网关过滤器填充
      */
-    @ApiModelProperty(value = "用户uuid", hidden = true)
+    @Schema(title = "用户uuid", accessMode = Schema.AccessMode.READ_ONLY)
     private String uid;
 
 }

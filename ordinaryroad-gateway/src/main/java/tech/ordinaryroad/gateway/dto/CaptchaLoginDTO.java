@@ -23,25 +23,28 @@
  */
 package tech.ordinaryroad.gateway.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tech.ordinaryroad.commons.base.dto.BaseDTO;
+
+import java.io.Serial;
 
 /**
  * @author mjz
  * @date 2021/11/29
  */
 @Data
-@ApiModel
+@Schema
 public class CaptchaLoginDTO extends BaseDTO {
 
+    @Serial
     private static final long serialVersionUID = -6408581940723058437L;
 
-    @ApiModelProperty("验证码UUID")
+    @Schema(title = "验证码UUID")
     private String captchaId;
 
-    @ApiModelProperty("base64格式的验证码图片")
+    @Schema(title = "base64格式的验证码图片")
     private String img;
 
 }

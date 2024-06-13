@@ -24,7 +24,7 @@
 package tech.ordinaryroad.upms.api;
 
 import com.github.pagehelper.PageInfo;
-import io.swagger.annotations.Api;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -43,7 +43,7 @@ import tech.ordinaryroad.upms.request.SysFileQueryRequest;
  * @author mjz
  * @date 2022/1/11
  */
-@Api(value = "文件API")
+@Tag(name = "文件API")
 @HttpExchange("http://ordinaryroad-upms")
 public interface ISysFileApi {
 

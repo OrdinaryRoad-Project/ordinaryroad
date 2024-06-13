@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.BaseRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,15 +37,16 @@ import tech.ordinaryroad.commons.core.base.request.BaseRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysUserInfoRequest extends BaseRequest {
 
+    @Serial
     private static final long serialVersionUID = -8857867884460652514L;
 
-    @ApiModelProperty("token")
+    @Schema(title = "token")
     private String saToken;
 
-    @ApiModelProperty("OR账号")
+    @Schema(title = "OR账号")
     private String orNumber;
 
 }

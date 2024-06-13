@@ -28,6 +28,8 @@ import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 
+import java.io.Serial;
+
 
 /**
  * 用户表
@@ -40,6 +42,7 @@ import tech.ordinaryroad.commons.mybatis.model.BaseDO;
 @Entity.Table("sys_user")
 public class SysUserDO extends BaseDO {
 
+    @Serial
     private static final long serialVersionUID = 1213747147371494092L;
 
     /**

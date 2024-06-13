@@ -23,13 +23,13 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -37,12 +37,13 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysUserUpdateAvatarRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = -3503599410583172261L;
 
-    @ApiModelProperty(value = "头像地址")
+    @Schema(title = "头像地址")
     @Size(max = 255, message = "头像地址长度不能超过255")
     private String avatar;
 

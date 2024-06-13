@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,14 +37,15 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysRolesPermissionsQueryRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = -9144987014006938478L;
 
-    @ApiModelProperty("角色uuid")
+    @Schema(title = "角色uuid")
     private String roleUuid;
 
-    @ApiModelProperty("权限uuid")
+    @Schema(title = "权限uuid")
     private String permissionUuid;
 }

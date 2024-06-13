@@ -23,12 +23,13 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 
+import java.io.Serial;
 import java.util.List;
 
 /**
@@ -37,24 +38,25 @@ import java.util.List;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysRequestPathQueryRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = 424591631729153606L;
 
-    @ApiModelProperty("请求路径所需要的权限uuid")
+    @Schema(title = "请求路径所需要的权限uuid")
     private String permissionUuid;
 
-    @ApiModelProperty("路径url")
+    @Schema(title = "路径url")
     private String path;
 
-    @ApiModelProperty("路径名称")
+    @Schema(title = "路径名称")
     private String pathName;
 
-    @ApiModelProperty("用户uuid")
+    @Schema(title = "用户uuid")
     private String userUuid;
 
-    @ApiModelProperty("权限uuid列表")
+    @Schema(title = "权限uuid列表")
     private List<String> permissionUuids;
 
 }

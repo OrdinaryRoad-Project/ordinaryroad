@@ -23,14 +23,15 @@
  */
 package tech.ordinaryroad.upms.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.save.BaseSaveRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -38,22 +39,23 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class SysDictSaveRequest extends BaseSaveRequest {
 
+    @Serial
     private static final long serialVersionUID = -3334300081148365342L;
 
-    @ApiModelProperty("字典名称")
+    @Schema(title = "字典名称")
     @NotBlank(message = "字典名称不能为空")
     @Size(max = 100, message = "字典名称长度不能超过100")
     private String dictName;
 
-    @ApiModelProperty("字典code")
+    @Schema(title = "字典code")
     @NotBlank(message = "字典code不能为空")
     @Size(max = 100, message = "字典code长度不能超过100")
     private String dictCode;
 
-    @ApiModelProperty("备注")
+    @Schema(title = "备注")
     @Size(max = 255, message = "备注长度不能超过255")
     private String remark;
 }

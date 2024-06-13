@@ -29,6 +29,8 @@ import com.alibaba.fastjson2.JSON;
 import tech.ordinaryroad.commons.base.cons.IStatusCode;
 import tech.ordinaryroad.commons.base.cons.StatusCode;
 
+import java.io.Serial;
+
 /**
  * 请求结果
  *
@@ -38,6 +40,7 @@ import tech.ordinaryroad.commons.base.cons.StatusCode;
  */
 public class Result<T> implements IBaseResult<T> {
 
+    @Serial
     private static final long serialVersionUID = 570724001999385145L;
 
     private int code;

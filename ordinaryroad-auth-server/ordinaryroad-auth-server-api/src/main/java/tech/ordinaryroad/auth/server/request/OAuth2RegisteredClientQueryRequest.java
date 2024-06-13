@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.auth.server.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,24 +37,25 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class OAuth2RegisteredClientQueryRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = -6203458418952926888L;
 
-    @ApiModelProperty("clientId")
+    @Schema(title = "clientId")
     private String clientId;
 
-    @ApiModelProperty("clientSecret")
+    @Schema(title = "clientSecret")
     private String clientSecret;
 
-    @ApiModelProperty("clientName")
+    @Schema(title = "clientName")
     private String clientName;
 
-    @ApiModelProperty("重定向链接")
+    @Schema(title = "重定向链接")
     private String redirectUris;
 
-    @ApiModelProperty("授权范围")
+    @Schema(title = "授权范围")
     private String scopes;
 
 }

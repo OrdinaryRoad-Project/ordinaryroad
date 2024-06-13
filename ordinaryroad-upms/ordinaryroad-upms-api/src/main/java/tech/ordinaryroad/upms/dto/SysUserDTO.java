@@ -23,10 +23,12 @@
  */
 package tech.ordinaryroad.upms.dto;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
+
+import java.io.Serial;
 
 /**
  * TODO 测试BaseDTO
@@ -35,36 +37,37 @@ import tech.ordinaryroad.commons.core.base.dto.BaseModelDTO;
  * @date 2021/10/27
  */
 @Data
-@ApiModel
+@Schema
 public class SysUserDTO extends BaseModelDTO {
 
+    @Serial
     private static final long serialVersionUID = 7832921378107878184L;
 
-    @ApiModelProperty("or帐号")
+    @Schema(title = "or帐号")
     private String orNumber;
 
-    @ApiModelProperty("头像地址")
+    @Schema(title = "头像地址")
     private String avatar;
 
-    @ApiModelProperty("邮箱")
+    @Schema(title = "邮箱")
     private String email;
 
-    @ApiModelProperty("用户名")
+    @Schema(title = "用户名")
     private String username;
 
-    @ApiModelProperty("用户密码")
+    @Schema(title = "用户密码")
     private String password;
 
-    @ApiModelProperty("账号是否可用。默认为1（可用）")
+    @Schema(title = "账号是否可用。默认为1（可用）")
     private Boolean enabled;
 
-    @ApiModelProperty("是否过期。默认为1（没有过期）")
+    @Schema(title = "是否过期。默认为1（没有过期）")
     private Boolean notExpired;
 
-    @ApiModelProperty("账号是否锁定。默认为1（没有锁定）")
+    @Schema(title = "账号是否锁定。默认为1（没有锁定）")
     private Boolean notLocked;
 
-    @ApiModelProperty("密码是否过期。默认为1（没有过期）")
+    @Schema(title = "密码是否过期。默认为1（没有过期）")
     private Boolean passwordNotExpired;
 
 }

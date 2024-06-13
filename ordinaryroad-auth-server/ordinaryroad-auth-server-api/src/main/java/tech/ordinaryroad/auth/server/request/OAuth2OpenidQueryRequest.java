@@ -23,11 +23,13 @@
  */
 package tech.ordinaryroad.auth.server.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
+
+import java.io.Serial;
 
 /**
  * @author mjz
@@ -35,18 +37,19 @@ import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class OAuth2OpenidQueryRequest extends BaseQueryRequest {
 
+    @Serial
     private static final long serialVersionUID = 837575037606340046L;
 
-    @ApiModelProperty("or帐号")
+    @Schema(title = "or帐号")
     private String orNumber;
 
-    @ApiModelProperty("clientId")
+    @Schema(title = "clientId")
     private String clientId;
 
-    @ApiModelProperty("openid")
+    @Schema(title = "openid")
     private String openid;
 
 }

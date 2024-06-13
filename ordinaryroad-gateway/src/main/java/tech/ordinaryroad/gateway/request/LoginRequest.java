@@ -23,14 +23,14 @@
  */
 package tech.ordinaryroad.gateway.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import tech.ordinaryroad.commons.base.request.IBaseRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * 登录请求
@@ -40,34 +40,35 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class LoginRequest implements IBaseRequest {
 
+    @Serial
     private static final long serialVersionUID = -7838016262579003724L;
 
-    @ApiModelProperty("记住我")
+    @Schema(title = "记住我")
     private Boolean rememberMe;
 
-    @ApiModelProperty(value = "验证码UUID", required = true)
+    @Schema(title = "验证码UUID", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "验证码UUID不能为空")
     @Size(max = 36, message = "验证码UUID长度不能超过36")
     private String captchaId;
 
-    @ApiModelProperty(value = "验证码", required = true)
+    @Schema(title = "验证码", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "验证码不能为空")
     @Size(max = 10, message = "验证码长度不能超过10")
     private String code;
 
-    @ApiModelProperty("用户名")
+    @Schema(title = "用户名")
     private String username;
 
-    @ApiModelProperty("邮箱")
+    @Schema(title = "邮箱")
     private String email;
 
-    @ApiModelProperty("or帐号")
+    @Schema(title = "or帐号")
     private String orNumber;
 
-    @ApiModelProperty(value = "密码", required = true)
+    @Schema(title = "密码", requiredMode = Schema.RequiredMode.REQUIRED)
     @NotBlank(message = "密码不能为空")
     private String password;
 

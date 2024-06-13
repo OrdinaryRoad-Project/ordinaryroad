@@ -23,16 +23,17 @@
  */
 package tech.ordinaryroad.push.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.media.SchemaProperty;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.util.MimeType;
 import tech.ordinaryroad.push.request.base.BasePushRequest;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import java.io.Serial;
 
 /**
  * 邮箱推送请求
@@ -42,18 +43,19 @@ import jakarta.validation.constraints.Size;
  */
 @Getter
 @Setter
-@ApiModel
+@Schema
 public class EmailPushRequest extends BasePushRequest {
 
+    @Serial
     private static final long serialVersionUID = -8223940903595057427L;
 
-    @ApiModelProperty("邮箱")
+    @SchemaProperty(name = "邮箱")
     @NotBlank(message = "邮箱不能为空")
     @Size(max = 255, message = "邮箱长度不能超过255")
     @Pattern(regexp = "^\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*$", message = "邮箱格式错误")
     private String email;
 
-    @ApiModelProperty(value = "邮件内容类型", hidden = true)
+    @SchemaProperty(name = "邮件内容类型", schema = @Schema(accessMode = Schema.AccessMode.READ_ONLY))
     private MimeType mimeType;
 
 }
