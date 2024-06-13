@@ -71,7 +71,7 @@
 
         <metadata-extractor.version>2.19.0</metadata-extractor.version>
         <jiguang-common.version>1.2.6</jiguang-common.version>
-        <jpush-client.version>3.7.6</jpush-client.version>
+        <jpush-client.version>3.7.7</jpush-client.version>
         <jts.version>1.19.0</jts.version>
         <spatial4j.version>0.8</spatial4j.version>
     </properties>
