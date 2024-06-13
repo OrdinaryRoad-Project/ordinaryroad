@@ -259,40 +259,47 @@ spring:
             port: 465
             class: javax.net.ssl.SSLSocketFactory
             fallback: false
-  # redis配置
-  redis:
-    # Redis数据库索引（默认为0）
-    database: 0
-    # Redis服务器地址
-    host: ordinaryroad-redis
-    # Redis服务器连接端口
-    port: 6379
-    # Redis服务器连接密码（默认为空）
-    password:
-    # 连接超时时间（毫秒）
-    timeout: 10000ms
-    lettuce:
-      pool:
-        # 连接池最大连接数
-        max-active: 200
-        # 连接池最大阻塞等待时间（使用负值表示没有限制）
-        max-wait: -1ms
-        # 连接池中的最大空闲连接
-        max-idle: 10
-        # 连接池中的最小空闲连接
-        min-idle: 0
+  data:
+    # redis配置
+    redis:
+      # Redis数据库索引（默认为0）
+      database: 0
+      # Redis服务器地址
+      host: ordinaryroad-redis
+      # Redis服务器连接端口
+      port: 6379
+      # Redis服务器连接密码（默认为空）
+      password:
+      # 连接超时时间（毫秒）
+      timeout: 10000ms
+      lettuce:
+        pool:
+          # 连接池最大连接数
+          max-active: 200
+          # 连接池最大阻塞等待时间（使用负值表示没有限制）
+          max-wait: -1ms
+          # 连接池中的最大空闲连接
+          max-idle: 10
+          # 连接池中的最小空闲连接
+          min-idle: 0
 # MyBatis
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   configuration:
     map-underscore-to-camel-case: true
-# TK MyBatis
-mapper:
-  wrapKeyword: "`{0}`"
-  notEmpty: false
-  safeDelete: true
-  safeUpdate: true
-  IDENTITY: MySQL', 'eb4581b47741c82d8ccc14660428958c', '2021-12-14 00:36:55',
+#knife4j
+knife4j:
+  gateway:
+    enabled: true
+    strategy: discover
+    discover:
+      enabled: true
+      version: openapi3
+      # excluded-services:
+      #  - ordinaryroad-gateway
+      oas3:
+        url: /v3/api-docs/default
+', 'eb4581b47741c82d8ccc14660428958c', '2021-12-14 00:36:55',
         '2022-11-30 09:39:55', 'nacos', '172.17.0.1', '', 'dev', '', '', '', 'yaml', '', '');
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
                                        app_name, tenant_id, c_desc, c_use, effect, `type`, c_schema, encrypted_data_key)
@@ -479,12 +486,14 @@ spring:
           url: jdbc:mysql://${MYSQL_HOST}:${MYSQL_PORT}/or_dev?useUnicode=true&characterEncoding=utf-8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
           username: ${MYSQL_USERNAME}
           password: ${MYSQL_PASSWORD}
-
-# swagger配置
-swagger:
-  title: 系统模块接口文档
-  license: Powered By OrdinaryRoad
-  licenseUrl: https://blog.ordinaryroad.tech', '8d24d569bb9868ce4a2937dc880c8ed4', '2021-12-14 00:36:20',
+ordinaryroad:
+  commons:
+    # Swagger配置
+    swagger:
+      title: 系统模块接口文档
+      license: Powered By OrdinaryRoad
+      licenseUrl: https://blog.ordinaryroad.tech'
+           , '8d24d569bb9868ce4a2937dc880c8ed4', '2021-12-14 00:36:20',
         '2022-01-20 12:01:23', 'nacos',
         '172.18.0.11', '', 'demo', '', '', '', 'yaml', '', '');
 INSERT INTO or_config_dev.config_info (data_id, group_id, content, md5, gmt_create, gmt_modified, src_user, src_ip,
@@ -513,11 +522,14 @@ spring:
           username: ${MYSQL_USERNAME}
           password: ${MYSQL_PASSWORD}
 
-# swagger配置
-swagger:
-  title: 系统模块接口文档
-  license: Powered By OrdinaryRoad
-  licenseUrl: https://blog.ordinaryroad.tech', '03ccfc38aa3719c54acb99708c7aecbe', '2021-12-14 00:36:55',
+ordinaryroad:
+  commons:
+    # Swagger配置
+    swagger:
+      title: 系统模块接口文档
+      license: Powered By OrdinaryRoad
+      licenseUrl: https://blog.ordinaryroad.tech'
+, '03ccfc38aa3719c54acb99708c7aecbe', '2021-12-14 00:36:55',
         '2022-11-29 15:10:56', 'nacos', '172.17.0.1', '', 'dev', '', '', '', 'yaml', '', '');
 
 -- ----------------------------
