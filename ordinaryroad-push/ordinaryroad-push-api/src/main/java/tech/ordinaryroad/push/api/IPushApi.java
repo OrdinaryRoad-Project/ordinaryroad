@@ -25,9 +25,9 @@ package tech.ordinaryroad.push.api;
 
 import io.swagger.annotations.Api;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;
+import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
 import tech.ordinaryroad.push.request.EmailPushRequest;
@@ -40,10 +40,10 @@ import tech.ordinaryroad.push.request.EmailPushRequest;
 @HttpExchange("http://ordinaryroad-push")
 public interface IPushApi {
 
-    @PostMapping(value = "/email/send")
+    @PostExchange(value = "/email/send")
     Result<?> email(@RequestBody @Validated EmailPushRequest request);
 
-    @PostMapping(value = "/android/send")
+    @PostExchange(value = "/android/send")
     Result<?> android(@RequestBody @Validated AndroidPushRequest request);
 
 }

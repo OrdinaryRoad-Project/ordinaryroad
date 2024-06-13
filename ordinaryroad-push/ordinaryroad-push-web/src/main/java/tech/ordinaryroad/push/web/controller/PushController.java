@@ -25,10 +25,10 @@ package tech.ordinaryroad.push.web.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import tech.ordinaryroad.commons.core.base.result.Result;
-import tech.ordinaryroad.push.api.IPushApi;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
 import tech.ordinaryroad.push.request.EmailPushRequest;
 import tech.ordinaryroad.push.strategy.AndroidPushStrategy;
@@ -40,17 +40,17 @@ import tech.ordinaryroad.push.strategy.EmailPushStrategy;
  */
 @RequiredArgsConstructor
 @RestController
-public class PushController implements IPushApi {
+public class PushController {
 
     private final EmailPushStrategy emailPushStrategy;
     private final AndroidPushStrategy androidPushStrategy;
 
-    @Override
+    @PostMapping(value = "/email/send")
     public Result<?> email(@RequestBody @Validated EmailPushRequest request) {
         return emailPushStrategy.send(request);
     }
 
-    @Override
+    @PostMapping(value = "/android/send")
     public Result<?> android(@RequestBody @Validated AndroidPushRequest request) {
         return androidPushStrategy.send(request);
     }
