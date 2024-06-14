@@ -103,6 +103,8 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
 
         fillMetaFieldsWhenCreate(t);
 
+        fillMetaFieldService.beforeInsert(t);
+
         if (isSelective) {
             return dao.insertSelective(t) > 0;
         }
@@ -192,6 +194,8 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
         Assert.notNull(t.getUuid(), "uuid不能为空");
 
         fillMetaFieldsWhenUpdate(t);
+
+        fillMetaFieldService.beforeUpdate(t);
 
         if (isSelective) {
             return dao.updateByPrimaryKeySelective(t) > 0;

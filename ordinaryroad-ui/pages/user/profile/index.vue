@@ -213,7 +213,7 @@
             </v-list-item-icon>
 
             <v-list-item-content>
-              <v-list-item-title>{{ userInfo.user.username }}</v-list-item-title>
+              <v-list-item-title>{{ userInfo.user.username || '暂未设置用户名' }}</v-list-item-title>
               <v-list-item-subtitle>{{ userInfo.user.orNumber }}</v-list-item-subtitle>
             </v-list-item-content>
           </v-list-item>
@@ -234,7 +234,7 @@
             </v-list-item-content>
           </v-list-item>
 
-          <v-list-item>
+          <v-list-item v-if="userRolesNameString">
             <v-list-item-icon>
               <v-icon color="primary">
                 mdi-account-multiple
