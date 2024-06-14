@@ -67,7 +67,7 @@ public class SaOAuth2ServerController {
      * @param wrapped 是否封装，默认为否
      * @return Object
      */
-    @RequestMapping(value = "/oauth2/token", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/oauth2/*", method = {RequestMethod.GET, RequestMethod.POST})
     public Object oauth2(@RequestParam(defaultValue = "false") Boolean wrapped) {
         Object o = SaOAuth2Handle.serverRequest();
         if (SaHolder.getRequest().isPath(SaOAuth2Consts.Api.doConfirm)) {
@@ -91,7 +91,7 @@ public class SaOAuth2ServerController {
         return o;
     }
 
-    @PostMapping("/oauth2/getOrNumber")
+    @GetMapping("/oauth2/getOrNumber")
     public Result<String> getOrNumber(@Validated @RequestBody OAuth2GetOrNumberRequest request) {
         Optional<OAuth2OpenidDO> byClientIdAndOpenid = oAuth2OpenidService.findByClientIdAndOpenid(request.getClientId(), request.getOpenid());
         return byClientIdAndOpenid.map(oAuth2OpenidDO -> Result.success(oAuth2OpenidDO.getOrNumber())).orElse(Result.fail(StatusCode.DATA_NOT_EXIST));
