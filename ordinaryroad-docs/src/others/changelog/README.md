@@ -2,6 +2,21 @@
 
 [GitHub Releases](https://github.com/1962247851/ordinaryroad/releases)
 
+### 2024-06-14 v2.0.0
+
+- JDK从8升级为17
+- ORM使用[MyBatis Mapper](https://mapper.mybatis.io)
+- build: 版本升级
+    - spring-boot 2.6.13->3.2.4
+    - spring-cloud 2021.0.5->2023.0.1
+    - spring-cloud-alibaba 2021.0.5.0->2023.0.1.0
+    - hutool 5.8.21->5.8.27
+    - sa-token 1.35.0.RC->1.38.0
+    - pagehelper 5.3.2->6.1.0
+    - fastjson2 2.0.39->2.0.50
+    - dynamic-datasource-spring-boot3-starter 4.3.0
+    - pagehelper-spring-boot-starter 2.1.0
+
 ### 2023-01-13 v1.6.2
 
 - perf: CDN从unpkg.com更换为fastly.jsdelivr.net
