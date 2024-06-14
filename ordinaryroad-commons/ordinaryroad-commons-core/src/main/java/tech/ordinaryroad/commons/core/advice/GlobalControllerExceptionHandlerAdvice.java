@@ -72,8 +72,7 @@ public class GlobalControllerExceptionHandlerAdvice {
     private Result<?> excepHandler(Exception ex) {
         log.error("全局异常拦截", ex);
         String rootCauseMessage = StrUtil.subPre(ExceptionUtil.getRootCauseMessage(ex), 500);
-        if (ex instanceof BaseException) {
-            BaseException bizEx = (BaseException) ex;
+        if (ex instanceof BaseException bizEx) {
             int code = 0;
             if (bizEx.getStatusCode() != null && bizEx.getStatusCode().getCode() != 0) {
                 code = bizEx.getStatusCode().getCode();
@@ -85,10 +84,9 @@ public class GlobalControllerExceptionHandlerAdvice {
             } else {
                 return Result.fail(code, ExceptionUtil.getSimpleMessage(ex));
             }
-        } else if (ex instanceof BindException) {
+        } else if (ex instanceof BindException exception) {
             // hibernate 校验
             // @RequestParam 参数校验失败
-            BindException exception = (BindException) ex;
             StringBuilder strBuilder = new StringBuilder();
             if (exception.getBindingResult().hasErrors()) {
                 for (FieldError fieldErro : exception.getBindingResult().getFieldErrors()) {
@@ -108,17 +106,14 @@ public class GlobalControllerExceptionHandlerAdvice {
                 }
                 return Result.fail(StatusCode.PARAM_NOT_VALID.getCode(), strBuilder.toString(), rootCauseMessage);
             }
-        } else if (ex instanceof NoHandlerFoundException) {
+        } else if (ex instanceof NoHandlerFoundException noHandlerFoundException) {
             // 404 错误处理
-            NoHandlerFoundException noHandlerFoundException = (NoHandlerFoundException) ex;
             return Result.fail(HttpStatus.NOT_FOUND.value(), String.format("%s 不存在", noHandlerFoundException.getRequestURL()), rootCauseMessage);
-        } else if (ex instanceof IllegalArgumentException) {
+        } else if (ex instanceof IllegalArgumentException illegalArgumentException) {
             // assert 参数异常
-            IllegalArgumentException illegalArgumentException = (IllegalArgumentException) ex;
             return Result.fail(StatusCode.PARAM_NOT_VALID.getCode(), illegalArgumentException.getMessage(), rootCauseMessage);
-        } else if (ex instanceof HttpRequestMethodNotSupportedException) {
+        } else if (ex instanceof HttpRequestMethodNotSupportedException exception) {
             // 方法不支持
-            HttpRequestMethodNotSupportedException exception = (HttpRequestMethodNotSupportedException) ex;
             String method = exception.getMethod();
             return Result.fail(HttpStatus.METHOD_NOT_ALLOWED.value(), String.format("%s 方法不支持", method), rootCauseMessage);
         } else if (ex instanceof SaTokenException) {

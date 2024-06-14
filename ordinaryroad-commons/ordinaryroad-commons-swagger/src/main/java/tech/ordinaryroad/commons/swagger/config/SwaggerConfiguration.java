@@ -37,7 +37,6 @@ import tech.ordinaryroad.commons.swagger.properties.OrSwaggerProperties;
  */
 @RequiredArgsConstructor
 @Configuration
-//@Import(BeanValidatorPluginsConfiguration.class)
 public class SwaggerConfiguration {
 
     private final OrSwaggerProperties swaggerProperties;

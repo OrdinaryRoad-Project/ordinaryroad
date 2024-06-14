@@ -44,20 +44,20 @@ public class OrSwaggerProperties {
     private EndpointsProperties endpoints = new EndpointsProperties();
 
     @Data
-    public class EndpointsProperties {
+    public static class EndpointsProperties {
         private TokenRequestEndpointProperties tokenRequest = new TokenRequestEndpointProperties();
         private TokenEndpointProperties token = new TokenEndpointProperties();
     }
 
     @Data
-    public class TokenRequestEndpointProperties {
+    public static class TokenRequestEndpointProperties {
         private String url;
         private String clientId;
         private String clientSecret;
     }
 
     @Data
-    public class TokenEndpointProperties {
+    public static class TokenEndpointProperties {
         private String url;
         private String tokenName;
     }
