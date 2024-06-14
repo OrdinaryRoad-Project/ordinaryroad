@@ -226,9 +226,11 @@ export default {
             this.loading = false
             this.$router.replace({ path: this.redirect })
           })
-          .catch(() => {
+          .catch((e) => {
             this.loading = false
-            this.getCaptchaImage()
+            if (e !== '验证码错误') {
+              this.getCaptchaImage()
+            }
           })
       }
     },
