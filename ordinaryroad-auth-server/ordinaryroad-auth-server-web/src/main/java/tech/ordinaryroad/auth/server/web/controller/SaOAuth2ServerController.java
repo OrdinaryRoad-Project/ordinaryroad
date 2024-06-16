@@ -91,7 +91,7 @@ public class SaOAuth2ServerController {
         return o;
     }
 
-    @GetMapping("/oauth2/getOrNumber")
+    @PostMapping("/oauth2/getOrNumber")
     public Result<String> getOrNumber(@Validated @RequestBody OAuth2GetOrNumberRequest request) {
         Optional<OAuth2OpenidDO> byClientIdAndOpenid = oAuth2OpenidService.findByClientIdAndOpenid(request.getClientId(), request.getOpenid());
         return byClientIdAndOpenid.map(oAuth2OpenidDO -> Result.success(oAuth2OpenidDO.getOrNumber())).orElse(Result.fail(StatusCode.DATA_NOT_EXIST));
