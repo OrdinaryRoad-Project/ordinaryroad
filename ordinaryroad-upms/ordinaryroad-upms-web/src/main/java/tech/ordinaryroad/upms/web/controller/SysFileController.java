@@ -92,7 +92,7 @@ public class SysFileController {
         String dateString = DateUtil.format(LocalDateTime.now(), DatePattern.NORM_DATE_PATTERN);
 
         // 是否需要压缩 大于1MB并且支持压缩
-        boolean needCompress = file.getSize() > UpmsConstants.MAX_FILE_SIZE && ThumbnailatorUtils.isSupportedOutputFormat(extName);
+        boolean needCompress = file.getSize() > UpmsConstants.MAX_COMPRESSED_FILE_SIZE && ThumbnailatorUtils.isSupportedOutputFormat(extName);
 
         // 保存缩略图
         if (needCompress) {
@@ -112,7 +112,7 @@ public class SysFileController {
                             .toOutputStream(outputStream);
 
                     currentSize = outputStream.size();
-                } while (currentSize > UpmsConstants.MAX_FILE_SIZE);
+                } while (currentSize > UpmsConstants.MAX_COMPRESSED_FILE_SIZE);
 
                 outputStream.writeTo(new FileOutputStream(tempFile));
 

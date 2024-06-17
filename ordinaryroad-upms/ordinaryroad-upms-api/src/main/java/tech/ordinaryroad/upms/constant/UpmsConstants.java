@@ -36,6 +36,6 @@ public class UpmsConstants {
     /**
      * 若支持压缩，压缩到不超过1MB（1024 * 1024B）
      */
-    public static final int MAX_FILE_SIZE = 1024 * 1024;
+    public static final int MAX_COMPRESSED_FILE_SIZE = 1024 * 1024;
 
 }
