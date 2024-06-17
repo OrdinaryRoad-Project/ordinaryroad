@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.service.annotation.GetExchange;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
+import tech.ordinaryroad.auth.server.constant.AuthConstants;
 import tech.ordinaryroad.auth.server.dto.OAuth2UserInfoDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
@@ -41,7 +42,7 @@ import tech.ordinaryroad.commons.core.base.result.Result;
  * @date 2022/1/15
  */
 @Tag(name = "OAuth2 API")
-@HttpExchange("http://ordinaryroad-auth-server")
+@HttpExchange(AuthConstants.SERVICE_URL)
 public interface IOAuth2Api {
 
     /**

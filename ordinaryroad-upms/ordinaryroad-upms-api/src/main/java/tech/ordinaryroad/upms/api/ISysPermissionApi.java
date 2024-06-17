@@ -32,6 +32,7 @@ import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constant.UpmsConstants;
 import tech.ordinaryroad.upms.dto.SysPermissionDTO;
 import tech.ordinaryroad.upms.request.SysPermissionQueryRequest;
 import tech.ordinaryroad.upms.request.SysPermissionSaveRequest;
@@ -43,7 +44,7 @@ import java.util.List;
  * @date 2021/11/8
  */
 @Tag(name = "权限API")
-@HttpExchange("http://ordinaryroad-upms")
+@HttpExchange(UpmsConstants.SERVICE_URL)
 public interface ISysPermissionApi {
 
     @PostExchange(value = "/permission/create")

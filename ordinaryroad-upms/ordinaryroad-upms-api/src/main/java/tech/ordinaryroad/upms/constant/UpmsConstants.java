@@ -21,25 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.constant;
+package tech.ordinaryroad.upms.constant;
 
 /**
  * @author mjz
- * @date 2021/11/27
+ * @date 2021/10/27
  */
-public enum MessageType {
+public class UpmsConstants {
 
-    /**
-     * 邮箱
-     */
-    EMAIL,
-    /**
-     * 短信
-     */
-    SMS,
-    /**
-     * 安卓客户端
-     */
-    PUSH_ANDROID
+    public static final String SERVICE_NAME = "ordinaryroad-upms";
+
+    public static final String SERVICE_URL = "http://" + SERVICE_NAME;
 
 }

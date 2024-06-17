@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constant.UpmsConstants;
 import tech.ordinaryroad.upms.dto.SysUserInfoDTO;
 import tech.ordinaryroad.upms.request.SysUserInfoRequest;
 
@@ -36,7 +37,7 @@ import tech.ordinaryroad.upms.request.SysUserInfoRequest;
  * @date 2021/12/10
  */
 @Tag(name = "API")
-@HttpExchange("http://ordinaryroad-upms")
+@HttpExchange(UpmsConstants.SERVICE_URL)
 public interface ISysApi {
 
     /**

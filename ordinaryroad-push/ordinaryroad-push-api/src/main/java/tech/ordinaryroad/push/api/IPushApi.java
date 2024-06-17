@@ -29,6 +29,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.push.constant.PushConstants;
 import tech.ordinaryroad.push.request.AndroidPushRequest;
 import tech.ordinaryroad.push.request.EmailPushRequest;
 
@@ -37,7 +38,7 @@ import tech.ordinaryroad.push.request.EmailPushRequest;
  * @date 2021/11/27
  */
 @Tag(name = "推送API")
-@HttpExchange("http://ordinaryroad-push")
+@HttpExchange(PushConstants.SERVICE_URL)
 public interface IPushApi {
 
     @PostExchange(value = "/email/send")

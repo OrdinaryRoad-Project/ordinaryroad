@@ -21,14 +21,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-package tech.ordinaryroad.push.constants;
+package tech.ordinaryroad.auth.server.constant;
 
 /**
  * @author mjz
  * @date 2021/10/27
  */
-public class ServiceNameCons {
+public class AuthConstants {
 
-    public static final String SERVICE_NAME = "ordinaryroad-push";
+    public static final String SERVICE_NAME = "ordinaryroad-auth-server";
+
+    public static final String SERVICE_URL = "http://" + SERVICE_NAME;
 
 }

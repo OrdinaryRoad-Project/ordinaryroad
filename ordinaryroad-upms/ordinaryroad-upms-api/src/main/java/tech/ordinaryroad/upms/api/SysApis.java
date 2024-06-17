@@ -31,20 +31,6 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 @Component
 public class SysApis {
 
-//    /**
-//     * <a href="https://www.jianshu.com/p/1bfb986f4f95">https://www.jianshu.com/p/1bfb986f4f95</a>
-//     *
-//     * @param lbFunction ReactorLoadBalancerExchangeFilterFunction
-//     * @return WebClient
-//     */
-//    @Bean
-//    @LoadBalanced
-//    public WebClient webClient(ReactorLoadBalancerExchangeFilterFunction lbFunction) {
-//        return WebClient.builder()
-////                .filter(lbFunction)
-//                .build();
-//    }
-
     @Bean
     public ISysApi sysApi(HttpServiceProxyFactory factory) {
         return factory.createClient(ISysApi.class);

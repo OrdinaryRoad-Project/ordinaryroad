@@ -31,6 +31,7 @@ import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constant.UpmsConstants;
 import tech.ordinaryroad.upms.dto.SysUsersRolesDTO;
 import tech.ordinaryroad.upms.request.SysUsersRolesQueryRequest;
 import tech.ordinaryroad.upms.request.SysUsersRolesSaveRequest;
@@ -42,7 +43,7 @@ import java.util.List;
  * @date 2021/11/4
  */
 @Tag(name = "用户角色关联关系API")
-@HttpExchange("http://ordinaryroad-upms")
+@HttpExchange(UpmsConstants.SERVICE_URL)
 public interface ISysUsersRolesApi {
 
     @PostExchange(value = "/users_roles/create")

@@ -31,6 +31,7 @@ import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constant.UpmsConstants;
 import tech.ordinaryroad.upms.dto.SysDictDTO;
 import tech.ordinaryroad.upms.request.SysDictQueryRequest;
 import tech.ordinaryroad.upms.request.SysDictSaveRequest;
@@ -42,7 +43,7 @@ import java.util.List;
  * @date 2022/1/5
  */
 @Tag(name = "字典API")
-@HttpExchange("http://ordinaryroad-upms")
+@HttpExchange(UpmsConstants.SERVICE_URL)
 public interface ISysDictApi {
 
     @PostExchange(value = "/dict/create")

@@ -32,6 +32,7 @@ import org.springframework.web.service.annotation.PostExchange;
 import reactor.core.publisher.Mono;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constant.UpmsConstants;
 import tech.ordinaryroad.upms.dto.SysUserDTO;
 import tech.ordinaryroad.upms.request.*;
 
@@ -42,7 +43,7 @@ import java.util.List;
  * @date 2021/10/27
  */
 @Tag(name = "用户API")
-@HttpExchange("http://ordinaryroad-upms")
+@HttpExchange(UpmsConstants.SERVICE_URL)
 public interface ISysUserApi {
 
     @PostExchange(value = "/user/create")

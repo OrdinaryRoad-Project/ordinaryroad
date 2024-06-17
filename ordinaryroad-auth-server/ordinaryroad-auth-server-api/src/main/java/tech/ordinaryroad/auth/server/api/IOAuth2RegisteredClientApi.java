@@ -29,6 +29,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;
 import org.springframework.web.service.annotation.PostExchange;
+import tech.ordinaryroad.auth.server.constant.AuthConstants;
 import tech.ordinaryroad.auth.server.dto.OAuth2RegisteredClientDTO;
 import tech.ordinaryroad.auth.server.request.OAuth2RegisteredClientQueryRequest;
 import tech.ordinaryroad.auth.server.request.OAuth2RegisteredClientSaveRequest;
@@ -42,7 +43,7 @@ import java.util.List;
  * @date 2022/1/14
  */
 @Tag(name = "已注册的第三方客户端API")
-@HttpExchange("http://ordinaryroad-auth-server")
+@HttpExchange(AuthConstants.SERVICE_URL)
 public interface IOAuth2RegisteredClientApi {
 
     @PostExchange(value = "/registered_client/create")

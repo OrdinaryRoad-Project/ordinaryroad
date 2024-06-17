@@ -32,6 +32,7 @@ import org.springframework.web.service.annotation.PostExchange;
 import tech.ordinaryroad.commons.core.base.request.delete.BaseDeleteRequest;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.upms.constant.UpmsConstants;
 import tech.ordinaryroad.upms.dto.SysRequestPathDTO;
 import tech.ordinaryroad.upms.request.SysRequestPathQueryRequest;
 import tech.ordinaryroad.upms.request.SysRequestPathSaveRequest;
@@ -43,7 +44,7 @@ import java.util.List;
  * @date 2021/11/9
  */
 @Tag(name = "请求路径API")
-@HttpExchange("http://ordinaryroad-upms")
+@HttpExchange(UpmsConstants.SERVICE_URL)
 public interface ISysRequestPathApi {
 
     @PostExchange(value = "/request_path/create")
