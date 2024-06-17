@@ -33,4 +33,9 @@ public class UpmsConstants {
 
     public static final String SERVICE_URL = "http://" + SERVICE_NAME;
 
+    /**
+     * 若支持压缩，压缩到不超过1MB（1024 * 1024B）
+     */
+    public static final int MAX_FILE_SIZE = 1024 * 1024;
+
 }

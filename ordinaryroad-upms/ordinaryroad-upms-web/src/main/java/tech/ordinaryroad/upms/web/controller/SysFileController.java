@@ -54,15 +54,14 @@ import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.minio.response.DownloadResponses;
 import tech.ordinaryroad.commons.minio.service.OrMinioService;
 import tech.ordinaryroad.commons.mybatis.utils.PageUtils;
+import tech.ordinaryroad.upms.constant.UpmsConstants;
 import tech.ordinaryroad.upms.dto.SysFileDTO;
 import tech.ordinaryroad.upms.entity.SysFileDO;
 import tech.ordinaryroad.upms.mapstruct.SysFileMapStruct;
 import tech.ordinaryroad.upms.request.SysFileQueryRequest;
 import tech.ordinaryroad.upms.service.SysFileService;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URLEncoder;
 import java.time.LocalDateTime;
 
@@ -93,21 +92,30 @@ public class SysFileController {
         String dateString = DateUtil.format(LocalDateTime.now(), DatePattern.NORM_DATE_PATTERN);
 
         // 是否需要压缩 大于1MB并且支持压缩
-        boolean needCompress = file.getSize() > 1024 * 1024;
-        if (needCompress) {
-            needCompress = ThumbnailatorUtils.isSupportedOutputFormat(extName);
-        }
+        boolean needCompress = file.getSize() > UpmsConstants.MAX_FILE_SIZE && ThumbnailatorUtils.isSupportedOutputFormat(extName);
 
         // 保存缩略图
         if (needCompress) {
             try {
                 // 缩略图临时文件
                 File tempFile = FileUtil.createTempFile(prefix, suffix, null, true);
+                @Cleanup ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 @Cleanup InputStream inputStream = file.getInputStream();
-                Thumbnails.of(inputStream)
-                        .scale(0.5)
-                        .outputQuality(0.6)
-                        .toFile(tempFile);
+
+                long currentSize = 0;
+                do {
+                    inputStream = currentSize == 0 ? inputStream : new ByteArrayInputStream(outputStream.toByteArray());
+                    outputStream.reset();
+
+                    Thumbnails.of(inputStream)
+                            .scale(0.9)
+                            .toOutputStream(outputStream);
+
+                    currentSize = outputStream.size();
+                } while (currentSize > UpmsConstants.MAX_FILE_SIZE);
+
+                outputStream.writeTo(new FileOutputStream(tempFile));
+
                 // 保存缩略图
                 String objectName = String.format("/%s/thumbnail/%s", dateString, filename);
                 @Cleanup FileInputStream tempFileInputStream = new FileInputStream(tempFile);
