@@ -55,6 +55,9 @@ public class OperationLogCleanUpConfiguration {
         if (minSecondsInterval < 60 || minSecondsInterval > 10 * 365 * 24 * 3600) {
             throw new BaseException("时间范围1min~10year");
         }
+        if (log.isInfoEnabled()) {
+            log.info("日志清理功能已开启");
+        }
     }
 
     /**
