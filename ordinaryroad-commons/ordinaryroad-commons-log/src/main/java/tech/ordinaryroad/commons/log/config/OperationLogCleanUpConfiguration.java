@@ -27,7 +27,6 @@ import com.baomidou.dynamic.datasource.annotation.DS;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.validator.constraints.Range;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
@@ -61,7 +60,6 @@ public class OperationLogCleanUpConfiguration {
     /**
      * 清理小于该时间的日志，默认清理两星期前的14*24*3600
      */
-    @Range(min = 60, max = 10 * 365 * 24 * 3600, message = "时间范围1min-10years")
     @Value("${ordinaryroad.commons.log.clean-up.min-seconds-interval:1209600}")
     private long minSecondsInterval;
 
