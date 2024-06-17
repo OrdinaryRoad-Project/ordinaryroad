@@ -49,4 +49,13 @@ public interface PathConstants {
      * TODO 内部接口、免登、登录、免登或登录
      */
     List<String> NO_LOGIN_UPDATE_PATHS = Arrays.asList(IM_MIMC_CALLBACK);
+
+    /**
+     * 不需要保存请求体的地址
+     */
+    List<String> DO_NOT_SET_REQUEST_BODY_PATHS = Arrays.asList(UPMS_FILE_UPLOAD);
+    /**
+     * 不需要保存响应体的地址
+     */
+    List<String> DO_NOT_SET_RESPONSE_BODY_PATHS = Arrays.asList(UPMS_FILE_DOWNLOAD);
 }

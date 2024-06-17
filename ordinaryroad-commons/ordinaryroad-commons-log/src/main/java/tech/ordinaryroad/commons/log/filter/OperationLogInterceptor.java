@@ -37,6 +37,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 import tech.ordinaryroad.commons.core.base.result.Result;
+import tech.ordinaryroad.commons.core.constant.PathConstants;
 import tech.ordinaryroad.commons.log.RequestWrapper;
 import tech.ordinaryroad.commons.log.ResponseWrapper;
 import tech.ordinaryroad.commons.log.entity.OperationLogDO;
@@ -84,8 +85,18 @@ public class OperationLogInterceptor implements HandlerInterceptor {
         operationLogDO.setQueryParams(JSON.toJSONString(ServletUtils.getQueryParamsMap(request)));
 
         if (request instanceof RequestWrapper) {
-            // 长度最大一百万
-            operationLogDO.setRequest(StrUtil.subWithLength(((RequestWrapper) request).getBody(), 0, MAX_BODY_LENGTH));
+            // 排除不需要记录请求体的接口
+            boolean skipSetRequestBody = false;
+            for (String path : PathConstants.DO_NOT_SET_REQUEST_BODY_PATHS) {
+                if (request.getRequestURI().startsWith(path)) {
+                    skipSetRequestBody = true;
+                    break;
+                }
+            }
+            if (!skipSetRequestBody) {
+                // 长度最大一百万
+                operationLogDO.setRequest(StrUtil.subWithLength(((RequestWrapper) request).getBody(), 0, MAX_BODY_LENGTH));
+            }
         }
 
         if (log.isDebugEnabled()) {
@@ -121,14 +132,24 @@ public class OperationLogInterceptor implements HandlerInterceptor {
 
         Result<?> result = null;
         if (response instanceof ResponseWrapper) {
-            String responseString = new String(((ResponseWrapper) response).toByteArray(), StandardCharsets.UTF_8);
-            try {
-                result = JSON.parseObject(responseString, Result.class);
-            } catch (Exception e) {
-                // ignore
+            // 排除不需要记录响应体的接口
+            boolean skipSetResponseBody = false;
+            for (String path : PathConstants.DO_NOT_SET_RESPONSE_BODY_PATHS) {
+                if (request.getRequestURI().startsWith(path)) {
+                    skipSetResponseBody = true;
+                    break;
+                }
             }
-            // 长度最大一百万
-            operationLogDO.setResponse(StrUtil.subWithLength(responseString, 0, MAX_BODY_LENGTH));
+            if (!skipSetResponseBody) {
+                String responseString = new String(((ResponseWrapper) response).toByteArray(), StandardCharsets.UTF_8);
+                try {
+                    result = JSON.parseObject(responseString, Result.class);
+                } catch (Exception e) {
+                    // ignore
+                }
+                // 长度最大一百万
+                operationLogDO.setResponse(StrUtil.subWithLength(responseString, 0, MAX_BODY_LENGTH));
+            }
         }
         Optional.ofNullable(operationLogInterceptorService.getType(request, response, result)).ifPresent(operationLogDO::setType);
         Optional.ofNullable(operationLogInterceptorService.getStatus(request, response, result)).ifPresent(operationLogDO::setStatus);
