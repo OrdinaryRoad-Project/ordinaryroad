@@ -24,6 +24,7 @@
 
 tech.ordinaryroad.commons.log.config.OperationLogWebMvcConfig
 tech.ordinaryroad.commons.log.config.OperationLogAutoConfiguration
+tech.ordinaryroad.commons.log.config.OperationLogCleanUpConfiguration
 tech.ordinaryroad.commons.log.filter.WrapHttpServletFilter
 tech.ordinaryroad.commons.log.filter.OperationLogInterceptor
 tech.ordinaryroad.commons.log.service.OperationLogService

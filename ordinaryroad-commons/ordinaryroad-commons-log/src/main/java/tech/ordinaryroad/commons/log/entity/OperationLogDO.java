@@ -23,7 +23,6 @@
  */
 package tech.ordinaryroad.commons.log.entity;
 
-import io.mybatis.mapper.logical.LogicalColumn;
 import io.mybatis.provider.Entity;
 import lombok.Getter;
 import lombok.Setter;
@@ -135,7 +134,7 @@ public class OperationLogDO extends BaseDO {
     /**
      * 是否删除
      */
-    @LogicalColumn(delete = "1")
+    // @LogicalColumn(delete = "1")
     @Entity.Column(updatable = false)
     private Boolean deleted;
 

@@ -29,6 +29,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.util.StopWatch;
 import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
 
@@ -37,6 +38,7 @@ import tech.ordinaryroad.commons.minio.properties.OrMinioProperties;
  * @date 2021/10/27
  */
 @Slf4j
+@EnableScheduling
 @EnableConfigurationProperties({OrMinioProperties.class})
 @EnableDiscoveryClient
 @MapperScan({"tech.ordinaryroad.commons.log.dao", "tech.ordinaryroad.upms.dao"})

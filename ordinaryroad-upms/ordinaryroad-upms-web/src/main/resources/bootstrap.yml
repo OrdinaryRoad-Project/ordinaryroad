@@ -18,3 +18,8 @@ spring:
         namespace: ${spring.profiles.active}
       discovery:
         namespace: ${spring.profiles.active}
+ordinaryroad:
+  commons:
+    log:
+      clean-up:
+        enabled: true
