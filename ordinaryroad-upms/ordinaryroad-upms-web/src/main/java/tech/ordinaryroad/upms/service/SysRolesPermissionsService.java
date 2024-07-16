@@ -62,6 +62,9 @@ public class SysRolesPermissionsService extends BaseService<SysRolesPermissionsD
     }
 
     public Optional<SysRolesPermissionsDO> findByRoleUuidAndPermissionUuid(String roleUuid, String permissionUuid) {
+        if (roleUuid == null || permissionUuid == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysRolesPermissionsDO::getRoleUuid, roleUuid)
                 .eq(SysRolesPermissionsDO::getPermissionUuid, permissionUuid)

@@ -50,12 +50,18 @@ public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
     private SysUsersRolesService sysUsersRolesService;
 
     public Optional<SysRoleDO> findByRoleName(String roleName) {
+        if (roleName == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysRoleDO::getRoleName, roleName)
                 .one();
     }
 
     public Optional<SysRoleDO> findByRoleCode(String roleCode) {
+        if (roleCode == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysRoleDO::getRoleCode, roleCode)
                 .one();

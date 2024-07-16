@@ -53,12 +53,18 @@ public class SysRequestPathService extends BaseService<SysRequestPathDAO, SysReq
     private SysRolesPermissionsService sysRolesPermissionsService;
 
     public Optional<SysRequestPathDO> findByPath(String path) {
+        if (path == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysRequestPathDO::getPath, path)
                 .one();
     }
 
     public Optional<SysRequestPathDO> findByPathName(String pathName) {
+        if  (pathName==null){
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysRequestPathDO::getPathName, pathName)
                 .one();

@@ -51,6 +51,9 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
 
     @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_EMAIL, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #email")
     public Optional<SysUserDO> findByEmail(String email) {
+        if (email == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysUserDO::getEmail, email)
                 .one();
@@ -58,6 +61,9 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
 
     @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_USERNAME, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #username")
     public Optional<SysUserDO> findByUsername(String username) {
+        if (username == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysUserDO::getUsername, username)
                 .one();
@@ -65,6 +71,9 @@ public class SysUserService extends BaseService<SysUserDAO, SysUserDO> {
 
     @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_USER_BY_OR_NUMBER, key = "'" + CacheConstants.CACHEABLE_KEY_USER + "' + #orNumber")
     public Optional<SysUserDO> findByOrNumber(String orNumber) {
+        if (orNumber == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysUserDO::getOrNumber, orNumber)
                 .one();

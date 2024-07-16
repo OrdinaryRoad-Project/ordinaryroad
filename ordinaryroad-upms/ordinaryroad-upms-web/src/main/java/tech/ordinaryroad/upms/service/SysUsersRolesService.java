@@ -26,6 +26,7 @@ package tech.ordinaryroad.upms.service;
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
 import io.mybatis.mapper.example.ExampleWrapper;
+import org.apache.commons.compress.utils.Lists;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
@@ -44,12 +45,18 @@ import java.util.Optional;
 public class SysUsersRolesService extends BaseService<SysUsersRolesDAO, SysUsersRolesDO> {
 
     public List<SysUsersRolesDO> findAllByUserUuid(String userUuid) {
+        if (userUuid == null) {
+            return Lists.newArrayList();
+        }
         return dao.wrapper()
                 .eq(SysUsersRolesDO::getUserUuid, userUuid)
                 .list();
     }
 
     public List<SysUsersRolesDO> findAllByRoleUuid(String roleUuid) {
+        if (roleUuid == null) {
+            return Lists.newArrayList();
+        }
         return dao.wrapper()
                 .eq(SysUsersRolesDO::getRoleUuid, roleUuid)
                 .list();
@@ -65,6 +72,9 @@ public class SysUsersRolesService extends BaseService<SysUsersRolesDAO, SysUsers
     }
 
     public Optional<SysUsersRolesDO> findByUserUuidAndRoleUuid(String userUuid, String roleUuid) {
+        if (userUuid == null || roleUuid == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysUsersRolesDO::getUserUuid, userUuid)
                 .eq(SysUsersRolesDO::getRoleUuid, roleUuid)

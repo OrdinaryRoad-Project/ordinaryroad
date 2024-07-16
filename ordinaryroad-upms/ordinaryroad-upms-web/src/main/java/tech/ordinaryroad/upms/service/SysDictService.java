@@ -62,12 +62,18 @@ public class SysDictService extends BaseService<SysDictDAO, SysDictDO> {
     }
 
     public Optional<SysDictDO> findByDictName(String dictName) {
+        if (dictName == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysDictDO::getDictName, dictName)
                 .one();
     }
 
     public Optional<SysDictDO> findByDictCode(String dictCode) {
+        if (dictCode == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysDictDO::getDictCode, dictCode)
                 .one();

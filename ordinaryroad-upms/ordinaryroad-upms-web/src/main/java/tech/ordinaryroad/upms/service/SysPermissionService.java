@@ -58,6 +58,9 @@ public class SysPermissionService extends BaseService<SysPermissionDAO, SysPermi
     private SysRequestPathService sysRequestPathService;
 
     public Optional<SysPermissionDO> findByPermissionCode(String permissionCode) {
+        if (permissionCode == null) {
+            return Optional.empty();
+        }
         return dao.wrapper()
                 .eq(SysPermissionDO::getPermissionCode, permissionCode)
                 .one();

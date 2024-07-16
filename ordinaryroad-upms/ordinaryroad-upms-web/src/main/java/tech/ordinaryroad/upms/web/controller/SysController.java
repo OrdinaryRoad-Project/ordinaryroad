@@ -82,10 +82,13 @@ public class SysController {
             }
             orNumber = (String) StpUtil.getLoginIdByToken(tokenValue);
         }
+        if (StrUtil.isBlank(orNumber)) {
+            return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
+        }
 
         // 获取User
         Optional<SysUserDO> optionalSysUserDO = sysUserService.findByOrNumber(orNumber);
-        if (!optionalSysUserDO.isPresent()) {
+        if (optionalSysUserDO.isEmpty()) {
             return Result.fail(StatusCode.USER_ACCOUNT_NOT_EXIST);
         }
         SysUserDO sysUserDO = optionalSysUserDO.get();
