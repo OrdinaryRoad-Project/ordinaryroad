@@ -26,10 +26,7 @@ package tech.ordinaryroad.gateway.controller;
 import cn.dev33.satoken.oauth2.logic.SaOAuth2Consts;
 import cn.dev33.satoken.stp.StpUtil;
 import cn.hutool.core.util.BooleanUtil;
-import cn.hutool.http.HttpResponse;
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson2.JSONObject;
-import lombok.Cleanup;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
@@ -127,23 +124,39 @@ public class AppController {
      * @return 返回给客户端的响应
      */
     private Result<JSONObject> exchangeToken(JSONObject params, Boolean rememberMe) {
+        String grantType = params.getString(SaOAuth2Consts.Param.grant_type);
+        String clientId = params.getString(SaOAuth2Consts.Param.client_id);
+        String clientSecret = params.getString(SaOAuth2Consts.Param.client_secret);
+
         // 需要将结果封装
         params.put("wrapped", true);
-        @Cleanup
-        HttpResponse tokenHttpResponse = HttpUtil.createGet(gatewayProperties.getAuthServerHost() + SaOAuth2Consts.Api.token + "?" + HttpUtil.toParams(params)).execute();
-        Result<JSONObject> response = Result.parse(tokenHttpResponse.body());
-        // code不等于200  代表请求失败
-        if (response == null) {
-            return Result.fail();
-        }
-        if (!response.getSuccess()) {
-            return response;
+
+
+        JSONObject tokenData;
+        if (SaOAuth2Consts.GrantType.authorization_code.equals(grantType)) {
+            String code = params.getString(SaOAuth2Consts.Param.code);
+            Future<JSONObject> tokenFuture = executorService.submit(() -> oAuth2Api.token(grantType, clientId, clientSecret, code));
+            try {
+                tokenData = tokenFuture.get();
+            } catch (InterruptedException | ExecutionException e) {
+                return Result.fail(e.getMessage());
+            }
+        } else if (SaOAuth2Consts.GrantType.password.equals(grantType)) {
+            String scope = params.getString(SaOAuth2Consts.Param.scope);
+            String username = params.getString(SaOAuth2Consts.Param.username);
+            String password = params.getString(SaOAuth2Consts.Param.password);
+            Future<JSONObject> tokenFuture = executorService.submit(() -> oAuth2Api.token(grantType, clientId, clientSecret, scope, username, password));
+            try {
+                tokenData = tokenFuture.get();
+            } catch (InterruptedException | ExecutionException e) {
+                return Result.fail(e.getMessage());
+            }
+        } else {
+            return Result.fail("不支持 " + grantType);
         }
 
         // 根据openid获取其对应的userId
-        JSONObject data = response.getData();
-        String openid = data.getString("openid");
-        String clientId = params.getString(SaOAuth2Consts.Param.client_id);
+        String openid = tokenData.getString("openid");
         Result<String> orNumberResult;
         Future<Result<String>> orNumberFuture = executorService.submit(() -> {
             OAuth2GetOrNumberRequest request = new OAuth2GetOrNumberRequest();
@@ -156,15 +169,12 @@ public class AppController {
         } catch (InterruptedException | ExecutionException e) {
             return Result.fail(e.getMessage());
         }
-        if (!response.getSuccess()) {
-            return response;
-        }
         String orNumber = orNumberResult.getData();
         // 返回相关参数
         StpUtil.checkDisable(orNumber);
         StpUtil.login(orNumber, BooleanUtil.isTrue(rememberMe));
         String tokenValue = StpUtil.getTokenValue();
-        data.put("satoken", tokenValue);
+        tokenData.put("satoken", tokenValue);
 
         SysUserInfoRequest sysUserInfoRequest = new SysUserInfoRequest();
         sysUserInfoRequest.setSaToken(tokenValue);
@@ -175,10 +185,10 @@ public class AppController {
         } catch (InterruptedException | ExecutionException e) {
             return Result.fail(e.getMessage());
         }
-        data.put("userInfo", sysUserInfoDtoResult.getData());
+        tokenData.put("userInfo", sysUserInfoDtoResult.getData());
 
         log.info("Gateway login successfully. OrNumber：{}, Token：{}\nUserInfo: {}", orNumber, tokenValue, sysUserInfoDtoResult.getData());
-        return Result.success(data);
+        return Result.success(tokenData);
     }
 
 }

@@ -36,9 +36,4 @@ public class OrGatewayProperties {
 
     private Boolean demoMode = Boolean.FALSE;
 
-    /**
-     * OAuth2认证服务器地址
-     */
-    private String authServerHost = "http://ordinaryroad-auth-server:9302";
-
 }
