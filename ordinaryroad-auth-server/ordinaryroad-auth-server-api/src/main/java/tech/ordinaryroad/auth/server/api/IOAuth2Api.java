@@ -23,6 +23,7 @@
  */
 package tech.ordinaryroad.auth.server.api;
 
+import com.alibaba.fastjson2.JSONObject;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpHeaders;
 import org.springframework.validation.annotation.Validated;
@@ -73,4 +74,21 @@ public interface IOAuth2Api {
     @GetExchange("/oauth2/userinfo/wrapped")
     Result<OAuth2UserInfoDTO> userinfo(@RequestHeader(HttpHeaders.AUTHORIZATION) String authorization);
 
+    @GetExchange("/oauth2/token")
+    JSONObject token(
+            @RequestParam(name = "grant_type") String grant_type,
+            @RequestParam(name = "client_id") String client_id,
+            @RequestParam(name = "client_secret") String client_secret,
+            @RequestParam(name = "code") String code
+    );
+
+    @GetExchange("/oauth2/token")
+    JSONObject token(
+            @RequestParam(name = "grant_type") String grant_type,
+            @RequestParam(name = "client_id") String client_id,
+            @RequestParam(name = "client_secret") String client_secret,
+            @RequestParam(name = "scope") String scope,
+            @RequestParam(name = "username") String username,
+            @RequestParam(name = "password") String password
+    );
 }
