@@ -26,10 +26,8 @@ package tech.ordinaryroad.upms.service;
 import cn.hutool.core.util.StrUtil;
 import io.mybatis.mapper.example.ExampleWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import tech.ordinaryroad.commons.core.base.request.query.BaseQueryRequest;
-import tech.ordinaryroad.commons.core.constant.CacheConstants;
 import tech.ordinaryroad.commons.mybatis.service.BaseService;
 import tech.ordinaryroad.upms.dao.SysRoleDAO;
 import tech.ordinaryroad.upms.entity.SysRoleDO;
@@ -82,7 +80,7 @@ public class SysRoleService extends BaseService<SysRoleDAO, SysRoleDO> {
         return super.findAll(baseQueryRequest, wrapper);
     }
 
-    @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_ROLES + "' + #userUuid")
+    // @Cacheable(cacheNames = CacheConstants.CACHEABLE_CACHE_NAME_ROLES_BY_USER_UUID, key = "'" + CacheConstants.CACHEABLE_KEY_USER_ROLES + "' + #userUuid")
     public List<SysRoleDO> findAllByUserUuid(String userUuid) {
         // 根据用户uuid查询所有角色uuid
         List<SysUsersRolesDO> allByUserUuid = sysUsersRolesService.findAllByUserUuid(userUuid);
