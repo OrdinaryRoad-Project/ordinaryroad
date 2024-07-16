@@ -164,13 +164,12 @@ public class AppController {
 
         // 根据openid获取其对应的userId
         String openid = tokenData.getString("openid");
+
+        OAuth2GetOrNumberRequest oAuth2GetOrNumberRequest = new OAuth2GetOrNumberRequest();
+        oAuth2GetOrNumberRequest.setClientId(clientId);
+        oAuth2GetOrNumberRequest.setOpenid(openid);
         Result<String> orNumberResult;
-        Future<Result<String>> orNumberFuture = executorService.submit(() -> {
-            OAuth2GetOrNumberRequest request = new OAuth2GetOrNumberRequest();
-            request.setClientId(clientId);
-            request.setOpenid(openid);
-            return oAuth2Api.getOrNumber(request);
-        });
+        Future<Result<String>> orNumberFuture = executorService.submit(() -> oAuth2Api.getOrNumber(oAuth2GetOrNumberRequest));
         try {
             orNumberResult = orNumberFuture.get();
         } catch (InterruptedException | ExecutionException e) {
