@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import tech.ordinaryroad.auth.server.api.IOAuth2Api;
 import tech.ordinaryroad.auth.server.request.OAuth2GetOrNumberRequest;
+import tech.ordinaryroad.commons.base.cons.StatusCode;
 import tech.ordinaryroad.commons.core.base.result.Result;
 import tech.ordinaryroad.commons.satoken.properties.OAuth2ClientProperties;
 import tech.ordinaryroad.gateway.properties.OrGatewayProperties;
@@ -153,6 +154,12 @@ public class AppController {
             }
         } else {
             return Result.fail("不支持 " + grantType);
+        }
+        if (tokenData.containsKey("code") && tokenData.containsKey("msg")) {
+            Integer code = tokenData.getInteger("code");
+            if (StatusCode.SUCCESS.getCode() != code) {
+                return Result.fail(tokenData.getString("msg"));
+            }
         }
 
         // 根据openid获取其对应的userId
