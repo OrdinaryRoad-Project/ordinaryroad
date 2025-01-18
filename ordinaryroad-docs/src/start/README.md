@@ -1,10 +1,10 @@
 # 简介
 
-陌生人你好，这是我的**一个微服务项目**，已完成UPMS模块基本框架，目前仍在持续开发中...
+我的**一个微服务项目**，已完成UPMS模块基本框架，目前仍在持续开发中...
 
 OR博客 [https://blog.ordinaryroad.tech](https://blog.ordinaryroad.tech)
 
-演示地址: [https://ordinaryroad.tech:8021](https://ordinaryroad.tech:8021) 帐号10001，密码Abc123
+~~演示地址: [https://ordinaryroad.tech:8021](https://ordinaryroad.tech:8021) 帐号10001，密码Abc123~~
 
 在线文档1：[https://ordinaryroad.tech](https://ordinaryroad.tech)
 在线文档2：[https://1962247851.github.io/ordinaryroad](https://1962247851.github.io/ordinaryroad)
