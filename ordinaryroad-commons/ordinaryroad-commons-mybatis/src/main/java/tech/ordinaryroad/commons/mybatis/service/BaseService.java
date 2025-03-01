@@ -432,11 +432,11 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
 
         LocalDateTime startTime = baseQueryRequest.getStartTime();
         if (Objects.nonNull(startTime)) {
-            wrapper.ge(T::getCreatedTime, startTime);
+            wrapper.ge(Fn.column(getEntityClass(), "createdTime"), startTime);
         }
         LocalDateTime endTime = baseQueryRequest.getEndTime();
         if (Objects.nonNull(endTime)) {
-            wrapper.le(T::getCreatedTime, endTime);
+            wrapper.le(Fn.column(getEntityClass(), "createdTime"), endTime);
         }
 
         return wrapper.list();
