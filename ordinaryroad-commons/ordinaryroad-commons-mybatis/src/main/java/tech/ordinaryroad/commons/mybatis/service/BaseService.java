@@ -370,13 +370,14 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
             }
         }
 
-        // 填充createBy字段，跳过免登接口
-        String requestPath = SaHolder.getRequest().getRequestPath();
-        if (PathConstants.NO_LOGIN_CREATE_PATHS.contains(requestPath)) {
-            // ignore
-            return;
-        }
+        String requestPath = null;
         try {
+            // 填充createBy字段，跳过免登接口
+            requestPath = SaHolder.getRequest().getRequestPath();
+            if (PathConstants.NO_LOGIN_CREATE_PATHS.contains(requestPath)) {
+                // ignore
+                return;
+            }
             t.setCreateBy(fillMetaFieldService.generateCreateBy(t));
         } catch (Exception e) {
             // 如果有报错需要处理
@@ -393,13 +394,15 @@ public abstract class BaseService<D extends IBaseMapper<T>, T extends BaseDO> {
     private void fillMetaFieldsWhenUpdate(T t) {
         t.setUpdateTime(LocalDateTime.now());
 
-        // 填充updateBy字段，跳过免登接口
-        String requestPath = SaHolder.getRequest().getRequestPath();
-        if (PathConstants.NO_LOGIN_UPDATE_PATHS.contains(requestPath)) {
-            // ignore
-            return;
-        }
+        String requestPath = null;
         try {
+            // 填充updateBy字段，跳过免登接口
+            requestPath = SaHolder.getRequest().getRequestPath();
+            if (PathConstants.NO_LOGIN_UPDATE_PATHS.contains(requestPath)) {
+                // ignore
+                return;
+            }
+
             t.setUpdateBy(fillMetaFieldService.generateUpdateBy(t));
         } catch (Exception e) {
             // 如果有报错需要处理
